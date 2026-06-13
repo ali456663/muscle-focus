@@ -1,0 +1,85 @@
+const API_BASE_URL = 'http://localhost:8098/api';
+
+export const submitLead = async (leadData) => {
+  const response = await fetch(`${API_BASE_URL}/leads`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(leadData),
+  });
+  
+  if (!response.ok) {
+    throw new Error('Kunde inte skicka ansökan. Prova igen.');
+  }
+  
+  return response.json();
+};
+
+export const loginAdmin = async (username, password) => {
+  const response = await fetch(`${API_BASE_URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || 'Inloggningen misslyckades.');
+  }
+  
+  return response.json(); // returns { token, username }
+};
+
+export const fetchLeads = async (token, status = '') => {
+  const url = status 
+    ? `${API_BASE_URL}/leads?status=${status}`
+    : `${API_BASE_URL}/leads`;
+    
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  
+  if (!response.ok) {
+    throw new Error('Kunde inte hämta ansökningar.');
+  }
+  
+  return response.json();
+};
+
+export const updateLeadStatus = async (token, id, status) => {
+  const response = await fetch(`${API_BASE_URL}/leads/${id}/status`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status }),
+  });
+  
+  if (!response.ok) {
+    throw new Error('Kunde inte uppdatera status.');
+  }
+  
+  return response.json();
+};
+
+export const deleteLead = async (token, id) => {
+  const response = await fetch(`${API_BASE_URL}/leads/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  
+  if (!response.ok) {
+    throw new Error('Kunde inte ta bort ansökan.');
+  }
+  
+  return response.json();
+};

@@ -1,0 +1,439 @@
+.certificates-page {
+  padding-top: 50px;
+  padding-bottom: 100px;
+}
+
+.page-hero {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 60px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.page-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-white);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--text-white) 30%, var(--text-silver) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-intro {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Detailed Grid */
+.cert-detailed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 80px;
+}
+
+.cert-detailed-card {
+  padding: 40px 30px;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-glass);
+  background: var(--bg-glass);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.cert-detailed-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-cyan);
+  box-shadow: var(--shadow-cyan);
+}
+
+.cert-icon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cert-icon {
+  width: 44px;
+  height: 44px;
+  color: var(--accent-cyan);
+  background: rgba(0, 229, 255, 0.05);
+  border: 1px solid rgba(0, 229, 255, 0.1);
+  padding: 8px;
+  border-radius: var(--border-radius-sm);
+}
+
+.cert-number {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.05);
+}
+
+.cert-detailed-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--text-white);
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.cert-sub {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent-neon);
+}
+
+.cert-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Safety section */
+.safety-section {
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-glass);
+  background: var(--bg-glass);
+  padding: 50px;
+}
+
+.safety-content {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.safety-text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.safety-text h2 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.safety-title-icon {
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+}
+
+.safety-text p {
+  font-size: 1.05rem;
+  color: var(--text-silver);
+  line-height: 1.7;
+}
+
+.safety-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.safety-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.safety-check {
+  color: var(--accent-neon);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+/* Safety CTA */
+.safety-cta {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  padding: 40px 30px;
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-neon);
+}
+
+.cta-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--accent-neon);
+  margin-bottom: 5px;
+}
+
+.safety-cta h3 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--text-white);
+  font-weight: 700;
+}
+
+.safety-cta p {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.safety-cta .btn-primary {
+  width: 100%;
+}
+
+/* RTL align helpers */
+.rtl-align .page-hero,
+.rtl-align .safety-text {
+  text-align: right;
+}
+
+.rtl-align .safety-text h2 {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+.rtl-align .safety-features li {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+  .safety-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2.2rem;
+  }
+  
+  .safety-section {
+    padding: 30px 20px;
+  }
+  
+  .safety-text h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Visual Certificates Gallery Styles */
+.cert-gallery-section {
+  margin-bottom: 70px;
+  text-align: center;
+}
+
+.gallery-title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.gallery-title-icon {
+  color: var(--accent-cyan);
+}
+
+.gallery-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+}
+
+.cert-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 420px));
+  gap: 40px;
+  justify-content: center;
+}
+
+.cert-gallery-card {
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-glass);
+  background: var(--bg-glass);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.cert-gallery-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-cyan);
+  box-shadow: var(--shadow-cyan);
+}
+
+.cert-img-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 0.8;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-glass);
+  background-color: #ffffff; /* Fallback white background */
+}
+
+.cert-gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform var(--transition-normal);
+  background-color: #ffffff;
+}
+
+.cert-gallery-card:hover .cert-gallery-img {
+  transform: scale(1.04);
+}
+
+.cert-hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  backdrop-filter: blur(2px);
+}
+
+.cert-gallery-card:hover .cert-hover-overlay {
+  opacity: 1;
+}
+
+.view-btn {
+  background: var(--accent-cyan);
+  color: var(--bg-dark);
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.9rem;
+  box-shadow: var(--shadow-cyan);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.cert-gallery-info {
+  padding: 24px;
+  text-align: left;
+}
+
+.cert-gallery-info h3 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--text-white);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.cert-gallery-info p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* RTL Gallery Adjustments */
+.rtl-align .cert-gallery-info {
+  text-align: right;
+}
+
+/* Lightbox / Modal Styles */
+.cert-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(12px);
+}
+
+.cert-modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 550px;
+  aspect-ratio: 0.8;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-cyan);
+  overflow: hidden;
+  animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: #ffffff;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cert-modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #ffffff;
+}
+
+.cert-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 2rem;
+  line-height: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.cert-modal-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
