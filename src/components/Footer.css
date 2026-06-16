@@ -116,10 +116,16 @@
 
 /* Footer Bottom Bar */
 .footer-bottom {
-  border-top: 1px solid var(--border-glass);
+  border-top: 1px solid #ffe600;
   padding: 24px 0;
-  background-color: #080a0f;
+  background-color: #ffe600;
+  color: #04080f;
   font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.footer-bottom p {
+  color: #04080f;
 }
 
 .footer-bottom-container {
@@ -131,7 +137,7 @@
 }
 
 .author-credit {
-  color: var(--text-dark);
+  color: rgba(4, 8, 15, 0.8);
 }
 
 /* Responsiveness */

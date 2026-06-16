@@ -61,7 +61,7 @@
 }
 
 .nav-link:hover {
-  color: #ffe600;
+  color: var(--text-white);
 }
 
 .nav-link::after {
@@ -71,7 +71,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #ffe600, #ffaa00);
+  background: linear-gradient(90deg, var(--accent-neon), var(--accent-cyan));
   transition: var(--transition-normal);
 }
 
@@ -81,8 +81,8 @@
 }
 
 .nav-link.active {
-  color: #ffe600;
-  text-shadow: 0 0 10px rgba(255, 230, 0, 0.2);
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
 }
 
 .nav-admin {
@@ -169,7 +169,7 @@
 
 .mobile-link:hover,
 .mobile-link.active {
-  color: #ffe600;
+  color: var(--accent-cyan);
   padding-left: 8px;
 }
 
@@ -211,11 +211,11 @@
 
 .lang-selector-container:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 230, 0, 0.3);
+  border-color: rgba(0, 229, 255, 0.3);
 }
 
 .lang-globe-icon {
-  color: #ffe600;
+  color: var(--accent-cyan);
 }
 
 .lang-select-dropdown {
