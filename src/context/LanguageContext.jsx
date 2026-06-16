@@ -24,6 +24,7 @@ export const LanguageProvider = ({ children }) => {
       // Navbar
       home: 'Hem',
       packages: 'Träningspaket',
+      hittaKompis: 'Hitta träningskompis',
       apply: 'Bli Klient',
       admin: 'Admin',
       licenses: 'Licenser & Certifikat',
@@ -580,7 +581,16 @@ export const LanguageProvider = ({ children }) => {
       applyPlaceholderWish: '-- Välj ett träningspaket --',
       applyLabelMessage: 'Meddelande / Tidigare erfarenhet (Frivilligt)',
       applyPlaceholderMessage: 'Beskriv kort din nuvarande form, dina mål eller om du har några skador...',
-      applyBtnSubmit: 'Skicka intresseanmälan',
+      applyBtnSubmit: 'Skicka intresseanmälan (Gratis Konsultation)',
+      applyBtnPayWithStripe: 'Betala direkt med Stripe (Köp nu) 💳',
+      applyLabelStudentDiscount: 'Jag är student, ungdom eller pensionär (Få reducerat pris)',
+      paymentSuccessTitle: 'Betalning Mottagen! 🎉',
+      paymentSuccessText: 'Tack {name}! Din betalning för {wish} har registrerats.',
+      paymentSuccessSubtext: 'Vi har skickat en bekräftelse till {email} och Ali kommer att kontakta dig på {phone} inom kort för att starta din träningsresa.',
+      paymentSuccessBack: 'Tillbaka till startsidan',
+      paymentCancelTitle: 'Betalning avbruten ❌',
+      paymentCancelText: 'Betalningen slutfördes inte. Om du stötte på problem eller vill välja ett annat paket kan du gå tillbaka till träningspaketen.',
+      paymentCancelBack: 'Tillbaka till träningspaket',
       applyBtnSending: 'Skickar...',
       applyErrorFields: 'Vänligen fyll i alla obligatoriska fält.',
       applySuccessTitle: 'Tack för din ansökan!',
@@ -605,12 +615,169 @@ export const LanguageProvider = ({ children }) => {
       footerNavTitle: 'Navigation',
       footerInfoTitle: 'Information',
       footerContactTitle: 'Kontakt & Support',
-      footerSupportHours: 'Svarstid: 24–48 timmar under vardagar. Helger upp till 72 timmar.'
+      footerSupportHours: 'Svarstid: 24–48 timmar under vardagar. Helger upp till 72 timmar.',
+
+      // BMI Calculator Page
+      bmiCalculator: 'BMI-räknare',
+      bmiTagline: 'BMI-räknare – räkna ut och tolka ditt BMI',
+      bmiWeightLabel: 'Vikt (kg)',
+      bmiHeightLabel: 'Längd (cm)',
+      bmiDecimalTip: 'Tips! För ett mer exakt resultat kan du ange decimaler.',
+      bmiBtnCalculate: 'Räkna ut BMI',
+      bmiBtnClear: 'Rensa information',
+      bmiBtnCalculating: 'Räknar ut...',
+      bmiResultTitle: 'Ditt BMI är',
+      bmiClassTitle: 'Din viktklass',
+      bmiUnderweight: 'Undervikt',
+      bmiNormalweight: 'Normalvikt',
+      bmiOverweight: 'Övervikt',
+      bmiObesity: 'Fetma (obesitas)',
+      
+      bmiWhatIsTitle: 'Vad är BMI?',
+      bmiWhatIsDesc: 'BMI är en förkortning för Body Mass Index, eller kroppsmassindex som det heter på svenska. Det är ett mått som jämför din vikt med din längd och resulterar i ett BMI-värde. Hälso- och sjukvården använder ofta BMI som ett av verktygen för att se om din vikt anses vara hälsosam.',
+      bmiGroupsIntro: 'BMI delas in i olika grupper:',
+      
+      bmiHowToInterpretTitle: 'Så tolkar du ditt BMI',
+      bmiHowToInterpretDesc1: 'Det finns internationella gränsvärden för BMI som kan ge en första fingervisning om din vikt ligger på en hälsosam nivå. För att sedan få en mer komplett bild av din hälsa brukar man också mäta midjemåttet och ta exempelvis blodtryck och blodprover.',
+      bmiHowToInterpretDesc2: 'Med andra ord bör du inte låta BMI-värdet bli det enda du utgår ifrån men du kan använda det som en del av helhetsbilden för hur din kropp mår.',
+      
+      bmiGuidelinesTitle: 'Riktlinjer för BMI och viktklass',
+      bmiTableBmi: 'BMI',
+      bmiTableClass: 'Viktklass',
+      bmiTableUnder185: 'Under 18,5',
+      bmiTable185_249: '18,5 - 24,9',
+      bmiTable25_299: '25 - 29,9',
+      bmiTable30More: '30 eller mer',
+      
+      bmiRememberTitle: 'Kom ihåg!',
+      bmiRememberDesc1: 'BMI är ett grovt mått som inte tar hänsyn till kön, muskelmassa, ålder eller kroppsform. Kvinnor har exempelvis naturligt högre andel kroppsfett än män och äldre personer tappar ofta muskelmassa.',
+      bmiRememberDesc2: 'BMI visar inte heller hur kroppsfettet är fördelat. Fett runt magen, även kallat bukfett, innebär ofta större hälsorisker än fett som sitter på andra delar av kroppen.',
+      
+      bmiHowToAffectTitle: 'Så kan du påverka ditt BMI',
+      bmiHowToAffectDesc: 'För att hålla ett hälsosamt BMI och en stabil vikt över tid behöver du hitta en balans mellan tre grundpelare: mat, rörelse och återhämtning. Äter du lagom mycket näringsrik mat, rör på dig varje dag och sover gott om nätterna ger du kroppen de bästa förutsättningarna för att må bra.',
+      
+      bmiPreventObesityTitle: 'För att förebygga övervikt kan du:',
+      bmiTips: [
+        'Äta näringsrikt och fiberrikt',
+        'Röra på dig varje dag, minst 30 minuter',
+        'Sova tillräckligt – helst 7–9 timmar per natt',
+        'Minska stress och ta hand om dig själv',
+        'Dricka alkohol med måtta och undvika rökning'
+      ],
+
+      // Testimonials (Trustpilot)
+      trustpilotSubtitle: 'Kundomdömen',
+      trustpilotTitle: 'Trustpilot – Upplev effekten av kundomdömen',
+      trustpilotExcellent: 'Utmärkt',
+      trustpilotBasedOn: 'baserat på kundomdömen från riktiga klienter',
+      reviews: [
+        {
+          name: 'Nöjd kund',
+          text: 'Jag är väldigt nöjd med min träningsresa hos Muscle&Focus. Träningsschemat har varit tydligt, inspirerande och gett mig en trygg grund. Rekommenderas varmt till alla som vill utvecklas inom träning och hälsa. 💪🏼 Alltid bra bemötande samt förklaringar!! Mycket tydligt träningsprogram och kostprogram.'
+        },
+        {
+          name: 'David K.',
+          text: 'Grymt personligt upplägg! Ali är extremt kunnig och hans instruktioner på gymmet har hjälpt mig att lyfta med perfekt teknik. Redan efter 12 veckor märker jag stor skillnad i styrka och rörlighet.'
+        },
+        {
+          name: 'Amir H.',
+          text: 'PT-Online-paketet är det bästa jag har testat. Enkelt att följa kostschemat och träningsappen gör det smidigt att logga passen. Alis veckoavstämningar håller motivationen på topp hela vägen!'
+        }
+      ],
+      resultsSubtitle: 'Resultat',
+      resultsTitle: 'Före & Efter Resultat',
+      resultsIntro: 'Se fantastiska kropps- och hälsotransformationer från riktiga personer som har tränat med Muscle & Focus.',
+      resultsMale: 'Viktnedgång & Styrka (6 månader)',
+      resultsFemale: 'Hälsosammare livsstil & Fettförbränning (4 månader)',
+
+      // BMI Risks Page Content
+      bmiRisksTitle: 'Riskerna med övervikt och obesitas',
+      bmiRisksIntro1: 'Övervikt ökar risken för flera olika sjukdomar. Ju högre vikten blir desto större blir riskerna.',
+      bmiRisksIntro2: 'När vi har mer kroppsfett än vad kroppen mår bra av kan det påverka hur effektivt den reglerar viktiga funktioner. Det kan störa hormonbalansen och ämnesomsättningen vilket gör det svårare för kroppen att hålla koll på blodtryck, blodsocker och blodfetter.',
+      bmiRisksIntro3: 'Fett i kroppen är inte bara något som ”sitter där”. Det beter sig faktiskt som ett aktivt organ. Vid obesitas kan fettet släppa ifrån sig ämnen som skapar en låg och ständig inflammation i kroppen.',
+      bmiRisksIntro4: 'Allt detta kan i sin ur öka riskerna för sjukdomar som:',
+      bmiRisksList: [
+        { title: 'Hjärt-kärlsjukdomar och diabetes', desc: 'Obesitas gör att blodtrycket, blodsocker och blodfetterna påverkas negativt. Det gör att riskerna ökar för bland annat högt blodtryck, höga blodfetter, diabetes typ 2, åderförfettning, hjärtinfarkt och stroke.' },
+        { title: 'Gallsten och fettlever', desc: 'Övervikt kan göra att gallsten bildas och att fett lagras i levern. Båda kan i sin tur leda till ytterligare problem om de inte behandlas.' },
+        { title: 'Andningsbesvär', desc: 'Personer med obesitas drabbas oftare av astma eller försämrade andningsbesvär. Övervikt leder också ofta till snarkningar och sömnapné vilket kan belasta hjärtat och kroppen i längden.' },
+        { title: 'Ledproblem', desc: 'Den höga vikten belastar skelett och leder och kan orsaka ledsmärta och förslitningar. Många med obesitas utvecklar med tiden problem i knän, höfter eller rygg på grund av övervikten.' },
+        { title: 'Graviditetsbesvär och infertilitet', desc: 'Fetma vid graviditet ökar risken för komplikationer under graviditeten och förlossningen. Dessutom kan övervikten försämra fertiliteten och göra det svårare att bli gravid.' },
+        { title: 'Cancer', desc: 'Överviktiga har högre risk att drabbas av flera cancersjukdomar som exempelvis cancer i livmodern, äggstockarna, brösten och prostatan.' },
+        { title: 'Demens', desc: 'Obesitas kan också öka risken för demenssjukdomar senare i livet, till exempel Alzheimers sjukdom.' }
+      ],
+      bmiFaqBtnShow: 'Visa Frågor & Svar',
+      bmiFaqBtnHide: 'Dölj Frågor & Svar',
+      bmiFaqTitle: 'Frågor och svar',
+      faqList: [
+        {
+          id: 1,
+          q: 'Vad är obesitas?',
+          a: 'Obesitas, eller fetma, är en sjukdom som innebär att kroppen har en onormalt hög andel fett vilket ökar risken för flera olika följdsjukdomar.'
+        },
+        {
+          id: 2,
+          q: 'Vad är skillnaden mellan övervikt och obesitas?',
+          a: 'Övervikt betyder att man har lite mer kroppsfett än vad kroppen vanligtvis mår bra av. Obesitas innebär en högre nivå av fett som påverkar hälsan mer allvarligt.'
+        },
+        {
+          id: 3,
+          q: 'Är obesitas alltid farligt?',
+          a: 'Obesitas ökar risken för flera sjukdomar, men hur farligt det är beror på andra faktorer som livsstil, kost och aktivitet.'
+        },
+        {
+          id: 4,
+          q: 'Hur många kalorier per dag? (Kroppens energibehov)',
+          a: 'Så fungerar kroppens energibehov: Varje dag förbrukar kroppen energi för att hålla igång allt från hjärtslag till tankar som snurrar i huvudet. Maten vi äter är bränslet som får oss att orka. Så här fungerar energibehov och kalorier.\n\nHur många kalorier ska man äta per dag?\nAntalet kalorier som behövs varje dag beror på kön, ålder, kroppsstorlek och aktivitetsnivå. Enligt Livsmedelsverket kan du utgå från dessa riktlinjer för ett dagligt energiintag:'
+        },
+        {
+          id: 5,
+          q: 'Så mycket innehåller olika näringsämnen',
+          a: 'Olika näringsämnen i maten ger olika mycket energi. Kroppen får sina kalorier från protein, kolhydrater, kostfibrer, fett och alkohol. Så här mycket energi får du per gram av varje näringsämne:'
+        },
+        {
+          id: 6,
+          q: 'Skillnader i energi och näring för olika livsmedel',
+          a: 'Olika livsmedel har olika kalorimängd och det kan vara skillnader mellan hur mycket näring de ger kroppen i förhållande till mängden energi.\n\nEnergi är kalorier som kommer från kolhydrater, fett, protein och alkohol. Näring är vitaminer och mineraler som inte ger energi men däremot behövs i kroppen för att alla funktioner ska fungera och vi ska må bra.\n\nNäringstäta livsmedel: Ger mycket näring per kalori. Det kan exempelvis vara grönsaker, baljväxter, fisk och fullkornsprodukter. Det är mat som mättar bra och ger kroppen näring.\n\nEnergitäta livsmedel: Innehåller många kalorier per gram men kan variera i kvalitet. Godis, läsk och snabbmat är exempel på livsmedel som ger mycket energi men lite näring. Däremot finns det också energitäta och näringsrika livsmedel. Nötter, oljor och feta mejeriprodukter är exempel som ger kroppen både mycket energi och många viktiga näringsämnen.\n\nExempel: Tänk till exempel på skillnaden mellan en tallrik frukt och en bit pizza där båda kan innehålla ungefär 300 kcal. Frukten ger mycket volym, vitaminer och fibrer som mättar. Medan pizzan ger lika många kalorier men betydligt mindre näring och mättnad.\n\nFör att må bra och hålla en stabil vikt är det smart att låta näringstäta livsmedel vara grunden i kosten och äta energität och näringsfattig mat mer sällan. Då får kroppen det den behöver utan att få i sig för mycket energi i onödan. Det är också bra att äta varierat eftersom det ökar chansen att du får i dig viktiga näringsämnen.'
+        },
+        {
+          id: 7,
+          q: 'Så kan du mäta ditt energiintag',
+          a: 'Du kan mäta ditt energiintag genom att uppskatta hur många kalorier du får i dig. Det finns olika sätt att göra det på där två exempel är att läsa näringsdeklarationen på matförpackningen eller använda appar för att registrera ditt energiintag.\n\nLivsmedelsetiketter och näringsdeklarationer\nPå nästan alla förpackade livsmedel finns en näringsdeklaration som visar hur mycket energi och näring produkten innehåller. Informationen anges oftast i kilokalorier (kcal) per 100 gram och ibland även per portion.\n\nGenom att jämföra mängden du faktiskt äter med den angivna mängden på etiketten kan du räkna ut hur mycket energi du får i dig. Det är också viktigt att titta på fördelningen mellan protein, fett och kolhydrater eftersom dessa påverkar både energimängden och mättnadskänslan.\n\nKaloriräkning i appar\nDet finns även appar som kan hjälpa dig att registrar ditt energiintag. Dessa appar har stora databaser med livsmedel och kan automatiskt beräkna kaloriinnehållet i en måltid. Det kan vara ett bra verktyg i början för att lära sig förstå hur mycket energi maten innehåller. Du kan i många fall skanna streckkoder, söka upp livsmedel eller lägga in egna recept. Apparna ger ofta även översikter om dagens totala energiintag och hur mycket av energin som kommer från kolhydrater, fett och protein.\n\nBra att tänka på vid mätning av energiintag\nTrots att det finns bra hjälpmedel kan det vara svårt att mäta sitt energiintag helt exakt. Ett vanligt misstag är att man underskattar sin portionsstorlek och hur mycket man faktiskt äter. Om du i början mäter din mat med hjälp av mått eller våg lär du dig och kan med tiden göra en bättre uppskattning.\n\nÄven hur maten tillagas spelar roll eftersom kokning, stekning eller ugnsbakning kan ändra både vikten och näringsinnehållet. Dessutom fungerar alla kroppar olika. Hur mycket energi man faktiskt tar upp från maten beror bland annat på ämnesomsättningen och hur aktiv man är i vardagen.'
+        },
+        {
+          id: 8,
+          q: 'Då kan kroppen må bra av en förändring',
+          a: 'Ibland säger kroppen ifrån och visar att det är dags att göra en förändring. Du kanske märker att orken inte räcker till som tidigare, du sover sämre eller blir andfådd vid lätt ansträngning. Det kan vara tecken på att din kropp belastas för mycket.\n\nOm dina nuvarande vanor påverkar din hälsa negativt kan det vara bra att fundera på att göra vissa förändringar i hur du lever. Ibland kan det innebära att du behöver gå ner i vikt för att må bättre. Om du har ett BMI eller midjemått som innebär en ökad risk för sjukdomar kan en viktnedgång vara ett viktigt steg för att få kroppen att må bra.\n\nÖvervikt och fetma kan påverka kroppen på många sätt, det kan exempelvis öka risken för bland annat hjärt-kärlsjukdom, diabetes typ-2 och högt blodtryck.'
+        },
+        {
+          id: 9,
+          q: 'Om du går ner i vikt snabbt',
+          a: 'Om du har bestämt dig för att gå ner i vikt är det lätt att vilja se snabba resultat. Samtidigt handlar hälsa om mer än bara siffror på vågen. Det viktigaste är att hitta vanor och en balans som du mår bra av.\n\nOm du går ner i vikt snabbt kan kroppen lätt gå in i ett ”sparläge” där ämnesomsättningen saktar ner. Det gör det svårare att fortsätta gå ner i vikt och lättare att gå upp igen.\n\nEtt bra mål är att gå ner ungefär 0,5–1 kilo i veckan. Det motsvarar vanligtvis ett lagom kaloriunderskott på cirka 500–1000 kalorier per dag. Det kan låta långsamt men det är en takt som kroppen brukar klara av utan stress.'
+        }
+      ],
+      buddyFinderTitle: 'Hitta din träningskompis',
+      buddyFinderDesc: 'Här kan du komma i kontakt med andra som också letar efter någon att träna med. Skriv upp dig i listan för att synas, eller sök bland befintliga träningskompisar!',
+      buddyFormTitle: 'Skapa din profil',
+      buddyFormFullName: 'Fullständigt namn',
+      buddyFormAge: 'Ålder (år)',
+      buddyFormCity: 'Stad',
+      buddyFormGym: 'Vilket gym tränar du på?',
+      buddyFormContact: 'Kontaktuppgift (t.ex. E-post, Instagram, Snapchat eller Telefon)',
+      buddyFormMessage: 'Meddelande (berätta lite om dig själv och din träning)',
+      buddyFormSubmit: 'Hitta träningskompis',
+      buddyFormSuccess: 'Din profil har publicerats! Lycka till med att hitta din träningskompis.',
+      buddyListTitle: 'Träningskompisar i närheten',
+      buddyListEmpty: 'Inga träningskompisar har skrivit upp sig än. Bli den första!',
+      buddySearchPlaceholder: 'Sök på stad eller gym...',
+      buddyContactBtn: 'Kontakta',
+      buddyAgeLabel: 'år',
+      buddyGymLabel: 'Klubb/Gym'
     },
     en: {
       // Navbar
       home: 'Home',
       packages: 'Training Packages',
+      hittaKompis: 'Find Buddy',
       apply: 'Become Client',
       admin: 'Admin',
       licenses: 'Licenses & Certificates',
@@ -1167,7 +1334,16 @@ export const LanguageProvider = ({ children }) => {
       applyPlaceholderWish: '-- Choose a training package --',
       applyLabelMessage: 'Message / Previous Experience (Optional)',
       applyPlaceholderMessage: 'Briefly describe your current fitness level, goals, or any injuries...',
-      applyBtnSubmit: 'Submit Application',
+      applyBtnSubmit: 'Submit Application (Free Consultation)',
+      applyBtnPayWithStripe: 'Pay securely with Stripe (Buy Now) 💳',
+      applyLabelStudentDiscount: 'I am a student, youth or senior (Get discounted price)',
+      paymentSuccessTitle: 'Payment Received! 🎉',
+      paymentSuccessText: 'Thank you {name}! Your payment for {wish} has been processed successfully.',
+      paymentSuccessSubtext: 'A confirmation has been sent to {email} and Ali will contact you at {phone} shortly to kickstart your journey.',
+      paymentSuccessBack: 'Back to Home',
+      paymentCancelTitle: 'Payment Cancelled ❌',
+      paymentCancelText: 'The payment was not completed. If you encountered any issues or want to select a different package, you can go back to packages.',
+      paymentCancelBack: 'Back to Packages',
       applyBtnSending: 'Sending...',
       applyErrorFields: 'Please fill in all required fields.',
       applySuccessTitle: 'Thank you for your application!',
@@ -1192,12 +1368,169 @@ export const LanguageProvider = ({ children }) => {
       footerNavTitle: 'Navigation',
       footerInfoTitle: 'Information',
       footerContactTitle: 'Contact & Support',
-      footerSupportHours: 'Response time: 24–48 hours on weekdays. Weekends up to 72 hours.'
+      footerSupportHours: 'Response time: 24–48 hours on weekdays. Weekends up to 72 hours.',
+
+      // BMI Calculator Page
+      bmiCalculator: 'BMI Calculator',
+      bmiTagline: 'BMI Calculator – calculate and interpret your BMI',
+      bmiWeightLabel: 'Weight (kg)',
+      bmiHeightLabel: 'Height (cm)',
+      bmiDecimalTip: 'Tip! For a more precise result, you can specify decimals.',
+      bmiBtnCalculate: 'Calculate BMI',
+      bmiBtnClear: 'Clear information',
+      bmiBtnCalculating: 'Calculating...',
+      bmiResultTitle: 'Your BMI is',
+      bmiClassTitle: 'Your weight category',
+      bmiUnderweight: 'Underweight',
+      bmiNormalweight: 'Normal weight',
+      bmiOverweight: 'Overweight',
+      bmiObesity: 'Obesity',
+      
+      bmiWhatIsTitle: 'What is BMI?',
+      bmiWhatIsDesc: 'BMI stands for Body Mass Index. It is a measurement that compares your weight with your height, resulting in a BMI value. Healthcare providers often use BMI as one of the tools to determine if your weight is considered healthy.',
+      bmiGroupsIntro: 'BMI is divided into different groups:',
+      
+      bmiHowToInterpretTitle: 'How to interpret your BMI',
+      bmiHowToInterpretDesc1: 'There are international guidelines for BMI that can give an initial indication of whether your weight is at a healthy level. To get a more complete picture of your health, waist circumference is also typically measured, and blood pressure and blood tests may be taken.',
+      bmiHowToInterpretDesc2: 'In other words, you should not let your BMI value be the only indicator you rely on, but you can use it as part of the overall picture of how your body is doing.',
+      
+      bmiGuidelinesTitle: 'Guidelines for BMI and weight category',
+      bmiTableBmi: 'BMI',
+      bmiTableClass: 'Weight Category',
+      bmiTableUnder185: 'Under 18.5',
+      bmiTable185_249: '18.5 - 24.9',
+      bmiTable25_299: '25 - 29.9',
+      bmiTable30More: '30 or more',
+      
+      bmiRememberTitle: 'Remember!',
+      bmiRememberDesc1: 'BMI is a rough measurement that does not take into account gender, muscle mass, age, or body shape. For example, women naturally have a higher percentage of body fat than men, and older people often lose muscle mass.',
+      bmiRememberDesc2: 'BMI also does not show how body fat is distributed. Fat around the stomach, also known as visceral fat, often carries greater health risks than fat located on other parts of the body.',
+      
+      bmiHowToAffectTitle: 'How you can influence your BMI',
+      bmiHowToAffectDesc: 'To maintain a healthy BMI and a stable weight over time, you need to find a balance between three core pillars: nutrition, movement, and recovery. Eating a balanced diet of nutrient-rich food, moving every day, and sleeping well at night gives your body the best conditions to thrive.',
+      
+      bmiPreventObesityTitle: 'To prevent overweight, you can:',
+      bmiTips: [
+        'Eat nutrient-dense and fiber-rich foods',
+        'Move every day, at least 30 minutes',
+        'Sleep sufficiently – preferably 7–9 hours per night',
+        'Reduce stress and take care of yourself',
+        'Drink alcohol in moderation and avoid smoking'
+      ],
+
+      // Testimonials (Trustpilot)
+      trustpilotSubtitle: 'Customer Reviews',
+      trustpilotTitle: 'Trustpilot – Experience the impact of customer reviews',
+      trustpilotExcellent: 'Excellent',
+      trustpilotBasedOn: 'based on customer reviews from real clients',
+      reviews: [
+        {
+          name: 'Satisfied Customer',
+          text: 'I am very happy with my training journey at Muscle&Focus. The training schedule has been clear, inspiring, and given me a secure foundation. Warmly recommended to anyone who wants to develop in fitness and health. 💪🏼 Always great support and explanations!! Very clear training program and nutrition program.'
+        },
+        {
+          name: 'David K.',
+          text: 'Awesome personal program! Ali is extremely knowledgeable and his guidance in the gym has helped me lift with perfect form. Already after 12 weeks I notice a huge difference in strength and mobility.'
+        },
+        {
+          name: 'Amir H.',
+          text: 'The PT Online package is the best I have tried. Easy to follow the diet plan and the training app makes it convenient to log workouts. Ali\'s weekly check-ins keep motivation at its peak!'
+        }
+      ],
+      resultsSubtitle: 'Results',
+      resultsTitle: 'Before & After Results',
+      resultsIntro: 'See amazing body and health transformations from real people who have trained with Muscle & Focus.',
+      resultsMale: 'Weight Loss & Strength (6 months)',
+      resultsFemale: 'Healthier Lifestyle & Fat Loss (4 months)',
+
+      // BMI Risks Page Content
+      bmiRisksTitle: 'The Risks of Overweight and Obesity',
+      bmiRisksIntro1: 'Being overweight increases the risk of several different diseases. The higher the weight, the greater the risks.',
+      bmiRisksIntro2: 'When we have more body fat than is healthy for the body, it can affect how efficiently it regulates vital functions. It can disrupt the hormonal balance and metabolism, making it harder for the body to keep track of blood pressure, blood sugar, and blood lipids.',
+      bmiRisksIntro3: 'Fat in the body is not just something that ”not just sits there”. It actually behaves like an active organ. In obesity, fat cells can release substances that create a low-grade, chronic inflammation in the body.',
+      bmiRisksIntro4: 'All of this, in turn, can increase the risk of diseases such as:',
+      bmiRisksList: [
+        { title: 'Cardiovascular Diseases and Diabetes', desc: 'Obesity negatively affects blood pressure, blood sugar, and blood lipids. This increases the risks of high blood pressure, high blood lipids, type 2 diabetes, atherosclerosis, heart attack, and stroke.' },
+        { title: 'Gallstones and Fatty Liver', desc: 'Being overweight can cause gallstones to form and fat to accumulate in the liver. Both can lead to further complications if left untreated.' },
+        { title: 'Breathing Difficulties', desc: 'People with obesity suffer more frequently from asthma or worsened respiratory issues. Overweight also often leads to snoring and sleep apnea, which can strain the heart and body in the long run.' },
+        { title: 'Joint Problems', desc: 'Heavy weight strains the skeleton and joints, causing joint pain and wear. Many with obesity eventually develop issues in the knees, hips, or back due to the excess weight.' },
+        { title: 'Pregnancy Complications and Infertility', desc: 'Obesity during pregnancy increases the risk of complications during pregnancy and childbirth. Additionally, being overweight can impair fertility and make it harder to get pregnant.' },
+        { title: 'Cancer', desc: 'Overweight individuals have a higher risk of developing several cancers, such as cancer of the uterus, ovaries, breasts, and prostate.' },
+        { title: 'Dementia', desc: 'Obesity can also increase the risk of dementia later in life, such as Alzheimer\'s disease.' }
+      ],
+      bmiFaqBtnShow: 'Show Q&A',
+      bmiFaqBtnHide: 'Hide Q&A',
+      bmiFaqTitle: 'Questions & Answers',
+      faqList: [
+        {
+          id: 1,
+          q: 'What is obesity?',
+          a: 'Obesity is a disease characterized by an abnormally high proportion of body fat, which increases the risk of several secondary diseases.'
+        },
+        {
+          id: 2,
+          q: 'What is the difference between overweight and obesity?',
+          a: 'Overweight means having slightly more body fat than what is healthy for the body. Obesity involves a higher level of fat that affects health more severely.'
+        },
+        {
+          id: 3,
+          q: 'Is obesity always dangerous?',
+          a: 'Obesity increases the risk of several diseases, but how dangerous it is depends on other factors such as lifestyle, diet, and physical activity.'
+        },
+        {
+          id: 4,
+          q: 'How many calories per day? (The body\'s energy needs)',
+          a: 'How the body\'s energy needs work: Every day, the body consumes energy to sustain everything from heartbeats to thoughts spinning in the mind. The food we eat is the fuel that keeps us going. Here is how energy needs and calories work.\n\nHow many calories should you eat per day?\nThe number of calories needed daily depends on gender, age, body size, and activity level. According to health guidelines, you can use these guidelines for daily energy intake:'
+        },
+        {
+          id: 5,
+          q: 'This is how much energy nutrients contain per gram',
+          a: 'Different nutrients in food provide different amounts of energy. The body gets its calories from protein, carbohydrates, dietary fiber, fat, and alcohol. Here is how much energy you get per gram of each nutrient:'
+        },
+        {
+          id: 6,
+          q: 'Differences in energy and nutrition for different foods',
+          a: 'Different foods have different calorie content, and there can be differences between how much nutrition they give the body in relation to the amount of energy.\n\nEnergy is calories coming from carbohydrates, fat, protein, and alcohol. Nutrition refers to vitamins and minerals that do not provide energy but are needed for the body\'s functions to work and for us to feel well.\n\nNutrient-dense foods: Provide high amounts of nutrients per calorie. Examples include vegetables, legumes, fish, and whole grain products. This is food that fills you up well and nourishes the body.\n\nEnergy-dense foods: Contain many calories per gram but vary in quality. Sweets, sodas, and fast food are examples of foods that provide plenty of energy but little nutrition. However, there are also energy-dense and nutrient-dense options. Nuts, oils, and full-fat dairy products are examples that provide both high energy and many vital nutrients.\n\nExample: Think about the difference between a plate of fruit and a slice of pizza where both may contain about 300 kcal. The fruit provides volume, vitamins, and fiber that keep you full, while the pizza provides the same calories but significantly less nutrition and satiety.\n\nTo feel good and maintain a stable weight, it is smart to base your diet on nutrient-dense foods and eat energy-dense and nutrient-poor foods less often. This way, the body gets what it needs without taking in unnecessary energy. It is also good to eat a variety of foods to increase your chance of getting all vital nutrients.'
+        },
+        {
+          id: 7,
+          q: 'How to measure your energy intake',
+          a: 'You can measure your energy intake by estimating the calories you consume. Two examples of how to do this are reading the nutrition labels on food packaging or using apps to log your intake.\n\nFood labels and nutrition facts\nAlmost all packaged foods have a nutrition declaration showing the energy and nutrients the product contains. The information is typically stated in kilocalories (kcal) per 100 grams, and sometimes per serving.\n\nBy comparing the amount you actually eat with the stated amount on the label, you can calculate your energy intake. It is also important to look at the distribution of protein, fat, and carbohydrates, as these affect both energy content and satiety.\n\nCalorie counting in apps\nThere are apps available to help you track your energy intake. These apps have large food databases and automatically calculate the calorie content of a meal. This can be a great tool in the beginning to learn about food energy. In many cases, you can scan barcodes, search for foods, or enter your own recipes. The apps often also provide daily summaries of total energy intake and macronutrient distribution.\n\nGood things to keep in mind when tracking energy intake\nDespite helpful tools, it can be hard to measure energy intake completely accurately. A common mistake is underestimating portion size. If you weigh or measure your food in the beginning, you will learn to estimate better over time.\n\nHow food is prepared also plays a role, as boiling, frying, or baking can change both weight and nutrient content. Furthermore, all bodies function differently. How much energy you actually absorb depends on metabolism and daily activity levels.'
+        },
+        {
+          id: 8,
+          q: 'When the body can benefit from a change',
+          a: 'Sometimes the body speaks up, showing it is time to make a change. You might notice that your energy levels are not what they used to be, you sleep poorly, or get winded by light exertion. These can be signs of physical strain.\n\nIf your current habits affect your health negatively, it may be time to consider changes. Sometimes this means losing weight. If your BMI or waist circumference carries an increased risk of disease, weight loss can be an important step for body wellness.\n\nOverweight and obesity can affect the body in many ways, increasing risks for cardiovascular disease, type 2 diabetes, and high blood pressure.'
+        },
+        {
+          id: 9,
+          q: 'If you lose weight quickly',
+          a: 'If you have decided to lose weight, it is natural to want fast results. However, health is about more than just scale numbers. The most important thing is finding sustainable habits and balance.\n\nIf you lose weight too quickly, the body can enter a "starvation mode" where metabolism slows down. This makes it harder to continue losing weight and easier to regain it.\n\nA good target is to lose about 0.5–1 kg per week. This usually corresponds to a moderate calorie deficit of about 500–1000 calories per day. It might seem slow, but it is a pace the body can handle without stress.'
+        }
+      ],
+      buddyFinderTitle: 'Find Your Training Buddy',
+      buddyFinderDesc: 'Here you can get in touch with others who are also looking for someone to train with. Write your name in the list to be visible, or search among existing training buddies!',
+      buddyFormTitle: 'Create Your Profile',
+      buddyFormFullName: 'Full Name',
+      buddyFormAge: 'Age (years)',
+      buddyFormCity: 'City',
+      buddyFormGym: 'Which gym do you train at?',
+      buddyFormContact: 'Contact Info (e.g., Email, Instagram, Snapchat, or Phone)',
+      buddyFormMessage: 'Message (tell us a bit about yourself and your training)',
+      buddyFormSubmit: 'Find Training Buddy',
+      buddyFormSuccess: 'Your profile has been published! Good luck finding your training buddy.',
+      buddyListTitle: 'Training Buddies Nearby',
+      buddyListEmpty: 'No training buddies have signed up yet. Be the first!',
+      buddySearchPlaceholder: 'Search by city or gym...',
+      buddyContactBtn: 'Contact',
+      buddyAgeLabel: 'years old',
+      buddyGymLabel: 'Gym/Club'
     },
     fa: {
       // Navbar
       home: 'خانه',
       packages: 'پکیج‌های تمرینی',
+      hittaKompis: 'یافتن هم‌تمرینی',
       apply: 'ثبت نام',
       admin: 'مدیر',
       licenses: 'مجوزها و مدرک‌ها',
@@ -1689,7 +2022,16 @@ export const LanguageProvider = ({ children }) => {
       applyPlaceholderWish: '-- Välj ett träningspaket --',
       applyLabelMessage: 'Meddelande / Tidigare erfarenhet (Frivilligt)',
       applyPlaceholderMessage: 'Beskriv kort din nuvarande form, dina mål eller om du har några skador...',
-      applyBtnSubmit: 'Skicka intresseanmälan',
+      applyBtnSubmit: 'ارسال درخواست (مشاوره رایگان)',
+      applyBtnPayWithStripe: 'پرداخت امن با استرایپ (خرید مستقیم) 💳',
+      applyLabelStudentDiscount: 'من دانشجو، جوان یا بازنشسته هستم (دریافت تخفیف)',
+      paymentSuccessTitle: 'پرداخت با موفقیت انجام شد! 🎉',
+      paymentSuccessText: 'با تشکر {name}! پرداخت شما برای {wish} با موفقیت ثبت شد.',
+      paymentSuccessSubtext: 'تأییدیه به {email} و علی به زودی با شماره {phone} با شما تماس خواهد گرفت تا مسیر تمرینی شما را آغاز کند.',
+      paymentSuccessBack: 'بازگشت به خانه',
+      paymentCancelTitle: 'پرداخت لغو شد ❌',
+      paymentCancelText: 'پرداخت انجام نشد. اگر مشکلی پیش آمده یا می‌خواهید پکیج دیگری انتخاب کنید، می‌توانید به بخش پکیج‌ها بازگردید.',
+      paymentCancelBack: 'بازگشت به پکیج‌ها',
       applyBtnSending: 'Skickar...',
       applyErrorFields: 'Vänligen fyll i alla obligatoriska fält.',
       applySuccessTitle: 'Tack för din ansökan!',
@@ -1714,7 +2056,163 @@ export const LanguageProvider = ({ children }) => {
       footerNavTitle: 'Navigation',
       footerInfoTitle: 'Information',
       footerContactTitle: 'Kontakt & Support',
-      footerSupportHours: 'Svarstid: 24–48 timmar under vardagar. Helger upp till 72 timmar.'
+      footerSupportHours: 'Svarstid: 24–48 timmar under vardagar. Helger upp till 72 timmar.',
+
+      // BMI Calculator Page
+      bmiCalculator: 'محاسبه‌گر BMI',
+      bmiTagline: 'محاسبه‌گر BMI – محاسبه و تفسیر شاخص توده بدنی شما',
+      bmiWeightLabel: 'وزن (کیلوگرم)',
+      bmiHeightLabel: 'قد (سانتی‌متر)',
+      bmiDecimalTip: 'نکته! برای نتیجه دقیق‌تر می‌توانید از اعشار استفاده کنید.',
+      bmiBtnCalculate: 'محاسبه BMI',
+      bmiBtnClear: 'پاک کردن اطلاعات',
+      bmiBtnCalculating: 'در حال محاسبه...',
+      bmiResultTitle: 'شاخص توده بدنی (BMI) شما',
+      bmiClassTitle: 'رده وزنی شما',
+      bmiUnderweight: 'کمبود وزن (لاغری)',
+      bmiNormalweight: 'وزن نرمال',
+      bmiOverweight: 'اضافه وزن',
+      bmiObesity: 'چاقی (مفرط)',
+      
+      bmiWhatIsTitle: 'شاخص توده بدنی (BMI) چیست؟',
+      bmiWhatIsDesc: 'شاخص توده بدنی (BMI) مخفف Body Mass Index است. این معیاری است که وزن شما را با قدتان مقایسه می‌کند و منجر به یک مقدار عددی می‌شود. ارائه‌دهندگان خدمات بهداشتی اغلب از BMI به عنوان یکی از ابزارها برای بررسی سالم بودن وزن شما استفاده می‌کنند.',
+      bmiGroupsIntro: 'شاخص توده بدنی به گروه‌های مختلف تقسیم می‌شود:',
+      
+      bmiHowToInterpretTitle: 'چگونه BMI خود را تفسیر کنید',
+      bmiHowToInterpretDesc1: 'محدوده‌های بین‌المللی برای BMI وجود دارد که می‌تواند اولین نشانه‌ها را از قرار داشتن وزن شما در سطح سالم ارائه دهد. برای دریافت تصویر کامل‌تر از سلامتی، معمولاً اندازه دور کمر نیز سنجیده می‌شود و آزمایش‌هایی مانند فشار خون و آزمایش خون انجام می‌گیرد.',
+      bmiHowToInterpretDesc2: 'به عبارت دیگر، نباید اجازه دهید مقدار BMI تنها چیزی باشد که به آن متکی هستید، اما می‌توانید از آن به عنوان بخشی از تصویر کلی سلامت بدن خود استفاده کنید.',
+      
+      bmiGuidelinesTitle: 'جدول راهنمای شاخص توده بدنی و رده وزنی',
+      bmiTableBmi: 'شاخص BMI',
+      bmiTableClass: 'رده وزنی',
+      bmiTableUnder185: 'کمتر از ۱۸.۵',
+      bmiTable185_249: '۱۸.۵ - ۲۴.۹',
+      bmiTable25_299: '۲۵ - ۲۹.۹',
+      bmiTable30More: '۳۰ یا بیشتر',
+      
+      bmiRememberTitle: 'به یاد داشته باشید!',
+      bmiRememberDesc1: 'BMI یک معیار کلی است که جنسیت، توده عضلانی، سن یا شکل بدن را در نظر نمی‌گیرد. به عنوان مثال، زنان به طور طبیعی درصد چربی بدن بالاتری نسبت به مردان دارند و افراد مسن اغلب توده عضلانی خود را از دست می‌دهند.',
+      bmiRememberDesc2: 'شاخص توده بدنی همچنین نشان نمی‌دهد که چربی‌های بدن چگونه توزیع شده‌اند. چربی‌های اطراف شکم که چربی احشایی نیز نامیده می‌شوند، اغلب خطرات سلامتی بیشتری نسبت به چربی‌های بخش‌های دیگر بدن به همراه دارند.',
+      
+      bmiHowToAffectTitle: 'چگونه می‌توانید بر BMI خود تأثیر بگذارید',
+      bmiHowToAffectDesc: 'برای حفظ یک BMI سالم و وزن پایدار در طول زمان، باید تعادلی بین سه رکن اصلی پیدا کنید: تغذیه، تحرک و ریکاوری. خوردن غذای مغذی به اندازه کافی، تحرک روزانه و خواب خوب شبانه بهترین شرایط را برای حفظ سلامت بدن فراهم می‌کند.',
+      
+      bmiPreventObesityTitle: 'برای پیشگیری از اضافه وزن می‌توانید:',
+      bmiTips: [
+        'غذاهای مغذی و غنی از فیبر مصرف کنید',
+        'هر روز حداقل ۳۰ دقیقه تحرک داشته باشید',
+        'به اندازه کافی بخوابید – ترجیحاً ۷ تا ۹ ساعت در شب',
+        'استرس را کاهش دهید و از خود مراقبت کنید',
+        'مصرف الکل را محدود کرده و از دخانیات دوری کنید'
+      ],
+
+      // Testimonials (Trustpilot)
+      trustpilotSubtitle: 'نظرات مشتریان',
+      trustpilotTitle: 'تراست‌پایلوت – تأثیر نظرات مشتریان ما را تجربه کنید',
+      trustpilotExcellent: 'عالی',
+      trustpilotBasedOn: 'بر اساس نظرات مشتریان واقعی',
+      reviews: [
+        {
+          name: 'مشتری راضی',
+          text: 'من از سفر ورزشی خود با Muscle&Focus بسیار راضی هستم. برنامه تمرینی واضح، الهام‌بخش بوده و پایه امنی برای من ایجاد کرده است. به هر کسی که می‌خواهد در تمرین و سلامت پیشرفت کند، به شدت توصیه می‌شود. 💪🏼 همیشه برخورد خوب و توضیحات عالی!! برنامه تمرینی و برنامه غذایی بسیار واضح.'
+        },
+        {
+          name: 'دیوید ک.',
+          text: 'برنامه شخصی فوق‌العاده! علی بسیار باتجربه است و راهنمایی‌های او در باشگاه به من کمک کرد تا با تکنیک عالی وزنه بزنم. بعد از ۱۲ هفته تغییرات بزرگی در قدرت و انعطاف‌پذیری خودم احساس می‌کنم.'
+        },
+        {
+          name: 'امیر ه.',
+          text: 'پکیج آنلاین بهترین برنامه‌ای است که تا به حال امتحان کرده‌ام. دنبال کردن برنامه غذایی بسیار ساده است و اپلیکیشن ثبت تمرینات کار را راحت کرده است. بررسی‌های هفتگی علی انگیزه‌ام را در تمام طول مسیر حفظ کرد!'
+        }
+      ],
+      resultsSubtitle: 'نتایج مراجعین',
+      resultsTitle: 'نتایج قبل و بعد از دوره تمرینی',
+      resultsIntro: 'تغییرات فوق‌العاده اندام و سلامت افراد واقعی را ببینید که با Muscle & Focus تمرین کرده‌اند.',
+      resultsMale: 'کاهش وزن و افزایش قدرت (۶ ماه)',
+      resultsFemale: 'سبک زندگی سالم‌تر و چربی‌سوزی (۴ ماه)',
+
+      // BMI Risks Page Content
+      bmiRisksTitle: 'خطرات اضافه وزن و چاقی مفرط',
+      bmiRisksIntro1: 'اضافه وزن خطر ابتلا به چندین بیماری مختلف را افزایش می‌دهد. هر چه وزن بالاتر برود، خطرات بیشتر می‌شوند.',
+      bmiRisksIntro2: 'وقتی چربی بدن بیش از حدی باشد که برای بدن مناسب است، می‌تواند بر کارایی تنظیم عملکردهای حیاتی تأثیر بگذارد. این امر می‌تواند تعادل هورمونی و متابولیسم را مختل کند و کنترل فشار خون، قند خون و چربی خون را برای بدن سخت‌تر سازد.',
+      bmiRisksIntro3: 'چربی در بدن فقط چیزی نیست که «آنجا نشسته باشد»، بلکه در واقع مانند یک اندام فعال رفتار می‌کند. در چاقی مفرط، چربی‌ها می‌توانند موادی آزاد کنند که باعث ایجاد التهاب خفیف و مداوم در بدن می‌شود.',
+      bmiRisksIntro4: 'همه این موارد به نوبه خود می‌توانند خطر ابتلا به بیماری‌هایی نظیر موارد زیر را افزایش دهند:',
+      bmiRisksList: [
+        { title: 'بیماری‌های قلبی-عروقی و دیابت', desc: 'چاقی مفرط باعث می‌شود فشار خون، قند خون و چربی خون تحت تأثیر منفی قرار گیرند. این امر خطر ابتلا به فشار خون بالا، چربی خون بالا، دیابت نوع ۲، تصلب شرایین (آترواسکلروز)، حمله قلبی و سکته مغزی را افزایش می‌دهد.' },
+        { title: 'سنگ کیسه صفرا و کبد چرب', desc: 'اضافه وزن می‌تواند باعث تشکیل سنگ کیسه صفرا و تجمع چربی در کبد شود. هر دوی این موارد در صورت عدم درمان می‌توانند منجر به مشکلات بیشتری شوند.' },
+        { title: 'مشکلات تنفسی', desc: 'افراد مبتلا به چاقی مفرط بیشتر به آسم یا مشکلات تنفسی شدیدتر دچار می‌شوند. اضافه وزن همچنین اغلب منجر به خروپف و آپنه خواب می‌شود که می‌تواند در درازمدت به قلب و بدن فشار وارد کند.' },
+        { title: 'مشکلات مفصلی', desc: 'وزن بالا به اسکلت و مفاصل فشار می‌آورد و باعث درد و ساییدگی مفاصل می‌شود. بسیاری از افراد مبتلا به چاقی مفرط به مرور زمان به دلیل اضافه وزن دچار مشکلاتی در زانو، لگن یا کمر می‌شوند.' },
+        { title: 'عوارض بارداری و ناباروری', desc: 'چاقی در دوران بارداری خطر بروز عوارض در حین بارداری و زایمان را افزایش می‌دهد. علاوه بر این، اضافه وزن می‌تواند باروری را کاهش داده و باردار شدن را سخت‌تر کند.' },
+        { title: 'سرطان', desc: 'افراد دارای اضافه وزن در معرض خطر بیشتری برای ابتلا به چندین بیماری سرطانی مانند سرطان رحم، تخمدان، سینه و پروستات قرار دارند.' },
+        { title: 'زوال عقل (دمانس)', desc: 'چاقی مفرط همچنین می‌تواند خطر ابتلا به بیماری‌های زوال عقل مانند آلزایمر را در سنین بالاتر افزایش دهد.' }
+      ],
+      bmiFaqBtnShow: 'نمایش سوالات و پاسخ‌ها',
+      bmiFaqBtnHide: 'پنهان کردن سوالات و پاسخ‌ها',
+      bmiFaqTitle: 'سوالات و پاسخ‌ها',
+      faqList: [
+        {
+          id: 1,
+          q: 'چاقی مفرط (obesitas) چیست؟',
+          a: 'چاقی مفرط یک بیماری است که در آن بدن درصد چربی غیرطبیعی و بسیار بالایی دارد که خطر ابتلا به چندین بیماری ثانویه دیگر را افزایش می‌دهد.'
+        },
+        {
+          id: 2,
+          q: 'تفاوت بین اضافه وزن و چاقی مفرط چیست؟',
+          a: 'اضافه وزن به این معنی است که فرد کمی بیشتر از چربی مناسب برای بدن دارد. اما چاقی مفرط به سطح بالاتری از تجمع چربی اطلاق می‌شود که سلامت را به طور جدی‌تری تحت تأثیر قرار می‌دهد.'
+        },
+        {
+          id: 3,
+          q: 'آیا چاقی مفرط همیشه خطرناک است؟',
+          a: 'چاقی مفرط خطر ابتلا به چندین بیماری را افزایش می‌دهد، اما میزان خطر آن به عوامل دیگری مانند سبک زندگی، رژیم غذایی و میزان فعالیت بدنی بستگی دارد.'
+        },
+        {
+          id: 4,
+          q: 'کالری مورد نیاز روزانه چقدر است؟ (نیاز انرژی بدن)',
+          a: 'نحوه عملکرد نیازهای انرژی بدن: هر روز بدن برای حفظ فعالیت‌های خود از ضربان قلب گرفته تا افکاری که در ذهن می‌چرخند، انرژی مصرف می‌کند. غذایی که می‌خوریم سوختی است که ما را سرپا نگه می‌دارد. در اینجا نحوه عملکرد انرژی و کالری توضیح داده شده است.\n\nچه تعداد کالری باید در روز مصرف کنید؟\nتعداد کالری مورد نیاز روزانه به جنسیت، سن، اندازه بدن و سطح فعالیت بستگی دارد. بر اساس دستورالعمل‌های بهداشتی، می‌توانید از این راهنما برای دریافت انرژی روزانه استفاده کنید:'
+        },
+        {
+          id: 5,
+          q: 'میزان انرژی مواد مغذی مختلف در هر گرم چقدر است؟',
+          a: 'مواد مغذی مختلف موجود در غذا مقادیر متفاوتی از انرژی را تأمین می‌کنند. بدن کالری خود را از پروتئین، کربوهیدرات‌ها، فیبر رژیمی، چربی و الکل دریافت می‌کند. در اینجا میزان انرژی دریافتی در هر گرم از هر ماده مغذی آورده شده است:'
+        },
+        {
+          id: 6,
+          q: 'تفاوت در انرژی و ارزش غذایی برای مواد خوراکی مختلف',
+          a: 'مواد غذایی مختلف دارای مقادیر متفاوتی کالری هستند و تفاوت‌هایی بین میزان مواد مغذی که به بدن می‌دهند در مقایسه با میزان انرژی وجود دارد.\n\nانرژی همان کالری است که از کربوهیدرات‌ها، چربی، پروتئین و الکل به دست می‌آید. مواد مغذی به ویتامین‌ها و مواد معدنی گفته می‌شود که انرژی تولید نمی‌کنند اما برای عملکرد صحیح بدن و سلامت ما ضروری هستند.\n\nمواد غذایی با ارزش غذایی بالا: مقادیر زیادی مواد مغذی به ازای هر کالری تأمین می‌کنند. نمونه‌ها شامل سبزیجات، حبوبات، ماهی و محصولات غلات کامل است. این غذاها شما را به خوبی سیر نگه می‌دارند و بدن را تغذیه می‌کنند.\n\nمواد غذایی با انرژی بالا: حاوی کالری زیادی در هر گرم هستند اما کیفیت متفاوتی دارند. شیرینی‌ها، نوشابه‌ها و فست‌فودها نمونه‌هایی از غذاهایی هستند که انرژی زیادی اما مواد مغذی کمی دارند. با این حال، گزینه‌های پرانرژی و مغذی نیز وجود دارند. آجیل‌ها، روغن‌ها و لبنیات پرچرب نمونه‌هایی هستند که هم انرژی بالا و هم مواد مغذی حیاتی زیادی را تأمین می‌کنند.\n\nمثال: به تفاوت بین یک بشقاب میوه و یک تکه پیتزا فکر کنید که هر دو ممکن است حاوی حدود ۳۰۰ کیلوکالری باشند. میوه حجم، ویتامین‌ها و فیبر زیادی را فراهم می‌کند که شما را سیر نگه می‌دارد، در حالی که پیتزا همان میزان کالری را تأمین می‌کند اما ارزش غذایی و سیری بسیار کمتری به همراه دارد.\n\nبرای داشتن احساس خوب و حفظ وزن پایدار، عاقلانه است که مواد غذایی با ارزش غذایی بالا را اساس رژیم غذایی خود قرار دهید و کمتر از غذاهای پرانرژی و کم‌ارزش استفاده کنید. به این ترتیب، بدن بدون دریافت انرژی اضافی و غیرضروری، نیازهای خود را برآورده می‌کند. همچنین مصرف غذاهای متنوع برای دریافت تمام مواد مغذی حیاتی توصیه می‌شود.'
+        },
+        {
+          id: 7,
+          q: 'چگونه می‌توانید میزان انرژی دریافتی خود را اندازه‌گیری کنید؟',
+          a: 'شما می‌توانید با تخمین کالری مصرفی، انرژی دریافتی خود را اندازه‌گیری کنید. دو نمونه از روش‌های انجام این کار خواندن برچسب‌های ارزش غذایی روی بسته‌بندی مواد غذایی یا استفاده از اپلیکیشن‌ها برای ثبت برنامه غذایی است.\n\nبرچسب‌های مواد غذایی و اطلاعات ارزش غذایی\nتقریباً روی همه مواد غذایی بسته‌بندی شده جدولی وجود دارد که انرژی و مواد مغذی موجود در محصول را نشان می‌دهد. این اطلاعات معمولاً بر اساس کیلوکالری (kcal) در هر ۱۰۰ گرم و گاهی به ازای هر وعده ذکر می‌شود.\n\nبا مقایسه مقداری که واقعاً می‌خورید با مقدار ذکر شده روی برچسب، می‌توانید کالری دریافتی خود را محاسبه کنید. همچنین بررسی سهم پروتئین، چربی و کربوهیدرات‌ها مهم است، زیرا این موارد بر میزان انرژی و احساس سیری تأثیر می‌گذارند.\n\nثبت کالری در اپلیکیشن‌ها\nاپلیکیشن‌هایی برای کمک به پیگیری انرژی دریافتی شما وجود دارند. این برنامه‌ها دارای پایگاه‌های داده بزرگی از مواد غذایی هستند و به طور خودکار کالری یک وعده غذایی را محاسبه می‌کنند. این می‌تواند ابزار بسیار خوبی در ابتدا برای درک انرژی غذاها باشد. در بسیاری از موارد می‌توانید بارکدها را اسکن کنید، غذاها را جستجو کنید یا دستورالعمل‌های خود را ثبت کنید.\n\nنکات مهم در اندازه‌گیری انرژی دریافتی\nبا وجود ابزارهای مفید، اندازه‌گیری دقیق انرژی دریافتی می‌تواند دشوار باشد. یک اشتباه رایج دست‌کم گرفتن اندازه وعده غذایی است. اگر در ابتدا غذای خود را وزن یا اندازه‌گیری کنید، به مرور زمان یاد خواهید گرفت که تخمین بهتری داشته باشید.\n\nنحوه آماده‌سازی غذا نیز نقش دارد، زیرا آب‌پز کردن، سرخ کردن یا پختن می‌تواند وزن و محتوای مغذی را تغییر دهد. علاوه بر این، متابولیسم و سطح فعالیت روزانه افراد متفاوت است که بر میزان جذب واقعی انرژی تأثیر می‌گذارد.'
+        },
+        {
+          id: 8,
+          q: 'چه زمانی بدن ممکن است از یک تغییر بهره‌مند شود؟',
+          a: 'گاهی اوقات بدن پیام می‌دهد که زمان تغییر فرا رسیده است. ممکن است متوجه شوید که سطح انرژی شما مثل قبل نیست، خواب کیفیت خوبی ندارد یا با فعالیت سبک دچار تنگی نفس می‌شوید. این‌ها می‌توانند نشانه‌های فشار فیزیکی به بدن باشند.\n\nاگر عادات فعلی شما بر سلامتی‌تان تأثیر منفی می‌گذارد، زمان آن است که تغییراتی را در زندگی ایجاد کنید. گاهی اوقات این به معنای کاهش وزن است. اگر شاخص BMI یا اندازه دور کمر شما خطر ابتلا به بیماری‌ها را افزایش داده است، کاهش وزن گام مهمی برای سلامت بدن خواهد بود.\n\nاضافه وزن و چاقی مفرط می‌تواند از جهات مختلف بر بدن تأثیر بگذارد و خطر ابتلا به بیماری‌های قلبی عروقی، دیابت نوع ۲ و فشار خون بالا را افزایش دهد.'
+        },
+        {
+          id: 9,
+          q: 'اگر وزن خود را سریع کاهش دهید چه اتفاقی می‌افتد؟',
+          a: 'اگر تصمیم به کاهش وزن گرفته‌اید، طبیعی است که بخواهید نتایج سریعی را ببینید. با این حال، سلامتی چیزی بیش از اعداد روی ترازو است. مهم‌ترین چیز ایجاد عادات پایدار و تعادل است.\n\nاگر وزن خود را خیلی سریع کاهش دهید، بدن ممکن است وارد «حالت بقا یا ذخیره انرژی» شود که در آن متابولیسم کاهش می‌یابد. این کار کاهش وزن مداوم را سخت‌تر و افزایش مجدد وزن را آسان‌تر می‌کند.\n\nیک هدف خوب، کاهش حدود ۰.۵ تا ۱ کیلوگرم در هفته است. این معمولاً مربوط به ایجاد کسری کالری متوسط در حدود ۵۰۰ تا ۱۰۰۰ کالری در روز است. این ممکن است کند به نظر برسد، اما سرعتی است که بدن می‌تواند بدون استرس آن را تحمل کند.'
+        }
+      ],
+      buddyFinderTitle: 'یافتن هم‌تمرینی',
+      buddyFinderDesc: 'در اینجا می‌توانید با افراد دیگری که به دنبال هم‌تمرینی هستند در ارتباط باشید. نام خود را در لیست ثبت کنید تا دیده شوید یا در میان هم‌تمرینی‌های موجود جستجو کنید!',
+      buddyFormTitle: 'ایجاد پروفایل شما',
+      buddyFormFullName: 'نام کامل',
+      buddyFormAge: 'سن (سال)',
+      buddyFormCity: 'شهر',
+      buddyFormGym: 'در کدام باشگاه تمرین می‌کنید؟',
+      buddyFormContact: 'اطلاعات تماس (مانند ایمیل، اینستاگرام، اسنپ‌چت یا تلفن)',
+      buddyFormMessage: 'پیام (کمی درباره خودتان و نحوه تمرینتان بگویید)',
+      buddyFormSubmit: 'ثبت اطلاعات هم‌تمرینی',
+      buddyFormSuccess: 'پروفایل شما با موفقیت ثبت شد! با آرزوی موفقیت در یافتن هم‌تمرینی خود.',
+      buddyListTitle: 'هم‌تمرینی‌های نزدیک شما',
+      buddyListEmpty: 'هنوز هم‌تمرینی ثبت نام نکرده است. اولین نفر باشید!',
+      buddySearchPlaceholder: 'جستجو بر اساس شهر یا باشگاه...',
+      buddyContactBtn: 'راه‌های تماس',
+      buddyAgeLabel: 'ساله',
+      buddyGymLabel: 'باشگاه'
     }
   }
 

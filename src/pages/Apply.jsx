@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { submitLead } from '../services/api'
-import { Check, Mail, Phone, MapPin, Send, AlertCircle, Dumbbell } from 'lucide-react'
+import { Check, Mail, Phone, MapPin, Send, AlertCircle, Dumbbell, CreditCard } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
 import './Apply.css'
 
@@ -10,6 +10,7 @@ function Apply() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isStudentOrSenior, setIsStudentOrSenior] = useState(false)
   const { t, language } = useLanguage()
 
   const [formData, setFormData] = useState({
@@ -45,30 +46,50 @@ function Apply() {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleFormSubmit = async (e, payNow) => {
+    if (e) e.preventDefault()
     setError('')
     setLoading(true)
 
     // Basic validation
     if (!formData.fullName || !formData.age || !formData.city || !formData.email || !formData.phoneNumber || !formData.trainingWish) {
-      setError(t('applyErrorFields'))
+      setError(t('applyErrorFields') || 'Vänligen fyll i alla obligatoriska fält.')
       setLoading(false)
       return
     }
 
     try {
-      await submitLead({
+      const payload = {
         ...formData,
-        age: parseInt(formData.age, 10)
-      })
-      setSubmitted(true)
+        age: parseInt(formData.age, 10),
+        payNow: payNow,
+        priceOption: isStudentOrSenior ? 'discounted' : 'regular'
+      }
+      
+      const res = await submitLead(payload)
+      
+      if (payNow && res.stripeCheckoutUrl) {
+        // Redirect to Stripe Checkout
+        window.location.href = res.stripeCheckoutUrl
+      } else {
+        setSubmitted(true)
+      }
     } catch (err) {
       setError(err.message || 'Ett fel uppstod när ansökan skickades. Kontrollera att servern körs.')
     } finally {
       setLoading(false)
     }
   }
+
+  // Determine if the selected wish is a package that offers student/youth/senior discount
+  const showDiscountToggle = formData.trainingWish && (
+    formData.trainingWish.toLowerCase().includes('projekt') ||
+    formData.trainingWish.toLowerCase().includes('project') ||
+    formData.trainingWish.toLowerCase().includes('teknik') ||
+    formData.trainingWish.toLowerCase().includes('tech') ||
+    formData.trainingWish.includes('پروژه') ||
+    formData.trainingWish.includes('تکنیک')
+  )
 
   if (submitted) {
     return (
@@ -146,7 +167,7 @@ function Apply() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="apply-form">
+          <form onSubmit={(e) => handleFormSubmit(e, false)} className="apply-form">
             <div className="form-group">
               <label htmlFor="fullName">{t('applyLabelFullName')}</label>
               <input
@@ -249,6 +270,21 @@ function Apply() {
               </select>
             </div>
 
+            {showDiscountToggle && (
+              <div className="form-group checkbox-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '5px', marginBottom: '15px' }}>
+                <input
+                  type="checkbox"
+                  id="isStudentOrSenior"
+                  checked={isStudentOrSenior}
+                  onChange={(e) => setIsStudentOrSenior(e.target.checked)}
+                  style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--accent-cyan)' }}
+                />
+                <label htmlFor="isStudentOrSenior" style={{ cursor: 'pointer', fontSize: '0.85rem', color: 'var(--text-silver)', margin: 0, userSelect: 'none' }}>
+                  {t('applyLabelStudentDiscount')}
+                </label>
+              </div>
+            )}
+
             <div className="form-group">
               <label htmlFor="message">{t('applyLabelMessage')}</label>
               <textarea
@@ -261,16 +297,41 @@ function Apply() {
               ></textarea>
             </div>
 
-            <button type="submit" className="btn-primary btn-submit" disabled={loading}>
-              {loading ? (
-                <span>{t('applyBtnSending')}</span>
-              ) : (
-                <>
-                  <Send size={16} />
-                  <span>{t('applyBtnSubmit')}</span>
-                </>
-              )}
-            </button>
+            <div className="form-actions-row" style={{ display: 'flex', gap: '12px', marginTop: '20px', flexWrap: 'wrap' }}>
+              <button 
+                type="button" 
+                className="btn-secondary" 
+                onClick={(e) => handleFormSubmit(e, false)}
+                disabled={loading}
+                style={{ flex: 1, padding: '12px 16px', fontSize: '0.9rem', justifyContent: 'center' }}
+              >
+                {loading ? (
+                  <span>{t('applyBtnSending')}</span>
+                ) : (
+                  <>
+                    <Send size={14} />
+                    <span>{t('applyBtnSubmit')}</span>
+                  </>
+                )}
+              </button>
+              
+              <button 
+                type="button" 
+                className="btn-primary" 
+                onClick={(e) => handleFormSubmit(e, true)}
+                disabled={loading}
+                style={{ flex: 1.2, padding: '12px 16px', fontSize: '0.9rem', gap: '6px', justifyContent: 'center', minWidth: '200px' }}
+              >
+                {loading ? (
+                  <span>{t('applyBtnSending')}</span>
+                ) : (
+                  <>
+                    <CreditCard size={14} />
+                    <span>{t('applyBtnPayWithStripe')}</span>
+                  </>
+                )}
+              </button>
+            </div>
           </form>
         </div>
       </div>

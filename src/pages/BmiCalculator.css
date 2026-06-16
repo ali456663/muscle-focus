@@ -1,0 +1,1052 @@
+/* BMI Calculator Styles - Dark Cosmic Glassmorphism */
+
+.bmi-page-wrapper {
+  padding-top: 100px;
+  padding-bottom: 60px;
+  min-height: calc(100vh - 80px);
+}
+
+.bmi-header-section {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.bmi-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+}
+
+.bmi-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.bmi-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Columns */
+.bmi-calculator-column {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.bmi-education-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Glass Cards */
+.bmi-card,
+.bmi-result-card,
+.bmi-info-card {
+  padding: 32px;
+  border-radius: var(--border-radius-lg);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-dark);
+}
+
+.bmi-card-title,
+.info-card-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.bmi-card-intro {
+  font-size: 0.95rem;
+  color: var(--text-silver);
+  margin-bottom: 24px;
+}
+
+/* Forms */
+.bmi-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-white);
+  letter-spacing: 0.02em;
+}
+
+.bmi-input {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-glass);
+  padding: 14px 16px;
+  border-radius: var(--border-radius-md);
+  color: var(--text-white);
+  font-size: 1.1rem;
+  transition: var(--transition-fast);
+}
+
+.bmi-input:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.bmi-decimal-tip {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: -4px;
+}
+
+.info-icon {
+  color: var(--accent-cyan);
+}
+
+/* Error message */
+.bmi-error-message {
+  background: rgba(255, 59, 48, 0.1);
+  border: 1px solid rgba(255, 59, 48, 0.25);
+  padding: 12px 16px;
+  border-radius: var(--border-radius-md);
+  color: #ff8882;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Buttons */
+.bmi-buttons {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.btn-bmi-calc {
+  width: 100%;
+  justify-content: center;
+  font-size: 1.05rem;
+}
+
+.btn-bmi-clear {
+  width: 100%;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+/* Earth Animation Section */
+.earth-animation-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.earth-container {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.earth-container.has-result {
+  transform: scale(0.9);
+}
+
+.earth-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  z-index: 2;
+  filter: drop-shadow(0 0 10px rgba(0, 168, 255, 0.4));
+}
+
+.earth-glow {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.25) 0%, rgba(0, 100, 255, 0.05) 50%, transparent 70%);
+  z-index: 1;
+  animation: earth-glow-pulse 3s ease-in-out infinite;
+}
+
+.earth-container.spinning .earth-img {
+  animation: spin-earth 1.5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+.earth-container.spinning .earth-glow {
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.4) 0%, rgba(0, 229, 255, 0.15) 50%, transparent 70%);
+  animation: earth-glow-pulse-fast 0.75s ease-in-out infinite;
+}
+
+.cosmic-orbit-ring {
+  position: absolute;
+  width: 240px;
+  height: 60px;
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  border-radius: 50%;
+  transform: rotate(-15deg);
+  z-index: 3;
+  pointer-events: none;
+  animation: orbit-rotate 1.5s linear infinite;
+}
+
+@keyframes spin-earth {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-rotate {
+  0% {
+    transform: rotate(-15deg) scale(0.95);
+    opacity: 0.5;
+  }
+  50% {
+    transform: rotate(-15deg) scale(1.05);
+    opacity: 1;
+    border-color: rgba(0, 229, 255, 0.5);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+  }
+  100% {
+    transform: rotate(-15deg) scale(0.95);
+    opacity: 0.5;
+  }
+}
+
+@keyframes earth-glow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes earth-glow-pulse-fast {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.15);
+    filter: brightness(1.3);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+  }
+}
+
+/* Results Screen Card */
+.bmi-result-card {
+  background: rgba(10, 22, 45, 0.7);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.result-card-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.bmi-value-display {
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, transparent 70%);
+  padding: 10px 40px;
+  border-radius: 50%;
+  margin-bottom: 24px;
+}
+
+.bmi-number {
+  font-family: var(--font-heading);
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: var(--text-white);
+  line-height: 1;
+  text-shadow: 0 0 25px rgba(0, 229, 255, 0.6), 0 0 50px rgba(0, 229, 255, 0.2);
+}
+
+.result-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  font-size: 1.15rem;
+}
+
+.result-label {
+  color: var(--text-muted);
+}
+
+.result-badge-category {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border: 1px solid transparent;
+}
+
+.category-bmiUnderweight {
+  background: rgba(0, 229, 255, 0.15);
+  color: var(--accent-cyan);
+  border-color: rgba(0, 229, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+}
+
+.category-bmiNormalweight {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--accent-neon);
+  border-color: rgba(0, 255, 136, 0.3);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+}
+
+.category-bmiOverweight {
+  background: rgba(255, 170, 0, 0.15);
+  color: var(--accent-gold);
+  border-color: rgba(255, 170, 0, 0.3);
+  box-shadow: 0 0 15px rgba(255, 170, 0, 0.15);
+}
+
+.category-bmiObesity {
+  background: rgba(255, 59, 48, 0.15);
+  color: var(--accent-red);
+  border-color: rgba(255, 59, 48, 0.3);
+  box-shadow: 0 0 15px rgba(255, 59, 48, 0.15);
+}
+
+/* Glowing Star Badges for Weight and Height */
+.cosmic-stars-container {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  width: 100%;
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 24px;
+}
+
+.star-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(0 0 12px rgba(255, 170, 0, 0.45));
+  transition: transform var(--transition-normal);
+}
+
+.star-wrapper:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 20px rgba(255, 170, 0, 0.7));
+}
+
+.star-svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.star-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px; /* Slightly adjust down to align visually with star center */
+}
+
+.star-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #5d4037; /* Dark brown for high contrast on golden background */
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.star-val {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #3e2723; /* Even darker brown for clear readability */
+  line-height: 1.1;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Education Info Cards */
+.info-card-text {
+  font-size: 0.98rem;
+  color: var(--text-silver);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.info-card-text strong {
+  color: var(--text-white);
+}
+
+.info-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.info-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--text-white);
+  font-weight: 500;
+}
+
+.list-arrow {
+  color: var(--accent-cyan);
+}
+
+/* Guidelines Table */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-glass);
+}
+
+.bmi-guidelines-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.bmi-guidelines-table th,
+.bmi-guidelines-table td {
+  padding: 14px 18px;
+  font-size: 0.95rem;
+}
+
+.bmi-guidelines-table th {
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--text-white);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.bmi-guidelines-table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text-silver);
+}
+
+.bmi-guidelines-table tr:last-child td {
+  border-bottom: none;
+}
+
+.bmi-guidelines-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.table-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.table-badge.underweight { background: rgba(0, 229, 255, 0.12); color: var(--accent-cyan); }
+.table-badge.normal { background: rgba(0, 255, 136, 0.12); color: var(--accent-neon); }
+.table-badge.overweight { background: rgba(255, 170, 0, 0.12); color: var(--accent-gold); }
+.table-badge.obesity { background: rgba(255, 59, 48, 0.12); color: var(--accent-red); }
+
+/* Alert Card */
+.alert-card {
+  border: 1px solid rgba(255, 170, 0, 0.2);
+  background: rgba(255, 170, 0, 0.03);
+}
+
+.warn-title-icon {
+  color: var(--accent-gold);
+  vertical-align: text-bottom;
+  margin-right: 6px;
+}
+
+/* Prevent Obesity List */
+.bmi-prevent-section {
+  margin-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 20px;
+}
+
+.prevent-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-white);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.prevent-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.prevent-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--text-silver);
+}
+
+.prevent-list li span {
+  flex: 1;
+}
+
+.heart-bullet {
+  color: var(--accent-neon);
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+/* Fade In Animation */
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RTL Layout Enhancements */
+[dir="rtl"] .bmi-guidelines-table {
+  text-align: right;
+}
+
+[dir="rtl"] .warn-title-icon {
+  margin-right: 0;
+  margin-left: 6px;
+}
+
+[dir="rtl"] .info-list {
+  padding-right: 0;
+}
+
+[dir="rtl"] .prevent-list {
+  padding-right: 0;
+}
+
+[dir="rtl"] .list-arrow {
+  transform: scaleX(-1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .bmi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .bmi-title {
+    font-size: 2.2rem;
+  }
+  
+  .bmi-card,
+  .bmi-result-card,
+  .bmi-info-card {
+    padding: 20px;
+  }
+
+  .bmi-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .info-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* FAQ Accordion Section - Cosmic Glassmorphism styling */
+.bmi-faq-toggle-container {
+  margin-top: 48px;
+  margin-bottom: 24px;
+}
+
+.btn-faq-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 229, 255, 0.05);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  color: var(--text-white);
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.05);
+  backdrop-filter: blur(8px);
+}
+
+.btn-faq-toggle:hover {
+  background: rgba(0, 229, 255, 0.15);
+  border-color: var(--accent-cyan);
+  color: var(--text-white);
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.35);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+.btn-faq-toggle:active {
+  transform: translateY(0);
+}
+
+.btn-faq-toggle svg {
+  color: var(--accent-cyan);
+  transition: transform 0.3s ease;
+}
+
+.btn-faq-toggle .arrow-transition.rotated {
+  transform: rotate(-180deg);
+}
+
+.bmi-faq-container {
+  margin-top: 24px;
+  margin-bottom: 48px;
+  padding: 40px;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.faq-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.faq-title-icon {
+  color: var(--accent-cyan);
+  filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.4));
+}
+
+.faq-accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faq-accordion-item {
+  background: rgba(15, 23, 42, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-accordion-item:hover {
+  background: rgba(15, 23, 42, 0.45);
+  border-color: rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.03);
+}
+
+.faq-accordion-item.active {
+  background: rgba(10, 22, 45, 0.5);
+  border-color: rgba(0, 229, 255, 0.35);
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.06);
+}
+
+.faq-accordion-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 22px 28px;
+  cursor: pointer;
+  color: var(--text-white);
+  font-family: inherit;
+  outline: none;
+}
+
+.faq-q-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  text-align: left;
+}
+
+.faq-number {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--accent-cyan);
+  opacity: 0.85;
+  min-width: 24px;
+}
+
+.faq-question {
+  font-size: 1.05rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.faq-indicator-arrow {
+  color: var(--text-muted);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.faq-accordion-item.active .faq-question {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.2);
+}
+
+.faq-accordion-item.active .faq-indicator-arrow {
+  transform: rotate(-180deg);
+  color: var(--accent-cyan);
+}
+
+.faq-accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+  padding: 0 28px;
+}
+
+.faq-accordion-item.active .faq-accordion-body {
+  max-height: 2500px;
+  padding: 0 28px 28px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.faq-text-p {
+  font-size: 0.98rem;
+  color: var(--text-silver);
+  line-height: 1.65;
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+.faq-text-p:first-of-type {
+  margin-top: 20px;
+}
+
+/* Custom styles for special Q&As (Q4 & Q5) */
+.faq-tables-wrapper {
+  margin-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 24px;
+}
+
+.faq-table-subtitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.faq-tables-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.faq-table-badge {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.faq-table-badge.women {
+  background: rgba(255, 0, 128, 0.1);
+  color: #ff4081;
+  border: 1px solid rgba(255, 0, 128, 0.25);
+  box-shadow: 0 0 10px rgba(255, 0, 128, 0.05);
+}
+
+.faq-table-badge.men {
+  background: rgba(0, 229, 255, 0.1);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.05);
+}
+
+.faq-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.faq-data-table th,
+.faq-data-table td {
+  padding: 12px 14px;
+  font-size: 0.9rem;
+}
+
+.faq-data-table th {
+  background: rgba(15, 23, 42, 0.65);
+  color: var(--text-white);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.faq-data-table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  color: var(--text-silver);
+}
+
+.faq-data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.faq-data-table tr:hover td {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.faq-pal-note {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 16px;
+  font-style: italic;
+}
+
+.faq-dietitian-quote-card {
+  margin-top: 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.015) 0%, rgba(255, 255, 255, 0.003) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-left: 3px solid var(--accent-neon);
+  padding: 24px;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-icon-bg {
+  position: absolute;
+  top: -15px;
+  right: 24px;
+  font-family: Georgia, serif;
+  font-size: 7rem;
+  color: rgba(0, 255, 136, 0.03);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+.faq-dietitian-quote-card .quote-text {
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-silver);
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.quote-author-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.quote-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 255, 136, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--accent-neon);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.quote-author-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.quote-author-name {
+  font-weight: 700;
+  color: var(--text-white);
+  font-size: 0.9rem;
+}
+
+.quote-author-role {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.faq-remember-card {
+  margin-top: 24px;
+  border: 1px solid rgba(255, 170, 0, 0.2);
+  background: rgba(255, 170, 0, 0.02);
+  padding: 18px;
+  border-radius: 10px;
+}
+
+.remember-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--accent-gold);
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.remember-icon {
+  color: var(--accent-gold);
+}
+
+.remember-text {
+  color: var(--text-silver);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.q5-table-wrapper {
+  margin-top: 20px;
+}
+
+.faq-comparison-text {
+  font-size: 0.95rem;
+  color: var(--accent-neon);
+  margin-top: 20px;
+  margin-bottom: 0;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.1);
+  line-height: 1.6;
+}
+
+/* RTL Layout Enhancements for FAQ */
+[dir="rtl"] .faq-q-left {
+  text-align: right;
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .faq-accordion-header {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .faq-indicator-arrow {
+  margin-left: 0;
+  margin-right: 12px;
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .faq-accordion-item.active .faq-indicator-arrow {
+  transform: rotate(-180deg) scaleX(-1);
+}
+
+[dir="rtl"] .faq-dietitian-quote-card {
+  border-left: none;
+  border-right: 3px solid var(--accent-neon);
+}
+
+[dir="rtl"] .quote-icon-bg {
+  right: auto;
+  left: 24px;
+}
+
+[dir="rtl"] .faq-data-table {
+  text-align: right;
+}
+
+/* Responsive adjustments for FAQ */
+@media (max-width: 992px) {
+  .faq-tables-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .btn-faq-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .bmi-faq-container {
+    padding: 24px;
+  }
+
+  .faq-accordion-header {
+    padding: 18px 20px;
+  }
+
+  .faq-accordion-body {
+    padding: 0 20px;
+  }
+
+  .faq-accordion-item.active .faq-accordion-body {
+    padding: 0 20px 20px 20px;
+  }
+}
+

@@ -11,6 +11,11 @@ import Certificates from './pages/Certificates'
 import WhyStrength from './pages/WhyStrength'
 import IdealClient from './pages/IdealClient'
 import Terms from './pages/Terms'
+import BmiCalculator from './pages/BmiCalculator'
+import FindBuddy from './pages/FindBuddy'
+import Chatbot from './components/Chatbot'
+import PaymentSuccess from './pages/PaymentSuccess'
+import PaymentCancel from './pages/PaymentCancel'
 
 // Helper component to scroll to top on path changes
 function ScrollToTop() {
@@ -31,7 +36,9 @@ function App() {
       <main style={{ flex: 1 }}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/bmi" element={<BmiCalculator />} />
           <Route path="/paket" element={<Packages />} />
+          <Route path="/hitta-kompis" element={<FindBuddy />} />
           <Route path="/ansok" element={<Apply />} />
           <Route path="/licenser" element={<Certificates />} />
           <Route path="/varfor-styrketrana" element={<WhyStrength />} />
@@ -39,9 +46,12 @@ function App() {
           <Route path="/villkor" element={<Terms />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/payment/success" element={<PaymentSuccess />} />
+          <Route path="/payment/cancel" element={<PaymentCancel />} />
         </Routes>
       </main>
       <Footer />
+      <Chatbot />
     </div>
   )
 }

@@ -31,6 +31,7 @@ function Navbar() {
         {/* Desktop Menu */}
         <div className="navbar-links">
           <Link to="/" className={`nav-link ${isActive('/')}`}>{t('home')}</Link>
+          <Link to="/bmi" className={`nav-link ${isActive('/bmi')}`}>{t('bmiCalculator')}</Link>
           
           {/* Language Selector next to Hem */}
           <div className="lang-selector-container">
@@ -48,6 +49,7 @@ function Navbar() {
           </div>
           
           <Link to="/paket" className={`nav-link ${isActive('/paket')}`}>{t('packages')}</Link>
+          <Link to="/hitta-kompis" className={`nav-link ${isActive('/hitta-kompis')}`}>{t('hittaKompis')}</Link>
           <Link to="/licenser" className={`nav-link ${isActive('/licenser')}`}>{t('licenses')}</Link>
           <Link to="/villkor" className={`nav-link ${isActive('/villkor')}`}>{t('termsLink')}</Link>
           <Link to="/ansok" className={`nav-link btn-apply ${isActive('/ansok')}`}>{t('apply')}</Link>
@@ -76,7 +78,9 @@ function Navbar() {
           </select>
         </div>
         <Link to="/" className={`mobile-link ${isActive('/')}`} onClick={closeMenu}>{t('home')}</Link>
+        <Link to="/bmi" className={`mobile-link ${isActive('/bmi')}`} onClick={closeMenu}>{t('bmiCalculator')}</Link>
         <Link to="/paket" className={`mobile-link ${isActive('/paket')}`} onClick={closeMenu}>{t('packages')}</Link>
+        <Link to="/hitta-kompis" className={`mobile-link ${isActive('/hitta-kompis')}`} onClick={closeMenu}>{t('hittaKompis')}</Link>
         <Link to="/licenser" className={`mobile-link ${isActive('/licenser')}`} onClick={closeMenu}>{t('licenses')}</Link>
         <Link to="/villkor" className={`mobile-link ${isActive('/villkor')}`} onClick={closeMenu}>{t('termsLink')}</Link>
         <Link to="/ansok" className="mobile-link mobile-btn-apply" onClick={closeMenu}>{t('apply')}</Link>

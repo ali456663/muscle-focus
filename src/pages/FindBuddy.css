@@ -1,0 +1,456 @@
+/* Buddy Finder Page Styles - Dark Cosmic Glassmorphism */
+
+.buddy-page-wrapper {
+  padding-top: 100px;
+  padding-bottom: 60px;
+  min-height: calc(100vh - 80px);
+}
+
+.buddy-header-section {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.buddy-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+}
+
+.buddy-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.buddy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Form Styles */
+.buddy-form-card {
+  padding: 32px;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-dark);
+}
+
+.buddy-card-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+  color: var(--text-white);
+}
+
+.buddy-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--accent-cyan);
+  pointer-events: none;
+}
+
+.buddy-input {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-glass);
+  padding: 12px 14px 12px 42px;
+  border-radius: var(--border-radius-md);
+  color: var(--text-white);
+  font-size: 1rem;
+  transition: var(--transition-fast);
+}
+
+.buddy-input:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.buddy-textarea {
+  padding: 12px 16px;
+  resize: vertical;
+}
+
+.btn-buddy-submit {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  font-size: 1.05rem;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.buddy-success-message {
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  padding: 12px 16px;
+  border-radius: var(--border-radius-md);
+  color: var(--accent-neon);
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.buddy-error-message {
+  background: rgba(255, 59, 48, 0.1);
+  border: 1px solid rgba(255, 59, 48, 0.25);
+  padding: 12px 16px;
+  border-radius: var(--border-radius-md);
+  color: #ff8882;
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* Feed & List Styles */
+.buddy-feed-header {
+  padding: 24px;
+  border-radius: var(--border-radius-lg);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.feed-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 300px;
+  flex-grow: 1;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--border-glass);
+  padding: 10px 14px 10px 42px;
+  border-radius: 30px;
+  color: var(--text-white);
+  font-size: 0.9rem;
+  transition: var(--transition-fast);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.2);
+}
+
+.buddy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.buddy-feed-card {
+  padding: 24px;
+  border-radius: var(--border-radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform var(--transition-normal);
+}
+
+.buddy-feed-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 229, 255, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 229, 255, 0.05);
+}
+
+.buddy-card-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.buddy-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-neon), var(--accent-cyan));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #04080f;
+  font-size: 1.3rem;
+  font-weight: 800;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.35);
+}
+
+.buddy-main-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.buddy-card-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+.buddy-tags-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.buddy-card-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.buddy-card-tag.age {
+  background: rgba(0, 229, 255, 0.12);
+  color: var(--accent-cyan);
+}
+
+.buddy-card-tag.city {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-silver);
+}
+
+.buddy-card-details {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.buddy-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.detail-icon {
+  color: var(--accent-cyan);
+}
+
+.detail-label {
+  color: var(--text-muted);
+}
+
+.detail-value {
+  color: var(--text-white);
+  font-weight: 600;
+}
+
+.buddy-card-message {
+  font-size: 0.95rem;
+  color: var(--text-silver);
+  line-height: 1.55;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 12px;
+}
+
+.buddy-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.btn-buddy-contact {
+  background: rgba(0, 255, 136, 0.05);
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  color: var(--accent-neon);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-buddy-contact:hover,
+.btn-buddy-contact.active {
+  background: linear-gradient(135deg, var(--accent-neon) 0%, var(--accent-cyan) 100%);
+  color: #04080f;
+  border-color: transparent;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+}
+
+.revealed-contact-box {
+  width: 100%;
+  background: rgba(0, 255, 136, 0.02);
+  border: 1px dashed rgba(0, 255, 136, 0.25);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+}
+
+.revealed-contact-box strong {
+  color: var(--text-white);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.contact-value {
+  color: var(--accent-neon);
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.buddy-loading-state,
+.buddy-empty-card {
+  padding: 40px;
+  border-radius: var(--border-radius-lg);
+}
+
+.buddy-loading-state .spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(0, 229, 255, 0.1);
+  border-top-color: var(--accent-cyan);
+  border-radius: 50%;
+  margin: 0 auto 16px auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.empty-icon {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* RTL Layout Support */
+[dir="rtl"] .buddy-input {
+  padding: 12px 42px 12px 14px;
+}
+
+[dir="rtl"] .input-icon {
+  left: auto;
+  right: 14px;
+}
+
+[dir="rtl"] .search-input {
+  padding: 10px 14px 10px 42px;
+}
+
+[dir="rtl"] .search-icon {
+  left: auto;
+  right: 14px;
+}
+
+[dir="rtl"] .buddy-q-left {
+  text-align: right;
+}
+
+[dir="rtl"] .buddy-feed-header {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .search-box {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .buddy-card-top {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .buddy-tags-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .buddy-detail-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .buddy-card-footer {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .buddy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .buddy-title {
+    font-size: 2.2rem;
+  }
+  
+  .buddy-form-card,
+  .buddy-feed-card {
+    padding: 20px;
+  }
+
+  .form-group-row {
+    grid-template-columns: 1fr;
+  }
+
+  .buddy-feed-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    max-width: 100%;
+  }
+}

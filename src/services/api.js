@@ -83,3 +83,90 @@ export const deleteLead = async (token, id) => {
   
   return response.json();
 };
+
+export const submitBuddy = async (buddyData) => {
+  const response = await fetch(`${API_BASE_URL}/buddies`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(buddyData),
+  });
+  
+  if (!response.ok) {
+    throw new Error('Kunde inte skicka din profil.');
+  }
+  
+  return response.json();
+};
+
+export const fetchBuddies = async () => {
+  const response = await fetch(`${API_BASE_URL}/buddies`, {
+    method: 'GET',
+  });
+  
+  if (!response.ok) {
+    throw new Error('Kunde inte hämta träningskompisar.');
+  }
+  
+  return response.json();
+};
+
+export const fetchAdminBuddies = async (token) => {
+  const response = await fetch(`${API_BASE_URL}/buddies/admin-list`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  
+  if (!response.ok) {
+    throw new Error('Kunde inte hämta träningskompisar för admin.');
+  }
+  
+  return response.json();
+};
+
+export const updateBuddyStatus = async (token, id, status) => {
+  const response = await fetch(`${API_BASE_URL}/buddies/${id}/status`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status }),
+  });
+  
+  if (!response.ok) {
+    throw new Error('Kunde inte uppdatera status för träningskompis.');
+  }
+  
+  return response.json();
+};
+
+export const deleteBuddy = async (token, id) => {
+  const response = await fetch(`${API_BASE_URL}/buddies/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  
+  if (!response.ok) {
+    throw new Error('Kunde inte ta bort träningskompis.');
+  }
+  
+  return response.json();
+};
+
+export const verifyPayment = async (sessionId) => {
+  const response = await fetch(`${API_BASE_URL}/payment/verify?session_id=${sessionId}`, {
+    method: 'GET',
+  });
+  
+  if (!response.ok) {
+    throw new Error('Kunde inte verifiera betalningen.');
+  }
+  
+  return response.json();
+};

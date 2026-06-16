@@ -283,6 +283,111 @@ function Home() {
       {/* Ideal Client Persona Section */}
       <IdealClient isHomepage={true} />
 
+      {/* Testimonials (Trustpilot-style) Section */}
+      <section className="testimonials-section container" style={{ marginBottom: '80px', marginTop: '50px' }}>
+        <div className="section-header center">
+          <span className="subtitle">{t('trustpilotSubtitle')}</span>
+          <h2>{t('trustpilotTitle')}</h2>
+          
+          {/* Trustpilot Score Banner */}
+          <div className="trustpilot-score-banner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginTop: '16px', flexWrap: 'wrap' }}>
+            <span className="tp-brand" style={{ fontWeight: '800', fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Star fill="#00b67a" color="#00b67a" size={20} /> Trustpilot
+            </span>
+            <div className="tp-stars" style={{ display: 'flex', gap: '3px' }}>
+              {[1, 2, 3, 4, 5].map((s) => (
+                <div key={s} style={{ background: '#00b67a', padding: '3px', borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Star fill="#ffffff" color="#ffffff" size={12} />
+                </div>
+              ))}
+            </div>
+            <span style={{ color: 'var(--text-silver)', fontSize: '0.95rem' }}>
+              {t('trustpilotExcellent')} | {t('trustpilotBasedOn')}
+            </span>
+          </div>
+        </div>
+
+        <div className="testimonials-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginTop: '40px' }}>
+          {t('reviews') && Array.isArray(t('reviews')) && t('reviews').map((rev, idx) => (
+            <div key={idx} className="testimonial-card glass-panel" style={{ padding: '32px', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-dark)', display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative' }}>
+              <div className="review-stars-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div className="tp-stars" style={{ display: 'flex', gap: '3px' }}>
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <div key={s} style={{ background: '#00b67a', padding: '2px', borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Star fill="#ffffff" color="#ffffff" size={10} />
+                    </div>
+                  ))}
+                </div>
+                <span style={{ fontSize: '0.8rem', color: '#00b67a', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: '#00b67a' }}></span>
+                  {language === 'fa' ? 'مشتری تأیید شده' : language === 'en' ? 'Verified Client' : 'Verifierad klient'}
+                </span>
+              </div>
+              
+              <p style={{ color: 'var(--text-silver)', fontSize: '0.95rem', lineHeight: '1.6', flex: 1, fontStyle: 'italic' }}>
+                "{rev.text}"
+              </p>
+              
+              <div className="client-info" style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.06)', paddingTop: '16px', marginTop: 'auto' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--accent-neon), var(--accent-cyan))', color: '#04080f', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontFamily: 'var(--font-heading)' }}>
+                  {rev.name[0]}
+                </div>
+                <div>
+                  <h4 style={{ fontSize: '1rem', color: 'var(--text-white)', fontWeight: '600', margin: 0 }}>{rev.name}</h4>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    {language === 'fa' ? 'برنامه مربیگری اختصاصی' : language === 'en' ? 'Tailored Coaching Program' : 'Skräddarsytt coachingprogram'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Before & After Results Section */}
+      <section className="results-section container" style={{ marginBottom: '80px', marginTop: '50px' }}>
+        <div className="section-header center">
+          <span className="subtitle">{t('resultsSubtitle')}</span>
+          <h2>{t('resultsTitle')}</h2>
+          <p style={{ color: 'var(--text-silver)', fontSize: '1.05rem', marginTop: '10px', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
+            {t('resultsIntro')}
+          </p>
+        </div>
+
+        <div className="results-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px', marginTop: '40px' }}>
+          {/* Male result */}
+          <div className="result-img-card glass-panel" style={{ padding: '20px', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-dark)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="result-img-wrapper" style={{ width: '100%', aspectRatio: '1.2', borderRadius: 'var(--border-radius-md)', overflow: 'hidden', border: '1px solid var(--border-glass)' }}>
+              <img 
+                src="/transformation_male.png" 
+                alt="Viktnedgång & Styrka" 
+                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform var(--transition-normal)' }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              />
+            </div>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', fontWeight: '700', textAlign: 'center', margin: 0 }}>
+              {t('resultsMale')}
+            </h3>
+          </div>
+
+          {/* Female result */}
+          <div className="result-img-card glass-panel" style={{ padding: '20px', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-dark)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="result-img-wrapper" style={{ width: '100%', aspectRatio: '1.2', borderRadius: 'var(--border-radius-md)', overflow: 'hidden', border: '1px solid var(--border-glass)' }}>
+              <img 
+                src="/transformation_female.png" 
+                alt="Fettförbränning & Livsstil" 
+                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform var(--transition-normal)' }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              />
+            </div>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', fontWeight: '700', textAlign: 'center', margin: 0 }}>
+              {t('resultsFemale')}
+            </h3>
+          </div>
+        </div>
+      </section>
 
       {/* Samarbetspartners Section */}
       <section className="partners-section container" style={{ marginBottom: '80px', marginTop: '50px' }}>

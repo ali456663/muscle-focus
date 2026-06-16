@@ -1,0 +1,82 @@
+.payment-cancel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  padding: 40px 20px;
+}
+
+.payment-cancel-card {
+  width: 100%;
+  max-width: 550px;
+  padding: 48px 40px;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-glass);
+  text-align: center;
+  box-shadow: var(--shadow-dark), 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.cancel-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 24px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(255, 170, 0, 0.15) 0%, rgba(255, 59, 48, 0.15) 100%);
+  border: 2px solid var(--accent-gold);
+  color: var(--accent-gold);
+  box-shadow: 0 0 20px rgba(255, 170, 0, 0.25);
+  animation: icon-pop-cancel 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes icon-pop-cancel {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.payment-cancel-card h2 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  font-family: var(--font-heading);
+  background: linear-gradient(135deg, var(--text-white) 40%, var(--accent-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+}
+
+.cancel-message {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-silver);
+  margin-bottom: 32px;
+}
+
+.cancel-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.cancel-actions .btn-primary {
+  min-width: 240px;
+  justify-content: center;
+}
+
+.rtl-align .payment-cancel-card {
+  text-align: right;
+}
+
+.rtl-align .cancel-message {
+  text-align: right;
+}
+
+@media (max-width: 576px) {
+  .payment-cancel-card {
+    padding: 32px 24px;
+  }
+  
+  .payment-cancel-card h2 {
+    font-size: 1.6rem;
+  }
+}
