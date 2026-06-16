@@ -16,10 +16,10 @@
   --accent-gold: #ffaa00;     /* Vibrant Gold */
   --accent-red: #ff3b30;      /* Vibrant Red */
   
-  --text-white: #ffffff;      /* Primary text color (white) */
-  --text-silver: #e2e8f0;     /* Body text color (light gray) */
-  --text-muted: #94a3b8;      /* Muted slate text */
-  --text-dark: #475569;       /* Dark slate border/muted text */
+  --text-white: #eaffed;      /* Primary text color (light green-white) */
+  --text-silver: #bbfccb;     /* Body text color (bright mint green) */
+  --text-muted: #6fe096;      /* Muted slate text (softer mint green) */
+  --text-dark: #2b7a4a;       /* Dark slate border/muted text (dark green-slate) */
 
   --border-glass: rgba(255, 255, 255, 0.08);
   --border-neon: rgba(0, 255, 136, 0.2);
