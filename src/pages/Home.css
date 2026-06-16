@@ -30,7 +30,7 @@
 
 .hero-text {
   font-size: 1.15rem;
-  color: var(--text-muted);
+  color: var(--accent-neon);
   max-width: 580px;
   line-height: 1.7;
 }
