@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { Check, ShieldAlert, Sparkles, Loader2 } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
+import { usePageTitle } from '../hooks/usePageTitle'
 import { verifyPayment } from '../services/api'
 import './PaymentSuccess.css'
 
@@ -9,7 +10,8 @@ function PaymentSuccess() {
   const [searchParams] = useSearchParams()
   const sessionId = searchParams.get('session_id')
   const { t, language } = useLanguage()
-  const [status, setStatus] = useState('loading') // 'loading', 'success', 'error'
+  const [status, setStatus] = useState('loading')
+  usePageTitle('paymentSuccess') // 'loading', 'success', 'error'
   const [details, setDetails] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
 

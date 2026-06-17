@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Award, ShieldCheck, Check, Sparkles } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
+import { usePageTitle } from '../hooks/usePageTitle'
 import './Certificates.css'
 
 function Certificates() {
   const { t, language } = useLanguage()
   const certList = t('certList') || []
   const [activeCert, setActiveCert] = useState(null)
+  usePageTitle('licenses')
 
   return (
     <div className={`certificates-page container ${language === 'fa' ? 'rtl-align' : ''}`}>

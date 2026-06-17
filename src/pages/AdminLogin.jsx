@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loginAdmin } from '../services/api'
 import { Lock, User, AlertCircle, Dumbbell } from 'lucide-react'
+import { usePageTitle } from '../hooks/usePageTitle'
 import './AdminLogin.css'
 
 function AdminLogin() {
@@ -10,6 +11,7 @@ function AdminLogin() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  usePageTitle('admin')
 
   useEffect(() => {
     // If already logged in, redirect straight to dashboard

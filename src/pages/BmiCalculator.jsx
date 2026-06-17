@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
+import { usePageTitle } from '../hooks/usePageTitle'
+import { useSchemaOrg } from '../hooks/useSchemaOrg'
 import { Star, RotateCcw, AlertCircle, Info, Heart, ArrowRight, HelpCircle, ChevronDown, MessageSquare } from 'lucide-react'
 import './BmiCalculator.css'
 
@@ -119,6 +121,9 @@ const faqExtraData = {
 
 function BmiCalculator() {
   const { t, language } = useLanguage()
+  usePageTitle('bmi')
+  const faqList = t('faqList') || []
+  useSchemaOrg('faqPage', faqList)
   const [weight, setWeight] = useState('')
   const [height, setHeight] = useState('')
   const [isCalculating, setIsCalculating] = useState(false)

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { fetchLeads, updateLeadStatus, deleteLead, fetchAdminBuddies, deleteBuddy } from '../services/api'
 import { LogOut, Trash2, CheckCircle, PhoneCall, Archive, Clock, RefreshCw, AlertCircle, Users, Dumbbell } from 'lucide-react'
+import { usePageTitle } from '../hooks/usePageTitle'
 import './AdminDashboard.css'
 
 function AdminDashboard() {
@@ -13,6 +14,7 @@ function AdminDashboard() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const token = localStorage.getItem('admin_token')
+  usePageTitle('admin')
   const adminUser = localStorage.getItem('admin_user')
 
   useEffect(() => {

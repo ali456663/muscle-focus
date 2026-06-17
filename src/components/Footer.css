@@ -116,16 +116,16 @@
 
 /* Footer Bottom Bar */
 .footer-bottom {
-  border-top: 1px solid #ffe600;
+  border-top: 1px solid rgba(0, 229, 255, 0.15);
   padding: 24px 0;
-  background-color: #ffe600;
-  color: #04080f;
+  background: linear-gradient(135deg, #0a1629 0%, #0d1b2a 100%);
+  color: var(--text-silver);
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .footer-bottom p {
-  color: #04080f;
+  color: var(--text-muted);
 }
 
 .footer-bottom-container {
@@ -137,7 +137,18 @@
 }
 
 .author-credit {
-  color: rgba(4, 8, 15, 0.8);
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.footer-bottom a {
+  color: var(--accent-cyan);
+  transition: var(--transition-fast);
+}
+
+.footer-bottom a:hover {
+  color: var(--accent-neon);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
 }
 
 /* Responsiveness */

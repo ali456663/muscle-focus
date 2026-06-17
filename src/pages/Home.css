@@ -1,17 +1,17 @@
 /* Hero Section */
 .hero-section {
-  padding: 80px 0;
+  padding: 120px 0;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at 80% 20%, rgba(0, 229, 255, 0.08), transparent 50%),
-              radial-gradient(circle at 10% 80%, rgba(0, 255, 136, 0.05), transparent 50%);
+  background: radial-gradient(circle at 80% 20%, rgba(115, 121, 93, 0.12), transparent 50%),
+              radial-gradient(circle at 10% 80%, rgba(61, 79, 90, 0.1), transparent 50%);
 }
 
 .hero-container {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   align-items: center;
-  gap: 60px;
+  gap: 80px;
 }
 
 .hero-content {
@@ -137,13 +137,14 @@
 
 /* About Section */
 .about-section {
-  padding: 100px 0;
+  padding: 120px 0;
+  background-color: #151412;
 }
 
 .about-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  gap: 60px;
+  gap: 80px;
   align-items: start;
 }
 
@@ -227,10 +228,10 @@
 
 /* Compare Section (PT vs Self) */
 .compare-section {
-  padding: 100px 0;
-  background-color: rgba(15, 23, 42, 0.02);
-  border-top: 1px solid var(--border-glass);
-  border-bottom: 1px solid var(--border-glass);
+  padding: 120px 0;
+  background-color: #151412;
+  border-top: 1px solid rgba(226, 222, 206, 0.06);
+  border-bottom: 1px solid rgba(226, 222, 206, 0.06);
 }
 
 .compare-grid {
@@ -307,7 +308,10 @@
 
 /* Benefits Section */
 .benefits-section {
-  padding: 100px 0;
+  padding: 120px 0;
+  background-color: #23211d;
+  border-top: 1px solid rgba(226, 222, 206, 0.06);
+  border-bottom: 1px solid rgba(226, 222, 206, 0.06);
 }
 
 .benefits-grid {
@@ -360,7 +364,10 @@
 
 /* Certifications Section */
 .cert-section {
-  padding: 100px 0;
+  padding: 120px 0;
+  background-color: #151412;
+  border-top: 1px solid rgba(226, 222, 206, 0.06);
+  border-bottom: 1px solid rgba(226, 222, 206, 0.06);
 }
 
 .cert-grid {
@@ -414,9 +421,11 @@
   line-height: 1.5;
 }
 
-/* CTA Section */
 .cta-section {
-  padding: 80px 0 120px 0;
+  padding: 120px 0;
+  background-color: #23211d;
+  border-top: 1px solid rgba(226, 222, 206, 0.06);
+  border-bottom: 1px solid rgba(226, 222, 206, 0.06);
 }
 
 .cta-box {
@@ -654,7 +663,10 @@
 
 /* Samarbetspartners Section */
 .partners-section {
-  padding: 60px 0;
+  padding: 120px 0;
+  background-color: #151412;
+  border-top: 1px solid rgba(226, 222, 206, 0.06);
+  border-bottom: 1px solid rgba(226, 222, 206, 0.06);
 }
 
 .partners-grid {
@@ -736,4 +748,49 @@
 
 .partner-card:hover .partner-btn {
   color: var(--accent-neon);
+}
+
+/* Redesigned Section Spacing & Alternating Themes */
+.why-choose-me-section,
+.why-strength-section,
+.ideal-client-section,
+.testimonials-section,
+.results-section {
+  padding: 120px 0;
+}
+
+.why-choose-me-section {
+  background-color: #23211d;
+  border-top: 1px solid rgba(226, 222, 206, 0.06);
+  border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+}
+
+.why-strength-section {
+  background-color: #151412;
+}
+
+.ideal-client-section {
+  background-color: #23211d;
+  border-top: 1px solid rgba(226, 222, 206, 0.06);
+  border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+}
+
+.testimonials-section {
+  background-color: #151412;
+}
+
+.results-section {
+  background-color: #23211d;
+  border-top: 1px solid rgba(226, 222, 206, 0.06);
+  border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+}
+
+@media (max-width: 768px) {
+  .why-choose-me-section,
+  .why-strength-section,
+  .ideal-client-section,
+  .testimonials-section,
+  .results-section {
+    padding: 80px 0;
+  }
 }

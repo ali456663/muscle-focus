@@ -2,12 +2,16 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ShieldCheck, Zap, Heart, Award, CheckCircle, Flame, Star, Activity, ExternalLink } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
+import { usePageTitle } from '../hooks/usePageTitle'
+import { useSchemaOrg } from '../hooks/useSchemaOrg'
 import IdealClient from './IdealClient'
 import WhyStrength from './WhyStrength'
 import './Home.css'
 
 function Home() {
   const { t, language } = useLanguage()
+  usePageTitle('home')
+  useSchemaOrg(['localBusiness', 'person', 'service'])
 
   return (
     <div className={`home-page ${language === 'fa' ? 'rtl-align' : ''}`}>
@@ -16,8 +20,8 @@ function Home() {
         <div className="hero-container container">
           <div className="hero-content">
             <span className="hero-tagline badge-campaign">{t('heroTagline')}</span>
-            <h1 className="hero-title" style={{ fontSize: '2.8rem', lineHeight: '1.2' }}>
-              {t('heroWelcome')}<span className="text-gradient-neon">{t('heroTitle')}</span>
+            <h1 className="hero-title text-gradient-neon">
+              {t('heroWelcome')}<span>{t('heroTitle')}</span>
             </h1>
             <p className="hero-text">
               {t('heroText')}
@@ -29,7 +33,7 @@ function Home() {
           </div>
           <div className="hero-visual">
             <div className="visual-glow"></div>
-            <img src="/hero_fitness.png" alt="Träning i gym" className="hero-img" />
+            <img src="/hero_fitness.png" alt="Träning i gym" className="hero-img" loading="lazy" />
             <div className="visual-card glass-panel hero-floating-card">
               <div className="visual-header">
                 <Flame className="visual-icon" />
@@ -55,22 +59,24 @@ function Home() {
       </section>
 
       {/* Health Step Section */}
-      <section className="health-step-section container">
-        <div className="glass-panel health-box-container" style={{ padding: '40px', borderRadius: 'var(--border-radius-lg)', border: '1px solid var(--border-glass)', boxShadow: 'var(--shadow-cyan)', marginBottom: '50px' }}>
-          <div className="health-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <h2 style={{ fontSize: '2rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)' }}>{t('healthTitle')}</h2>
-            <p className="health-p" style={{ color: 'var(--text-silver)', fontSize: '1.05rem', lineHeight: '1.7' }}>
-              {t('healthText')}
-            </p>
-            <div className="health-details-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px', marginTop: '10px' }}>
-              <div className="health-detail-item" style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>
-                <strong style={{ color: 'var(--text-white)' }}>{t('healthOnlinePlats').split(':')[0]}:</strong> {t('healthOnlinePlats').split(':')[1]}
-              </div>
-              <div className="health-detail-item" style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>
-                <strong style={{ color: 'var(--text-white)' }}>{t('healthLanguage').split(':')[0]}:</strong> {t('healthLanguage').split(':')[1]}
-              </div>
-              <div className="health-detail-item" style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>
-                <strong style={{ color: 'var(--text-white)' }}>{t('healthContact').split(':')[0]}:</strong> {t('healthContact').split(':')[1]}
+      <section className="health-step-section">
+        <div className="container">
+          <div className="glass-panel health-box-container" style={{ padding: '40px', borderRadius: 'var(--border-radius-lg)', border: '1px solid var(--border-glass)', boxShadow: 'var(--shadow-cyan)', marginBottom: '50px' }}>
+            <div className="health-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <h2 style={{ fontSize: '2rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)' }}>{t('healthTitle')}</h2>
+              <p className="health-p" style={{ color: 'var(--text-silver)', fontSize: '1.05rem', lineHeight: '1.7' }}>
+                {t('healthText')}
+              </p>
+              <div className="health-details-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px', marginTop: '10px' }}>
+                <div className="health-detail-item" style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>
+                  <strong style={{ color: 'var(--text-white)' }}>{t('healthOnlinePlats').split(':')[0]}:</strong> {t('healthOnlinePlats').split(':')[1]}
+                </div>
+                <div className="health-detail-item" style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>
+                  <strong style={{ color: 'var(--text-white)' }}>{t('healthLanguage').split(':')[0]}:</strong> {t('healthLanguage').split(':')[1]}
+                </div>
+                <div className="health-detail-item" style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>
+                  <strong style={{ color: 'var(--text-white)' }}>{t('healthContact').split(':')[0]}:</strong> {t('healthContact').split(':')[1]}
+                </div>
               </div>
             </div>
           </div>
@@ -78,59 +84,61 @@ function Home() {
       </section>
 
       {/* About Section */}
-      <section className="about-section container">
-        <div className="section-header">
-          <span className="subtitle">{t('aboutSubtitle')}</span>
-          <h2>{t('aboutTitle')}</h2>
-        </div>
-        <div className="about-grid">
-          <div className="about-text-content">
-            <h3 className="about-greeting">{t('aboutGreeting')}</h3>
-            <p className="about-desc">
-              {t('aboutDesc1')}
-            </p>
-            <p className="about-desc">
-              {t('aboutDesc2')}
-            </p>
-            
-            <div className="focus-list">
-              <div className="focus-item">
-                <CheckCircle className="focus-icon" />
-                <div>
-                  <h4>{t('whyCommitment')}</h4>
-                  <p>{t('whyCommitmentText')}</p>
-                </div>
-              </div>
-              <div className="focus-item">
-                <CheckCircle className="focus-icon" />
-                <div>
-                  <h4>{t('whyExpertise')}</h4>
-                  <p>{t('whyExpertiseText')}</p>
-                </div>
-              </div>
-              <div className="focus-item">
-                <CheckCircle className="focus-icon" />
-                <div>
-                  <h4>{t('supportMotivation')}</h4>
-                  <p>{t('supportMotivationText')}</p>
-                </div>
-              </div>
-            </div>
+      <section className="about-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="subtitle">{t('aboutSubtitle')}</span>
+            <h2>{t('aboutTitle')}</h2>
           </div>
-
-          <div className="about-visual">
-            <div className="profile-img-wrapper glass-panel">
-              <img src="/ali_profile.png" alt="Lic. PT Ali Wafa" className="profile-img" />
+          <div className="about-grid">
+            <div className="about-text-content">
+              <h3 className="about-greeting">{t('aboutGreeting')}</h3>
+              <p className="about-desc">
+                {t('aboutDesc1')}
+              </p>
+              <p className="about-desc">
+                {t('aboutDesc2')}
+              </p>
+              
+              <div className="focus-list">
+                <div className="focus-item">
+                  <CheckCircle className="focus-icon" />
+                  <div>
+                    <h4>{t('whyCommitment')}</h4>
+                    <p>{t('whyCommitmentText')}</p>
+                  </div>
+                </div>
+                <div className="focus-item">
+                  <CheckCircle className="focus-icon" />
+                  <div>
+                    <h4>{t('whyExpertise')}</h4>
+                    <p>{t('whyExpertiseText')}</p>
+                  </div>
+                </div>
+                <div className="focus-item">
+                  <CheckCircle className="focus-icon" />
+                  <div>
+                    <h4>{t('supportMotivation')}</h4>
+                    <p>{t('supportMotivationText')}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="about-features glass-panel">
-              <div className="loyalty-box">
-                <span className="loyalty-badge">{t('loyaltyBadge')}</span>
-                <h4>{t('loyaltyTitle')}</h4>
-                <p>{t('loyaltyText1')}</p>
-                <p><strong>{t('loyaltyText2')}</strong></p>
-                <p className="loyalty-note" style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '10px' }}>
-                  <em>{t('loyaltyNote')}</em>
-                </p>
+
+            <div className="about-visual">
+              <div className="profile-img-wrapper glass-panel">
+                <img src="/ali_profile.png" alt="Lic. PT Ali Wafa" className="profile-img" loading="lazy" />
+              </div>
+              <div className="about-features glass-panel">
+                <div className="loyalty-box">
+                  <span className="loyalty-badge">{t('loyaltyBadge')}</span>
+                  <h4>{t('loyaltyTitle')}</h4>
+                  <p>{t('loyaltyText1')}</p>
+                  <p><strong>{t('loyaltyText2')}</strong></p>
+                  <p className="loyalty-note" style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '10px' }}>
+                    <em>{t('loyaltyNote')}</em>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -138,48 +146,51 @@ function Home() {
       </section>
 
       {/* Why Choose Me Section */}
-      <section className="why-choose-me-section container" style={{ marginBottom: '80px', marginTop: '50px' }}>
-        <div className="section-header">
-          <span className="subtitle">{t('whySubtitle')}</span>
-          <h2>{t('whyTitle')}</h2>
-        </div>
-        <div className="why-grid">
-          <div className="why-text-content">
-            <div className="why-item-list" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div className="why-item">
-                <strong style={{ color: 'var(--accent-cyan)', display: 'block', fontSize: '1.15rem', marginBottom: '4px' }}>{t('whyCommitment')}</strong>
-                <p style={{ color: 'var(--text-muted)' }}>{t('whyCommitmentText')}</p>
+      <section className="why-choose-me-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="subtitle">{t('whySubtitle')}</span>
+            <h2>{t('whyTitle')}</h2>
+          </div>
+          <div className="why-grid">
+            <div className="why-text-content">
+              <div className="why-item-list" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div className="why-item">
+                  <strong style={{ color: 'var(--accent-cyan)', display: 'block', fontSize: '1.15rem', marginBottom: '4px' }}>{t('whyCommitment')}</strong>
+                  <p style={{ color: 'var(--text-muted)' }}>{t('whyCommitmentText')}</p>
+                </div>
+                <div className="why-item">
+                  <strong style={{ color: 'var(--accent-cyan)', display: 'block', fontSize: '1.15rem', marginBottom: '4px' }}>{t('whyExpertise')}</strong>
+                  <p style={{ color: 'var(--text-muted)' }}>{t('whyExpertiseText')}</p>
+                </div>
+                <div className="why-item">
+                  <strong style={{ color: 'var(--accent-cyan)', display: 'block', fontSize: '1.15rem', marginBottom: '4px' }}>{t('whyResults')}</strong>
+                  <p style={{ color: 'var(--text-muted)' }}>{t('whyResultsText')}</p>
+                </div>
+                <div className="why-item">
+                  <strong style={{ color: 'var(--accent-cyan)', display: 'block', fontSize: '1.15rem', marginBottom: '4px' }}>{t('whyFlexibility')}</strong>
+                  <p style={{ color: 'var(--text-muted)' }}>{t('whyFlexibilityText')}</p>
+                </div>
               </div>
-              <div className="why-item">
-                <strong style={{ color: 'var(--accent-cyan)', display: 'block', fontSize: '1.15rem', marginBottom: '4px' }}>{t('whyExpertise')}</strong>
-                <p style={{ color: 'var(--text-muted)' }}>{t('whyExpertiseText')}</p>
-              </div>
-              <div className="why-item">
-                <strong style={{ color: 'var(--accent-cyan)', display: 'block', fontSize: '1.15rem', marginBottom: '4px' }}>{t('whyResults')}</strong>
-                <p style={{ color: 'var(--text-muted)' }}>{t('whyResultsText')}</p>
-              </div>
-              <div className="why-item">
-                <strong style={{ color: 'var(--accent-cyan)', display: 'block', fontSize: '1.15rem', marginBottom: '4px' }}>{t('whyFlexibility')}</strong>
-                <p style={{ color: 'var(--text-muted)' }}>{t('whyFlexibilityText')}</p>
+              
+              <div className="why-extra-note" style={{ marginTop: '30px', padding: '20px', background: 'rgba(255, 255, 255, 0.01)', borderRadius: 'var(--border-radius-md)', borderLeft: language === 'fa' ? 'none' : '3px solid var(--accent-neon)', borderRight: language === 'fa' ? '3px solid var(--accent-neon)' : 'none', borderTop: '1px solid var(--border-glass)', borderLeftColor: language === 'fa' ? 'var(--border-glass)' : 'var(--accent-neon)', borderRightColor: language === 'fa' ? 'var(--accent-neon)' : 'var(--border-glass)', borderBottom: '1px solid var(--border-glass)' }}>
+                <p style={{ color: 'var(--text-silver)', fontWeight: '600', marginBottom: '8px' }}>
+                  {t('whyLanguageText')}
+                </p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+                  {t('whyTailoredText')}
+                </p>
               </div>
             </div>
             
-            <div className="why-extra-note" style={{ marginTop: '30px', padding: '20px', background: 'rgba(255, 255, 255, 0.01)', borderRadius: 'var(--border-radius-md)', borderLeft: language === 'fa' ? 'none' : '3px solid var(--accent-neon)', borderRight: language === 'fa' ? '3px solid var(--accent-neon)' : 'none', borderTop: '1px solid var(--border-glass)', borderLeftColor: language === 'fa' ? 'var(--border-glass)' : 'var(--accent-neon)', borderRightColor: language === 'fa' ? 'var(--accent-neon)' : 'var(--border-glass)', borderBottom: '1px solid var(--border-glass)' }}>
-              <p style={{ color: 'var(--text-silver)', fontWeight: '600', marginBottom: '8px' }}>
-                {t('whyLanguageText')}
-              </p>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-                {t('whyTailoredText')}
-              </p>
+            <div className="why-video-wrapper glass-panel" style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', borderRadius: 'var(--border-radius-lg)', border: '1px solid var(--border-glass)', boxShadow: 'var(--shadow-cyan)' }}>
+              <img 
+                src="/why_choose_me.png" 
+                alt="Varför välja mig" 
+                loading="lazy"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+              />
             </div>
-          </div>
-          
-          <div className="why-video-wrapper glass-panel" style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', borderRadius: 'var(--border-radius-lg)', border: '1px solid var(--border-glass)', boxShadow: 'var(--shadow-cyan)' }}>
-            <img 
-              src="/why_choose_me.png" 
-              alt="Varför välja mig" 
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-            />
           </div>
         </div>
       </section>
@@ -227,49 +238,51 @@ function Home() {
       </section>
 
       {/* Benefits Section */}
-      <section className="benefits-section container">
-        <div className="section-header">
-          <span className="subtitle">{t('benefitsSubtitle')}</span>
-          <h2>{t('benefitsTitle')}</h2>
-        </div>
-        <div className="benefits-grid">
-          <div className="benefit-card glass-panel">
-            <Activity className="benefit-icon" />
-            <h3>{t('benefitsFysiskTitle')}</h3>
-            <ul>
-              {t('benefitsFysiskFeatures').map((feat, idx) => {
-                const parts = feat.split(':')
-                return (
-                  <li key={idx}>
-                    <strong>{parts[0]}:</strong>
-                    <span>{parts.slice(1).join(':')}</span>
-                  </li>
-                )
-              })}
-            </ul>
+      <section className="benefits-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="subtitle">{t('benefitsSubtitle')}</span>
+            <h2>{t('benefitsTitle')}</h2>
           </div>
-          
-          <div className="benefit-card glass-panel">
-            <Heart className="benefit-icon" />
-            <h3>{t('benefitsMentalTitle')}</h3>
-            <ul>
-              {t('benefitsMentalFeatures').map((feat, idx) => {
-                const parts = feat.split(':')
-                return (
-                  <li key={idx}>
-                    <strong>{parts[0]}:</strong>
-                    <span>{parts.slice(1).join(':')}</span>
-                  </li>
-                )
-              })}
-            </ul>
+          <div className="benefits-grid">
+            <div className="benefit-card glass-panel">
+              <Activity className="benefit-icon" />
+              <h3>{t('benefitsFysiskTitle')}</h3>
+              <ul>
+                {t('benefitsFysiskFeatures').map((feat, idx) => {
+                  const parts = feat.split(':')
+                  return (
+                    <li key={idx}>
+                      <strong>{parts[0]}:</strong>
+                      <span>{parts.slice(1).join(':')}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+            
+            <div className="benefit-card glass-panel">
+              <Heart className="benefit-icon" />
+              <h3>{t('benefitsMentalTitle')}</h3>
+              <ul>
+                {t('benefitsMentalFeatures').map((feat, idx) => {
+                  const parts = feat.split(':')
+                  return (
+                    <li key={idx}>
+                      <strong>{parts[0]}:</strong>
+                      <span>{parts.slice(1).join(':')}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
           </div>
-        </div>
 
-        <div className="benefits-action-row" style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
-          <Link to="/varfor-styrketrana" className="btn-secondary">
-            {language === 'fa' ? 'اطلاعات بیشتر درباره فواید تمرین' : language === 'en' ? 'Learn more about the benefits' : 'Läs mer om alla fördelar'}
-          </Link>
+          <div className="benefits-action-row" style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
+            <Link to="/varfor-styrketrana" className="btn-secondary">
+              {language === 'fa' ? 'اطلاعات بیشتر درباره فواید تمرین' : language === 'en' ? 'Learn more about the benefits' : 'Läs mer om alla fördelar'}
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -280,183 +293,193 @@ function Home() {
       <IdealClient isHomepage={true} />
 
       {/* Testimonials (Trustpilot-style) Section */}
-      <section className="testimonials-section container" style={{ marginBottom: '80px', marginTop: '50px' }}>
-        <div className="section-header center">
-          <span className="subtitle">{t('trustpilotSubtitle')}</span>
-          <h2>{t('trustpilotTitle')}</h2>
-          
-          {/* Trustpilot Score Banner */}
-          <div className="trustpilot-score-banner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginTop: '16px', flexWrap: 'wrap' }}>
-            <span className="tp-brand" style={{ fontWeight: '800', fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Star fill="#00b67a" color="#00b67a" size={20} /> Trustpilot
-            </span>
-            <div className="tp-stars" style={{ display: 'flex', gap: '3px' }}>
-              {[1, 2, 3, 4, 5].map((s) => (
-                <div key={s} style={{ background: '#00b67a', padding: '3px', borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Star fill="#ffffff" color="#ffffff" size={12} />
-                </div>
-              ))}
-            </div>
-            <span style={{ color: 'var(--text-silver)', fontSize: '0.95rem' }}>
-              {t('trustpilotExcellent')} | {t('trustpilotBasedOn')}
-            </span>
-          </div>
-        </div>
-
-        <div className="testimonials-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginTop: '40px' }}>
-          {t('reviews') && Array.isArray(t('reviews')) && t('reviews').map((rev, idx) => (
-            <div key={idx} className="testimonial-card glass-panel" style={{ padding: '32px', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-dark)', display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative' }}>
-              <div className="review-stars-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div className="tp-stars" style={{ display: 'flex', gap: '3px' }}>
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <div key={s} style={{ background: '#00b67a', padding: '2px', borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Star fill="#ffffff" color="#ffffff" size={10} />
-                    </div>
-                  ))}
-                </div>
-                <span style={{ fontSize: '0.8rem', color: '#00b67a', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: '#00b67a' }}></span>
-                  {language === 'fa' ? 'مشتری تأیید شده' : language === 'en' ? 'Verified Client' : 'Verifierad klient'}
-                </span>
+      <section className="testimonials-section">
+        <div className="container">
+          <div className="section-header center">
+            <span className="subtitle">{t('trustpilotSubtitle')}</span>
+            <h2>{t('trustpilotTitle')}</h2>
+            
+            {/* Trustpilot Score Banner */}
+            <div className="trustpilot-score-banner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginTop: '16px', flexWrap: 'wrap' }}>
+              <span className="tp-brand" style={{ fontWeight: '800', fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Star fill="#00b67a" color="#00b67a" size={20} /> Trustpilot
+              </span>
+              <div className="tp-stars" style={{ display: 'flex', gap: '3px' }}>
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <div key={s} style={{ background: '#00b67a', padding: '3px', borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Star fill="#ffffff" color="#ffffff" size={12} />
+                  </div>
+                ))}
               </div>
-              
-              <p style={{ color: 'var(--text-silver)', fontSize: '0.95rem', lineHeight: '1.6', flex: 1, fontStyle: 'italic' }}>
-                "{rev.text}"
-              </p>
-              
-              <div className="client-info" style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.06)', paddingTop: '16px', marginTop: 'auto' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--accent-neon), var(--accent-cyan))', color: '#04080f', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontFamily: 'var(--font-heading)' }}>
-                  {rev.name[0]}
-                </div>
-                <div>
-                  <h4 style={{ fontSize: '1rem', color: 'var(--text-white)', fontWeight: '600', margin: 0 }}>{rev.name}</h4>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    {language === 'fa' ? 'برنامه مربیگری اختصاصی' : language === 'en' ? 'Tailored Coaching Program' : 'Skräddarsytt coachingprogram'}
+              <span style={{ color: 'var(--text-silver)', fontSize: '0.95rem' }}>
+                {t('trustpilotExcellent')} | {t('trustpilotBasedOn')}
+              </span>
+            </div>
+          </div>
+
+          <div className="testimonials-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginTop: '40px' }}>
+            {t('reviews') && Array.isArray(t('reviews')) && t('reviews').map((rev, idx) => (
+              <div key={idx} className="testimonial-card glass-panel" style={{ padding: '32px', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-dark)', display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative' }}>
+                <div className="review-stars-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div className="tp-stars" style={{ display: 'flex', gap: '3px' }}>
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <div key={s} style={{ background: '#00b67a', padding: '2px', borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Star fill="#ffffff" color="#ffffff" size={10} />
+                      </div>
+                    ))}
+                  </div>
+                  <span style={{ fontSize: '0.8rem', color: '#00b67a', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: '#00b67a' }}></span>
+                    {language === 'fa' ? 'مشتری تأیید شده' : language === 'en' ? 'Verified Client' : 'Verifierad klient'}
                   </span>
                 </div>
+                
+                <p style={{ color: 'var(--text-silver)', fontSize: '0.95rem', lineHeight: '1.6', flex: 1, fontStyle: 'italic' }}>
+                  "{rev.text}"
+                </p>
+                
+                <div className="client-info" style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.06)', paddingTop: '16px', marginTop: 'auto' }}>
+                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--accent-neon), var(--accent-cyan))', color: '#04080f', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontFamily: 'var(--font-heading)' }}>
+                    {rev.name[0]}
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '1rem', color: 'var(--text-white)', fontWeight: '600', margin: 0 }}>{rev.name}</h4>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                      {language === 'fa' ? 'برنامه مربیگری اختصاصی' : language === 'en' ? 'Tailored Coaching Program' : 'Skräddarsytt coachingprogram'}
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Before & After Results Section */}
-      <section className="results-section container" style={{ marginBottom: '80px', marginTop: '50px' }}>
-        <div className="section-header center">
-          <span className="subtitle">{t('resultsSubtitle')}</span>
-          <h2>{t('resultsTitle')}</h2>
-          <p style={{ color: 'var(--text-silver)', fontSize: '1.05rem', marginTop: '10px', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
-            {t('resultsIntro')}
-          </p>
-        </div>
-
-        <div className="results-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px', marginTop: '40px' }}>
-          {/* Male result */}
-          <div className="result-img-card glass-panel" style={{ padding: '20px', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-dark)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div className="result-img-wrapper" style={{ width: '100%', aspectRatio: '1.2', borderRadius: 'var(--border-radius-md)', overflow: 'hidden', border: '1px solid var(--border-glass)' }}>
-              <img 
-                src="/transformation_male.png" 
-                alt="Viktnedgång & Styrka" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform var(--transition-normal)' }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              />
-            </div>
-            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', fontWeight: '700', textAlign: 'center', margin: 0 }}>
-              {t('resultsMale')}
-            </h3>
+      <section className="results-section">
+        <div className="container">
+          <div className="section-header center">
+            <span className="subtitle">{t('resultsSubtitle')}</span>
+            <h2>{t('resultsTitle')}</h2>
+            <p style={{ color: 'var(--text-silver)', fontSize: '1.05rem', marginTop: '10px', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
+              {t('resultsIntro')}
+            </p>
           </div>
 
-          {/* Female result */}
-          <div className="result-img-card glass-panel" style={{ padding: '20px', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-dark)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div className="result-img-wrapper" style={{ width: '100%', aspectRatio: '1.2', borderRadius: 'var(--border-radius-md)', overflow: 'hidden', border: '1px solid var(--border-glass)' }}>
-              <img 
-                src="/transformation_female.png" 
-                alt="Fettförbränning & Livsstil" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform var(--transition-normal)' }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              />
+          <div className="results-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px', marginTop: '40px' }}>
+            {/* Male result */}
+            <div className="result-img-card glass-panel" style={{ padding: '20px', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-dark)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="result-img-wrapper" style={{ width: '100%', aspectRatio: '1.2', borderRadius: 'var(--border-radius-md)', overflow: 'hidden', border: '1px solid var(--border-glass)' }}>
+                <img 
+                  src="/transformation_male.png" 
+                  alt="Viktnedgång & Styrka" 
+                  loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform var(--transition-normal)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                />
+              </div>
+              <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', fontWeight: '700', textAlign: 'center', margin: 0 }}>
+                {t('resultsMale')}
+              </h3>
             </div>
-            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', fontWeight: '700', textAlign: 'center', margin: 0 }}>
-              {t('resultsFemale')}
-            </h3>
+
+            {/* Female result */}
+            <div className="result-img-card glass-panel" style={{ padding: '20px', borderRadius: 'var(--border-radius-lg)', boxShadow: 'var(--shadow-dark)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="result-img-wrapper" style={{ width: '100%', aspectRatio: '1.2', borderRadius: 'var(--border-radius-md)', overflow: 'hidden', border: '1px solid var(--border-glass)' }}>
+                <img 
+                  src="/transformation_female.png" 
+                  alt="Fettförbränning & Livsstil" 
+                  loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform var(--transition-normal)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                />
+              </div>
+              <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', fontWeight: '700', textAlign: 'center', margin: 0 }}>
+                {t('resultsFemale')}
+              </h3>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Samarbetspartners Section */}
-      <section className="partners-section container" style={{ marginBottom: '80px', marginTop: '50px' }}>
-        <div className="section-header center">
-          <span className="subtitle">{t('partnersSubtitle')}</span>
-          <h2>{t('partnersTitle')}</h2>
-        </div>
-        <div className="partners-grid">
-          {[
-            {
-              name: 'WeightWorld',
-              link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=68421&htmlurl=https://www.weightworld.se/special_offers.html',
-              descKey: 'partnerWeightworldDesc',
-              icon: <Zap className="partner-card-icon" />
-            },
-            {
-              name: 'Stay Beautiful',
-              link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=84654&htmlurl=https://stay-beautiful.se/',
-              descKey: 'partnerStaybeautifulDesc',
-              icon: <Heart className="partner-card-icon" />
-            },
-            {
-              name: 'Apuls',
-              link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=66859&htmlurl=https://apuls24.se/',
-              descKey: 'partnerApulsDesc',
-              icon: <Activity className="partner-card-icon" />
-            },
-            {
-              name: 'Mindly',
-              link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=54613&htmlurl=https://mindly.se/',
-              descKey: 'partnerMindlyDesc',
-              icon: <ShieldCheck className="partner-card-icon" />
-            },
-            {
-              name: 'Musclepain',
-              link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=80073&htmlurl=https://www.musclepain.se/',
-              descKey: 'partnerMusclepainDesc',
-              icon: <Flame className="partner-card-icon" />
-            },
-            {
-              name: 'Sskbutiken',
-              link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=72905&htmlurl=https://sskbutiken.se/',
-              descKey: 'partnerSskbutikenDesc',
-              icon: <Star className="partner-card-icon" />
-            }
-          ].map((partner, idx) => (
-            <a 
-              key={idx} 
-              href={partner.link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="partner-card glass-panel"
-            >
-              <div className="partner-icon-wrapper">
-                {partner.icon}
-              </div>
-              <h3>{partner.name}</h3>
-              <p className="partner-desc">{t(partner.descKey)}</p>
-              <span className="partner-btn">
-                {t('visitPartner')} <ExternalLink size={14} style={{ marginLeft: language === 'fa' ? '0' : '6px', marginRight: language === 'fa' ? '6px' : '0' }} />
-              </span>
-            </a>
-          ))}
+      <section className="partners-section">
+        <div className="container">
+          <div className="section-header center">
+            <span className="subtitle">{t('partnersSubtitle')}</span>
+            <h2>{t('partnersTitle')}</h2>
+          </div>
+          <div className="partners-grid">
+            {[
+              {
+                name: 'WeightWorld',
+                link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=68421&htmlurl=https://www.weightworld.se/special_offers.html',
+                descKey: 'partnerWeightworldDesc',
+                icon: <Zap className="partner-card-icon" />
+              },
+              {
+                name: 'Stay Beautiful',
+                link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=84654&htmlurl=https://stay-beautiful.se/',
+                descKey: 'partnerStaybeautifulDesc',
+                icon: <Heart className="partner-card-icon" />
+              },
+              {
+                name: 'Apuls',
+                link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=66859&htmlurl=https://apuls24.se/',
+                descKey: 'partnerApulsDesc',
+                icon: <Activity className="partner-card-icon" />
+              },
+              {
+                name: 'Mindly',
+                link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=54613&htmlurl=https://mindly.se/',
+                descKey: 'partnerMindlyDesc',
+                icon: <ShieldCheck className="partner-card-icon" />
+              },
+              {
+                name: 'Musclepain',
+                link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=80073&htmlurl=https://www.musclepain.se/',
+                descKey: 'partnerMusclepainDesc',
+                icon: <Flame className="partner-card-icon" />
+              },
+              {
+                name: 'Sskbutiken',
+                link: 'https://www.partner-ads.com/se/klikbanner.php?partnerid=55179&bannerid=72905&htmlurl=https://sskbutiken.se/',
+                descKey: 'partnerSskbutikenDesc',
+                icon: <Star className="partner-card-icon" />
+              }
+            ].map((partner, idx) => (
+              <a 
+                key={idx} 
+                href={partner.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="partner-card glass-panel"
+              >
+                <div className="partner-icon-wrapper">
+                  {partner.icon}
+                </div>
+                <h3>{partner.name}</h3>
+                <p className="partner-desc">{t(partner.descKey)}</p>
+                <span className="partner-btn">
+                  {t('visitPartner')} <ExternalLink size={14} style={{ marginLeft: language === 'fa' ? '0' : '6px', marginRight: language === 'fa' ? '6px' : '0' }} />
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="cta-section container">
-        <div className="cta-box glass-panel">
-          <div className="cta-glow"></div>
-          <h2>{t('ctaTitle')}</h2>
-          <p>{t('ctaText')}</p>
-          <Link to="/ansok" className="btn-primary">{t('ctaButton')}</Link>
+      <section className="cta-section">
+        <div className="container">
+          <div className="cta-box glass-panel">
+            <div className="cta-glow"></div>
+            <h2>{t('ctaTitle')}</h2>
+            <p>{t('ctaText')}</p>
+            <Link to="/ansok" className="btn-primary">{t('ctaButton')}</Link>
+          </div>
         </div>
       </section>
     </div>

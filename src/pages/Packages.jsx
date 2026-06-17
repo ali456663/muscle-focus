@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Dumbbell, Calendar, Globe, Sparkles, UserCheck, Flame, ChevronRight, Apple, AlertCircle, X } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
+import { usePageTitle } from '../hooks/usePageTitle'
 import './Packages.css'
 
 function Packages() {
   const [activeCategory, setActiveCategory] = useState('all')
   const [activeModalPackage, setActiveModalPackage] = useState(null)
   const { t, language } = useLanguage()
+  usePageTitle('packages')
 
   const pkgTranslations = t('packagesData')
   

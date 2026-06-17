@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-dom' // wait, it should be react-router-dom! Let's be very careful here.
 import { XCircle, ShoppingBag, ShieldAlert } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
+import { usePageTitle } from '../hooks/usePageTitle'
 import './PaymentCancel.css'
 
 // Wait, I should make sure it imports Link from 'react-router-dom', not 'react-dom'!
@@ -9,6 +10,7 @@ import { Link as RouterLink } from 'react-router-dom'
 
 function PaymentCancel() {
   const { t, language } = useLanguage()
+  usePageTitle('paymentCancel')
 
   return (
     <div className={`payment-cancel-container container ${language === 'fa' ? 'rtl-align' : ''}`}>

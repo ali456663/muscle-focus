@@ -12,7 +12,7 @@ function Footer() {
       <div className="footer-top container">
         <div className="footer-brand">
           <Link to="/" className="footer-logo">
-            <img src="/logo.png" alt="Muscle & Focus Logo" className="footer-logo-img" />
+            <img src="/logo.png" alt="Muscle & Focus Logo" className="footer-logo-img" loading="lazy" />
           </Link>
           <p className="brand-tagline">
             {t('footerTagline')}

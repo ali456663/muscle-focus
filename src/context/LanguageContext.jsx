@@ -771,7 +771,12 @@ export const LanguageProvider = ({ children }) => {
       buddySearchPlaceholder: 'Sök på stad eller gym...',
       buddyContactBtn: 'Kontakta',
       buddyAgeLabel: 'år',
-      buddyGymLabel: 'Klubb/Gym'
+      buddyGymLabel: 'Klubb/Gym',
+
+      // 404 Not Found
+      notFoundTitle: 'Sidan hittades inte',
+      notFoundText: 'Sidan du letar efter verkar inte finnas. Den kan ha flyttats eller tagits bort.',
+      notFoundBtn: 'Tillbaka till startsidan'
     },
     en: {
       // Navbar
@@ -1524,7 +1529,12 @@ export const LanguageProvider = ({ children }) => {
       buddySearchPlaceholder: 'Search by city or gym...',
       buddyContactBtn: 'Contact',
       buddyAgeLabel: 'years old',
-      buddyGymLabel: 'Gym/Club'
+      buddyGymLabel: 'Gym/Club',
+
+      // 404 Not Found
+      notFoundTitle: 'Page Not Found',
+      notFoundText: 'The page you are looking for does not seem to exist. It may have been moved or removed.',
+      notFoundBtn: 'Back to Home'
     },
     fa: {
       // Navbar
@@ -2212,7 +2222,12 @@ export const LanguageProvider = ({ children }) => {
       buddySearchPlaceholder: 'جستجو بر اساس شهر یا باشگاه...',
       buddyContactBtn: 'راه‌های تماس',
       buddyAgeLabel: 'ساله',
-      buddyGymLabel: 'باشگاه'
+      buddyGymLabel: 'باشگاه',
+
+      // 404 Not Found
+      notFoundTitle: 'صفحه یافت نشد',
+      notFoundText: 'صفحه‌ای که به دنبال آن هستید وجود ندارد. ممکن است جابجا یا حذف شده باشد.',
+      notFoundBtn: 'بازگشت به صفحه اصلی'
     }
   }
 

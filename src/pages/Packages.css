@@ -33,16 +33,16 @@
 }
 
 .filter-tab:hover {
-  border-color: var(--accent-cyan);
+  border-color: var(--accent-neon);
   color: var(--text-white);
-  background: rgba(0, 229, 255, 0.03);
+  background: rgba(115, 121, 93, 0.08);
 }
 
 .filter-tab.active {
   background: linear-gradient(135deg, var(--accent-neon) 0%, var(--accent-cyan) 100%);
-  color: #04080f;
+  color: #ffffff;
   border-color: transparent;
-  box-shadow: var(--shadow-cyan);
+  box-shadow: var(--shadow-neon);
 }
 
 /* Packages Grid */
@@ -85,10 +85,10 @@
 }
 
 .badge-standard {
-  background: rgba(15, 23, 42, 0.88);
+  background: rgba(46, 44, 38, 0.88);
   backdrop-filter: blur(4px);
   color: #ffffff !important;
-  border: 1px solid rgba(0, 119, 182, 0.5); /* Semi-transparent cyan border */
+  border: 1px solid rgba(115, 121, 93, 0.5); /* Semi-transparent aloe border */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -214,9 +214,9 @@
 }
 
 .btn-normal:hover {
-  background: rgba(0, 229, 255, 0.05);
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
+  background: rgba(115, 121, 93, 0.08);
+  border-color: var(--accent-neon);
+  color: var(--text-white);
 }
 
 .btn-campaign {
@@ -542,7 +542,7 @@
   border-top-right-radius: calc(var(--border-radius-lg) - 1px);
   border-bottom: 1px solid rgba(255, 170, 0, 0.15);
   position: relative;
-  background-color: #060b13; /* Dark background matching the page theme */
+  background-color: #1b1a17; /* Dark background matching the page theme */
 }
 
 .pkg-card-img {
@@ -566,7 +566,7 @@
   overflow: hidden;
   border-bottom: 1px solid rgba(255, 170, 0, 0.15);
   position: relative;
-  background-color: #060b13; /* Dark background matching the page theme */
+  background-color: #1b1a17; /* Dark background matching the page theme */
 }
 
 .summer-modal-img-banner {

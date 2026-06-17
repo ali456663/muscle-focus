@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
-import { submitLead } from '../services/api'
+import { submitLead, isBackendOnline } from '../services/api'
 import { Check, Mail, Phone, MapPin, Send, AlertCircle, Dumbbell, CreditCard } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
+import { usePageTitle } from '../hooks/usePageTitle'
 import './Apply.css'
 
 function Apply() {
@@ -10,6 +11,8 @@ function Apply() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isOffline, setIsOffline] = useState(false)
+  usePageTitle('apply')
   const [isStudentOrSenior, setIsStudentOrSenior] = useState(false)
   const { t, language } = useLanguage()
 
@@ -23,6 +26,15 @@ function Apply() {
     trainingWish: '',
     message: ''
   })
+
+  // Check backend status on load
+  useEffect(() => {
+    const checkBackend = async () => {
+      const online = await isBackendOnline()
+      setIsOffline(!online)
+    }
+    checkBackend()
+  }, [])
 
   // List of available packages dynamically populated from translatable package data
   const pkgTranslations = t('packagesData')
@@ -67,6 +79,22 @@ function Apply() {
       }
       
       const res = await submitLead(payload)
+      
+      if (res._offline) {
+        // Backend is down — saved locally
+        setIsOffline(true)
+        if (payNow) {
+          setError(language === 'fa' 
+            ? 'پرداخت آنلاین در حالت آفلاین امکان‌پذیر نیست. لطفاً دوباره تلاش کنید یا تماس بگیرید.' 
+            : language === 'en' 
+            ? 'Online payment is not available in offline mode. Please try again or contact us.' 
+            : 'Onlinebetalning är inte tillgänglig i offline-läge. Försök igen eller kontakta oss.')
+          setLoading(false)
+          return
+        }
+        setSubmitted(true)
+        return
+      }
       
       if (payNow && res.stripeCheckoutUrl) {
         // Redirect to Stripe Checkout
@@ -160,6 +188,20 @@ function Apply() {
 
         {/* Application Form */}
         <div className="apply-form-container glass-panel">
+          {/* Offline Badge */}
+          {isOffline && (
+            <div className="offline-badge apply-offline-badge">
+              <AlertCircle size={16} />
+              <span>
+                {language === 'fa'
+                  ? 'حالت آفلاین: اطلاعات به صورت محلی ذخیره می‌شوند. سرور در دسترس نیست.'
+                  : language === 'en'
+                  ? 'Offline Mode: Details are saved locally. Server is not available.'
+                  : 'Offline-läge: Uppgifter sparas lokalt. Servern är inte tillgänglig.'}
+              </span>
+            </div>
+          )}
+
           {error && (
             <div className="form-error">
               <AlertCircle size={20} />

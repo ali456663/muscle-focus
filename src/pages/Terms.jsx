@@ -2,11 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FileText, ShieldAlert, CheckCircle, Mail, MessageSquare } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
+import { usePageTitle } from '../hooks/usePageTitle'
 import './Terms.css'
 
 function Terms() {
   const { t, language } = useLanguage()
   const sections = t('termsSections') || []
+  usePageTitle('terms')
 
   // Helper to scroll to specific section id
   const scrollToSection = (id) => {

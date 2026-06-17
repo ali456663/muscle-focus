@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
+import { usePageTitle } from '../hooks/usePageTitle'
 import { User, Calendar, MapPin, Dumbbell, MessageSquare, Search, Send, CheckCircle2, AlertCircle, Mail } from 'lucide-react'
-import { submitBuddy, fetchBuddies } from '../services/api'
+import { submitBuddy, fetchBuddies, isBackendOnline } from '../services/api'
 import './FindBuddy.css'
 
 function FindBuddy() {
   const { t, language } = useLanguage()
+  usePageTitle('findBuddy')
   const [buddies, setBuddies] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [isOffline, setIsOffline] = useState(false)
 
   // Form states
   const [fullName, setFullName] = useState('')
@@ -25,8 +28,14 @@ function FindBuddy() {
   const [revealedContacts, setRevealedContacts] = useState({})
 
   useEffect(() => {
-    loadBuddies()
+    checkBackendAndLoad()
   }, [])
+
+  const checkBackendAndLoad = async () => {
+    const online = await isBackendOnline()
+    setIsOffline(!online)
+    loadBuddies()
+  }
 
   const loadBuddies = async () => {
     setLoading(true)
@@ -55,7 +64,7 @@ function FindBuddy() {
     }
 
     try {
-      await submitBuddy({
+      const result = await submitBuddy({
         fullName,
         age: ageNum,
         city,
@@ -65,6 +74,9 @@ function FindBuddy() {
         status: 'APPROVED'
       })
       setSuccess(true)
+      if (result._offline) {
+        setIsOffline(true)
+      }
       setFullName('')
       setAge('')
       setCity('')
@@ -99,6 +111,20 @@ function FindBuddy() {
 
   return (
     <div className="buddy-page-wrapper container">
+      {/* Offline Badge */}
+      {isOffline && (
+        <div className="offline-badge glass-panel">
+          <AlertCircle size={16} />
+          <span>
+            {language === 'fa'
+              ? 'حالت آفلاین: پروفایل‌ها به صورت محلی ذخیره می‌شوند. سرور در دسترس نیست.'
+              : language === 'en'
+              ? 'Offline Mode: Profiles are saved locally. Server is not available.'
+              : 'Offline-läge: Profiler sparas lokalt. Servern är inte tillgänglig.'}
+          </span>
+        </div>
+      )}
+
       {/* Page Header */}
       <div className="buddy-header-section text-center">
         <h1 className="text-gradient-neon buddy-title">{t('buddyFinderTitle')}</h1>
