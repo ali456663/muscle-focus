@@ -32,6 +32,7 @@ function ScrollToTop() {
 function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div className="led-border"></div>
       <ScrollToTop />
       <Navbar />
       <main style={{ flex: 1 }}>
