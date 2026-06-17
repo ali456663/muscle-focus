@@ -308,25 +308,7 @@
   align-items: flex-start;
 }
 
-.btn-buddy-contact {
-  background: rgba(0, 255, 136, 0.05);
-  border: 1px solid rgba(0, 255, 136, 0.25);
-  color: var(--accent-neon);
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-buddy-contact:hover,
-.btn-buddy-contact.active {
-  background: linear-gradient(135deg, var(--accent-neon) 0%, var(--accent-cyan) 100%);
-  color: #04080f;
-  border-color: transparent;
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
-}
+/* Button contact style handled globally */
 
 .revealed-contact-box {
   width: 100%;

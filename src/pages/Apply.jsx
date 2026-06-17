@@ -345,7 +345,7 @@ function Apply() {
                 className="btn-secondary" 
                 onClick={(e) => handleFormSubmit(e, false)}
                 disabled={loading}
-                style={{ flex: 1, padding: '12px 16px', fontSize: '0.9rem', justifyContent: 'center' }}
+                style={{ flex: 1, fontSize: '0.9rem', justifyContent: 'center' }}
               >
                 {loading ? (
                   <span>{t('applyBtnSending')}</span>
@@ -362,7 +362,7 @@ function Apply() {
                 className="btn-primary" 
                 onClick={(e) => handleFormSubmit(e, true)}
                 disabled={loading}
-                style={{ flex: 1.2, padding: '12px 16px', fontSize: '0.9rem', gap: '6px', justifyContent: 'center', minWidth: '200px' }}
+                style={{ flex: 1.2, fontSize: '0.9rem', gap: '6px', justifyContent: 'center', minWidth: '200px' }}
               >
                 {loading ? (
                   <span>{t('applyBtnSending')}</span>
