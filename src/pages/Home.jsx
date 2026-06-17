@@ -175,15 +175,11 @@ function Home() {
           </div>
           
           <div className="why-video-wrapper glass-panel" style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', borderRadius: 'var(--border-radius-lg)', border: '1px solid var(--border-glass)', boxShadow: 'var(--shadow-cyan)' }}>
-            <iframe 
-              src="https://drive.google.com/file/d/1LJ2x4Ovv9LHdtDbuOi3D9quzgUEQZXPE/preview?autoplay=1&mute=1"
-              width="100%" 
-              height="100%" 
-              style={{ border: 'none' }} 
-              allow="autoplay; encrypted-media" 
-              allowFullScreen
-              title="Träningsvideo"
-            ></iframe>
+            <img 
+              src="/why_choose_me.png" 
+              alt="Varför välja mig" 
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+            />
           </div>
         </div>
       </section>
