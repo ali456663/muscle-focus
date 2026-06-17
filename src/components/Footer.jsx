@@ -42,6 +42,7 @@ function Footer() {
           <Link to="/paket">{t('packages')}</Link>
           <Link to="/licenser">{t('licenses')}</Link>
           <Link to="/ansok">{t('apply')}</Link>
+          <Link to="/admin" style={{ opacity: 0.5, fontSize: '0.85rem', marginTop: '4px' }}>{t('admin')}</Link>
         </div>
 
         <div className="footer-links-group">

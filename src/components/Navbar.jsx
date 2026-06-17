@@ -53,6 +53,7 @@ function Navbar() {
           <Link to="/licenser" className={`nav-link ${isActive('/licenser')}`}>{t('licenses')}</Link>
           <Link to="/villkor" className={`nav-link ${isActive('/villkor')}`}>{t('termsLink')}</Link>
           <Link to="/ansok" className={`nav-link btn-apply ${isActive('/ansok')}`}>{t('apply')}</Link>
+          <Link to="/admin" className={`nav-link nav-admin ${isActive('/admin')}`}>{t('admin')}</Link>
         </div>
 
         {/* Mobile Hamburger Toggle */}
@@ -83,6 +84,7 @@ function Navbar() {
         <Link to="/licenser" className={`mobile-link ${isActive('/licenser')}`} onClick={closeMenu}>{t('licenses')}</Link>
         <Link to="/villkor" className={`mobile-link ${isActive('/villkor')}`} onClick={closeMenu}>{t('termsLink')}</Link>
         <Link to="/ansok" className="mobile-link mobile-btn-apply" onClick={closeMenu}>{t('apply')}</Link>
+        <Link to="/admin" className={`mobile-link ${isActive('/admin')}`} onClick={closeMenu}>{t('admin')}</Link>
       </div>
     </nav>
   )
