@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8098/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8098/api';
 
 /* ──────────────────────────────────────────────
    LOCALSTORAGE BUDDY FALLBACK (offline-first)
