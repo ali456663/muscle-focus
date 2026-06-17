@@ -138,7 +138,9 @@
 /* About Section */
 .about-section {
   padding: 120px 0;
-  background-color: #151412;
+  background-color: rgba(21, 20, 18, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .about-grid {
@@ -229,9 +231,11 @@
 /* Compare Section (PT vs Self) */
 .compare-section {
   padding: 120px 0;
-  background-color: #151412;
+  background-color: rgba(21, 20, 18, 0.65);
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .compare-grid {
@@ -309,9 +313,11 @@
 /* Benefits Section */
 .benefits-section {
   padding: 120px 0;
-  background-color: #23211d;
+  background-color: rgba(35, 33, 29, 0.75);
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .benefits-grid {
@@ -365,9 +371,11 @@
 /* Certifications Section */
 .cert-section {
   padding: 120px 0;
-  background-color: #151412;
+  background-color: rgba(21, 20, 18, 0.65);
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .cert-grid {
@@ -423,9 +431,11 @@
 
 .cta-section {
   padding: 120px 0;
-  background-color: #23211d;
+  background-color: rgba(35, 33, 29, 0.75);
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .cta-box {
@@ -664,9 +674,11 @@
 /* Samarbetspartners Section */
 .partners-section {
   padding: 120px 0;
-  background-color: #151412;
+  background-color: rgba(21, 20, 18, 0.65);
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .partners-grid {
@@ -760,29 +772,39 @@
 }
 
 .why-choose-me-section {
-  background-color: #23211d;
+  background-color: rgba(35, 33, 29, 0.75);
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .why-strength-section {
-  background-color: #151412;
+  background-color: rgba(21, 20, 18, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .ideal-client-section {
-  background-color: #23211d;
+  background-color: rgba(35, 33, 29, 0.75);
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .testimonials-section {
-  background-color: #151412;
+  background-color: rgba(21, 20, 18, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .results-section {
-  background-color: #23211d;
+  background-color: rgba(35, 33, 29, 0.75);
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 @media (max-width: 768px) {
