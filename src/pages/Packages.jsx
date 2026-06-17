@@ -223,7 +223,7 @@ function Packages() {
 
               <div className="pkg-action">
                 {pkg.readMoreFeatures ? (
-                  <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
+                  <div className="pkg-action-buttons">
                     <button 
                       className="btn-readmore"
                       onClick={() => setActiveModalPackage(pkg)}

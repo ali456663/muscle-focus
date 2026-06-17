@@ -368,3 +368,55 @@ button, input, select, textarea {
     border-radius: 12px;
   }
 }
+
+/* Responsive styles for buttons on mobile */
+@media (max-width: 576px) {
+  .btn-primary,
+  .btn-secondary,
+  .btn-readmore,
+  .btn-book,
+  .btn-normal,
+  .btn-campaign,
+  .btn-buddy-contact {
+    padding: 10px 42px !important;
+    font-size: 0.92rem !important;
+  }
+  
+  .btn-primary::before,
+  .btn-secondary::before,
+  .btn-readmore::before,
+  .btn-book::before,
+  .btn-normal::before,
+  .btn-campaign::before,
+  .btn-buddy-contact::before,
+  .btn-primary::after,
+  .btn-secondary::after,
+  .btn-readmore::after,
+  .btn-book::after,
+  .btn-normal::after,
+  .btn-campaign::after,
+  .btn-buddy-contact::after {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .btn-primary::before,
+  .btn-secondary::before,
+  .btn-readmore::before,
+  .btn-book::before,
+  .btn-normal::before,
+  .btn-campaign::before,
+  .btn-buddy-contact::before {
+    left: 12px !important;
+  }
+
+  .btn-primary::after,
+  .btn-secondary::after,
+  .btn-readmore::after,
+  .btn-book::after,
+  .btn-normal::after,
+  .btn-campaign::after,
+  .btn-buddy-contact::after {
+    right: 12px !important;
+  }
+}

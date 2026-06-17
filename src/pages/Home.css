@@ -816,3 +816,17 @@
     padding: 80px 0;
   }
 }
+
+@media (max-width: 576px) {
+  .hero-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  
+  .hero-actions a {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
