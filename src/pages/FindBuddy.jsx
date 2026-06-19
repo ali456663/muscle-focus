@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
 import { usePageTitle } from '../hooks/usePageTitle'
 import { User, Calendar, MapPin, Dumbbell, MessageSquare, Search, Send, CheckCircle2, AlertCircle, Mail } from 'lucide-react'
-import { submitBuddy, fetchBuddies, isBackendOnline } from '../services/api'
+import { submitBuddy, fetchBuddies, isBackendOnline, syncStoredBuddies, clearOfflineData, getOfflineStats } from '../services/api'
 import './FindBuddy.css'
 
 function FindBuddy() {
@@ -24,12 +24,30 @@ function FindBuddy() {
   const [message, setMessage] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  // Revealed contact info for each card
   const [revealedContacts, setRevealedContacts] = useState({})
+  const [syncStatus, setSyncStatus] = useState(null)
 
+  // Check backend on load + poll every 30s for auto-sync
   useEffect(() => {
     checkBackendAndLoad()
-  }, [])
+    const interval = setInterval(async () => {
+      const online = await isBackendOnline()
+      if (online && isOffline) {
+        // Backend came back online - sync!
+        const stats = getOfflineStats()
+        if (stats.buddiesCount > 0) {
+          setSyncStatus('syncing')
+          const result = await syncStoredBuddies()
+          setSyncStatus(result.failed === 0 ? 'synced' : 'partial')
+          loadBuddies()
+        }
+        setIsOffline(false)
+      } else if (!online) {
+        setIsOffline(true)
+      }
+    }, 30000)
+    return () => clearInterval(interval)
+  }, [isOffline])
 
   const checkBackendAndLoad = async () => {
     const online = await isBackendOnline()
@@ -260,6 +278,32 @@ function FindBuddy() {
                 <Send size={16} />
                 <span>{submitting ? (language === 'fa' ? 'در حال ثبت...' : language === 'en' ? 'Submitting...' : 'Publicerar...') : t('buddyFormSubmit')}</span>
               </button>
+
+              {/* Sync status & clear buttons */}
+              {syncStatus === 'syncing' && (
+                <div className="sync-status syncing">
+                  <span>{language === 'fa' ? 'در حال همگام‌سازی...' : language === 'en' ? 'Syncing...' : 'Synkar...'}</span>
+                </div>
+              )}
+              {syncStatus === 'synced' && (
+                <div className="sync-status synced">
+                  <CheckCircle2 size={14} />
+                  <span>{language === 'fa' ? 'با موفقیت همگام شد!' : language === 'en' ? 'Synced successfully!' : 'Synkroniserad!'}</span>
+                </div>
+              )}
+              {(isOffline || getOfflineStats().buddiesCount > 0) && (
+                <button
+                  type="button"
+                  className="btn-clear-offline"
+                  onClick={() => {
+                    clearOfflineData()
+                    loadBuddies()
+                    setSyncStatus(null)
+                  }}
+                >
+                  {language === 'fa' ? 'پاک کردن داده‌های آفلاین' : language === 'en' ? 'Clear Offline Data' : 'Rensa offline-data'}
+                </button>
+              )}
             </form>
           </div>
         </div>

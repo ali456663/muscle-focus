@@ -176,9 +176,9 @@ export const verifyPayment = async (sessionId) => {
 export const isBackendOnline = async () => {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2000);
+    const timeout = setTimeout(() => controller.abort(), 5000);
     const response = await fetch(`${API_BASE_URL}/buddies`, {
-      method: 'HEAD',
+      method: 'GET',
       signal: controller.signal,
     });
     clearTimeout(timeout);
@@ -186,4 +186,81 @@ export const isBackendOnline = async () => {
   } catch {
     return false;
   }
+};
+
+/* ──────────────────────────────────────────────
+   OFFLINE SYNC & CLEAR
+   ────────────────────────────────────────────── */
+
+// Sync stored leads to backend when it comes back online
+export const syncStoredLeads = async () => {
+  const stored = JSON.parse(localStorage.getItem(LEAD_STORAGE_KEY) || '[]');
+  if (stored.length === 0) return { synced: 0, failed: 0 };
+
+  let synced = 0;
+  let failed = 0;
+  const remaining = [];
+
+  for (const lead of stored) {
+    try {
+      const { _offline, id, createdAt, ...leadData } = lead;
+      await fetch(`${API_BASE_URL}/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadData),
+      });
+      synced++;
+    } catch {
+      failed++;
+      remaining.push(lead);
+    }
+  }
+
+  localStorage.setItem(LEAD_STORAGE_KEY, JSON.stringify(remaining));
+  return { synced, failed };
+};
+
+// Sync stored buddies to backend when it comes back online
+export const syncStoredBuddies = async () => {
+  const stored = getStoredBuddies();
+  if (stored.length === 0) return { synced: 0, failed: 0 };
+
+  let synced = 0;
+  let failed = 0;
+  const remaining = [];
+
+  for (const buddy of stored) {
+    try {
+      const { _offline, id, createdAt, ...buddyData } = buddy;
+      await fetch(`${API_BASE_URL}/buddies`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(buddyData),
+      });
+      synced++;
+    } catch {
+      failed++;
+      remaining.push(buddy);
+    }
+  }
+
+  localStorage.setItem(BUDDY_STORAGE_KEY, JSON.stringify(remaining));
+  return { synced, failed };
+};
+
+// Clear all offline data
+export const clearOfflineData = () => {
+  localStorage.removeItem(LEAD_STORAGE_KEY);
+  localStorage.removeItem(BUDDY_STORAGE_KEY);
+};
+
+// Get offline stats
+export const getOfflineStats = () => {
+  const leads = JSON.parse(localStorage.getItem(LEAD_STORAGE_KEY) || '[]');
+  const buddies = getStoredBuddies();
+  return {
+    leadsCount: leads.length,
+    buddiesCount: buddies.length,
+    totalCount: leads.length + buddies.length,
+  };
 };

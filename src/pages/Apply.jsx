@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
-import { submitLead, isBackendOnline } from '../services/api'
+import { submitLead, isBackendOnline, syncStoredLeads, clearOfflineData, getOfflineStats } from '../services/api'
 import { Check, Mail, Phone, MapPin, Send, AlertCircle, Dumbbell, CreditCard } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
 import { usePageTitle } from '../hooks/usePageTitle'
@@ -12,6 +12,7 @@ function Apply() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [isOffline, setIsOffline] = useState(false)
+  const [syncStatus, setSyncStatus] = useState(null)
   usePageTitle('apply')
   const [isStudentOrSenior, setIsStudentOrSenior] = useState(false)
   const { t, language } = useLanguage()
@@ -27,14 +28,30 @@ function Apply() {
     message: ''
   })
 
-  // Check backend status on load
+  // Check backend status on load + auto-sync every 30s
   useEffect(() => {
     const checkBackend = async () => {
       const online = await isBackendOnline()
       setIsOffline(!online)
     }
     checkBackend()
-  }, [])
+
+    const interval = setInterval(async () => {
+      const online = await isBackendOnline()
+      if (online && isOffline) {
+        const stats = getOfflineStats()
+        if (stats.leadsCount > 0) {
+          setSyncStatus('syncing')
+          const result = await syncStoredLeads()
+          setSyncStatus(result.failed === 0 ? 'synced' : 'partial')
+        }
+        setIsOffline(false)
+      } else if (!online) {
+        setIsOffline(true)
+      }
+    }, 30000)
+    return () => clearInterval(interval)
+  }, [isOffline])
 
   // List of available packages dynamically populated from translatable package data
   const pkgTranslations = t('packagesData')
@@ -374,6 +391,31 @@ function Apply() {
                 )}
               </button>
             </div>
+
+            {/* Sync status & clear offline data */}
+            {syncStatus === 'syncing' && (
+              <div className="sync-status syncing">
+                <span>{language === 'fa' ? 'در حال همگام‌سازی...' : language === 'en' ? 'Syncing...' : 'Synkar...'}</span>
+              </div>
+            )}
+            {syncStatus === 'synced' && (
+              <div className="sync-status synced">
+                <Check size={14} />
+                <span>{language === 'fa' ? 'با موفقیت همگام شد!' : language === 'en' ? 'Synced successfully!' : 'Synkroniserad!'}</span>
+              </div>
+            )}
+            {(isOffline || getOfflineStats().leadsCount > 0) && (
+              <button
+                type="button"
+                className="btn-clear-offline"
+                onClick={() => {
+                  clearOfflineData()
+                  setSyncStatus(null)
+                }}
+              >
+                {language === 'fa' ? 'پاک کردن داده‌های آفلاین' : language === 'en' ? 'Clear Offline Data' : 'Rensa offline-data'}
+              </button>
+            )}
           </form>
         </div>
       </div>
