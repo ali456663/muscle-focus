@@ -311,3 +311,16 @@ export const fetchClientHistory = async (token) => {
   if (!response.ok) throw new Error('Kunde inte hämta historik.');
   return response.json();
 };
+
+export const requestPasswordReset = async (email) => {
+  const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || 'Kunde inte skicka återställningsbegäran.');
+  }
+  return response.text();
+};
