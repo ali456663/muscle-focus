@@ -10,6 +10,7 @@ import AdminDashboard from './pages/AdminDashboard'
 import ClientLogin from './pages/ClientLogin'
 import ClientRegister from './pages/ClientRegister'
 import ClientProfile from './pages/ClientProfile'
+import ResetPassword from './pages/ResetPassword'
 import Certificates from './pages/Certificates'
 import WhyStrength from './pages/WhyStrength'
 import IdealClient from './pages/IdealClient'
@@ -52,6 +53,7 @@ function App() {
           <Route path="/login" element={<ClientLogin />} />
           <Route path="/register" element={<ClientRegister />} />
           <Route path="/profil" element={<ClientProfile />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/payment/success" element={<PaymentSuccess />} />

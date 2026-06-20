@@ -324,3 +324,16 @@ export const requestPasswordReset = async (email) => {
   }
   return response.text();
 };
+
+export const submitPasswordReset = async (token, password) => {
+  const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, password }),
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || 'Kunde inte återställa lösenordet.');
+  }
+  return response.text();
+};
