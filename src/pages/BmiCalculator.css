@@ -326,31 +326,31 @@
 }
 
 .category-bmiUnderweight {
-  background: rgba(0, 229, 255, 0.15);
-  color: var(--accent-cyan);
-  border-color: rgba(0, 229, 255, 0.3);
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+  background: rgba(0, 229, 255, 0.12);
+  color: #00e5ff;
+  border-color: rgba(0, 229, 255, 0.4);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
 }
 
 .category-bmiNormalweight {
-  background: rgba(0, 255, 136, 0.15);
-  color: var(--accent-neon);
-  border-color: rgba(0, 255, 136, 0.3);
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+  background: rgba(0, 255, 136, 0.12);
+  color: #00ff88;
+  border-color: rgba(0, 255, 136, 0.4);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
 }
 
 .category-bmiOverweight {
-  background: rgba(255, 170, 0, 0.15);
-  color: var(--accent-gold);
-  border-color: rgba(255, 170, 0, 0.3);
-  box-shadow: 0 0 15px rgba(255, 170, 0, 0.15);
+  background: rgba(255, 170, 0, 0.12);
+  color: #ffaa00;
+  border-color: rgba(255, 170, 0, 0.4);
+  box-shadow: 0 0 15px rgba(255, 170, 0, 0.2);
 }
 
 .category-bmiObesity {
-  background: rgba(255, 59, 48, 0.15);
-  color: var(--accent-red);
-  border-color: rgba(255, 59, 48, 0.3);
-  box-shadow: 0 0 15px rgba(255, 59, 48, 0.15);
+  background: rgba(255, 59, 48, 0.12);
+  color: #ff5252;
+  border-color: rgba(255, 59, 48, 0.4);
+  box-shadow: 0 0 15px rgba(255, 59, 48, 0.2);
 }
 
 /* Glowing Star Badges for Weight and Height */
@@ -498,10 +498,10 @@
   border-radius: 4px;
 }
 
-.table-badge.underweight { background: rgba(0, 229, 255, 0.12); color: var(--accent-cyan); }
-.table-badge.normal { background: rgba(0, 255, 136, 0.12); color: var(--accent-neon); }
-.table-badge.overweight { background: rgba(255, 170, 0, 0.12); color: var(--accent-gold); }
-.table-badge.obesity { background: rgba(255, 59, 48, 0.12); color: var(--accent-red); }
+.table-badge.underweight { background: rgba(0, 229, 255, 0.12); color: #00e5ff; }
+.table-badge.normal { background: rgba(0, 255, 136, 0.12); color: #00ff88; }
+.table-badge.overweight { background: rgba(255, 170, 0, 0.12); color: #ffaa00; }
+.table-badge.obesity { background: rgba(255, 59, 48, 0.12); color: #ff5252; }
 
 /* Alert Card */
 .alert-card {
