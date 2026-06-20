@@ -334,3 +334,13 @@
     font-size: 0.85rem;
   }
 }
+
+@media (max-width: 480px) {
+  .apply-page.container {
+    padding: 60px 12px !important;
+  }
+  
+  .apply-form-container {
+    padding: 20px 16px;
+  }
+}
