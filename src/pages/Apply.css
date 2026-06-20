@@ -57,8 +57,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 16px 20px;
   border-radius: var(--border-radius-md);
   margin-top: 40px;
@@ -66,14 +66,15 @@
 }
 
 .disclaimer-icon {
-  color: var(--accent-neon);
+  color: var(--accent-cyan);
   flex-shrink: 0;
 }
 
 .apply-disclaimer p {
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: var(--text-silver);
   line-height: 1.4;
+  font-weight: 500;
 }
 
 /* Form Container Styling */

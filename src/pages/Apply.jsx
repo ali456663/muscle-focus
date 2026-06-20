@@ -356,12 +356,13 @@ function Apply() {
               ></textarea>
             </div>
 
-            <div className="form-actions-row" style={{ display: 'flex', marginTop: '20px' }}>
+            <div className="form-actions-row" style={{ display: 'flex', gap: '12px', marginTop: '20px', flexWrap: 'wrap' }}>
               <button 
-                type="submit" 
-                className="btn-primary" 
+                type="button" 
+                className="btn-secondary" 
+                onClick={(e) => handleFormSubmit(e, false)}
                 disabled={loading}
-                style={{ width: '100%', fontSize: '0.95rem', justifyContent: 'center' }}
+                style={{ flex: 1, fontSize: '0.9rem', justifyContent: 'center' }}
               >
                 {loading ? (
                   <span>{t('applyBtnSending')}</span>
@@ -369,6 +370,23 @@ function Apply() {
                   <>
                     <Send size={14} style={{ marginRight: '8px' }} />
                     <span>{t('applyBtnSubmit')}</span>
+                  </>
+                )}
+              </button>
+              
+              <button 
+                type="button" 
+                className="btn-primary" 
+                onClick={(e) => handleFormSubmit(e, true)}
+                disabled={loading}
+                style={{ flex: 1.2, fontSize: '0.9rem', gap: '6px', justifyContent: 'center', minWidth: '200px' }}
+              >
+                {loading ? (
+                  <span>{t('applyBtnSending')}</span>
+                ) : (
+                  <>
+                    <CreditCard size={14} style={{ marginRight: '8px' }} />
+                    <span>{t('applyBtnPayWithStripe')}</span>
                   </>
                 )}
               </button>
