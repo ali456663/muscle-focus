@@ -264,3 +264,50 @@ export const getOfflineStats = () => {
     totalCount: leads.length + buddies.length,
   };
 };
+
+/* ──────────────────────────────────────────────
+   CLIENT AUTHENTICATION & PORTAL
+   ────────────────────────────────────────────── */
+export const registerClient = async (fullName, phoneNumber, email, password) => {
+  const response = await fetch(`${API_BASE_URL}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fullName, phoneNumber, email, password }),
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || 'Registreringen misslyckades.');
+  }
+  return response.json();
+};
+
+export const loginClient = async (email, password) => {
+  const response = await fetch(`${API_BASE_URL}/auth/client-login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: email, password }),
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || 'Inloggningen misslyckades.');
+  }
+  return response.json();
+};
+
+export const fetchClientProfile = async (token) => {
+  const response = await fetch(`${API_BASE_URL}/client/profile`, {
+    method: 'GET',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error('Kunde inte hämta profil.');
+  return response.json();
+};
+
+export const fetchClientHistory = async (token) => {
+  const response = await fetch(`${API_BASE_URL}/client/history`, {
+    method: 'GET',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error('Kunde inte hämta historik.');
+  return response.json();
+};

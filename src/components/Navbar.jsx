@@ -53,6 +53,23 @@ function Navbar() {
           <Link to="/licenser" className={`nav-link ${isActive('/licenser')}`}>{t('licenses')}</Link>
           <Link to="/villkor" className={`nav-link ${isActive('/villkor')}`}>{t('termsLink')}</Link>
           <Link to="/ansok" className={`nav-link btn-apply ${isActive('/ansok')}`}>{t('apply')}</Link>
+          
+          {localStorage.getItem('client_token') ? (
+            <>
+              <Link to="/profil" className={`nav-link nav-client-profile ${isActive('/profil')}`}>{t('clientProfile')}</Link>
+              <button onClick={() => {
+                localStorage.removeItem('client_token');
+                localStorage.removeItem('client_user');
+                localStorage.removeItem('client_name');
+                window.location.href = '/';
+              }} className="nav-link nav-client-logout" style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit', color: 'inherit', display: 'inline-flex', alignItems: 'center' }}>
+                {t('clientLogout')}
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className={`nav-link nav-client-login ${isActive('/login')}`}>{t('clientLogin')}</Link>
+          )}
+
           <Link to="/admin" className={`nav-link nav-admin ${isActive('/admin')}`}>{t('admin')}</Link>
         </div>
 
@@ -84,6 +101,24 @@ function Navbar() {
         <Link to="/licenser" className={`mobile-link ${isActive('/licenser')}`} onClick={closeMenu}>{t('licenses')}</Link>
         <Link to="/villkor" className={`mobile-link ${isActive('/villkor')}`} onClick={closeMenu}>{t('termsLink')}</Link>
         <Link to="/ansok" className="mobile-link mobile-btn-apply" onClick={closeMenu}>{t('apply')}</Link>
+        
+        {localStorage.getItem('client_token') ? (
+          <>
+            <Link to="/profil" className={`mobile-link ${isActive('/profil')}`} onClick={closeMenu}>{t('clientProfile')}</Link>
+            <button onClick={() => {
+              localStorage.removeItem('client_token');
+              localStorage.removeItem('client_user');
+              localStorage.removeItem('client_name');
+              closeMenu();
+              window.location.href = '/';
+            }} className="mobile-link" style={{ width: '100%', textAlign: 'inherit', background: 'none', border: 'none', cursor: 'pointer', font: 'inherit', color: 'inherit', display: 'block', padding: '12px 24px' }}>
+              {t('clientLogout')}
+            </button>
+          </>
+        ) : (
+          <Link to="/login" className={`mobile-link ${isActive('/login')}`} onClick={closeMenu}>{t('clientLogin')}</Link>
+        )}
+
         <Link to="/admin" className={`mobile-link ${isActive('/admin')}`} onClick={closeMenu}>{t('admin')}</Link>
       </div>
     </nav>

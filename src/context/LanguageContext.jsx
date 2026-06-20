@@ -23,6 +23,10 @@ export const LanguageProvider = ({ children }) => {
     sv: {
       // Navbar
       home: 'Hem',
+      clientProfile: 'Min profil',
+      clientLogin: 'Logga in',
+      clientRegister: 'Skapa konto',
+      clientLogout: 'Logga ut',
       packages: 'Träningspaket',
       hittaKompis: 'Hitta träningskompis',
       apply: 'Bli Klient',
@@ -781,6 +785,10 @@ export const LanguageProvider = ({ children }) => {
     en: {
       // Navbar
       home: 'Home',
+      clientProfile: 'My Profile',
+      clientLogin: 'Log In',
+      clientRegister: 'Create Account',
+      clientLogout: 'Log Out',
       packages: 'Training Packages',
       hittaKompis: 'Find Buddy',
       apply: 'Become Client',
@@ -1539,6 +1547,10 @@ export const LanguageProvider = ({ children }) => {
     fa: {
       // Navbar
       home: 'خانه',
+      clientProfile: 'پروفایل من',
+      clientLogin: 'ورود',
+      clientRegister: 'ایجاد حساب کاربری',
+      clientLogout: 'خروج',
       packages: 'پکیج‌های تمرینی',
       hittaKompis: 'یافتن هم‌تمرینی',
       apply: 'ثبت نام',

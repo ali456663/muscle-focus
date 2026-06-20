@@ -7,6 +7,9 @@ import Packages from './pages/Packages'
 import Apply from './pages/Apply'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
+import ClientLogin from './pages/ClientLogin'
+import ClientRegister from './pages/ClientRegister'
+import ClientProfile from './pages/ClientProfile'
 import Certificates from './pages/Certificates'
 import WhyStrength from './pages/WhyStrength'
 import IdealClient from './pages/IdealClient'
@@ -46,6 +49,9 @@ function App() {
           <Route path="/varfor-styrketrana" element={<WhyStrength />} />
           <Route path="/ideal-klient" element={<IdealClient />} />
           <Route path="/villkor" element={<Terms />} />
+          <Route path="/login" element={<ClientLogin />} />
+          <Route path="/register" element={<ClientRegister />} />
+          <Route path="/profil" element={<ClientProfile />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/payment/success" element={<PaymentSuccess />} />
