@@ -1,6 +1,6 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
   (import.meta.env.MODE === 'production' 
-    ? 'https://muscle-focus-backend.onrender.com/api' 
+    ? 'https://muscle-focus.onrender.com/api' 
     : 'http://localhost:8098/api');
 
 /* ──────────────────────────────────────────────
