@@ -139,7 +139,22 @@ button, input, select, textarea {
   border: 1px solid var(--border-glass);
 }
 
-/* Custom premium hover button */
+/* Custom premium hover button with animated glowing borders and neon shadows */
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes btn-glow-spin {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
 .btn-primary,
 .btn-secondary,
 .btn-readmore,
@@ -151,9 +166,11 @@ button, input, select, textarea {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background: #ffffff !important;
+  border: 2.5px solid transparent !important;
+  background: 
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    conic-gradient(from var(--gradient-angle), var(--accent-neon), var(--accent-gold), var(--accent-cyan), var(--accent-neon)) border-box !important;
   color: var(--accent-gold) !important;
-  border: 2.5px solid var(--accent-gold) !important;
   border-radius: 50px !important;
   padding: 12px 52px !important;
   font-family: var(--font-heading) !important;
@@ -161,11 +178,14 @@ button, input, select, textarea {
   text-transform: uppercase !important;
   text-decoration: none !important;
   cursor: pointer !important;
-  transition: all 0.3s ease !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.3s ease, transform 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 
+              0 0 10px rgba(115, 121, 93, 0.2), 
+              0 0 20px rgba(184, 149, 71, 0.15) !important;
   letter-spacing: 0.05em !important;
   box-sizing: border-box !important;
   white-space: nowrap !important;
+  animation: btn-glow-spin 4s linear infinite !important;
 }
 
 .btn-primary:hover,
@@ -176,9 +196,14 @@ button, input, select, textarea {
 .btn-campaign:hover,
 .btn-buddy-contact:hover {
   transform: translateY(-2px) scale(1.02) !important;
-  box-shadow: 0 6px 20px rgba(184, 149, 71, 0.35) !important;
-  background: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(184, 149, 71, 0.4), 
+              0 0 15px rgba(115, 121, 93, 0.35), 
+              0 0 30px rgba(184, 149, 71, 0.2) !important;
+  background: 
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    conic-gradient(from var(--gradient-angle), var(--accent-gold), var(--accent-neon), var(--accent-cyan), var(--accent-gold)) border-box !important;
   color: var(--accent-gold) !important;
+  animation-duration: 2s !important;
 }
 
 .badge-campaign {

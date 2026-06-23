@@ -6,6 +6,7 @@ import { usePageTitle } from '../hooks/usePageTitle'
 import { useSchemaOrg } from '../hooks/useSchemaOrg'
 import IdealClient from './IdealClient'
 import WhyStrength from './WhyStrength'
+import { ContainerScroll, ContainerSticky, ContainerInset, HeroVideo, ContainerAnimated } from '../components/AnimatedVideoOnScroll'
 import './Home.css'
 
 function Home() {
@@ -16,47 +17,58 @@ function Home() {
   return (
     <div className={`home-page ${language === 'fa' ? 'rtl-align' : ''}`}>
       {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-container container">
-          <div className="hero-content">
-            <span className="hero-tagline badge-campaign">{t('heroTagline')}</span>
-            <h1 className="hero-title text-gradient-neon">
-              {t('heroWelcome')}<span>{t('heroTitle')}</span>
-            </h1>
-            <p className="hero-text">
-              {t('heroText')}
-            </p>
-            <div className="hero-actions">
-              <Link to="/paket" className="btn-primary">{t('btnPackages')}</Link>
-              <Link to="/ansok" className="btn-secondary">{t('btnConsultation')}</Link>
+      <ContainerScroll className="hero-section">
+        <ContainerSticky className="hero-sticky-container">
+          <div className="hero-container container">
+            <ContainerAnimated className="hero-content">
+              <span className="hero-tagline badge-campaign">{t('heroTagline')}</span>
+              <h1 className="hero-title text-gradient-neon">
+                {t('heroWelcome')}<span>{t('heroTitle')}</span>
+              </h1>
+              <p className="hero-text">
+                {t('heroText')}
+              </p>
+              <div className="hero-actions">
+                <Link to="/paket" className="btn-primary">{t('btnPackages')}</Link>
+                <Link to="/ansok" className="btn-secondary">{t('btnConsultation')}</Link>
+              </div>
+            </ContainerAnimated>
+            <div className="hero-visual">
+              <div className="visual-glow"></div>
+              <ContainerInset className="hero-video-wrapper">
+                <HeroVideo 
+                  src="/workout_video.mp4" 
+                  className="hero-video"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                />
+              </ContainerInset>
+              <div className="visual-card glass-panel hero-floating-card">
+                <div className="visual-header">
+                  <Flame className="visual-icon" />
+                  <span>Muscle & Focus PT</span>
+                </div>
+                <div className="visual-body">
+                  <div className="stat-row">
+                    <span className="stat-label">Erfarenhet / Experience</span>
+                    <span className="stat-value">8+ År</span>
+                  </div>
+                  <div className="stat-row">
+                    <span className="stat-label">Stöd / Support</span>
+                    <span className="stat-value">Flerspråkigt</span>
+                  </div>
+                  <div className="stat-row">
+                    <span className="stat-label">Coaching</span>
+                    <span className="stat-value">Online & På plats</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="hero-visual">
-            <div className="visual-glow"></div>
-            <img src="/hero_fitness.png" alt="Träning i gym" className="hero-img" loading="lazy" />
-            <div className="visual-card glass-panel hero-floating-card">
-              <div className="visual-header">
-                <Flame className="visual-icon" />
-                <span>Muscle & Focus PT</span>
-              </div>
-              <div className="visual-body">
-                <div className="stat-row">
-                  <span className="stat-label">Erfarenhet / Experience</span>
-                  <span className="stat-value">8+ År</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Stöd / Support</span>
-                  <span className="stat-value">Flerspråkigt</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Coaching</span>
-                  <span className="stat-value">Online & På plats</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        </ContainerSticky>
+      </ContainerScroll>
 
       {/* Health Step Section */}
       <section className="health-step-section">
