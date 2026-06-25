@@ -66,6 +66,7 @@ export const ContainerAnimated = forwardRef(
   ) => {
     const { scrollYProgress } = useContainerScrollContext();
     const y = useTransform(scrollYProgress, inputRange, outputRange);
+    const opacity = useTransform(scrollYProgress, [0.85, 0.98], [1, 0]);
     return (
       <motion.div
         ref={ref}
@@ -74,7 +75,7 @@ export const ContainerAnimated = forwardRef(
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        style={{ y, ...style }}
+        style={{ y, opacity, ...style }}
         transition={{ ...SPRING_TRANSITION_CONFIG, ...transition }}
         {...props}
       />
@@ -131,6 +132,7 @@ export const ContainerInset = forwardRef(
     const insetY = useTransform(scrollYProgress, [0, 0.8], insetYRange);
     const insetX = useTransform(scrollYProgress, [0, 0.8], insetXRange);
     const roundedness = useTransform(scrollYProgress, [0, 1], roundednessRange);
+    const opacity = useTransform(scrollYProgress, [0.85, 0.98], [1, 0]);
 
     const clipPath = useMotionTemplate`inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${roundedness}px)`;
 
@@ -140,6 +142,7 @@ export const ContainerInset = forwardRef(
         className={`relative pointer-events-none overflow-hidden ${className || ""}`}
         style={{
           clipPath,
+          opacity,
           ...style,
         }}
         {...props}
