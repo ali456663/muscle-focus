@@ -35,7 +35,10 @@ jobs:
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=sha,prefix=,suffix=,enable=${{ github.ref == 'refs/heads/main' }}
-
+      - name: Install dependencies and run build (debug)
+        run: |
+          npm ci
+          npm run build
       - name: Build and push Docker image
         if: github.event_name == 'push'
         uses: docker/build-push-action@v5
