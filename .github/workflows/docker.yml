@@ -27,6 +27,12 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # Debug step: run the npm build on the runner to surface the full Vite/npm error in Actions logs
+      - name: Install dependencies and run build (debug)
+        run: |
+          npm ci
+          npm run build
+
       - name: Extract metadata
         id: meta
         uses: docker/metadata-action@v5
@@ -35,10 +41,7 @@ jobs:
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=sha,prefix=,suffix=,enable=${{ github.ref == 'refs/heads/main' }}
-      - name: Install dependencies and run build (debug)
-        run: |
-          npm ci
-          npm run build
+
       - name: Build and push Docker image
         if: github.event_name == 'push'
         uses: docker/build-push-action@v5
