@@ -508,3 +508,5 @@
     max-width: 100%;
   }
 }
+
+/* Cache-busting comment to trigger Netlify build: 2026-06-26 */
