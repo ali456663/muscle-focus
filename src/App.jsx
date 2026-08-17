@@ -36,7 +36,6 @@ function ScrollToTop() {
 function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <div className="led-border"></div>
       <ScrollToTop />
       <Navbar />
       <main style={{ flex: 1 }}>
@@ -45,7 +44,7 @@ function App() {
           <Route path="/bmi" element={<BmiCalculator />} />
           <Route path="/paket" element={<Packages />} />
           <Route path="/hitta-kompis" element={<FindBuddy />} />
-          <Route path="/ansok" element={<Apply />} />
+           <Route path="/ansok" element={<Apply />} />
           <Route path="/licenser" element={<Certificates />} />
           <Route path="/varfor-styrketrana" element={<WhyStrength />} />
           <Route path="/ideal-klient" element={<IdealClient />} />

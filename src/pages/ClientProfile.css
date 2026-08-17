@@ -301,3 +301,80 @@
     padding: 30px 20px;
   }
 }
+
+.pt-table-row {
+  cursor: pointer;
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+.pt-table-row:hover {
+  background-color: #f9fafb !important;
+}
+
+.pt-table-row td {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pt-table-row:hover td {
+  color: #111827 !important;
+}
+
+.pt-table-row td span {
+  transition: border-bottom-color 0.2s, color 0.2s;
+}
+
+.pt-table-row:hover td span {
+  border-bottom-color: #f97316 !important;
+  color: #f97316 !important;
+}
+
+/* Print Stylesheet */
+@media print {
+  html, body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-family: 'Inter', sans-serif !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide everything that isn't the printable workout sheet */
+  nav, footer, .profile-info-card, button, .no-print, .trial-countdown-container, 
+  .header-actions, .tab-selectors, [role="button"], a, iframe, .visual-icon {
+    display: none !important;
+  }
+
+  /* Layout reset */
+  .profile-page {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .profile-grid {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .profile-content {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Expand simulated sheet to look like real white paper page */
+  .printable-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+}
+
+

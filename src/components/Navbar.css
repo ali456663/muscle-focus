@@ -7,10 +7,10 @@
   z-index: 1000;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgba(0, 150, 255, 0.3) !important;
-  background: rgba(13, 38, 87, 0.98) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid var(--border-glass);
+  background: rgba(27, 26, 23, 0.97) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
 }
 
 .navbar-container {
@@ -81,8 +81,8 @@
 }
 
 .nav-link.active {
-  color: var(--accent-cyan);
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+  color: var(--accent-gold);
+  text-shadow: 0 0 10px rgba(184, 149, 71, 0.25);
 }
 
 .nav-admin {
@@ -97,8 +97,8 @@
 /* Premium Bli Klient CTA in Navbar */
 .btn-apply {
   background: transparent;
-  color: var(--accent-neon);
-  border: 1px solid rgba(0, 255, 136, 0.3);
+  color: var(--accent-gold);
+  border: 1px solid rgba(184, 149, 71, 0.3);
   padding: 8px 20px;
   border-radius: var(--border-radius-sm);
   transition: var(--transition-normal);
@@ -110,10 +110,10 @@
 
 .btn-apply:hover, 
 .btn-apply.active {
-  background: linear-gradient(135deg, var(--accent-neon) 0%, var(--accent-cyan) 100%);
-  color: #04080f;
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #9e7d34 100%);
+  color: #ffffff;
   border-color: transparent;
-  box-shadow: var(--shadow-neon);
+  box-shadow: 0 4px 14px rgba(184, 149, 71, 0.3);
   transform: translateY(-1px);
 }
 
@@ -140,11 +140,13 @@
   top: 80px;
   left: 0;
   width: 100%;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
   padding: 24px;
   flex-direction: column;
   gap: 20px;
-  border-bottom: 1px solid rgba(0, 150, 255, 0.3) !important;
-  background: rgba(13, 38, 87, 0.98) !important;
+  border-bottom: 1px solid var(--border-glass);
+  background: rgba(27, 26, 23, 0.98) !important;
   transform: translateY(-20px);
   opacity: 0;
   visibility: hidden;
@@ -169,13 +171,13 @@
 
 .mobile-link:hover,
 .mobile-link.active {
-  color: var(--accent-cyan);
+  color: var(--accent-gold);
   padding-left: 8px;
 }
 
 .mobile-btn-apply {
-  background: linear-gradient(135deg, var(--accent-neon) 0%, var(--accent-cyan) 100%);
-  color: #04080f;
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #9e7d34 100%);
+  color: #ffffff;
   text-align: center;
   border-radius: var(--border-radius-md);
   border: none;
@@ -211,7 +213,7 @@
 
 .lang-selector-container:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(0, 229, 255, 0.3);
+  border-color: rgba(184, 149, 71, 0.3);
 }
 
 .lang-globe-icon {

@@ -1,7 +1,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
   (import.meta.env.MODE === 'production' 
     ? 'https://muscle-focus.onrender.com/api' 
-    : 'http://localhost:8098/api');
+    : `http://${window.location.hostname || 'localhost'}:8098/api`);
 
 /* ──────────────────────────────────────────────
    LOCALSTORAGE BUDDY FALLBACK (offline-first)
@@ -272,47 +272,94 @@ export const getOfflineStats = () => {
    CLIENT AUTHENTICATION & PORTAL
    ────────────────────────────────────────────── */
 export const registerClient = async (fullName, phoneNumber, email, password) => {
-  const response = await fetch(`${API_BASE_URL}/auth/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ fullName, phoneNumber, email, password }),
-  });
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || 'Registreringen misslyckades.');
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fullName, phoneNumber, email, password }),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || 'Registreringen misslyckades.');
+    }
+    return await response.json();
+  } catch (err) {
+    if (err.message && !err.message.toLowerCase().includes('failed to fetch')) {
+      throw err;
+    }
+    console.warn("registerClient offline fallback:", err);
+    return {
+      token: 'demo_token_' + Date.now(),
+      username: email || fullName
+    };
   }
-  return response.json();
 };
 
 export const loginClient = async (email, password) => {
-  const response = await fetch(`${API_BASE_URL}/auth/client-login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: email, password }),
-  });
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || 'Inloggningen misslyckades.');
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/client-login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: email, password }),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || 'Inloggningen misslyckades.');
+    }
+    return await response.json();
+  } catch (err) {
+    if (err.message && !err.message.toLowerCase().includes('failed to fetch')) {
+      throw err;
+    }
+    console.warn("loginClient offline fallback:", err);
+    return {
+      token: 'demo_token_' + Date.now(),
+      username: email
+    };
   }
-  return response.json();
 };
 
 export const fetchClientProfile = async (token) => {
-  const response = await fetch(`${API_BASE_URL}/client/profile`, {
-    method: 'GET',
-    headers: { 'Authorization': `Bearer ${token}` },
-  });
-  if (!response.ok) throw new Error('Kunde inte hämta profil.');
-  return response.json();
+  try {
+    const response = await fetch(`${API_BASE_URL}/client/profile`, {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${token}` },
+    });
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('Kunde inte verifiera profil. Vänligen logga in igen.');
+      }
+      throw new Error('Kunde inte hämta profil.');
+    }
+    return await response.json();
+  } catch (err) {
+    if (err.message && (err.message.includes('401') || err.message.includes('token') || err.message.includes('verifiera'))) {
+      throw err;
+    }
+    console.warn("fetchClientProfile network fallback:", err);
+    const clientName = localStorage.getItem('client_name') || localStorage.getItem('client_user') || 'Klient';
+    const email = localStorage.getItem('client_email') || 'klient@musclefocus.se';
+    return {
+      fullName: clientName,
+      email: email,
+      phoneNumber: '070-000 00 00',
+      createdAt: new Date().toISOString()
+    };
+  }
 };
 
 export const fetchClientHistory = async (token) => {
-  const response = await fetch(`${API_BASE_URL}/client/history`, {
-    method: 'GET',
-    headers: { 'Authorization': `Bearer ${token}` },
-  });
-  if (!response.ok) throw new Error('Kunde inte hämta historik.');
-  return response.json();
+  try {
+    const response = await fetch(`${API_BASE_URL}/client/history`, {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${token}` },
+    });
+    if (!response.ok) return [];
+    return await response.json();
+  } catch (err) {
+    console.warn("fetchClientHistory network fallback:", err);
+    return [];
+  }
 };
 
 export const requestPasswordReset = async (email) => {

@@ -509,4 +509,91 @@
   }
 }
 
-/* Cache-busting comment to trigger Netlify build: 2026-06-26 */
+/* Global Network Badge */
+.global-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(184, 149, 71, 0.2), rgba(115, 121, 93, 0.2));
+  border: 1px solid rgba(184, 149, 71, 0.3);
+  color: var(--accent-gold);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  animation: pulse 2.5s infinite;
+}
+
+/* Region Filter Tabs */
+.region-filter-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.region-tab {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-family: var(--font-body);
+  white-space: nowrap;
+}
+
+.region-tab:hover {
+  color: var(--text-white);
+  border-color: rgba(184, 149, 71, 0.3);
+  background: rgba(184, 149, 71, 0.1);
+}
+
+.region-tab.active {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #9e7d34 100%);
+  color: #ffffff;
+  border-color: var(--accent-gold);
+  box-shadow: 0 4px 14px rgba(184, 149, 71, 0.3);
+}
+
+/* Select Dropdown Styling */
+.buddy-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23939085' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px !important;
+  cursor: pointer;
+}
+
+.buddy-select option {
+  background: #2e2c26;
+  color: var(--text-silver);
+  padding: 8px;
+}
+
+/* Region Tag on Cards */
+.buddy-card-tag.region {
+  background: rgba(184, 149, 71, 0.15);
+  color: var(--accent-gold);
+  border: 1px solid rgba(184, 149, 71, 0.25);
+}
+
+@media (max-width: 576px) {
+  .region-filter-tabs {
+    gap: 6px;
+  }
+
+  .region-tab {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+  }
+}

@@ -56,7 +56,9 @@ function Navbar() {
           
           {localStorage.getItem('client_token') ? (
             <>
-              <Link to="/profil" className={`nav-link nav-client-profile ${isActive('/profil')}`}>{t('clientProfile')}</Link>
+              <Link to="/profil" className={`nav-link nav-client-profile ${isActive('/profil')}`} style={{ color: 'var(--accent-gold)', fontWeight: 'bold' }}>
+                🏋️ Mitt Program
+              </Link>
               <button onClick={() => {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('client_user');
@@ -104,7 +106,7 @@ function Navbar() {
         
         {localStorage.getItem('client_token') ? (
           <>
-            <Link to="/profil" className={`mobile-link ${isActive('/profil')}`} onClick={closeMenu}>{t('clientProfile')}</Link>
+            <Link to="/profil" className={`mobile-link ${isActive('/profil')}`} onClick={closeMenu}>🏋️ Mitt Program</Link>
             <button onClick={() => {
               localStorage.removeItem('client_token');
               localStorage.removeItem('client_user');

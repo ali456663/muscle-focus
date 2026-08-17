@@ -34,13 +34,18 @@ export const LanguageProvider = ({ children }) => {
       licenses: 'Licenser & Certifikat',
       
       // Home Hero
-      heroTagline: 'Boka kostnadsfri konsultation idag',
+      heroTagline: '🎁 Starta din 2-veckors gratis provperiod idag!',
       heroTitle: 'Din väg till snabbare resultat!',
       heroWelcome: 'Varmt välkommen till Muscle & Focus – ',
       heroText: 'Är du redo att bli starkare, friskare och lyckligare – både mentalt och fysiskt? Med Muscle & Focus hybridprogram för personlig träning bygger du inte bara din kropp, utan skärper även ditt sinne och når dina mål. Vårt skräddarsydda tränings- och kostupplägg, med löpande coachning både på plats och online, är designat för att ge dig konkreta resultat – oavsett om du vill forma kroppen, gå ner i vikt eller bygga muskler.',
       btnPackages: 'Utforska träningspaket',
-      btnConsultation: 'Boka konsultation',
-      
+      btnConsultation: 'Starta 2 veckors gratis test',
+      // Motivation Section
+      motivationTitle: 'Är du redo att komma i rörelse och ha kul samtidigt?',
+      motivationText1: 'Som din personliga tränare är jag här för att hjälpa dig hitta glädjen i att vara aktiv – oavsett om du vill leka och busa med barnen, hänga med på deras äventyr eller bara få upp flåset och känna dig piggare i vardagen!',
+      motivationText2: 'Om du saknar kondition, känner dig lite stel eller bara vill ha mer energi för att orka med roliga aktiviteter, så är jag med dig hela vägen. Tillsammans kan vi skapa enkla, roliga och effektiva sätt att röra på dig – anpassat efter dina behov och mål. Ingen press, bara pepp och glädje!',
+      motivationText3: 'Låt oss sätta igång och göra rörelse till en naturlig del av din dag. Vad sägs om att ta första steget redan idag? Jag är här för att stötta dig – vad behöver du hjälp med?',
+
       // Home Health Step
       healthTitle: 'Är du redo att ta steget mot bättre hälsa?',
       healthText: 'Låt oss skapa en starkare, friskare och mer självsäker version av dig! Boka en kostnadsfri konsultation idag, där vi diskuterar dina mål och hur Muscle & Focus kan hjälpa dig att nå dem. Oavsett om du föredrar att svettas på gymmet eller träna hemifrån, har vi lösningen för dig.',
@@ -555,6 +560,28 @@ export const LanguageProvider = ({ children }) => {
             'Obegränsad support: Tillgång till din coach via WhatsApp eller e-post för snabba frågor och extra pepp när du behöver det.',
             'Anpassning i realtid: Om livsstilsförändringar, skador eller andra faktorer påverkar din träning, anpassar vi programmet direkt för att hålla dig på rätt spår.'
           ]
+        },
+        'free-trial': {
+          title: 'Gratis 2-veckors testperiod',
+          duration: '2 Veckor',
+          price: '0 kr',
+          subPrice: 'Kostnadsfritt träningsprogram & kostschema',
+          badge: 'PROVA GRATIS',
+          features: [
+            '2 veckors personligt träningsprogram',
+            '2 veckors kostschema baserat på dina mål',
+            'Digital coachning och support via WhatsApp ingår',
+            'Helt gratis och utan bindningstid',
+            'Perfekt för att testa Muscle & Focus PT-hybridupplägg'
+          ],
+          modalTitle: 'Vad ingår i gratisperioden?',
+          readMoreIntro: 'Testa Muscle & Focus hybridcoaching helt utan kostnad i två veckor! Du får ett skräddarsytt träningsschema och en professionell kostplan baserat på din nuvarande fysik, dina önskemål och mål. Under testperioden får du testa på hur det är att samarbeta med Ali som din personliga coach.',
+          readMoreFeatures: [
+            '2 veckors personligt träningsprogram anpassat för hemmabruk eller gym',
+            'Kostschema med måltidsförslag anpassat efter din vardag',
+            'Inloggning till vår plattform och digital support',
+            'Avslutas helt automatiskt efter 14 dagar – inga dolda avgifter eller förpliktelser.'
+          ]
         }
       },
 
@@ -759,23 +786,32 @@ export const LanguageProvider = ({ children }) => {
           a: 'Om du har bestämt dig för att gå ner i vikt är det lätt att vilja se snabba resultat. Samtidigt handlar hälsa om mer än bara siffror på vågen. Det viktigaste är att hitta vanor och en balans som du mår bra av.\n\nOm du går ner i vikt snabbt kan kroppen lätt gå in i ett ”sparläge” där ämnesomsättningen saktar ner. Det gör det svårare att fortsätta gå ner i vikt och lättare att gå upp igen.\n\nEtt bra mål är att gå ner ungefär 0,5–1 kilo i veckan. Det motsvarar vanligtvis ett lagom kaloriunderskott på cirka 500–1000 kalorier per dag. Det kan låta långsamt men det är en takt som kroppen brukar klara av utan stress.'
         }
       ],
-      buddyFinderTitle: 'Hitta din träningskompis',
-      buddyFinderDesc: 'Här kan du komma i kontakt med andra som också letar efter någon att träna med. Skriv upp dig i listan för att synas, eller sök bland befintliga träningskompisar!',
+      buddyFinderTitle: 'Hitta din träningskompis – Globalt nätverk',
+      buddyFinderDesc: 'Vårt globala nätverk kopplar ihop träningsentusiaster från hela världen! Oavsett om du befinner dig i Europa, Asien, Afrika eller Amerika – registrera dig och hitta din perfekta träningskompis.',
       buddyFormTitle: 'Skapa din profil',
       buddyFormFullName: 'Fullständigt namn',
       buddyFormAge: 'Ålder (år)',
       buddyFormCity: 'Stad',
+      buddyFormCountry: 'Land',
+      buddyFormRegion: 'Kontinent / Region',
       buddyFormGym: 'Vilket gym tränar du på?',
       buddyFormContact: 'Kontaktuppgift (t.ex. E-post, Instagram, Snapchat eller Telefon)',
       buddyFormMessage: 'Meddelande (berätta lite om dig själv och din träning)',
       buddyFormSubmit: 'Hitta träningskompis',
       buddyFormSuccess: 'Din profil har publicerats! Lycka till med att hitta din träningskompis.',
-      buddyListTitle: 'Träningskompisar i närheten',
+      buddyListTitle: 'Träningskompisar världen över',
       buddyListEmpty: 'Inga träningskompisar har skrivit upp sig än. Bli den första!',
-      buddySearchPlaceholder: 'Sök på stad eller gym...',
+      buddySearchPlaceholder: 'Sök på stad, land eller gym...',
       buddyContactBtn: 'Kontakta',
       buddyAgeLabel: 'år',
       buddyGymLabel: 'Klubb/Gym',
+      buddyRegionAll: 'Alla regioner',
+      buddyRegionEurope: '🌍 Europa',
+      buddyRegionAsia: '🌏 Asien',
+      buddyRegionAfrica: '🌍 Afrika',
+      buddyRegionAmericas: '🌎 Amerika',
+      buddyRegionOceania: '🌏 Oceanien',
+      buddyCountryPlaceholder: 'Sverige, Tyskland, USA...',
 
       // 404 Not Found
       notFoundTitle: 'Sidan hittades inte',
@@ -796,13 +832,19 @@ export const LanguageProvider = ({ children }) => {
       licenses: 'Licenses & Certificates',
       
       // Home Hero
-      heroTagline: 'Book a free consultation today',
+      heroTagline: '🎁 Start your 2-week free trial today!',
       heroTitle: 'Your path to faster results!',
       heroWelcome: 'A warm welcome to Muscle & Focus – ',
       heroText: 'Are you ready to become stronger, healthier, and happier – both mentally and physically? With the Muscle & Focus hybrid personal training program, you not only build your body, but also sharpen your mind and reach your goals. Our tailored training and nutrition program, with continuous coaching both on-site and online, is designed to give you concrete results – whether you want to shape your body, lose weight, or build muscle.',
       btnPackages: 'Explore Packages',
-      btnConsultation: 'Book Consultation',
+      btnConsultation: 'Start 2-week free trial',
       
+      // Motivation Section
+      motivationTitle: 'Are you ready to get moving and have fun at the same time?',
+      motivationText1: 'As your personal trainer, I\'m here to help you find the joy in being active – whether you want to play and have fun with the kids, keep up with their adventures, or just get your heart pumping and feel more energized in everyday life!',
+      motivationText2: 'If you\'re lacking fitness, feeling a bit stiff, or just want more energy for fun activities, I\'m with you every step of the way. Together we can create simple, fun, and effective ways to get moving – tailored to your needs and goals. No pressure, just encouragement and joy!',
+      motivationText3: 'Let\'s get started and make movement a natural part of your day. How about taking the first step today? I\'m here to support you – what do you need help with?',
+
       // Home Health Step
       healthTitle: 'Are you ready to take the step towards better health?',
       healthText: 'Let\'s create a stronger, healthier, and more confident version of you! Book a free consultation today, where we discuss your goals and how Muscle & Focus can help you reach them. Whether you prefer to sweat at the gym or train from home, we have the solution for you.',
@@ -1317,6 +1359,28 @@ export const LanguageProvider = ({ children }) => {
             'Unlimited support: Access to your coach via WhatsApp or email for quick questions and extra pep.',
             'Real-time adjustment: If lifestyle changes, injuries, or other factors affect your training, we adapt the program immediately to keep you on track.'
           ]
+        },
+        'free-trial': {
+          title: 'Free 2-Week Trial Period',
+          duration: '2 Weeks',
+          price: '0 SEK',
+          subPrice: 'Free training program & nutrition plan',
+          badge: 'TRY FOR FREE',
+          features: [
+            '2 weeks of personalized workout plan',
+            '2 weeks of nutrition meal plan based on your goals',
+            'Digital coaching and support via WhatsApp included',
+            'Completely free with no binding time',
+            'Perfect to test the Muscle & Focus PT hybrid system'
+          ],
+          modalTitle: 'What is included in the free trial?',
+          readMoreIntro: 'Test Muscle & Focus hybrid coaching completely free of charge for two weeks! You get a tailored training schedule and a professional diet plan based on your current body composition, preferences, and goals. During the test period, you will experience what it is like to work with Ali as your personal coach.',
+          readMoreFeatures: [
+            '2 weeks of personal training program adapted for home or gym use',
+            'Nutrition plan with meal suggestions adapted to your daily life',
+            'Access to our digital support and WhatsApp coaching',
+            'Expires automatically after 14 days – no hidden fees or obligations.'
+          ]
         }
       },
 
@@ -1521,23 +1585,32 @@ export const LanguageProvider = ({ children }) => {
           a: 'If you have decided to lose weight, it is natural to want fast results. However, health is about more than just scale numbers. The most important thing is finding sustainable habits and balance.\n\nIf you lose weight too quickly, the body can enter a "starvation mode" where metabolism slows down. This makes it harder to continue losing weight and easier to regain it.\n\nA good target is to lose about 0.5–1 kg per week. This usually corresponds to a moderate calorie deficit of about 500–1000 calories per day. It might seem slow, but it is a pace the body can handle without stress.'
         }
       ],
-      buddyFinderTitle: 'Find Your Training Buddy',
-      buddyFinderDesc: 'Here you can get in touch with others who are also looking for someone to train with. Write your name in the list to be visible, or search among existing training buddies!',
+      buddyFinderTitle: 'Find Your Training Buddy – Global Network',
+      buddyFinderDesc: 'Our global network connects fitness enthusiasts from around the world! Whether you are in Europe, Asia, Africa, or the Americas – sign up and find your perfect training partner.',
       buddyFormTitle: 'Create Your Profile',
       buddyFormFullName: 'Full Name',
       buddyFormAge: 'Age (years)',
       buddyFormCity: 'City',
+      buddyFormCountry: 'Country',
+      buddyFormRegion: 'Continent / Region',
       buddyFormGym: 'Which gym do you train at?',
       buddyFormContact: 'Contact Info (e.g., Email, Instagram, Snapchat, or Phone)',
       buddyFormMessage: 'Message (tell us a bit about yourself and your training)',
       buddyFormSubmit: 'Find Training Buddy',
       buddyFormSuccess: 'Your profile has been published! Good luck finding your training buddy.',
-      buddyListTitle: 'Training Buddies Nearby',
+      buddyListTitle: 'Training Buddies Worldwide',
       buddyListEmpty: 'No training buddies have signed up yet. Be the first!',
-      buddySearchPlaceholder: 'Search by city or gym...',
+      buddySearchPlaceholder: 'Search by city, country or gym...',
       buddyContactBtn: 'Contact',
       buddyAgeLabel: 'years old',
       buddyGymLabel: 'Gym/Club',
+      buddyRegionAll: 'All regions',
+      buddyRegionEurope: '🌍 Europe',
+      buddyRegionAsia: '🌏 Asia',
+      buddyRegionAfrica: '🌍 Africa',
+      buddyRegionAmericas: '🌎 Americas',
+      buddyRegionOceania: '🌏 Oceania',
+      buddyCountryPlaceholder: 'Sweden, Germany, USA...',
 
       // 404 Not Found
       notFoundTitle: 'Page Not Found',
@@ -1565,6 +1638,12 @@ export const LanguageProvider = ({ children }) => {
       btnPackages: 'مشاهده پکیج‌ها',
       btnConsultation: 'رزرو مشاوره',
       
+      // Motivation Section
+      motivationTitle: 'آیا آماده‌اید که حرکت کنید و همزمان از آن لذت ببرید؟',
+      motivationText1: 'به عنوان مربی شخصی شما، من اینجا هستم تا به شما کمک کنم لذت فعال بودن را پیدا کنید – چه بخواهید با بچه‌ها بازی کنید، همراه ماجراجویی‌های آن‌ها باشید یا فقط نفس‌تان را بالا بیاورید و در زندگی روزمره سرحال‌تر باشید!',
+      motivationText2: 'اگر آمادگی بدنی ندارید، کمی خشکی بدن احساس می‌کنید یا فقط انرژی بیشتری برای فعالیت‌های سرگرم‌کننده می‌خواهید، من در تمام مسیر همراه شما هستم. با هم می‌توانیم راه‌های ساده، سرگرم‌کننده و مؤثری برای حرکت ایجاد کنیم – متناسب با نیازها و اهداف شما. بدون فشار، فقط انگیزه و شادی!',
+      motivationText3: 'بیایید شروع کنیم و حرکت را به بخشی طبیعی از روز شما تبدیل کنیم. نظرتان چیست که همین امروز اولین قدم را بردارید؟ من اینجا هستم تا از شما حمایت کنم – به چه کمکی نیاز دارید؟',
+
       // Home Health Step
       healthTitle: 'آیا آماده‌اید قدمی به سوی سلامتی بهتر بردارید؟',
       healthText: 'بیایید نسخه‌ای قوی‌تر، سالم‌تر و با اعتماد به نفس‌تر از شما بسازیم! امروز یک مشاوره رایگان رزرو کنید، جایی که در مورد اهداف شما و نحوه کمک Muscle & Focus برای رسیدن به آن‌ها صحبت می‌کنیم. چه ترجیح می‌دهید در باشگاه تمرین کنید یا در خانه، ما راه حلی برای شما داریم.',
@@ -2014,6 +2093,28 @@ export const LanguageProvider = ({ children }) => {
             'پشتیبانی نامحدود: دسترسی به مربی خود از طریق واتس‌اپ یا ایمیل برای سوالات سریع و انگیزه بیشتر.',
             'تنظیم در لحظه: اگر تغییرات سبک زندگی، آسیب‌دیدگی‌ها یا عوامل دیگر بر تمرین شما تأثیر بگذارد، ما برنامه را بلافاصله تغییر می‌دهیم تا شما را در مسیر درست نگه داریم.'
           ]
+        },
+        'free-trial': {
+          title: 'دوره آزمایشی رایگان ۲ هفته‌ای',
+          duration: '۲ هفته',
+          price: '۰ کرون',
+          subPrice: 'برنامه تمرینی و برنامه غذایی کاملاً رایگان',
+          badge: 'امتحان رایگان',
+          features: [
+            '۲ هفته برنامه تمرینی شخصی‌سازی شده',
+            '۲ هفته برنامه غذایی بر اساس اهداف شما',
+            'شامل مربیگری دیجیتال و پشتیبانی از طریق واتس‌اپ',
+            'کاملاً رایگان و بدون تعهد تمدید',
+            'عالی برای تست سیستم مربیگری ترکیبی Muscle & Focus'
+          ],
+          modalTitle: 'چه چیزهایی در دوره آزمایشی گنجانده شده است؟',
+          readMoreIntro: 'سیستم مربیگری ترکیبی Muscle & Focus را به مدت دو هفته کاملاً رایگان امتحان کنید! یک برنامه تمرینی اختصاصی و یک برنامه غذایی حرفه‌ای بر اساس فیزیک فعلی، ترجیحات و اهداف خود دریافت خواهید کرد. در طول این دوره، تجربه همکاری با علی به عنوان مربی شخصی خود را تجربه خواهید کرد.',
+          readMoreFeatures: [
+            '۲ هفته برنامه تمرینی شخصی برای استفاده در خانه یا باشگاه',
+            'برنامه غذایی با پیشنهادات غذایی متناسب با زندگی روزمره شما',
+            'دسترسی به مربیگری از طریق واتس‌اپ و پشتیبانی دیجیتال ما',
+            'انقضای خودکار پس از ۱۴ روز – بدون هزینه‌های پنهان یا تعهد و لغو خودکار.'
+          ]
         }
       },
 
@@ -2218,23 +2319,32 @@ export const LanguageProvider = ({ children }) => {
           a: 'اگر تصمیم به کاهش وزن گرفته‌اید، طبیعی است که بخواهید نتایج سریعی را ببینید. با این حال، سلامتی چیزی بیش از اعداد روی ترازو است. مهم‌ترین چیز ایجاد عادات پایدار و تعادل است.\n\nاگر وزن خود را خیلی سریع کاهش دهید، بدن ممکن است وارد «حالت بقا یا ذخیره انرژی» شود که در آن متابولیسم کاهش می‌یابد. این کار کاهش وزن مداوم را سخت‌تر و افزایش مجدد وزن را آسان‌تر می‌کند.\n\nیک هدف خوب، کاهش حدود ۰.۵ تا ۱ کیلوگرم در هفته است. این معمولاً مربوط به ایجاد کسری کالری متوسط در حدود ۵۰۰ تا ۱۰۰۰ کالری در روز است. این ممکن است کند به نظر برسد، اما سرعتی است که بدن می‌تواند بدون استرس آن را تحمل کند.'
         }
       ],
-      buddyFinderTitle: 'یافتن هم‌تمرینی',
-      buddyFinderDesc: 'در اینجا می‌توانید با افراد دیگری که به دنبال هم‌تمرینی هستند در ارتباط باشید. نام خود را در لیست ثبت کنید تا دیده شوید یا در میان هم‌تمرینی‌های موجود جستجو کنید!',
+      buddyFinderTitle: 'یافتن هم‌تمرینی – شبکه جهانی',
+      buddyFinderDesc: 'شبکه جهانی ما علاقه‌مندان به تناسب اندام را از سراسر جهان به هم متصل می‌کند! چه در اروپا باشید، چه آسیا، آفریقا یا آمریکا – ثبت نام کنید و هم‌تمرینی ایده‌آل خود را پیدا کنید.',
       buddyFormTitle: 'ایجاد پروفایل شما',
       buddyFormFullName: 'نام کامل',
       buddyFormAge: 'سن (سال)',
       buddyFormCity: 'شهر',
+      buddyFormCountry: 'کشور',
+      buddyFormRegion: 'قاره / منطقه',
       buddyFormGym: 'در کدام باشگاه تمرین می‌کنید؟',
       buddyFormContact: 'اطلاعات تماس (مانند ایمیل، اینستاگرام، اسنپ‌چت یا تلفن)',
       buddyFormMessage: 'پیام (کمی درباره خودتان و نحوه تمرینتان بگویید)',
       buddyFormSubmit: 'ثبت اطلاعات هم‌تمرینی',
       buddyFormSuccess: 'پروفایل شما با موفقیت ثبت شد! با آرزوی موفقیت در یافتن هم‌تمرینی خود.',
-      buddyListTitle: 'هم‌تمرینی‌های نزدیک شما',
+      buddyListTitle: 'هم‌تمرینی‌ها در سراسر جهان',
       buddyListEmpty: 'هنوز هم‌تمرینی ثبت نام نکرده است. اولین نفر باشید!',
-      buddySearchPlaceholder: 'جستجو بر اساس شهر یا باشگاه...',
+      buddySearchPlaceholder: 'جستجو بر اساس شهر، کشور یا باشگاه...',
       buddyContactBtn: 'راه‌های تماس',
       buddyAgeLabel: 'ساله',
       buddyGymLabel: 'باشگاه',
+      buddyRegionAll: 'همه مناطق',
+      buddyRegionEurope: '🌍 اروپا',
+      buddyRegionAsia: '🌏 آسیا',
+      buddyRegionAfrica: '🌍 آفریقا',
+      buddyRegionAmericas: '🌎 آمریکا',
+      buddyRegionOceania: '🌏 اقیانوسیه',
+      buddyCountryPlaceholder: 'سوئد، آلمان، آمریکا...',
 
       // 404 Not Found
       notFoundTitle: 'صفحه یافت نشد',

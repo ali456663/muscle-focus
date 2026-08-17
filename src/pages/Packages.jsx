@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Dumbbell, Calendar, Globe, Sparkles, UserCheck, Flame, ChevronRight, Apple, AlertCircle, X } from 'lucide-react'
+import { Dumbbell, Calendar, Globe, Sparkles, UserCheck, Flame, ChevronRight, Apple, AlertCircle, X, HelpCircle } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
 import { usePageTitle } from '../hooks/usePageTitle'
+import PackageRecommender from '../components/PackageRecommender'
+import { GradientWave } from '../components/GradientWave'
 import './Packages.css'
 
 function Packages() {
   const [activeCategory, setActiveCategory] = useState('all')
   const [activeModalPackage, setActiveModalPackage] = useState(null)
+  const [isRecommenderOpen, setIsRecommenderOpen] = useState(false)
   const { t, language } = useLanguage()
   usePageTitle('packages')
 
@@ -101,6 +104,13 @@ function Packages() {
       category: 'physical-nutrition',
       icon: Dumbbell,
       image: '/individual_pt.jpg'
+    },
+    // Free Trial
+    {
+      id: 'free-trial',
+      category: 'online-short',
+      icon: Sparkles,
+      image: '/why_choose_me.png'
     }
   ].map(pkg => ({
     ...pkg,
@@ -128,6 +138,66 @@ function Packages() {
         <p className="packages-intro">
           {t('packagesIntro')}
         </p>
+        {/* Premium Banner with GradientWave Background */}
+        <div 
+          className="glass-panel recommender-banner"
+          style={{ 
+            marginTop: '32px', 
+            position: 'relative', 
+            borderRadius: 'var(--border-radius-lg)', 
+            border: '1.5px solid rgba(184, 149, 71, 0.4)', 
+            boxShadow: '0 8px 32px rgba(184, 149, 71, 0.15)',
+            overflow: 'hidden',
+            padding: '40px 24px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '16px',
+            textAlign: 'center'
+          }}
+        >
+          {/* Animated Gradient Wave background behind text */}
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1, opacity: 0.18 }}>
+            <GradientWave
+              colors={["#1b1a17", "#b89547", "#73795D", "#3d4f5a", "#1b1a17"]}
+              shadowPower={4}
+              darkenTop={false}
+              noiseFrequency={[0.0002, 0.0003]}
+              deform={{ incline: 0.15, noiseAmp: 120, noiseFlow: 1.5 }}
+            />
+          </div>
+
+          <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+            <Sparkles size={28} style={{ color: 'var(--accent-gold)', marginBottom: '4px' }} />
+            <h3 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)', margin: 0 }}>
+              {language === 'fa' ? 'راهنمای هوشمند انتخاب پکیj' : language === 'en' ? 'Which package fits your body type & goals?' : 'Vilket paket passar din kroppstyp & träningsmål?'}
+            </h3>
+            <p style={{ color: 'var(--text-silver)', fontSize: '0.95rem', maxWidth: '500px', margin: '0 0 8px 0', lineHeight: '1.5' }}>
+              {language === 'fa' 
+                ? 'با وارد کردن قد، وزن و محاسبات شاخص توده بدنی (BMI)، بهترین پکیج تمرینی را پیدا کنید.' 
+                : language === 'en' 
+                ? 'Enter your height, weight, calculate your BMI and find the customized plan designed for you.' 
+                : 'Fyll i dina mått, se ditt BMI-resultat direkt och hitta det skräddarsydda paketet som är designat för dina behov.'}
+            </p>
+            <button 
+              onClick={() => setIsRecommenderOpen(true)}
+              className="btn-primary"
+              style={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                gap: '10px', 
+                padding: '12px 32px',
+                background: 'linear-gradient(135deg, var(--accent-gold) 0%, #a48231 100%)',
+                border: '1.5px solid var(--accent-gold)'
+              }}
+            >
+              <HelpCircle size={18} />
+              <span>
+                {language === 'fa' ? 'شروع تست انتخاب پکیج' : language === 'en' ? 'Start Free Package Quiz' : 'Starta paket-testet gratis'}
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Categories Filter Tabs */}
@@ -367,6 +437,13 @@ function Packages() {
           </div>
         </div>
       )}
+
+      {/* Package Recommender Quiz Modal */}
+      <PackageRecommender 
+        isOpen={isRecommenderOpen} 
+        onClose={() => setIsRecommenderOpen(false)} 
+        packages={packages}
+      />
     </div>
   )
 }

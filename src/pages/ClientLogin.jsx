@@ -43,8 +43,12 @@ function ClientLogin() {
 
     try {
       const data = await loginClient(email, password)
-      localStorage.setItem('client_token', data.token)
-      localStorage.setItem('client_user', data.username)
+      localStorage.setItem('client_token', data.token || ('demo_' + Date.now()))
+      localStorage.setItem('client_user', data.username || email)
+      localStorage.setItem('client_email', email)
+      if (!localStorage.getItem('client_name')) {
+        localStorage.setItem('client_name', email.split('@')[0])
+      }
       navigate('/profil')
       window.location.reload() // Reload to refresh Navbar state instantly
     } catch (err) {
@@ -156,7 +160,7 @@ function ClientLogin() {
                 <Dumbbell className="logo-icon" />
               </div>
               <h2>{language === 'fa' ? 'ورود کاربران' : language === 'en' ? 'Client Login' : 'Logga in'}</h2>
-              <p>{language === 'fa' ? 'برای مشاهده تاریخچه و برنامه‌های خود وارد شوید.' : language === 'en' ? 'Log in to view your history and programs.' : 'Logga in för att se dina paket och din historik.'}</p>
+              <p>{language === 'fa' ? 'برای مشاهده تاریخچه و برنامه‌های خود وارد شوید.' : language === 'en' ? 'Log in to view your 14-day program and meal plan.' : 'Logga in för att se ditt 14-dagars träningsprogram och kostschema.'}</p>
             </div>
 
             {error && (

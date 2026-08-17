@@ -345,3 +345,184 @@
     padding: 20px 16px;
   }
 }
+
+/* Multi-step form animations and selectors */
+.apply-form-container button[type="button"]:not(.btn-primary):not(.btn-secondary) {
+  transition: all var(--transition-normal);
+}
+
+.apply-form-container button[type="button"]:not(.btn-primary):not(.btn-secondary):hover {
+  filter: brightness(1.2);
+  border-color: rgba(184, 149, 71, 0.4) !important;
+  box-shadow: 0 4px 12px rgba(184, 149, 71, 0.05);
+}
+
+.form-steps-indicator span {
+  font-size: 0.9rem;
+  font-family: var(--font-heading);
+  transition: color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .form-steps-indicator {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+}
+
+/* ─── Premium Body Scanner Styles ─── */
+.body-scan-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.body-scan-container {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(10, 25, 47, 0.8) 0%, rgba(2, 6, 12, 0.95) 100%);
+  border: 1.5px solid rgba(0, 242, 254, 0.25);
+  box-shadow: 0 0 30px rgba(0, 242, 254, 0.15), inset 0 0 20px rgba(0, 242, 254, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.body-scan-image {
+  height: 92%;
+  max-width: 90%;
+  object-fit: contain;
+  opacity: 0.88;
+  filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.3));
+}
+
+.body-scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent, #00f2fe, #4facfe, #00f2fe, transparent);
+  box-shadow: 0 0 15px #00f2fe, 0 0 30px #4facfe;
+  z-index: 10;
+  animation: scan-line 3.2s ease-in-out infinite;
+}
+
+.body-scan-ring {
+  position: absolute;
+  width: 250px;
+  height: 48px;
+  border: 2px solid #00f2fe;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.7), inset 0 0 15px rgba(0, 242, 254, 0.4);
+  background: radial-gradient(ellipse at center, rgba(0, 242, 254, 0.1) 0%, transparent 80%);
+  transform: rotateX(68deg);
+  z-index: 9;
+  animation: scan-ring 3.2s ease-in-out infinite;
+}
+
+.body-scan-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 242, 254, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 242, 254, 0.04) 1px, transparent 1px);
+  z-index: 1;
+}
+
+.scan-hud-element {
+  position: absolute;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: rgba(0, 242, 254, 0.6);
+  z-index: 5;
+}
+
+.scan-hud-top-left {
+  top: 15px;
+  left: 15px;
+  border-left: 2px solid #00f2fe;
+  border-top: 2px solid #00f2fe;
+  padding-top: 4px;
+  padding-left: 6px;
+  width: 50px;
+  height: 25px;
+}
+
+.scan-hud-bottom-right {
+  bottom: 15px;
+  right: 15px;
+  border-right: 2px solid #00f2fe;
+  border-bottom: 2px solid #00f2fe;
+  padding-bottom: 4px;
+  padding-right: 6px;
+  width: 50px;
+  height: 25px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.scan-radar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.scan-radar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(0, 242, 254, 0.3), transparent 60%);
+  animation: radar-sweep 2s linear infinite;
+}
+
+@keyframes scan-line {
+  0% { top: 6%; }
+  50% { top: 92%; }
+  100% { top: 6%; }
+}
+
+@keyframes scan-ring {
+  0% { top: 2%; opacity: 0.4; transform: rotateX(68deg) scale(0.9); }
+  25% { opacity: 1; }
+  50% { top: 80%; opacity: 0.9; transform: rotateX(68deg) scale(1.1); }
+  75% { opacity: 1; }
+  100% { top: 2%; opacity: 0.4; transform: rotateX(68deg) scale(0.9); }
+}
+
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.scan-status-message {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+  font-weight: 700;
+  text-align: center;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+

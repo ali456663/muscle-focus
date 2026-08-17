@@ -21,7 +21,71 @@ function Home() {
         <ContainerSticky className="hero-sticky-container">
           <div className="hero-container container">
             <ContainerAnimated className="hero-content">
-              <span className="hero-tagline badge-campaign">{t('heroTagline')}</span>
+              {/* Dumbbell Banner with custom text overlay */}
+              <Link 
+                to="/ansok?paket=Gratis%20provperiod%20(14%20dagar)" 
+                className="dumbbell-banner-link fade-in"
+                style={{
+                  position: 'relative',
+                  display: 'block',
+                  width: '100%',
+                  maxWidth: '540px',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                  marginBottom: '28px',
+                  cursor: 'pointer',
+                  background: '#060b13'
+                }}
+              >
+                {/* Custom Trainer Banner */}
+                <img 
+                  src="/banner_trainers.png" 
+                  alt="Personal Trainers" 
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    display: 'block',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.03)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
+                />
+                
+                {/* White Rounded Badge overlay positioned at the bottom */}
+                <div 
+                  style={{
+                    position: 'absolute',
+                    bottom: '16px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    backgroundColor: '#ffffff',
+                    padding: '8px 24px',
+                    borderRadius: '30px',
+                    border: '3px solid #d4af37',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.25)',
+                    whiteSpace: 'nowrap',
+                    pointerEvents: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <span 
+                    style={{
+                      fontFamily: 'var(--font-heading), Impact, sans-serif',
+                      fontSize: '0.85rem',
+                      fontWeight: '900',
+                      color: '#d4af37', // Gold text
+                      letterSpacing: '0.02em',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    {language === 'en' ? 'Start your 2-week free trial today!' : 'Starta din 2-veckors gratis provperiod idag!'}
+                  </span>
+                </div>
+              </Link>
               <h1 className="hero-title text-gradient-neon">
                 {t('heroWelcome')}<span>{t('heroTitle')}</span>
               </h1>
@@ -30,38 +94,43 @@ function Home() {
               </p>
               <div className="hero-actions">
                 <Link to="/paket" className="btn-primary">{t('btnPackages')}</Link>
-                <Link to="/ansok" className="btn-secondary">{t('btnConsultation')}</Link>
+                <Link to="/ansok?paket=Gratis%20provperiod%20(14%20dagar)" className="btn-secondary">{t('btnConsultation')}</Link>
               </div>
             </ContainerAnimated>
             <div className="hero-visual">
               <div className="visual-glow"></div>
-              <ContainerInset className="hero-video-wrapper">
-                <HeroVideo 
-                  src="/workout_video.mp4" 
+              <div className="hero-video-wrapper">
+                <img 
+                  src="/winter_pt.png" 
+                  alt="Muscle & Focus PT" 
                   className="hero-video"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
                 />
-              </ContainerInset>
+              </div>
               <div className="visual-card glass-panel hero-floating-card">
-                <div className="visual-header">
-                  <Flame className="visual-icon" />
-                  <span>Muscle & Focus PT</span>
+                <div className="visual-header" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '16px' }}>
+                  <Flame className="visual-icon" style={{ color: '#ffb700', filter: 'drop-shadow(0 0 8px rgba(255,183,0,0.5))' }} />
+                  <span style={{ fontWeight: '800', background: 'linear-gradient(90deg, #ffb700, #00f5ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '0.02em' }}>
+                    Muscle & Focus PT
+                  </span>
                 </div>
-                <div className="visual-body">
-                  <div className="stat-row">
-                    <span className="stat-label">Erfarenhet / Experience</span>
-                    <span className="stat-value">8+ År</span>
+                <div className="visual-body" style={{ paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div className="stat-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>Erfarenhet / Experience</span>
+                    <span className="stat-value" style={{ color: '#ffb700', fontWeight: '800', textShadow: '0 0 8px rgba(255, 183, 0, 0.4)' }}>8+ År</span>
                   </div>
-                  <div className="stat-row">
-                    <span className="stat-label">Stöd / Support</span>
-                    <span className="stat-value">Flerspråkigt</span>
+                  <div className="stat-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>Stöd / Support</span>
+                    <span className="stat-value" style={{ color: '#00f5ff', fontWeight: '800', textShadow: '0 0 8px rgba(0, 245, 255, 0.4)' }}>Flerspråkigt</span>
                   </div>
-                  <div className="stat-row">
-                    <span className="stat-label">Coaching</span>
-                    <span className="stat-value">Online & På plats</span>
+                  <div className="stat-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>Coaching</span>
+                    <span className="stat-value" style={{ color: '#00ff88', fontWeight: '800', textShadow: '0 0 8px rgba(0, 255, 136, 0.4)' }}>Online & På plats</span>
                   </div>
                 </div>
               </div>
@@ -69,6 +138,28 @@ function Home() {
           </div>
         </ContainerSticky>
       </ContainerScroll>
+
+      {/* Motivation / Kom i rörelse Section */}
+      <section className="motivation-section">
+        <div className="container">
+          <div className="glass-panel motivation-box" style={{ padding: '48px 40px', borderRadius: 'var(--border-radius-lg)', border: '1px solid var(--border-glass)', boxShadow: 'var(--shadow-neon)', marginBottom: '0' }}>
+            <div className="motivation-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <h2 style={{ fontSize: '1.8rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)', lineHeight: '1.3' }}>
+                {t('motivationTitle')}
+              </h2>
+              <p style={{ color: 'var(--text-silver)', fontSize: '1.05rem', lineHeight: '1.8' }}>
+                {t('motivationText1')}
+              </p>
+              <p style={{ color: 'var(--text-silver)', fontSize: '1.05rem', lineHeight: '1.8' }}>
+                {t('motivationText2')}
+              </p>
+              <p style={{ color: 'var(--accent-gold)', fontSize: '1.1rem', lineHeight: '1.8', fontWeight: '600', fontStyle: 'italic' }}>
+                {t('motivationText3')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Health Step Section */}
       <section className="health-step-section">

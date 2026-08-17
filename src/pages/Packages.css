@@ -539,4 +539,55 @@
   }
 }
 
+/* Package Recommender Styles */
+.recommender-overlay {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.recommender-modal {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Scrollbar within modal scrollable body */
+.terms-scrollable-body::-webkit-scrollbar {
+  width: 6px;
+}
+.terms-scrollable-body::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.1);
+}
+.terms-scrollable-body::-webkit-scrollbar-thumb {
+  background: rgba(184, 149, 71, 0.3);
+  border-radius: 3px;
+}
+
+/* Interactive item hover effects */
+.recommender-modal button:not(.btn-primary):hover {
+  filter: brightness(1.2);
+  border-color: rgba(184, 149, 71, 0.4) !important;
+  box-shadow: 0 4px 12px rgba(184, 149, 71, 0.05);
+}
+
+@media (max-width: 768px) {
+  .recommender-modal {
+    padding: 24px !important;
+    margin: 10px;
+  }
+}
+
 

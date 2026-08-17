@@ -6,10 +6,10 @@
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Color System (Fitness Color Palette) */
-  --bg-dark: #1b1a17;         /* Deep warm charcoal-black */
-  --bg-card: rgba(46, 44, 38, 0.45);   /* Charcoal card background */
-  --bg-card-hover: rgba(58, 55, 48, 0.7);
-  --bg-glass: rgba(35, 33, 29, 0.65);  /* Warm glass */
+  --bg-dark: #0a110d;         /* Deep forest dark-black */
+  --bg-card: rgba(16, 28, 22, 0.55);   /* Emerald card background */
+  --bg-card-hover: rgba(24, 40, 32, 0.7);
+  --bg-glass: rgba(12, 20, 16, 0.7);  /* Deep emerald glass */
   
   --accent-neon: #73795D;     /* Aloe Green */
   --accent-cyan: #3D4F5A;     /* Slate Blue */
@@ -17,14 +17,14 @@
   --accent-red: #8f3c3a;      /* Muted Warm Red */
   
   --text-white: #ffffff;      /* Pure white for headings */
-  --text-silver: #E2DECE;     /* Fog - body text */
-  --text-muted: #939085;      /* Muted Fog */
-  --text-dark: #54524a;       /* Dark border/muted text */
+  --text-silver: #d5deda;     /* Soft grayish mint - body text */
+  --text-muted: #8ea096;      /* Muted grayish mint */
+  --text-dark: #44564c;       /* Dark forest border/muted text */
 
-  --border-glass: rgba(226, 222, 206, 0.08);
+  --border-glass: rgba(200, 220, 210, 0.1);
   --border-neon: rgba(115, 121, 93, 0.2);
   --border-cyan: rgba(61, 79, 90, 0.25);
-  --footer-border: rgba(226, 222, 206, 0.08);
+  --footer-border: rgba(200, 220, 210, 0.1);
   
   /* Transitions */
   --transition-fast: 0.2s ease;
@@ -58,8 +58,8 @@ html, body {
 }
 
 body {
-  background-color: #1b1a17;
-  background-image: linear-gradient(rgba(27, 26, 23, 0.4), rgba(27, 26, 23, 0.4)), url('/page_bg.png');
+  background-color: #0a110d;
+  background-image: linear-gradient(rgba(10, 17, 13, 0.6), rgba(10, 17, 13, 0.75)), url('/page_bg.png');
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -139,22 +139,41 @@ button, input, select, textarea {
   border: 1px solid var(--border-glass);
 }
 
-/* Custom premium hover button with animated glowing borders and neon shadows */
-@property --gradient-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
-@keyframes btn-glow-spin {
+/* Dumbbell icon spin animation */
+@keyframes dumbbell-spin {
   0% {
-    --gradient-angle: 0deg;
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.15);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+  }
+  75% {
+    transform: rotate(270deg) scale(1.15);
   }
   100% {
-    --gradient-angle: 360deg;
+    transform: rotate(360deg) scale(1);
   }
 }
 
+.dumbbell-icon {
+  display: inline-block;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 1px 3px rgba(184, 149, 71, 0.4));
+}
+
+.dumbbell-icon:hover {
+  filter: drop-shadow(0 2px 8px rgba(184, 149, 71, 0.7));
+  transform: scale(1.1);
+}
+
+.dumbbell-spin {
+  animation: dumbbell-spin 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Premium buttons — clean, calm, trustworthy. */
 .btn-primary,
 .btn-secondary,
 .btn-readmore,
@@ -162,30 +181,60 @@ button, input, select, textarea {
 .btn-normal,
 .btn-campaign,
 .btn-buddy-contact {
-  position: relative !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border: 2.5px solid transparent !important;
-  background: 
-    linear-gradient(#ffffff, #ffffff) padding-box,
-    conic-gradient(from var(--gradient-angle), var(--accent-neon), var(--accent-gold), var(--accent-cyan), var(--accent-neon)) border-box !important;
-  color: var(--accent-gold) !important;
-  border-radius: 50px !important;
-  padding: 12px 52px !important;
-  font-family: var(--font-heading) !important;
-  font-weight: 800 !important;
-  text-transform: uppercase !important;
-  text-decoration: none !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease, transform 0.3s ease !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 
-              0 0 10px rgba(115, 121, 93, 0.2), 
-              0 0 20px rgba(184, 149, 71, 0.15) !important;
-  letter-spacing: 0.05em !important;
-  box-sizing: border-box !important;
-  white-space: nowrap !important;
-  animation: btn-glow-spin 4s linear infinite !important;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1.5px solid var(--accent-gold);
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #9e7d34 100%);
+  color: #ffffff;
+  border-radius: 50px;
+  padding: 13px 20px 13px 36px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  white-space: nowrap;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), background var(--transition-normal);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  overflow: visible;
+}
+
+/* Dumbbell emoji on all buttons */
+.btn-primary::before,
+.btn-secondary::before,
+.btn-readmore::before,
+.btn-book::before,
+.btn-normal::before,
+.btn-campaign::before,
+.btn-buddy-contact::before {
+  content: '🏋️';
+  display: inline-block;
+  font-size: 1.15em;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  flex-shrink: 0;
+}
+
+/* Spin the dumbbell on hover */
+.btn-primary:hover::before,
+.btn-secondary:hover::before,
+.btn-readmore:hover::before,
+.btn-book:hover::before,
+.btn-normal:hover::before,
+.btn-campaign:hover::before,
+.btn-buddy-contact:hover::before {
+  transform: scale(1.2);
+}
+
+/* Spin animation when clicked */
+.btn-dumbbell-spinning::before {
+  animation: dumbbell-spin 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
 }
 
 .btn-primary:hover,
@@ -195,15 +244,19 @@ button, input, select, textarea {
 .btn-normal:hover,
 .btn-campaign:hover,
 .btn-buddy-contact:hover {
-  transform: translateY(-2px) scale(1.02) !important;
-  box-shadow: 0 6px 20px rgba(184, 149, 71, 0.4), 
-              0 0 15px rgba(115, 121, 93, 0.35), 
-              0 0 30px rgba(184, 149, 71, 0.2) !important;
-  background: 
-    linear-gradient(#ffffff, #ffffff) padding-box,
-    conic-gradient(from var(--gradient-angle), var(--accent-gold), var(--accent-neon), var(--accent-cyan), var(--accent-gold)) border-box !important;
-  color: var(--accent-gold) !important;
-  animation-duration: 2s !important;
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #c9a552 0%, var(--accent-gold) 100%);
+  box-shadow: 0 8px 24px rgba(184, 149, 71, 0.35);
+}
+
+.btn-primary:active,
+.btn-secondary:active,
+.btn-readmore:active,
+.btn-book:active,
+.btn-normal:active,
+.btn-campaign:active,
+.btn-buddy-contact:active {
+  transform: translateY(0);
 }
 
 .badge-campaign {
@@ -216,7 +269,7 @@ button, input, select, textarea {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  animation: pulse 2s infinite;
+  animation: pulse 2.5s infinite;
 }
 
 @keyframes pulse {
@@ -231,173 +284,10 @@ button, input, select, textarea {
   }
 }
 
-/* Button Dumbbell Icons & Interactions */
-.btn-primary::before,
-.btn-secondary::before,
-.btn-readmore::before,
-.btn-book::before,
-.btn-normal::before,
-.btn-campaign::before,
-.btn-buddy-contact::before,
-.btn-primary::after,
-.btn-secondary::after,
-.btn-readmore::after,
-.btn-book::after,
-.btn-normal::after,
-.btn-campaign::after,
-.btn-buddy-contact::after {
-  content: "" !important;
-  position: absolute !important;
-  top: 50% !important;
-  width: 24px !important;
-  height: 24px !important;
-  background-image: url('/dumbbell.png') !important;
-  background-size: contain !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  z-index: 2 !important;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), scale 0.3s ease !important;
-}
-
-/* Left Dumbbell Position */
-.btn-primary::before,
-.btn-secondary::before,
-.btn-readmore::before,
-.btn-book::before,
-.btn-normal::before,
-.btn-campaign::before,
-.btn-buddy-contact::before {
-  left: 16px !important;
-  right: auto !important;
-  transform: translateY(-50%) !important;
-}
-
-/* Right Dumbbell Position */
-.btn-primary::after,
-.btn-secondary::after,
-.btn-readmore::after,
-.btn-book::after,
-.btn-normal::after,
-.btn-campaign::after,
-.btn-buddy-contact::after {
-  right: 16px !important;
-  left: auto !important;
-  transform: translateY(-50%) !important;
-}
-
-/* Hover Dumbbell Animations (Tilt) */
-.btn-primary:hover::before,
-.btn-secondary:hover::before,
-.btn-readmore:hover::before,
-.btn-book:hover::before,
-.btn-normal:hover::before,
-.btn-campaign:hover::before,
-.btn-buddy-contact:hover::before {
-  transform: translateY(-50%) scale(1.15) rotate(-15deg) !important;
-}
-
-.btn-primary:hover::after,
-.btn-secondary:hover::after,
-.btn-readmore:hover::after,
-.btn-book:hover::after,
-.btn-normal:hover::after,
-.btn-campaign:hover::after,
-.btn-buddy-contact:hover::after {
-  transform: translateY(-50%) scale(1.15) rotate(15deg) !important;
-}
-
-/* Active State - Click/Press Spin Animations */
-.btn-primary:active::before,
-.btn-secondary:active::before,
-.btn-readmore:active::before,
-.btn-book:active::before,
-.btn-normal:active::before,
-.btn-campaign:active::before,
-.btn-buddy-contact:active::before {
-  animation: dumbbell-spin-left 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
-}
-
-.btn-primary:active::after,
-.btn-secondary:active::after,
-.btn-readmore:active::after,
-.btn-book:active::after,
-.btn-normal:active::after,
-.btn-campaign:active::after,
-.btn-buddy-contact:active::after {
-  animation: dumbbell-spin-right 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
-}
-
-@keyframes dumbbell-spin-left {
-  0% {
-    transform: translateY(-50%) rotate(0deg) scale(1.15);
-  }
-  100% {
-    transform: translateY(-50%) rotate(-360deg) scale(1.15);
-  }
-}
-
-@keyframes dumbbell-spin-right {
-  0% {
-    transform: translateY(-50%) rotate(0deg) scale(1.15);
-  }
-  100% {
-    transform: translateY(-50%) rotate(360deg) scale(1.15);
-  }
-}
-
-/* LED Border Strip around the entire webpage */
-.led-border {
-  position: fixed;
-  top: 6px;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
-  border: 2.5px solid #00e5ff;
-  border-radius: 16px;
-  pointer-events: none;
-  z-index: 9999;
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.5), inset 0 0 10px rgba(0, 229, 255, 0.2);
-  animation: led-running 8s infinite linear;
-}
-
-@keyframes led-running {
-  0% {
-    border-color: #00e5ff;
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.6), inset 0 0 10px rgba(0, 229, 255, 0.3);
-  }
-  25% {
-    border-color: #00ff88;
-    box-shadow: 0 0 15px rgba(0, 255, 136, 0.6), inset 0 0 10px rgba(0, 255, 136, 0.3);
-  }
-  50% {
-    border-color: #b89547;
-    box-shadow: 0 0 15px rgba(184, 149, 71, 0.6), inset 0 0 10px rgba(184, 149, 71, 0.3);
-  }
-  75% {
-    border-color: #ff3b30;
-    box-shadow: 0 0 15px rgba(255, 59, 48, 0.6), inset 0 0 10px rgba(255, 59, 48, 0.3);
-  }
-  100% {
-    border-color: #00e5ff;
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.6), inset 0 0 10px rgba(0, 229, 255, 0.3);
-  }
-}
-
-@media (max-width: 480px) {
-  .led-border {
-    top: 4px;
-    left: 4px;
-    right: 4px;
-    bottom: 4px;
-    border-width: 1.5px;
-    border-radius: 12px;
-  }
-}
-
 /* Responsive styles for buttons on mobile */
 @media (max-width: 576px) {
   .container {
-    padding: 0 16px !important;
+    padding: 0 16px;
   }
 
   .btn-primary,
@@ -407,49 +297,11 @@ button, input, select, textarea {
   .btn-normal,
   .btn-campaign,
   .btn-buddy-contact {
-    white-space: normal !important;
-    text-align: center !important;
-    line-height: 1.3 !important;
-    padding: 10px 38px !important;
-    font-size: 0.85rem !important;
-    min-height: 48px !important;
-  }
-  
-  .btn-primary::before,
-  .btn-secondary::before,
-  .btn-readmore::before,
-  .btn-book::before,
-  .btn-normal::before,
-  .btn-campaign::before,
-  .btn-buddy-contact::before,
-  .btn-primary::after,
-  .btn-secondary::after,
-  .btn-readmore::after,
-  .btn-book::after,
-  .btn-normal::after,
-  .btn-campaign::after,
-  .btn-buddy-contact::after {
-    width: 20px !important;
-    height: 20px !important;
-  }
-
-  .btn-primary::before,
-  .btn-secondary::before,
-  .btn-readmore::before,
-  .btn-book::before,
-  .btn-normal::before,
-  .btn-campaign::before,
-  .btn-buddy-contact::before {
-    left: 12px !important;
-  }
-
-  .btn-primary::after,
-  .btn-secondary::after,
-  .btn-readmore::after,
-  .btn-book::after,
-  .btn-normal::after,
-  .btn-campaign::after,
-  .btn-buddy-contact::after {
-    right: 12px !important;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+    padding: 11px 28px;
+    font-size: 0.85rem;
+    min-height: 48px;
   }
 }

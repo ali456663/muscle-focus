@@ -1,13 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { fetchClientProfile, fetchClientHistory } from '../services/api'
 import {
-  User, Mail, Phone, Calendar, Dumbbell, AlertCircle, LogOut,
-  Send, CreditCard, ArrowRight, ArrowLeft, Star, Heart, Clock, UserCheck
-} from 'lucide-react'
-import { useLanguage } from '../hooks/useLanguage'
-import { usePageTitle } from '../hooks/usePageTitle'
-import {
+import SlowGif from '../components/SlowGif';
   EXERCISES,
   EQUIPMENT_MAPPING,
   DIFFICULTY_MAPPING,
@@ -16,9 +10,8 @@ import {
   DAY_NAMES_SV,
   SPLIT_EMOJIS,
 } from '../data/exercises'
-import './ClientProfile.css'
 
-// ─── Helpers for Program Builder ─────────────────────────────────────────────
+// ─── Program builder (same logic as WorkoutProgram.jsx) ─────────────────────
 function shuffle(arr) {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
@@ -28,29 +21,7 @@ function shuffle(arr) {
   return a
 }
 
-function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user' }) {
-  const seedString = email || 'user';
-  let h = 1779033703 ^ seedString.length;
-  for (let i = 0; i < seedString.length; i++) {
-    h = Math.imul(h ^ seedString.charCodeAt(i), 3432918353);
-    h = h << 13 | h >>> 19;
-  }
-  let seed = (h ^ 500) >>> 0;
-  const rng = function() {
-    let z = (seed += 0x6D2B79F5);
-    z = Math.imul(z ^ (z >>> 15), z | 1);
-    z ^= z + Math.imul(z ^ (z >>> 7), z | 61);
-    return ((z ^ (z >>> 14)) >>> 0) / 4294967296;
-  };
-
-  const shuffle = function(arr) {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(rng() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  };
+function buildProgram({ trainingDays, equipment, experienceLevel }) {
   const equipKey = EQUIPMENT_MAPPING[equipment] || EQUIPMENT_MAPPING['Fria vikter & maskiner']
   const diffLevels = DIFFICULTY_MAPPING[experienceLevel] || ['beginner', 'intermediate']
   const structure = PROGRAM_STRUCTURE[trainingDays] || PROGRAM_STRUCTURE['3']
@@ -2066,7 +2037,7 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
   return { week1: weeks[0], week2: weeks[1], split }
 }
 
-// ─── Meal Plan Generator & Templates ─────────────────────────────────────────
+// ─── Meal plan generator ─────────────────────────────────────────────────────
 const MEAL_TEMPLATES = {
   Viktnedgång: [
     {
@@ -2082,60 +2053,60 @@ const MEAL_TEMPLATES = {
       snack:     { name: 'Äpple med jordnötssmör (2 msk)', protein: 8, carbs: 28, fat: 16 },
     },
     {
-      breakfast: { name: 'Smoothiebowl: skyr, spenat, banan & linfrön', protein: 22, carbs: 34, fat: 6 },
-      lunch:     { name: 'Kalkonlindad fylld zucchini med sallad', protein: 38, carbs: 18, fat: 12 },
-      dinner:    { name: 'Ugnsbakad torskfilé med kokt potatis (150g) & sparris', protein: 34, carbs: 26, fat: 8 },
-      snack:     { name: 'Morotsstavar med hummus (3 msk)', protein: 6, carbs: 20, fat: 10 },
+      breakfast: { name: 'Gröt med ägg vid sidan & kanelbanan', protein: 22, carbs: 48, fat: 8 },
+      lunch:     { name: 'Strimlad nötkött med wok-grönsaker & ris', protein: 40, carbs: 45, fat: 14 },
+      dinner:    { name: 'Torskfilé med ångad broccoli & sötpotatis', protein: 36, carbs: 32, fat: 10 },
+      snack:     { name: 'Risskiva med keso & gurka', protein: 14, carbs: 18, fat: 3 },
     },
     {
-      breakfast: { name: 'Havregrynsgröt med chiafrön, sojamjölk & hallon', protein: 14, carbs: 48, fat: 8 },
-      lunch:     { name: 'Nötfärsbiffar (5% fett) med ugnsbakade rotfrukter', protein: 40, carbs: 32, fat: 14 },
-      dinner:    { name: 'Wok med kycklingstrimlor, pak choi & risnudlar (150g tillagad)', protein: 44, carbs: 38, fat: 10 },
-      snack:     { name: 'Keso (150g) med skivad kiwi', protein: 18, carbs: 16, fat: 4 },
+      breakfast: { name: 'Smoothie: spenat, banan, proteinpulver & mandelmjölk', protein: 32, carbs: 35, fat: 8 },
+      lunch:     { name: 'Keso-bowl med tomater, gurka & fullkornsbröd', protein: 28, carbs: 30, fat: 6 },
+      dinner:    { name: 'Kycklinglårfilé med ugnsbakad paprika & kikärtor', protein: 44, carbs: 38, fat: 16 },
+      snack:     { name: 'Mandlar (25g) + proteinbar', protein: 18, carbs: 20, fat: 14 },
     },
     {
-      breakfast: { name: '2 kokta ägg + 1 skiva knäckebröd med kalkonskiva', protein: 18, carbs: 14, fat: 12 },
-      lunch:     { name: 'Sallad med räkor, edamamebönor & mango-vinaigrette', protein: 32, carbs: 24, fat: 8 },
-      dinner:    { name: 'Ugnsstekt fläskfilé med ugnsbakad rotselleri', protein: 38, carbs: 20, fat: 14 },
-      snack:     { name: 'Mandel (20g) + clementin', protein: 5, carbs: 12, fat: 11 },
+      breakfast: { name: 'Omelett med lök, svamp & fetaost', protein: 26, carbs: 8, fat: 18 },
+      lunch:     { name: 'Linssoppa med fullkornsknäckebröd', protein: 24, carbs: 42, fat: 6 },
+      dinner:    { name: 'Nötkötts-bollar med ångade grönsaker & potatismos (lite smör)', protein: 40, carbs: 38, fat: 20 },
+      snack:     { name: 'Grek. yoghurt 0% med granatäppelkärnor', protein: 18, carbs: 16, fat: 2 },
     },
     {
-      breakfast: { name: 'Keso-smoothie med jordgubbar & lite havregryn', protein: 22, carbs: 28, fat: 5 },
-      lunch:     { name: 'Bönsallad med fetaost (10%), tomat & gurka', protein: 20, carbs: 34, fat: 12 },
-      dinner:    { name: 'Kycklingburgare i salladsblad med sötpotatischips', protein: 36, carbs: 30, fat: 10 },
-      snack:     { name: 'Proteinshake med water & en näve bär', protein: 26, carbs: 6, fat: 2 },
+      breakfast: { name: 'Overnight oats med chiafrön, bär & honung', protein: 18, carbs: 50, fat: 10 },
+      lunch:     { name: 'Rättika-wrap med rökt lax, keso & rucola', protein: 32, carbs: 18, fat: 10 },
+      dinner:    { name: 'Räkor med vitlöksriset & tomatsallad', protein: 38, carbs: 40, fat: 12 },
+      snack:     { name: 'Kokt ägg + en näve cashewnötter', protein: 16, carbs: 10, fat: 16 },
     },
     {
-      breakfast: { name: 'Omelett på 1 helt ägg & 3 äggvitor med sparris', protein: 24, carbs: 8, fat: 7 },
-      lunch:     { name: 'Ugnsbakad lax med stuvad spenat', protein: 30, carbs: 12, fat: 22 },
-      dinner:    { name: 'Nötköttstrimlor med sparris, svamp & ris (100g tillagad)', protein: 38, carbs: 26, fat: 12 },
-      snack:     { name: 'Kvarg med frysta bär', protein: 18, carbs: 12, fat: 2 },
+      breakfast: { name: 'Skyr med granola & färska jordgubbar', protein: 22, carbs: 40, fat: 6 },
+      lunch:     { name: 'Asiatisk biffwok med broccoli, soja & jasminris', protein: 42, carbs: 48, fat: 14 },
+      dinner:    { name: 'Ugnsbakad kyckling med vitlöksquinoa & spenat', protein: 46, carbs: 36, fat: 14 },
+      snack:     { name: 'Proteindrink + en banan', protein: 25, carbs: 30, fat: 4 },
     },
   ],
   Viktuppgång: [
     {
-      breakfast: { name: 'Havregrynsgröt med 2 msk jordnötssmör, banan & helmjölk', protein: 26, carbs: 78, fat: 28 },
-      lunch:     { name: 'Stekt kyckling med ris (300g tillagad) & avokado (1 st)', protein: 52, carbs: 74, fat: 24 },
-      dinner:    { name: 'Laxfilé med ugnsbakad potatis (300g) & gräddfilssås', protein: 48, carbs: 64, fat: 32 },
-      snack:     { name: 'Gainer shake (mjölk, banan, havre, proteinpulver)', protein: 44, carbs: 85, fat: 16 },
+      breakfast: { name: 'Havregrynsgröt med banan, jordnötssmör & honung', protein: 20, carbs: 70, fat: 18 },
+      lunch:     { name: 'Nötkötts-burgare (500g) med avokado & sötpotatisfritter', protein: 55, carbs: 65, fat: 30 },
+      dinner:    { name: 'Kycklingfilé med pasta carbonara & grönsakerna', protein: 50, carbs: 70, fat: 24 },
+      snack:     { name: 'Mass-shake: mjölk, banan, havre, proteinpulver (2 skopor)', protein: 40, carbs: 80, fat: 12 },
     },
     {
-      breakfast: { name: 'Omelett (3 ägg) med ost, skinka & 2 skivor surdegsbröd', protein: 38, carbs: 44, fat: 24 },
-      lunch:     { name: 'Köttfärssås (nötfärs 10%) med spaghetti (350g tillagad)', protein: 46, carbs: 80, fat: 20 },
-      dinner:    { name: 'Ugnsbakad kycklingklubba med potatisgratäng', protein: 42, carbs: 54, fat: 26 },
-      snack:     { name: 'Kvarg med granola (100g), nötter & honung', protein: 24, carbs: 68, fat: 18 },
+      breakfast: { name: '4-äggs omelett med ost, skinka & 2 skivor fullkornsbröd', protein: 38, carbs: 34, fat: 22 },
+      lunch:     { name: 'Lax teriyaki med jasminris (300g) & bönor', protein: 48, carbs: 72, fat: 20 },
+      dinner:    { name: 'Köttfärssås med tagliatelle & parmesanost', protein: 52, carbs: 74, fat: 28 },
+      snack:     { name: 'Kvarg med granola, nötter & bananbitar', protein: 28, carbs: 50, fat: 18 },
     },
     {
-      breakfast: { name: 'Grekisk yoghurt med torkad frukt, pumpakärnor & sirap', protein: 20, carbs: 84, fat: 22 },
-      lunch:     { name: 'Kebabtallrik med ris, tzatzikisås & sallad', protein: 44, carbs: 76, fat: 28 },
-      dinner:    { name: 'Grillad ryggbiff med strips & hemslagen bea', protein: 50, carbs: 62, fat: 38 },
-      snack:     { name: 'Cashewnötter (50g) + torkade aprikoser', protein: 10, carbs: 36, fat: 22 },
+      breakfast: { name: 'Pannkakor (4 st) med banan, honung & nötsmör', protein: 24, carbs: 80, fat: 16 },
+      lunch:     { name: 'Kyckling-bowl: ris, avokado, mango, edamamebönor', protein: 44, carbs: 68, fat: 20 },
+      dinner:    { name: 'Hel kycklingben i ugnen med rosmarin & potatisgratäng', protein: 50, carbs: 60, fat: 28 },
+      snack:     { name: 'Jordnötssmörssmörgås (2 skivor) + proteindryck', protein: 30, carbs: 52, fat: 20 },
     },
     {
-      breakfast: { name: 'Smörgåsar (3 st) med stekt ägg, ost, skinka & smör', protein: 32, carbs: 58, fat: 26 },
-      lunch:     { name: 'Stekt lax med pesto-pasta (350g tillagad)', protein: 48, carbs: 82, fat: 34 },
-      dinner:    { name: 'Chili con carne med ris, nachochips & gräddfil', protein: 46, carbs: 88, fat: 28 },
-      snack:     { name: 'Jordnötssmörs-macka (2 st) + 1 glas helmjölk', protein: 24, carbs: 62, fat: 32 },
+      breakfast: { name: 'Bagel med löjromskeso, rödlök & kapris + havre', protein: 30, carbs: 68, fat: 14 },
+      lunch:     { name: 'Mexikansk burrittobowl med nötkött, ris, bönor & gräddfil', protein: 54, carbs: 72, fat: 26 },
+      dinner:    { name: 'Hel lax med smörfräst potatis, gröna bönor & citronsås', protein: 52, carbs: 58, fat: 32 },
+      snack:     { name: 'Mass-gainer-smoothie: mjölk, havre, mörk choklad, PB, banan', protein: 36, carbs: 85, fat: 22 },
     },
     {
       breakfast: { name: 'Frukost-burrito: ägg, ost, skinka, salsasås i tortilla', protein: 34, carbs: 46, fat: 20 },
@@ -2191,7 +2162,7 @@ const MEAL_TEMPLATES = {
       breakfast: { name: 'Pancakes (3 st) med blåbärssylt & skyr', protein: 20, carbs: 48, fat: 8 },
       lunch:     { name: 'Bönröra med pitabröd, riven morot & babyspenat', protein: 24, carbs: 48, fat: 8 },
       dinner:    { name: 'Tilapia med citron-örtbakad zucchini & bulgur', protein: 38, carbs: 42, fat: 10 },
-      snack:     { name: 'Banan + 1 msk mandel smör + proteinshake', protein: 22, carbs: 34, fat: 10 },
+      snack:     { name: 'Banan + 1 msk mandelmandel smör + proteinshake', protein: 22, carbs: 34, fat: 10 },
     },
     {
       breakfast: { name: 'Frukostsmoothie: spenat, ananas, grek. yoghurt, honung', protein: 16, carbs: 46, fat: 4 },
@@ -2216,7 +2187,7 @@ function generateMealPlan(weightGoal, targetCalories) {
   return plan
 }
 
-// ─── Trial Countdown Component ───────────────────────────────────────────────
+// ─── Countdown ───────────────────────────────────────────────────────────────
 function TrialCountdown({ trialStart }) {
   const start = new Date(trialStart)
   const end = new Date(start.getTime() + 14 * 24 * 60 * 60 * 1000)
@@ -2234,44 +2205,70 @@ function TrialCountdown({ trialStart }) {
       border: '1px solid rgba(184,149,71,0.2)',
       borderRadius: '16px', padding: '20px 24px',
       display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap',
-      marginBottom: '20px'
     }}>
+      {/* Progress ring */}
       <div style={{ position: 'relative', width: '80px', height: '80px', flexShrink: 0 }}>
         <svg width="80" height="80" style={{ transform: 'rotate(-90deg)' }}>
           <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
           <circle
             cx="40" cy="40" r="32" fill="none"
             stroke={color} strokeWidth="8"
-            strokeDasharray="201"
-            strokeDashoffset={201 - (201 * pct) / 100}
+            strokeDasharray={`${2 * Math.PI * 32}`}
+            strokeDashoffset={`${2 * Math.PI * 32 * (1 - pct / 100)}`}
             strokeLinecap="round"
-            style={{ transition: 'stroke-dashoffset 0.8s ease' }}
+            style={{ transition: 'stroke-dashoffset 1s ease' }}
           />
         </svg>
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '80px', height: '80px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <span style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-white)' }}>{daysLeft}</span>
-          <span style={{ fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>dagar kvar</span>
+        <div style={{
+          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
+          fontWeight: 'bold', fontSize: '1.2rem', color,
+        }}>
+          {daysLeft}
         </div>
       </div>
+
       <div>
-        <h4 style={{ color: 'var(--text-white)', margin: '0 0 4px 0', fontSize: '1rem', fontWeight: 'bold' }}>
-          Din 14-dagars testperiod
-        </h4>
-        <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '0.8rem', lineHeight: 1.4 }}>
-          Du är på dag <strong>{daysUsed + 1}</strong> av din 14-dagars gratis provperiod.
-          Ditt provschema avslutas den {end.toLocaleDateString('sv-SE')}.
-        </p>
+        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>
+          Gratis testperiod
+        </div>
+        <div style={{ fontSize: '1.3rem', color: 'var(--text-white)', fontWeight: 'bold' }}>
+          {daysLeft === 0 ? 'Testperioden är avslutad' : `${daysLeft} dagar kvar`}
+        </div>
+        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+          Dag {Math.min(daysUsed + 1, 14)} av 14 · Avslutas {end.toLocaleDateString('sv-SE')}
+        </div>
+        {daysLeft <= 3 && daysLeft > 0 && (
+          <div style={{ marginTop: '8px', fontSize: '0.78rem', color: '#f59e0b', fontWeight: 'bold' }}>
+            ⚡ Välj ett paket innan testperioden slutar!
+          </div>
+        )}
       </div>
+
+      {daysLeft <= 7 && (
+        <Link
+          to="/ansok"
+          style={{
+            marginLeft: 'auto',
+            background: 'linear-gradient(135deg, #b89547, #a07830)',
+            color: '#000', fontWeight: 'bold', fontSize: '0.85rem',
+            padding: '10px 20px', borderRadius: '100px',
+            textDecoration: 'none', whiteSpace: 'nowrap',
+          }}
+        >
+          Uppgradera nu →
+        </Link>
+      )}
     </div>
   )
 }
 
-// ─── ExerciseCard Component ──────────────────────────────────────────────────
+// ─── ExerciseCard (compact) ───────────────────────────────────────────────────
 function ExerciseCard({ ex, idx }) {
   const [expanded, setExpanded] = useState(false)
   const [imgErr, setImgErr] = useState(false)
   const [showPeak, setShowPeak] = useState(false)
-  const imgSrc = imgErr ? null : (showPeak ? ex.images.classic.peak : ex.images.classic.start)
+  const [showDetails, setShowDetails] = useState(false)
+  const imgSrc = imgErr ? null : showPeak ? ex.images.classic.peak : ex.images.classic.start
 
   return (
     <div style={{
@@ -2284,7 +2281,7 @@ function ExerciseCard({ ex, idx }) {
         onClick={() => setShowPeak(p => !p)}
       >
         {imgSrc && !imgErr ? (
-          <img src={imgSrc} alt={ex.name_en} onError={() => setImgErr(true)} style={{ height: '110px', objectFit: 'contain', filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.6))' }} />
+          <SlowGif src={imgSrc} alt={ex.name_en} speed={0.45} style={{ height: '110px', objectFit: 'contain', filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.6))' }} />
         ) : (
           <span style={{ fontSize: '2.5rem' }}>💪</span>
         )}
@@ -2294,6 +2291,17 @@ function ExerciseCard({ ex, idx }) {
         <div style={{ position: 'absolute', bottom: '4px', right: '6px', fontSize: '0.58rem', color: 'rgba(255,255,255,0.4)', background: 'rgba(0,0,0,0.5)', padding: '2px 6px', borderRadius: '4px' }}>
           {imgSrc?.includes('.gif') ? '🎬 6s Video' : (showPeak ? 'PEAK' : 'START')}
         </div>
+        {ex.isBandBicepsCurl && (
+          <div style={{
+            position: 'absolute', top: '6px', right: '6px',
+            background: '#f97316',
+            color: '#fff', fontSize: '0.6rem', fontWeight: 'bold',
+            padding: '3px 7px', borderRadius: '100px',
+            boxShadow: '0 2px 4px rgba(249,115,22,0.4)'
+          }}>
+            UPPVÄRMNING
+          </div>
+        )}
       </div>
 
       <div style={{ padding: '12px' }}>
@@ -2302,23 +2310,512 @@ function ExerciseCard({ ex, idx }) {
           <span style={{ background: 'rgba(184,149,71,0.15)', color: 'var(--accent-gold)', fontSize: '0.65rem', fontWeight: 'bold', padding: '2px 7px', borderRadius: '100px', border: '1px solid rgba(184,149,71,0.3)' }}>{ex.sets} set</span>
           <span style={{ background: 'rgba(16,185,129,0.1)', color: '#10b981', fontSize: '0.65rem', fontWeight: 'bold', padding: '2px 7px', borderRadius: '100px', border: '1px solid rgba(16,185,129,0.25)' }}>{ex.reps} reps</span>
         </div>
-        <button
-          onClick={() => setExpanded(p => !p)}
-          style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-muted)', fontSize: '0.65rem', padding: '3px 8px', borderRadius: '5px', cursor: 'pointer', width: '100%' }}
-        >
-          {expanded ? '▲ Stäng' : '▼ Instruktioner'}
-        </button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          {ex.youtubeUrl && (
+            <a
+              href={ex.youtubeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: 'linear-gradient(135deg, #ff0000 0%, #cc0000 100%)',
+                color: '#ffffff',
+                fontSize: '0.68rem',
+                padding: '5px 8px',
+                borderRadius: '6px',
+                textDecoration: 'none',
+                width: '100%',
+                fontWeight: 'bold',
+                display: 'block',
+                textAlign: 'center',
+                boxShadow: '0 2px 8px rgba(255,0,0,0.3)',
+                transition: 'all 0.2s'
+              }}
+            >
+              ▶️ Se på YouTube Shorts
+            </a>
+          )}
+          <button
+            onClick={() => setExpanded(p => !p)}
+            style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-muted)', fontSize: '0.65rem', padding: '3px 8px', borderRadius: '5px', cursor: 'pointer', width: '100%' }}
+          >
+            {expanded ? '▲ Stäng' : '▼ Instruktioner'}
+          </button>
+          
+          {(ex.isSmithSeatedShoulderPress || ex.isJackknifeSitUp || ex.isOtisUp || ex.isAbdominalCrunch || ex.isLyingLegRaise || ex.isAlternateHeelTouchers || ex.isFrontPlank || ex.isDumbbellStandingOneArmCurl || ex.isCrossBodyHammerCurl || ex.isBarbellReverseGripRow || ex.isWideGripPullUp || ex.isCableLowSeatedRow || ex.isCableNeutralGripLatPulldown || ex.isReverseGripPushdown || ex.isTricepsPushdown || ex.isPreacherCurl || ex.isStandardCableCurl || ex.note) && (
+            <button
+              onClick={() => setShowDetails(p => !p)}
+              style={{
+                background: 'rgba(0, 242, 254, 0.08)',
+                border: '1px solid rgba(0, 242, 254, 0.2)',
+                color: '#00f2fe',
+                fontSize: '0.65rem',
+                padding: '4px 8px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                width: '100%',
+                fontWeight: 'bold',
+                transition: 'all 0.2s',
+                display: 'block',
+                textAlign: 'center'
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0, 242, 254, 0.15)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0, 242, 254, 0.08)' }}
+            >
+              {showDetails ? '📖 Stäng detaljer' : '👉 Läs mer: Anatomi & Syfte'}
+            </button>
+          )}
+        </div>
+
         {expanded && (
           <ol style={{ margin: '8px 0 0 0', paddingLeft: '16px', fontSize: '0.72rem', color: 'var(--text-silver)', lineHeight: 1.5 }}>
             {ex.instructions_en?.map((s, i) => <li key={i}>{s}</li>)}
           </ol>
+        )}
+
+        {showDetails && (ex.isFrontPlank || ex.isDumbbellStandingOneArmCurl || ex.isCrossBodyHammerCurl) && (
+          <div style={{
+            marginTop: '8px',
+            background: 'rgba(0,0,0,0.25)',
+            padding: '10px 12px',
+            borderRadius: '8px',
+            border: '1px solid rgba(0, 242, 254, 0.15)',
+            maxHeight: '220px',
+            overflowY: 'auto',
+            textAlign: 'left',
+            boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)',
+            fontSize: '0.72rem',
+            lineHeight: 1.45,
+            color: 'var(--text-silver)'
+          }} className="custom-scrollbar">
+            
+            
+            
+            
+            
+            
+            {ex.isSmithSeatedShoulderPress && (
+              <>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Huvudmålet. Den främre delen av axeln får jobba extremt hårt för att pressa stången uppåt.</li>
+                    <li><strong>Mellersta axeln (Lateral Deltoid):</strong> Assisterar i rörelsen och hjälper till att ge axlarna bredd.</li>
+                    <li><strong>Triceps Brachii:</strong> Musklerna på baksidan av överarmen jobbar för att sträcka ut armbågsleden i slutet av rörelsen.</li>
+                    <li><strong>Övre bröstmuskulaturen (Pectoralis Major):</strong> Den översta delen av bröstet hjälper till i början av pressen.</li>
+                    <li><strong>Trapezius & Serratus Anterior:</strong> Stabiliserar skulderbladen under hela rörelsen.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Axelleden:</strong> Genom abduktion och flexion (armarna rör sig uppåt och utåt).</li>
+                    <li><strong>Armbågsleden:</strong> Genom extension (armarna rätas ut).</li>
+                    <li><strong>Skulderbladen:</strong> Roterar uppåt för att tillåta armarna att nå högsta punkten.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Sitt rakt:</strong> Tryck ryggen ordentligt mot sätet och håll bröstet högt.</li>
+                    <li><strong>Armbågarnas vinkel:</strong> Låt inte armbågarna peka rakt ut åt sidorna; ha dem aningen framför dig för att skona axelleden.</li>
+                    <li><strong>Stoppa i tid:</strong> Sänk stången till ungefär hakhöjd eller strax under. Går du för djupt kan det skapa onödig stress på axelns framsida.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+            {ex.isJackknifeSitUp && (
+              <>
+                <p style={{ margin: '0 0 10px 0', lineHeight: 1.45 }}>
+                  Jackknife Sit-Up (ofta kallad V-up) är en avancerad och intensiv magövning där du lyfter både överkropp och ben samtidigt för att mötas i en "V-position".
+                </p>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Primary Muscles:</strong> Rectus Abdominis (övre och nedre magen samtidigt) & Iliopsoas (Höftböjarna).</li>
+                    <li><strong>Secondary Muscles:</strong> Obliques (balans), Quadriceps (raka ben) & Hip Adductors (insida lår).</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Ryggraden:</strong> Kraftig flexion (böjning) när du rullar upp.</li>
+                    <li><strong>Höftleden:</strong> Flexion när benen lyfts uppåt.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Mötas på mitten:</strong> Händer och fötter ska mötas precis ovanför mitten av kroppen.</li>
+                    <li><strong>Kontrollerad retur:</strong> Bromsa på vägen ner utan att släppa anspänningen.</li>
+                    <li><strong>Andning:</strong> Andas ut kraftfullt i V-positionen.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+            {ex.isOtisUp && (
+              <>
+                <p style={{ margin: '0 0 10px 0', lineHeight: 1.45 }}>
+                  Otis Up är en avancerad, viktad variant av en sit-up där du håller en viktplatta med raka armar mot taket under hela rörelsen. Kombinerar rå styrka i magen med kontroll och stabilitet.
+                </p>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Primary Muscles:</strong> Rectus Abdominis (raka magmusklerna) & Iliopsoas (Höftböjarna - mycket aktiva vid full sit-up).</li>
+                    <li><strong>Secondary Muscles:</strong> Obliques (sneda magmusklerna), Sartorius (lår), Främre Axlar (Anterior Deltoid - håller vikten pressad uppåt).</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Ryggraden:</strong> Flexion när du rullar upp från golvet.</li>
+                    <li><strong>Höftleden:</strong> Kraftig flexion för att dra upp överkroppen.</li>
+                    <li><strong>Axelleden:</strong> Isometrisk anspänning som stabiliserar vikten mot taket.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Varför ska man göra Otis Up?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Progressiv belastning:</strong> Enkelt att öka vikten på plattan för maximal muskeluppbyggnad.</li>
+                    <li><strong>Explosivitet & Kraft:</strong> Används ofta inom kampsport och tyngdlyftning.</li>
+                    <li><strong>Bättre hållning & Stabilitet:</strong> Tränar ryggradens stabilitet under tryck.</li>
+                    <li><strong>Helkroppskontroll:</strong> Kräver synkade över- och underkroppsrörelser.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Pressa mot taket:</strong> Pressa vikten spikrakt uppåt mot taket hela tiden.</li>
+                    <li><strong>Fötterna i golvet:</strong> Håll fötterna stadigt placerade i golvet.</li>
+                    <li><strong>Rulla ner långsamt:</strong> Släpp inte ner ryggen, bromsa rörelsen på vägen ner.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+            {ex.isAbdominalCrunch && (
+              <>
+                <p style={{ margin: '0 0 10px 0', lineHeight: 1.45 }}>
+                  Abdominal Crunch (Crunches) är den mest klassiska övningen för att isolera den raka magmuskeln. Till skillnad från en sit-up, där man lyfter hela ryggen, lyfter man här bara den översta delen.
+                </p>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Rectus Abdominis (Huvudmuskel):</strong> Fokus ligger främst på den övre delen av "sexpacket".</li>
+                    <li><strong>Obliques (Sekundära):</strong> De sneda magmusklerna hjälper till att stabilisera rörelsen.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Ryggraden:</strong> Kontrollerad flexion (böjning) i den övre delen av ryggraden (bröstryggen).</li>
+                    <li><strong>Viktigt:</strong> Höftleden är helt stilla, vilket isolerar magen mer.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Varför ska man göra Abdominal Crunches?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Isolerar magen optimalt:</strong> Tvingar magmusklerna att göra allt jobb utan att höftböjarna tar över.</li>
+                    <li><strong>Skonsam för ländryggen:</strong> Ländryggen stannar kvar i golvet hela tiden.</li>
+                    <li><strong>Bygger definition:</strong> Kraftig sammandragning för tydligare "rutor".</li>
+                    <li><strong>Enkel att utföra:</strong> Kräver ingen utrustning.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Dra inte i nacken:</strong> Kraften ska komma från magen, inte armarna.</li>
+                    <li><strong>Rulla ihop:</strong> Rulla ihop bröstkorgen mot naveln.</li>
+                    <li><strong>Kvalitet före kvantitet:</strong> Kläm åt maximalt i toppläget.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+            {ex.isLyingLegRaise && (
+              <>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka muskler och leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Huvudmuskel:</strong> Nedre delen av magen (Rectus abdominis). En av de bästa övningarna för nedre regionen.</li>
+                    <li><strong>Sekundära muskler:</strong> Höftböjarna (Iliopsoas) och framsida lår (Quadriceps). Även sätet stabiliserar.</li>
+                    <li><strong>Leder:</strong> Höftleden (rörelse) & Ländryggen (statisk anspänning).</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Varför ska man göra den här övningen?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Fokus på nedre magen:</strong> Stärker den del av magen som ofta är svårast att komma åt.</li>
+                    <li><strong>Bålstabilitet:</strong> Kontrollerar bäckenet och ländryggen, vilket skyddar ryggen vid lyft.</li>
+                    <li><strong>Hållning & Korsett:</strong> Stärker samspelet mellan mage och höft utan utrustning.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Viktigt tips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Pressa ner ländryggen:</strong> Pressa ner ländryggen i golvet under hela rörelsen. Om ryggen börjar svanka, stanna och vänd rörelsen uppåt igen.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+            {ex.isAlternateHeelTouchers && (
+              <>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Primary Muscles (Huvudmuskler):</strong> Obliques (de sneda magmusklerna). Sitter på sidorna av midjan och ansvarar för att böja kroppen i sidled.</li>
+                    <li><strong>Secondary Muscles:</strong> Rectus Abdominis ("sexpacket", hålla axlarna lyfta) & Transversus Abdominis (djupa bålstabiliserande muskler).</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Ryggraden (Intervertebral-lederna):</strong> Rörelsen sker genom lateral flexion (sidoböjning) av ryggraden.</li>
+                    <li><strong>Nacken:</strong> Musklerna i nacken jobbar statiskt för att hålla huvudet uppe.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Varför ska man göra Alternate Heel Touchers?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Isolering av midjan:</strong> Enkel och effektiv övning för sneda magmusklerna utan vikter.</li>
+                    <li><strong>Muskeldefinition & Uthållighet:</strong> Toner musklerna på sidan av magen.</li>
+                    <li><strong>Skonsam för ländryggen:</strong> Liggande position som är säker för ryggen.</li>
+                    <li><strong>Stärker bålstabiliteten:</strong> Tränar kontroll i sidled.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Lyft axlarna:</strong> Håll skulderbladen ovanför golvet under hela övningen.</li>
+                    <li><strong>Tänk "Pingvin":</strong> Kontrollerad sidoböjning mot hälen för maximal obliques-kontakt.</li>
+                    <li><strong>Blicken mot taket:</strong> Avstånd mellan haka och bröst för att skona nacken.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+            {ex.isFrontPlank && (
+              <>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Rectus Abdominis:</strong> De raka magmusklerna ("sexpacket").</li>
+                    <li><strong>Transversus Abdominis:</strong> Djupa magmusklerna (korsetten).</li>
+                    <li><strong>Obliques:</strong> De sneda magmusklerna (stabilisering).</li>
+                    <li><strong>Erector Spinae:</strong> Ryggsträckarna (håller ryggraden rak).</li>
+                    <li><strong>Serratus Anterior & Axlar:</strong> Håller dig uppe statiskt.</li>
+                    <li><strong>Säte & Framsida lår:</strong> Håller kroppen i en rak linje.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Ryggraden:</strong> Neutral position (motverkar rörelse/anti-extension).</li>
+                    <li><strong>Axelleden:</strong> Stabiliserar kroppsvikten.</li>
+                    <li><strong>Höftleden:</strong> Hålls stabil av höftböjare och säte.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Varför göra Front Plank?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Bålstabilitet:</strong> Grunden för all annan styrka i knäböj/marklyft.</li>
+                    <li><strong>Hållning:</strong> Hjälper dig stå och sitta rakare.</li>
+                    <li><strong>Mindre ryggont:</strong> Avlastar ländryggen och minskar besvär.</li>
+                    <li><strong>Funktionell styrka:</strong> Skapar helkroppsanspänning.</li>
+                    <li><strong>Säkerhet:</strong> Statisk utan tunga vikter, minimal skaderisk.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Ingen "hängbro":</strong> Spänn sätet och magen så höften inte sjunker.</li>
+                    <li><strong>Tryck ifrån:</strong> Sjunk inte mellan axlarna, pressa underarmarna mot golvet.</li>
+                    <li><strong>Andas:</strong> Håll inte andan under anspänningen.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+            {ex.isDumbbellStandingOneArmCurl && (
+              <>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Biceps Brachii:</strong> Huvudmålet (långa och korta huvudet).</li>
+                    <li><strong>Brachialis:</strong> Djup muskel som ger överarmen fyllighet.</li>
+                    <li><strong>Brachioradialis:</strong> Muskeln på ovansidan av underarmen.</li>
+                    <li><strong>Core (Bål):</strong> Sneda magmusklerna motverkar sidotippning.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Armbågsleden:</strong> Primär rörelse (flexion).</li>
+                    <li><strong>Handleden:</strong> Stabiliserar hanteln och tillåter supination.</li>
+                    <li><strong>Axelleden:</strong> Fungerar som stabilisator.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Varför göra övningen?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Rätta till obalanser:</strong> Upptäck och korrigera styrkeskillnader mellan armarna.</li>
+                    <li><strong>Mind-Muscle Connection:</strong> Unilateralt fokus ger maximal kontakt.</li>
+                    <li><strong>Bättre rörlighet:</strong> Tillåter fri handledsrotation under rörelsen.</li>
+                    <li><strong>Tränar bålen:</strong> Motverkar asymmetrisk belastning.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Stå stadigt:</strong> Håll höftbredd och spänn sätet.</li>
+                    <li><strong>Ingen rotation:</strong> Låt inte kroppen luta sig eller hjälpa hanteln upp.</li>
+                    <li><strong>Vrid lillfingret uppåt:</strong> Rotera handleden i toppläget för maximal biceps-kontraktion.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+            
+            {ex.isBarbellReverseGripRow && (
+              <>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>Vilka muskler tränas?</strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Latissimus Dorsi (Lats):</strong> Huvudfokus för ryggbredd.</li>
+                    <li><strong>Biceps Brachii:</strong> Underhandsgreppet ger hög aktivering.</li>
+                    <li><strong>Trapezius & Rhomboids:</strong> Klämmer ihop skulderbladen i toppläget.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>Varför göra Yates Row?</strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Bygger ryggtjocklek:</strong> Basövning för massiv överkropp.</li>
+                    <li><strong>Bättre bålstabilitet:</strong> Stärker ländryggen statiskt.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+            {ex.isWideGripPullUp && (
+              <>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>Vilka muskler tränas?</strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Latissimus Dorsi:</strong> Kungen av ryggövningar för V-taper form.</li>
+                    <li><strong>Teres Major & Rhomboids:</strong> Övre ryggens detaljer.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+            {ex.note && !ex.isFrontPlank && !ex.isDumbbellStandingOneArmCurl && !ex.isCrossBodyHammerCurl && (
+              <div>
+                <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>💡 Tränarens notering</strong>
+                <p style={{ margin: 0 }}>{ex.note}</p>
+              </div>
+            )}
+            {ex.isCrossBodyHammerCurl && (
+              <>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Brachialis:</strong> Den djupa muskeln under biceps som ökar armens tjocklek.</li>
+                    <li><strong>Brachioradialis:</strong> Underarmens ovansida som ger kraftfullt grepp.</li>
+                    <li><strong>Biceps Brachii (Långa huvudet):</strong> Yttre biceps för en bättre bicepstopp.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Armbågsleden:</strong> Flexion i ett neutralt grepp.</li>
+                    <li><strong>Axelleden:</strong> Stabiliserar vikten under rörelsen.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Varför göra övningen?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Bygger bredare armar:</strong> Brachialis trycker upp biceps utifrån.</li>
+                    <li><strong>Stärker greppet:</strong> Hög aktivering av underarmsmusklerna.</li>
+                    <li><strong>Mindre fusk:</strong> Att korsa över kroppen minskar risken för att svinga.</li>
+                    <li><strong>Skonsam:</strong> Det neutrala greppet är snällt mot handleder och armbågor.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Neutralt grepp:</strong> Håll hanteln som en hammare hela vägen.</li>
+                    <li><strong>Korsa bröstet:</strong> För hanteln mot motsatta axeln men stanna strax innan bröstet.</li>
+                    <li><strong>Stilla överarm:</strong> Håll armbågen fixerad mot kroppen.</li>
+                  </ul>
+                </div>
+              </>
+            )}
+          </div>
         )}
       </div>
     </div>
   )
 }
 
-// ─── MealDayCard Component ───────────────────────────────────────────────────
+// ─── MealDayCard ─────────────────────────────────────────────────────────────
 function MealDayCard({ meal, isToday }) {
   const [expanded, setExpanded] = useState(isToday)
 
@@ -2367,137 +2864,70 @@ function MealDayCard({ meal, isToday }) {
           ))}
         </div>
       )}
-
     </div>
   )
 }
 
-
-// ─── Helper to parse lead message from database ─────────────────────────────
-function parseLeadMessage(message) {
-  if (!message) return null;
-  const data = {};
-  
-  const daysMatch = message.match(/- Träningsdagar per vecka:\s*(\d+)/i);
-  if (daysMatch) {
-    const days = daysMatch[1];
-    if (days === '1' || days === '2') data.trainingDays = '1-2';
-    else if (days === '6' || days === '7') data.trainingDays = '6-7';
-    else data.trainingDays = days;
-  }
-  
-  const equipMatch = message.match(/- Tillgänglig utrustning:\s*([^\r\n]+)/i);
-  if (equipMatch) data.equipmentAvailable = equipMatch[1].trim();
-  
-  const expMatch = message.match(/- Träningserfarenhet:\s*([^\r\n]+)/i);
-  if (expMatch) data.experienceLevel = expMatch[1].trim();
-  
-  const calMatch = message.match(/Kalorimål \(([^)]+)\):\s*(\d+)\s*kcal/i);
-  if (calMatch) {
-    data.weightGoal = calMatch[1].trim();
-    data.calories = { targetCalories: parseInt(calMatch[2]) };
-  }
-  
-  const proteinMatch = message.match(/- Proteintarget:\s*(\d+)g/i);
-  if (proteinMatch) {
-    if (!data.calories) data.calories = {};
-    data.calories.protein = parseInt(proteinMatch[1]);
-  }
-  const carbsMatch = message.match(/- Kolhydratstarget:\s*(\d+)g/i);
-  if (carbsMatch) {
-    if (!data.calories) data.calories = {};
-    data.calories.carbs = parseInt(carbsMatch[1]);
-  }
-  const fatMatch = message.match(/- Fetttarget:\s*(\d+)g/i);
-  if (fatMatch) {
-    if (!data.calories) data.calories = {};
-    data.calories.fat = parseInt(fatMatch[1]);
-  }
-  
-  return data;
-}
-
-// ─── Main ClientProfile Component ────────────────────────────────────────────
-function ClientProfile() {
-  const [profile, setProfile] = useState(null)
-  const [history, setHistory] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+// ─── Main MyProgram Page ──────────────────────────────────────────────────────
+export default function MyProgram() {
   const navigate = useNavigate()
-  const { t, language } = useLanguage()
-  usePageTitle('client_profile')
-
-  // Main navigation tab
-  const [mainTab, setMainTab] = useState('program') // 'program' | 'details'
-
-  // Sub-states for Program & Meal Dashboard
   const [programData, setProgramData] = useState(null)
   const [program, setProgram] = useState(null)
   const [mealPlan, setMealPlan] = useState([])
-  const [activeSubTab, setActiveSubTab] = useState('workout') // 'workout' | 'meals'
+  const [activeTab, setActiveTab] = useState('workout') // 'workout' | 'meals'
   const [activeWeek, setActiveWeek] = useState(1)
   const [activeDay, setActiveDay] = useState(0)
-  const [selectedEx, setSelectedEx] = useState(null)
+  const [clientName, setClientName] = useState('')
 
   useEffect(() => {
+    // Auth check
     const token = localStorage.getItem('client_token')
     if (!token) {
       navigate('/login')
       return
     }
 
-    const loadData = async () => {
+    const name = localStorage.getItem('client_name') || localStorage.getItem('client_user') || 'Klient'
+    setClientName(name)
+
+    // Load program data from localStorage
+    const stored = localStorage.getItem('client_program_data')
+    if (stored) {
       try {
-        setLoading(true)
-        const profileData = await fetchClientProfile(token)
-        setProfile(profileData)
-        
-        const historyData = await fetchClientHistory(token)
-        setHistory(historyData)
+        const data = JSON.parse(stored)
+        data.trainingDays = '6-7' // Override to 7-day program split
+        setProgramData(data)
 
-        // Load Onboarding program details from localStorage or database history
-        let data = null;
-        const stored = localStorage.getItem('client_program_data');
-        if (stored) {
-          try { data = JSON.parse(stored); } catch (e) {}
-        }
-        if (!data && historyData && historyData.length > 0) {
-          data = parseLeadMessage(historyData[0].message);
-        }
+        // Generate program from answers
+        const p = buildProgram({
+          trainingDays: '6-7',
+          equipment: data.equipmentAvailable || 'Fria vikter & maskiner',
+          experienceLevel: data.experienceLevel || 'Nybörjare',
+        })
+        setProgram(p)
 
-        if (data) {
-          setProgramData(data);
-          const p = buildProgram({
-            trainingDays: data.trainingDays || '6-7',
-            equipment: data.equipmentAvailable || 'Fria vikter & maskiner',
-            experienceLevel: data.experienceLevel || 'Nybörjare',
-            email: profileData?.email || 'user'
-          });
-          setProgram(p);
-
-          const cal = data.calories?.targetCalories || 2000;
-          const meals = generateMealPlan(data.weightGoal || 'Bibehålla', cal);
-          setMealPlan(meals);
-        }
-      } catch (err) {
-        if (err.message && (err.message.includes('401') || err.message.includes('token') || err.message.includes('profil') || err.message.includes('verifiera'))) {
-          localStorage.removeItem('client_token')
-          localStorage.removeItem('client_user')
-          localStorage.removeItem('client_name')
-          navigate('/login')
-        } else if (err.message && err.message.toLowerCase().includes('failed to fetch')) {
-          console.warn("Backend offline or network error, displaying client profile with local data.");
-          setError('')
-        } else {
-          setError(err.message || 'Kunde inte hämta din profil. Vänligen logga in igen.')
-        }
-      } finally {
-        setLoading(false)
+        // Generate meal plan
+        const cal = data.calories?.targetCalories || 2000
+        const meals = generateMealPlan(data.weightGoal || 'Bibehålla', cal)
+        setMealPlan(meals)
+      } catch (e) {
+        console.error('Failed to parse program data', e)
       }
+    } else {
+      // No onboarding data — generate default program
+      const p = buildProgram({ trainingDays: '6-7', equipment: 'Fria vikter & maskiner', experienceLevel: 'Nybörjare' })
+      setProgram(p)
+      const meals = generateMealPlan('Bibehålla', 2000)
+      setMealPlan(meals)
     }
-
-    loadData()
   }, [navigate])
+
+  // Which day of the trial is today?
+  const trialStart = programData?.trialStartDate || new Date().toISOString()
+  const dayOfTrial = Math.min(14, Math.max(1, Math.ceil((Date.now() - new Date(trialStart).getTime()) / (1000 * 60 * 60 * 24)) + 1))
+
+  const currentWeekData = program ? (activeWeek === 1 ? program.week1 : program.week2) : []
+  const currentDay = currentWeekData[activeDay] || null
 
   const handleLogout = () => {
     localStorage.removeItem('client_token')
@@ -2507,118 +2937,50 @@ function ClientProfile() {
     window.location.reload()
   }
 
-  if (loading) {
+  if (!program) {
     return (
-      <div className="profile-page container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-        <div style={{ color: 'var(--accent-cyan)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Dumbbell className="animate-spin" />
-          <span>{language === 'fa' ? 'در حال بارگذاری...' : language === 'en' ? 'Loading profile...' : 'Laddar profil...'}</span>
-        </div>
+      <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: 'var(--accent-gold)', fontSize: '1.1rem' }}>🏋️ Laddar ditt program...</div>
       </div>
     )
   }
 
-  // Which day of the trial is today?
-  const trialStart = programData?.trialStartDate || (profile ? profile.createdAt : new Date().toISOString())
-  const dayOfTrial = Math.min(14, Math.max(1, Math.ceil((Date.now() - new Date(trialStart).getTime()) / (1000 * 60 * 60 * 24)) + 1))
-
-  const currentWeekData = program ? (activeWeek === 1 ? program.week1 : program.week2) : []
-  const currentDay = currentWeekData[activeDay] || null
-
   return (
-    <div className={`profile-page container ${language === 'fa' ? 'rtl-align' : ''}`} style={{ paddingBottom: '100px' }}>
-      
-      {/* ── Tabs Selector at the very top of profile page ── */}
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingBottom: '80px' }}>
+
+      {/* ── Header ── */}
       <div style={{
-        display: 'flex',
-        gap: '12px',
-        marginBottom: '32px',
+        background: 'linear-gradient(135deg, rgba(184,149,71,0.12) 0%, rgba(99,102,241,0.08) 100%)',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
-        paddingBottom: '16px'
+        padding: '32px 24px 24px',
       }}>
-        <button
-          onClick={() => setMainTab('program')}
-          style={{
-            background: mainTab === 'program'
-              ? 'linear-gradient(135deg, rgba(184,149,71,0.15), rgba(184,149,71,0.05))'
-              : 'rgba(255,255,255,0.02)',
-            border: mainTab === 'program' ? '2px solid var(--accent-gold)' : '1px solid rgba(255,255,255,0.08)',
-            color: mainTab === 'program' ? 'var(--text-white)' : 'var(--text-muted)',
-            padding: '12px 28px',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-            fontSize: '0.95rem',
-            transition: 'all 0.2s',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}
-        >
-          <Dumbbell size={16} />
-          <span>{language === 'fa' ? 'برنامه من' : language === 'en' ? 'My Program' : 'Mitt Program'}</span>
-        </button>
-
-        <button
-          onClick={() => setMainTab('details')}
-          style={{
-            background: mainTab === 'details'
-              ? 'linear-gradient(135deg, rgba(184,149,71,0.15), rgba(184,149,71,0.05))'
-              : 'rgba(255,255,255,0.02)',
-            border: mainTab === 'details' ? '2px solid var(--accent-gold)' : '1px solid rgba(255,255,255,0.08)',
-            color: mainTab === 'details' ? 'var(--text-white)' : 'var(--text-muted)',
-            padding: '12px 28px',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-            fontSize: '0.95rem',
-            transition: 'all 0.2s',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}
-        >
-          <User size={16} />
-          <span>{language === 'fa' ? 'مشخصات من' : language === 'en' ? 'My Details' : 'Mina uppgifter'}</span>
-        </button>
-      </div>
-
-      {error && (
-        <div className="form-error" style={{ marginBottom: '30px' }}>
-          <AlertCircle size={20} />
-          <span>{error}</span>
-        </div>
-      )}
-
-      {/* ══════════════════ TAB 1: MITT PROGRAM DASHBOARD ══════════════════ */}
-      {mainTab === 'program' && profile && (
-        <div className="fade-in">
-          {/* Welcome banner & Countdown */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', marginBottom: '24px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
             <div>
               <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>
-                🏋️ {language === 'fa' ? 'برنامه شخصی شما' : language === 'en' ? 'Your Personal Space' : 'Din Personliga Dashboard'}
+                🏋️ Mitt Program — Muscle & Focus
               </div>
               <h1 style={{ color: 'var(--text-white)', margin: 0, fontSize: 'clamp(1.4rem, 3vw, 2rem)', fontWeight: 'bold' }}>
-                {language === 'fa' ? 'خوش آمدید،' : language === 'en' ? 'Welcome,' : 'Välkommen,'}{' '}
-                <span style={{ background: 'linear-gradient(135deg, #b89547, #6366f1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  {profile.fullName.split(' ')[0]}
-                </span> 👋
+                Välkommen, <span style={{ background: 'linear-gradient(135deg, #b89547, #6366f1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{clientName.split(' ')[0]}</span> 👋
               </h1>
+              <p style={{ color: 'var(--text-muted)', margin: '6px 0 0 0', fontSize: '0.88rem' }}>
+                Ditt personliga 14-dagars träningsprogram och kostschema är redo!
+              </p>
             </div>
             <button
               onClick={handleLogout}
               style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)', color: '#ef4444', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.82rem' }}
             >
-              {language === 'fa' ? 'خروج' : language === 'en' ? 'Log Out' : 'Logga ut'}
+              Logga ut
             </button>
           </div>
 
+          {/* Trial Countdown */}
           <TrialCountdown trialStart={trialStart} />
 
-          {/* Calorie Stats Row */}
+          {/* Stats summary row */}
           {programData?.calories && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(135px, 1fr))', gap: '10px', marginBottom: '32px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '10px', marginTop: '16px' }}>
               {[
                 { label: 'Dagligt kalorimål', value: `${programData.calories.targetCalories} kcal`, color: 'var(--accent-gold)' },
                 { label: 'Protein', value: `${programData.calories.protein}g`, color: '#38bdf8' },
@@ -2634,1178 +2996,254 @@ function ClientProfile() {
               ))}
             </div>
           )}
-
-          {/* Sub tabs: Workout vs Meals */}
-          <div style={{ display: 'flex', gap: '8px', margin: '24px 0 20px' }}>
-            {[
-              { id: 'workout', label: '🏋️ Träningsprogram', desc: '14 dagar' },
-              { id: 'meals', label: '🍽️ Kostschema', desc: '14 dagars matplan' },
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveSubTab(tab.id)}
-                style={{
-                  flex: 1, padding: '14px 16px',
-                  borderRadius: '12px', cursor: 'pointer', transition: 'all 0.2s',
-                  border: activeSubTab === tab.id ? '2px solid var(--accent-gold)' : '1px solid rgba(255,255,255,0.08)',
-                  background: activeSubTab === tab.id
-                    ? 'linear-gradient(135deg, rgba(184,149,71,0.15), rgba(184,149,71,0.05))'
-                    : 'rgba(255,255,255,0.02)',
-                  color: activeSubTab === tab.id ? 'var(--text-white)' : 'var(--text-muted)',
-                  fontWeight: 'bold', fontSize: '0.9rem',
-                  textAlign: 'left',
-                }}
-              >
-                <div>{tab.label}</div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 'normal', color: 'var(--text-muted)', marginTop: '2px' }}>{tab.desc}</div>
-              </button>
-            ))}
-          </div>
-
-          {/* Subtab 1: Workout Program */}
-          {activeSubTab === 'workout' && program && (
-            <div>
-              {/* Program details badge row */}
-              {programData && (
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '20px', fontSize: '0.75rem' }}>
-                  {[
-                    { label: `📅 ${programData.trainingDays} dagar/v` },
-                    { label: `⏱️ ${programData.trainingDuration || '60 min'}` },
-                    { label: `📍 ${programData.trainingLocation || 'Gym'}` },
-                    { label: `🏆 ${programData.experienceLevel || 'Nybörjare'}` },
-                    { label: `🎯 ${programData.weightGoal || 'Bibehålla'}` },
-                  ].map(c => (
-                    <span key={c.label} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', padding: '4px 12px', borderRadius: '100px', color: 'var(--text-silver)' }}>
-                      {c.label}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {/* Week selector */}
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                {[1, 2].map(w => (
-                  <button
-                    key={w}
-                    onClick={() => { setActiveWeek(w); setActiveDay(0) }}
-                    style={{
-                      flex: 1, padding: '12px',
-                      borderRadius: '10px', fontWeight: 'bold', fontSize: '0.88rem',
-                      cursor: 'pointer', transition: 'all 0.2s',
-                      border: activeWeek === w ? '2px solid var(--accent-gold)' : '1px solid rgba(255,255,255,0.08)',
-                      background: activeWeek === w ? 'rgba(184,149,71,0.12)' : 'rgba(255,255,255,0.02)',
-                      color: activeWeek === w ? 'var(--text-white)' : 'var(--text-muted)',
-                    }}
-                  >
-                    {w === 1 ? '📅 Vecka 1 — Grund' : '📅 Vecka 2 — Progressive Overload'}
-                    {w === 2 && <div style={{ fontSize: '0.65rem', color: '#8b5cf6', fontWeight: 'normal', marginTop: '2px' }}>+1 set compound · +2 reps isolation</div>}
-                  </button>
-                ))}
-              </div>
-
-              {/* Day selector */}
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '20px' }}>
-                {currentWeekData.map((day, idx) => {
-                  const isActive = activeDay === idx
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => setActiveDay(idx)}
-                      style={{
-                        flex: 1, minWidth: '120px', padding: '12px', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.2s',
-                        border: isActive ? '2px solid var(--accent-gold)' : '1px solid rgba(255,255,255,0.07)',
-                        background: isActive ? 'rgba(184,149,71,0.12)' : 'rgba(255,255,255,0.02)',
-                        color: isActive ? 'var(--text-white)' : 'var(--text-silver)',
-                        fontWeight: 'bold', fontSize: '0.82rem'
-                      }}
-                    >
-                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', display: 'block' }}>Dag {day.day}</span>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', marginTop: '2px' }}>
-                        <span>{SPLIT_EMOJIS[day.splitType]}</span>
-                        <span>{DAY_NAMES_SV[day.splitType].split(' (')[0]}</span>
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-
-              {/* Exercises list - Simulated Printed PT Template Sheet */}
-              {currentDay && (
-                <div style={{
-                  background: '#fff', color: '#111827', borderRadius: '16px', padding: '40px 32px',
-                  boxShadow: '0 20px 45px rgba(0,0,0,0.3)', position: 'relative', overflow: 'hidden',
-                  marginTop: '24px', fontFamily: '"Outfit", "Inter", sans-serif'
-                }}>
-                  {/* Orange ribbon */}
-                  <div style={{
-                    position: 'absolute', top: '35px', left: '-20px', background: '#f97316', color: '#fff',
-                    padding: '8px 40px', transform: 'rotate(-4deg)', fontWeight: '900', fontSize: '1.1rem',
-                    textTransform: 'uppercase', letterSpacing: '0.1em', boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
-                    zIndex: 1
-                  }}>
-                    Vecka {activeWeek}
-                  </div>
-
-                  {/* Header */}
-                  <div style={{ textAlign: 'right', marginBottom: '40px', borderBottom: '2px solid #e5e7eb', paddingBottom: '20px' }}>
-                    <h2 style={{ fontSize: '1.8rem', fontWeight: '900', textTransform: 'uppercase', color: '#111827', margin: 0 }}>
-                      DAG {currentDay.day}
-                    </h2>
-                    <span style={{ fontSize: '0.85rem', color: '#6b7280', textTransform: 'uppercase', fontWeight: 'bold' }}>
-                      {DAY_NAMES_SV[currentDay.splitType]} {SPLIT_EMOJIS[currentDay.splitType]}
-                    </span>
-                  </div>
-
-                  {/* Section 1: UPPVÄRMNING */}
-                  <div style={{ marginBottom: '35px' }}>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: '900', textTransform: 'uppercase', borderLeft: '4px solid #f97316', paddingLeft: '10px', color: '#111827', marginBottom: '14px' }}>
-                      Uppvärmning
-                    </h3>
-                    <div style={{ overflowX: 'auto' }}>
-                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', textAlign: 'left' }}>
-                        <thead>
-                          <tr style={{ background: '#f3f4f6', borderBottom: '2px solid #e5e7eb' }}>
-                            <th style={{ padding: '12px 16px', fontWeight: 'bold' }}>Övning</th>
-                            <th style={{ padding: '12px 16px', fontWeight: 'bold', width: '70px' }}>Set</th>
-                            <th style={{ padding: '12px 16px', fontWeight: 'bold', width: '90px' }}>Reps</th>
-                            <th style={{ padding: '12px 16px', fontWeight: 'bold', width: '110px' }}>Setvila</th>
-                            <th style={{ padding: '12px 16px', fontWeight: 'bold' }}>Notering / Teknik</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
-                            <td style={{ padding: '12px 16px', fontWeight: 'bold', color: '#1f2937' }}>Roddmaskin / Lätt kondition</td>
-                            <td style={{ padding: '12px 16px' }}>1</td>
-                            <td style={{ padding: '12px 16px' }}>5-8 min</td>
-                            <td style={{ padding: '12px 16px' }}>-</td>
-                            <td style={{ padding: '12px 16px', color: '#4b5563' }}>Värm upp hela kroppen och smörj lederna. Moderat tempo.</td>
-                          </tr>
-                          {currentDay.exercises.length > 0 && (
-                            <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
-                              <td style={{ padding: '12px 16px', fontWeight: 'bold', color: '#1f2937' }}>{currentDay.exercises[0].name_en} (Ramp-up)</td>
-                              <td style={{ padding: '12px 16px' }}>2</td>
-                              <td style={{ padding: '12px 16px' }}>5-8 reps</td>
-                              <td style={{ padding: '12px 16px' }}>1-2 min</td>
-                              <td style={{ padding: '12px 16px', color: '#4b5563' }}>Specifik uppvärmning inför passets tyngsta baslyft. Gradvis tyngre vikter.</td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                  {/* Section 2: TRÄNING */}
-                  <div style={{ marginBottom: '35px' }}>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: '900', textTransform: 'uppercase', borderLeft: '4px solid #f97316', paddingLeft: '10px', color: '#111827', marginBottom: '14px' }}>
-                      Träning <span style={{ fontSize: '0.72rem', color: '#6b7280', textTransform: 'none', fontWeight: 'normal', marginLeft: '8px' }}>(Klicka på en rad för att spela video/instruktioner)</span>
-                    </h3>
-                    <div style={{ overflowX: 'auto' }}>
-                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', textAlign: 'left' }}>
-                        <thead>
-                          <tr style={{ background: '#f3f4f6', borderBottom: '2px solid #e5e7eb' }}>
-                            <th style={{ padding: '12px 16px', fontWeight: 'bold' }}>Övning</th>
-                            <th style={{ padding: '12px 16px', fontWeight: 'bold', width: '70px' }}>Set</th>
-                            <th style={{ padding: '12px 16px', fontWeight: 'bold', width: '90px' }}>Reps</th>
-                            <th style={{ padding: '12px 16px', fontWeight: 'bold', width: '110px' }}>Setvila</th>
-                            <th style={{ padding: '12px 16px', fontWeight: 'bold' }}>Notering / Teknik</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {currentDay.exercises.filter(ex => !ex.isBandBicepsCurl).map((ex, idx) => {
-                            const isHeavy = ex.id.includes('squat') || ex.id.includes('deadlift') || ex.id.includes('press') || ex.id.includes('row')
-                            const restVal = ex.rest || (isHeavy ? '2-3 min' : '1.5 min')
-                            const noteText = ex.note || (ex.id.includes('squat')
-                              ? 'Fokus på höftdjup och upprätt överkropp. Knän i tårnas riktning.'
-                              : ex.id.includes('deadlift')
-                              ? 'Håll ryggen helt rak, stången nära kroppen. Spänn bålen.'
-                              : ex.id.includes('row') || ex.id.includes('pull')
-                              ? 'Dra med armbågarna, kläm ihop skulderbladen i toppläget.'
-                              : 'Kontrollerad rörelsebana, spänn målhäftigt i toppläget.')
-
-                            return (
-                              <tr
-                                key={ex.id + idx}
-                                onClick={() => setSelectedEx({
-                                  ...ex,
-                                  name: ex.name_en || ex.name,
-                                  gifUrl: ex.images?.classic?.start || ex.gifUrl,
-                                  instructions: ex.instructions || ex.instructions_en || ['Utför kontrollerat.'],
-                                  equipment: ex.equipment,
-                                  primary_muscles: ex.primary_muscles,
-                                  youtubeUrl: ex.youtubeUrl || ''
-                                })}
-                                style={{ borderBottom: '1px solid #e5e7eb', cursor: 'pointer', transition: 'all 0.2s' }}
-                                className="pt-table-row"
-                              >
-                                <td style={{ padding: '12px 16px', fontWeight: 'bold', color: '#1f2937', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                  <span style={{ color: '#f97316' }}>🎬</span>
-                                  <span style={{ borderBottom: '1px dashed #f97316' }}>{ex.name || ex.name_en}</span>
-                                </td>
-                                <td style={{ padding: '12px 16px' }}>{ex.sets}</td>
-                                <td style={{ padding: '12px 16px' }}>{ex.reps}</td>
-                                <td style={{ padding: '12px 16px' }}>{restVal}</td>
-                                <td style={{ padding: '12px 16px', color: '#4b5563' }}>{noteText}</td>
-                              </tr>
-                            )
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                  {/* Section 3: KOMMENTAR */}
-                  <div style={{
-                    background: '#f9fafb', border: '1px solid #d1d5db', borderRadius: '10px',
-                    padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '6px'
-                  }}>
-                    <strong style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: '#4b5563', letterSpacing: '0.02em' }}>
-                      Kommentar / Coach tips:
-                    </strong>
-                    <p style={{ margin: 0, fontSize: '0.88rem', color: '#1f2937', lineHeight: 1.5 }}>
-                      {currentDay.splitType === 'lower' || currentDay.splitType === 'legs'
-                        ? 'Det här är ett underkroppspass. Säkerställ god knäkontroll och att fötterna är stabilt placerade under alla pressrörelser. Håll ryggen rak i marklyft.'
-                        : currentDay.splitType === 'upper'
-                        ? 'Det här är ett överkroppspass. Fokusera på att pressa fram bröstet och dra ihop skulderbladen i alla rodd- och pressövningar.'
-                        : 'Fokusera på en jämn intensitet genom passet. Håll vilotiderna strikta på baslyften för optimal återhämtning.'}
-                    </p>
-
-                    {currentDay.day === 4 && (
-                      <div style={{
-                        marginTop: '15px',
-                        background: 'linear-gradient(135deg, #eff6ff, #dbeafe)',
-                        border: '1px solid #bfdbfe',
-                        borderRadius: '10px',
-                        padding: '16px 20px',
-                        boxShadow: '0 2px 8px rgba(59, 130, 246, 0.08)'
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                          <span style={{ fontSize: '1.2rem' }}>💡</span>
-                          <strong style={{ fontSize: '0.85rem', color: '#1e3a8a', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
-                            Hantera klientens förväntningar (Kalorier & Muskelmassa)
-                          </strong>
-                        </div>
-                        <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', color: '#1e40af', fontWeight: '500', lineHeight: 1.45 }}>
-                          Att hantera en klients förväntningar kring kaloriförbrukning och muskelmassa efter ett 60-minuters pass är en viktig del av coachingen. Det korta svaret är: Styrketräning handlar mer om att "bygga en motor" än att bara "bränna bränsle" just under passet.
-                        </p>
-                        
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.8rem', color: '#374151' }}>
-                          <div style={{ background: '#ffffff', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                            <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '6px' }}>1. Kaloriförbrukning (Det svåra måttet)</strong>
-                            <p style={{ margin: '0 0 6px 0' }}>Många klienter stirrar sig blinda på sin träningsklocka. Förklara följande:</p>
-                            <ul style={{ margin: 0, paddingLeft: '20px' }}>
-                              <li style={{ marginBottom: '4px' }}><strong>Uppskattning:</strong> Under 60 minuter styrketräning bränner man i genomsnitt mellan 200–400 kalorier, beroende på intensitet, vilotid och kroppsvikt. Det är mindre än vid t.ex. löpning.</li>
-                              <li style={{ marginBottom: '4px' }}><strong>EPOC (Efterbränning):</strong> Berätta för klienten att styrketräning har en "efterbränningseffekt". Kroppen kräver energi för att reparera musklerna i upp till 24–48 timmar efter passet. Så den totala kaloriförbrukningen är högre än vad klockan visar precis när passet är slut.</li>
-                              <li><strong>Hantering (Vad du säger till klienten):</strong> "Vi fokuserar inte på att bränna mer kalorier bara, utan att skicka och signalera till kroppen att behålla och bygga muskler."</li>
-                            </ul>
-                          </div>
-
-                          <div style={{ background: '#ffffff', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                            <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '6px' }}>2. Muskelmassa (Den långsiktiga investeringen)</strong>
-                            <p style={{ margin: '0 0 6px 0' }}>Klienten vill se resultat direkt, men muskeluppbyggnad (hypertrofi) är en kemisk process som sker efter passet.</p>
-                            <ul style={{ margin: 0, paddingLeft: '20px' }}>
-                              <li style={{ marginBottom: '4px' }}><strong>Passet är signalen:</strong> Förklara att under de 60 minuterna har de "brutit ner" musklerna och skapat mikroskador.</li>
-                              <li style={{ marginBottom: '4px' }}><strong>Tillväxten sker under vila:</strong> Muskelmassan bygger när klienten sover och äter protein. Man ser inte ökad muskelmassa efter ett pass, det man ser är "pump" (blod som strömmar till muskeln).</li>
-                              <li><strong>Hantering (Vad du säger till klienten):</strong> Fokusera på progressiv överbelastning. Säg: "Om du kan lyfta tyngre eller göra fler reps nästa vecka, då vet vi att du har byggt muskelmassa."</li>
-                            </ul>
-                          </div>
-
-                          <div style={{ background: '#ffffff', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                            <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '6px' }}>3. Hur du hanterar klientens frågor (Praktiska tips)</strong>
-                            <p style={{ margin: '0 0 6px 0' }}>Om klienten frågar: "Hur mycket brände jag och hur mycket muskler fick jag?", svara så här:</p>
-                            <ul style={{ margin: 0, paddingLeft: '20px' }}>
-                              <li style={{ marginBottom: '4px' }}><strong>Flytta fokus från kalorier till prestation:</strong> "Idag körde vi ett riktigt bra pass med fokus på triceps och överkropp. Istället för att titta på kalorierna, titta på att du orkade mer än förra gången. Det är det som bygger formen."</li>
-                              <li style={{ marginBottom: '4px' }}><strong>Prata om näring:</strong> "För att de här 60 minuterna ska förvandlas till muskelmassa behöver du nu få i dig protein och bra energi."</li>
-                              <li><strong>Rätt saker att mäta framsteg genom:</strong> Bilder (månadsvis), styrkeökningar i träningsdagboken, hur kläderna sitter, eventuellt måttband eller InBody-mätning (men inte efter varje pass).</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Footer Info */}
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
-                    <span style={{ fontSize: '0.72rem', color: '#9ca3af', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      Muscle & Focus · CC BY-NC 4.0
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Subtab 2: Meal Plan */}
-          {activeSubTab === 'meals' && (
-            <div>
-              {/* Daily target card */}
-              {programData?.calories && (
-                <div style={{
-                  background: 'linear-gradient(135deg, rgba(184,149,71,0.08), rgba(16,185,129,0.06))',
-                  border: '1px solid rgba(184,149,71,0.2)',
-                  borderRadius: '14px', padding: '20px 24px',
-                  marginBottom: '20px',
-                }}>
-                  <h3 style={{ color: 'var(--accent-gold)', margin: '0 0 12px 0', fontSize: '1rem', fontWeight: 'bold' }}>
-                    🍽️ Kostschema — Mifflin-St Jeor Beräkning
-                  </h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '12px' }}>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--accent-gold)' }}>{programData.calories.targetCalories}</div>
-                      <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Dagligt kalorimål (kcal)</div>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#38bdf8' }}>{programData.calories.protein}g</div>
-                      <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Protein (1.8g/kg)</div>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#10b981' }}>{programData.calories.protein ? programData.calories.carbs : 0}g</div>
-                      <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Kolhydrater</div>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#f59e0b' }}>{programData.calories.fat}g</div>
-                      <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Fett (0.9g/kg)</div>
-                    </div>
-                  </div>
-                  <div style={{ marginTop: '12px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                    Mål: <strong style={{ color: 'var(--text-white)' }}>{programData.weightGoal}</strong> · Aktivitetsnivå: <strong style={{ color: 'var(--text-white)' }}>{programData.activityLevel}</strong>
-                  </div>
-                </div>
-              )}
-
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
-                Nedan ser du ditt kompletta 14-dagars kostschema med frukost, lunch, middag och mellanmål. Dag {dayOfTrial} är markerat som idag.
-              </p>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {mealPlan.map(meal => (
-                  <MealDayCard key={meal.day} meal={meal} isToday={meal.day === dayOfTrial} />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Premium Upgrade Banner */}
-          <div style={{
-            marginTop: '48px',
-            background: 'linear-gradient(135deg, rgba(184,149,71,0.1), rgba(99,102,241,0.08))',
-            border: '1px solid rgba(184,149,71,0.2)',
-            borderRadius: '20px', padding: '36px 24px', textAlign: 'center',
-          }}>
-            <h3 style={{ color: 'var(--text-white)', fontSize: '1.5rem', fontWeight: 'bold', margin: '0 0 12px 0' }}>
-              Vill du ha ett ännu mer skräddarsytt program? 🚀
-            </h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0 0 24px 0', lineHeight: 1.6 }}>
-              Under testperioden ser du ett urval. Med ett fullständigt paket får du daglig coaching, personlig feedback och ett program uppdaterat varje vecka direkt från Ali.
-            </p>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link
-                to="/ansok"
-                style={{
-                  background: 'linear-gradient(135deg, #b89547, #a07830)',
-                  color: '#000', fontWeight: 'bold', fontSize: '0.95rem',
-                  padding: '14px 28px', borderRadius: '100px',
-                  textDecoration: 'none',
-                  boxShadow: '0 4px 20px rgba(184,149,71,0.4)',
-                }}
-              >
-                Välj ett paket →
-              </Link>
-              <Link
-                to="/paket"
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  color: 'var(--text-silver)', fontWeight: '600', fontSize: '0.95rem',
-                  padding: '14px 28px', borderRadius: '100px',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  textDecoration: 'none',
-                }}
-              >
-                Se priser
-              </Link>
-            </div>
-          </div>
         </div>
-      )}
+      </div>
 
-      {/* ══════════════════ TAB 2: MINA UPPGIFTER (PROFILE INFO & HISTORY) ══════════════════ */}
-      {mainTab === 'details' && profile && (
-        <div className="profile-grid fade-in">
-          {/* Profile Card */}
-          <div className="profile-info-card glass-panel">
-            <div className="profile-avatar-wrapper">
-              <div className="profile-avatar">
-                {profile.fullName ? profile.fullName[0].toUpperCase() : 'U'}
-              </div>
-              <div className="profile-avatar-glow"></div>
-            </div>
-            
-            <h2>{profile.fullName}</h2>
-            <div className="profile-email-badge">{profile.email}</div>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 16px' }}>
 
-            <div className="profile-details-list">
-              <div className="profile-detail-item">
-                <span className="profile-detail-label">
-                  {language === 'fa' ? 'نام و نام خانوادگی' : language === 'en' ? 'Full Name' : 'Fullständigt namn'}
-                </span>
-                <span className="profile-detail-value">{profile.fullName}</span>
-              </div>
-              
-              <div className="profile-detail-item">
-                <span className="profile-detail-label">
-                  {language === 'fa' ? 'شماره تلفن' : language === 'en' ? 'Phone Number' : 'Telefonnummer'}
-                </span>
-                <span className="profile-detail-value">{profile.phoneNumber}</span>
-              </div>
-
-              <div className="profile-detail-item">
-                <span className="profile-detail-label">
-                  {language === 'fa' ? 'پست الکترونیکی' : language === 'en' ? 'Email Address' : 'E-post'}
-                </span>
-                <span className="profile-detail-value">{profile.email}</span>
-              </div>
-
-              <div className="profile-detail-item">
-                <span className="profile-detail-label">
-                  {language === 'fa' ? 'تاریخ ثبت‌نام' : language === 'en' ? 'Register Date' : 'Medlem sedan'}
-                </span>
-                <span className="profile-detail-value">
-                  {new Date(profile.createdAt).toLocaleDateString(language === 'fa' ? 'fa-IR' : 'sv-SE')}
-                </span>
-              </div>
-            </div>
-
-            <button onClick={handleLogout} className="btn-secondary btn-profile-logout" style={{ justifyContent: 'center', width: '100%', marginTop: '10px' }}>
-              <LogOut size={14} style={{ marginRight: '8px' }} />
-              <span>{t('clientLogout')}</span>
-            </button>
-          </div>
-
-          {/* History Panel */}
-          <div className="history-panel glass-panel">
-            <h2>{language === 'fa' ? 'تاریخچه برنامه‌ها و پکیج‌ها' : language === 'en' ? 'Application & Package History' : 'Mina paket & historik'}</h2>
-            
-            {history.length === 0 ? (
-              <div className="history-empty">
-                <Calendar size={48} className="history-empty-icon" />
-                <p>
-                  {language === 'fa' 
-                    ? 'شما هنوز هیچ درخواستی ارسال نکرده‌اید.' 
-                    : language === 'en' 
-                    ? 'You have not submitted any package requests yet.' 
-                    : 'Du har inte skickat in några intresseanmälningar ännu.'}
-                </p>
-                <Link to="/paket" className="btn-primary history-empty-btn">
-                  {language === 'fa' ? 'مشاهده پکیج‌های تمرینی' : language === 'en' ? 'Explore Training Packages' : 'Utforska träningspaket'}
-                </Link>
-              </div>
-            ) : (
-              <div className="history-list">
-                {history.map((lead) => (
-                  <div key={lead.id} className="history-item">
-                    <div className="history-item-header">
-                      <div>
-                        <h3 className="history-package-name">{lead.trainingWish}</h3>
-                        <span className="history-date">
-                          {new Date(lead.createdAt).toLocaleDateString(language === 'fa' ? 'fa-IR' : 'sv-SE')} {new Date(lead.createdAt).toLocaleTimeString(language === 'fa' ? 'fa-IR' : 'sv-SE', { hour: '2-digit', minute: '2-digit' })}
-                        </span>
-                      </div>
-                      
-                      <div className="history-badges">
-                        <span className={`status-badge ${lead.status.toLowerCase()}`}>
-                          {lead.status === 'NEW' ? (language === 'fa' ? 'جدید' : language === 'en' ? 'New' : 'Mottagen') :
-                           lead.status === 'CONTACTED' ? (language === 'fa' ? 'در تماس' : language === 'en' ? 'Contacted' : 'Kontaktad') :
-                           lead.status === 'COMPLETED' ? (language === 'fa' ? 'کامل شده' : language === 'en' ? 'Completed' : 'Genomförd') : 
-                           lead.status}
-                        </span>
-                        
-                        {lead.paymentStatus && lead.paymentStatus !== 'NOT_REQUIRED' && (
-                          <span className={`payment-badge ${lead.paymentStatus.toLowerCase()}`}>
-                            {lead.paymentStatus === 'PAID' ? (language === 'fa' ? 'پرداخت شده' : language === 'en' ? 'Paid' : 'Betald') :
-                             lead.paymentStatus === 'PENDING_PAYMENT' ? (language === 'fa' ? 'در انتظار پرداخت' : language === 'en' ? 'Pending' : 'Väntar på betalning') :
-                             lead.paymentStatus}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="history-item-details">
-                      <div className="history-detail-field">
-                        <strong>{language === 'fa' ? 'شهر:' : language === 'en' ? 'City:' : 'Stad:'} </strong>
-                        <span>{lead.city}</span>
-                      </div>
-                      
-                      <div className="history-detail-field">
-                        <strong>{language === 'fa' ? 'سن:' : language === 'en' ? 'Age:' : 'Ålder:'} </strong>
-                        <span>{lead.age} {language === 'fa' ? 'سال' : language === 'en' ? 'y/o' : 'år'}</span>
-                      </div>
-
-                      {lead.amountPaid > 0 && (
-                        <div className="history-detail-field">
-                          <strong>{language === 'fa' ? 'مبلغ پرداخت شده:' : language === 'en' ? 'Amount Paid:' : 'Betalt belopp:'} </strong>
-                          <span>{lead.amountPaid} kr</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {lead.message && (
-                      <div className="history-detail-field" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <strong>{language === 'fa' ? 'پیام:' : language === 'en' ? 'Message:' : 'Meddelande / Anteckningar:'}</strong>
-                        <div className="history-message-box">
-                          {lead.message}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-      {selectedEx && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex',
-          justifyContent: 'center', alignItems: 'center', padding: '16px',
-          backdropFilter: 'blur(6px)'
-        }}>
-          <div style={{
-            background: 'var(--bg-card)', border: '1px solid rgba(184,149,71,0.3)',
-            borderRadius: '16px', maxWidth: '520px', width: '100%', maxHeight: '90vh',
-            overflowY: 'auto', padding: '24px', position: 'relative',
-            boxShadow: '0 20px 50px rgba(0,0,0,0.8)'
-          }} className="custom-scrollbar">
+        {/* ── Tabs ── */}
+        <div style={{ display: 'flex', gap: '8px', margin: '24px 0 20px' }}>
+          {[
+            { id: 'workout', label: '🏋️ Träningsprogram', desc: '14 dagar' },
+            { id: 'meals', label: '🍽️ Kostschema', desc: '14 dagars matplan' },
+          ].map(tab => (
             <button
-              onClick={() => setSelectedEx(null)}
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
               style={{
-                position: 'absolute', top: '16px', right: '16px', background: 'rgba(255,255,255,0.08)',
-                border: 'none', color: '#fff', width: '32px', height: '32px', borderRadius: '50%',
-                fontSize: '1.2rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                flex: 1, padding: '14px 16px',
+                borderRadius: '12px', cursor: 'pointer', transition: 'all 0.2s',
+                border: activeTab === tab.id ? '2px solid var(--accent-gold)' : '1px solid rgba(255,255,255,0.08)',
+                background: activeTab === tab.id
+                  ? 'linear-gradient(135deg, rgba(184,149,71,0.15), rgba(184,149,71,0.05))'
+                  : 'rgba(255,255,255,0.02)',
+                color: activeTab === tab.id ? 'var(--text-white)' : 'var(--text-muted)',
+                fontWeight: 'bold', fontSize: '0.9rem',
+                textAlign: 'left',
               }}
             >
-              ✕
+              <div>{tab.label}</div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 'normal', color: 'var(--text-muted)', marginTop: '2px' }}>{tab.desc}</div>
             </button>
+          ))}
+        </div>
 
-            <h3 style={{ color: 'var(--accent-gold)', margin: '0 0 16px 0', fontSize: '1.15rem', fontWeight: 'bold' }}>
-              🎬 Demonstrationsvideo & Teknikguide
-            </h3>
+        {/* ══════════════════ WORKOUT TAB ══════════════════ */}
+        {activeTab === 'workout' && (
+          <div>
+            {/* Program info chips */}
+            {programData && (
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '20px', fontSize: '0.75rem' }}>
+                {[
+                  { label: `📅 ${programData.trainingDays} dagar/v` },
+                  { label: `⏱️ ${programData.trainingDuration || '60 min'}` },
+                  { label: `📍 ${programData.trainingLocation || 'Gym'}` },
+                  { label: `🏆 ${programData.experienceLevel || 'Nybörjare'}` },
+                  { label: `🎯 ${programData.weightGoal || 'Bibehålla'}` },
+                ].map(c => (
+                  <span key={c.label} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', padding: '4px 12px', borderRadius: '100px', color: 'var(--text-silver)' }}>
+                    {c.label}
+                  </span>
+                ))}
+              </div>
+            )}
 
-            {/* Video / GIF container */}
-            <div style={{
-              background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)',
-              overflow: 'hidden', height: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              marginBottom: '16px'
-            }}>
-              <img
-                src={selectedEx.gifUrl}
-                alt={selectedEx.name}
-                style={{ height: '210px', objectFit: 'contain', filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.4))' }}
-              />
-            </div>
-
-            <h4 style={{ color: 'var(--text-white)', fontSize: '1.2rem', fontWeight: 'bold', margin: '0 0 8px 0' }}>
-              {selectedEx.name}
-            </h4>
-
-            {/* Tags */}
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px', fontSize: '0.75rem' }}>
-              {selectedEx.equipment && (
-                <span style={{ background: 'rgba(255,255,255,0.06)', padding: '4px 10px', borderRadius: '6px', color: 'var(--text-silver)' }}>
-                  Utrustning: {selectedEx.equipment}
-                </span>
-              )}
-              {selectedEx.primary_muscles && (
-                <span style={{ background: 'rgba(184,149,71,0.12)', padding: '4px 10px', borderRadius: '6px', color: 'var(--accent-gold)' }}>
-                  Muskel: {Array.isArray(selectedEx.primary_muscles) ? selectedEx.primary_muscles.join(', ') : selectedEx.primary_muscles}
-                </span>
-              )}
-            </div>
-
-            {/* YouTube Shorts Button */}
-            {selectedEx.youtubeUrl && (
-              <div style={{ marginBottom: '20px' }}>
-                <a
-                  href={selectedEx.youtubeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+            {/* Week Tabs */}
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+              {[1, 2].map(w => (
+                <button
+                  key={w}
+                  onClick={() => { setActiveWeek(w); setActiveDay(0) }}
                   style={{
-                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
-                    background: 'linear-gradient(135deg, #ff0000 0%, #cc0000 100%)', color: '#ffffff',
-                    padding: '12px 20px', borderRadius: '12px', fontWeight: 'bold', fontSize: '0.88rem',
-                    textDecoration: 'none', width: '100%', boxShadow: '0 4px 15px rgba(255,0,0,0.35)',
-                    transition: 'all 0.2s'
+                    flex: 1, padding: '12px',
+                    borderRadius: '10px', fontWeight: 'bold', fontSize: '0.88rem',
+                    cursor: 'pointer', transition: 'all 0.2s',
+                    border: activeWeek === w ? '2px solid var(--accent-gold)' : '1px solid rgba(255,255,255,0.08)',
+                    background: activeWeek === w ? 'rgba(184,149,71,0.12)' : 'rgba(255,255,255,0.02)',
+                    color: activeWeek === w ? 'var(--text-white)' : 'var(--text-muted)',
                   }}
                 >
-                  <span style={{ fontSize: '1.2rem' }}>▶️</span> Se instruktionsvideo på YouTube Shorts
-                </a>
-              </div>
-            )}
-
-            {/* Instructions */}
-            <div style={{ marginBottom: '20px' }}>
-              <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: 'var(--accent-gold)', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
-                📌 Instruktioner:
-              </strong>
-              <ol style={{ margin: 0, paddingLeft: '20px', fontSize: '0.85rem', color: 'var(--text-silver)', lineHeight: 1.6 }}>
-                {(selectedEx.instructions || selectedEx.instructions_en || ['Utför kontrollerat.']).map((inst, i) => (
-                  <li key={i} style={{ marginBottom: '6px' }}>{inst}</li>
-                ))}
-              </ol>
+                  {w === 1 ? '📅 Vecka 1 — Grund' : '📅 Vecka 2 — Progressive Overload'}
+                  {w === 2 && <div style={{ fontSize: '0.65rem', color: '#8b5cf6', fontWeight: 'normal', marginTop: '2px' }}>+1 set compound · +2 reps isolation</div>}
+                </button>
+              ))}
             </div>
 
-            {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && (
-              <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
-                  💡 Tekniktips:
-                </strong>
-                <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '0.82rem', color: 'var(--text-silver)', lineHeight: 1.5 }}>
-                  {(selectedEx.tips || selectedEx.tips_en).map((tip, i) => (
-                    <li key={i} style={{ marginBottom: '4px' }}>{tip}</li>
+            {/* Day selector */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '8px', marginBottom: '20px' }}>
+              {currentWeekData.map((day, idx) => {
+                const isActive = activeDay === idx
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => setActiveDay(idx)}
+                    style={{
+                      padding: '12px', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.2s',
+                      border: isActive ? '2px solid var(--accent-gold)' : '1px solid rgba(255,255,255,0.07)',
+                      background: isActive ? 'rgba(184,149,71,0.12)' : 'rgba(255,255,255,0.02)',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', display: 'block' }}>Dag {day.day}</span>
+                    <span style={{ fontSize: '1rem' }}>{SPLIT_EMOJIS[day.splitType]}</span>
+                    <div style={{ fontSize: '0.75rem', fontWeight: 'bold', color: isActive ? 'var(--text-white)' : 'var(--text-silver)', lineHeight: 1.2, marginTop: '2px' }}>
+                      {DAY_NAMES_SV[day.splitType]}
+                    </div>
+                    <div style={{ fontSize: '0.62rem', color: 'var(--text-muted)', marginTop: '4px' }}>{day.exercises.length} övningar</div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Exercise grid */}
+            {currentDay && currentDay.splitType === 'rest' ? (
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(59, 130, 246, 0.08))',
+                border: '1px solid rgba(16, 185, 129, 0.2)',
+                borderRadius: '16px',
+                padding: '40px 24px',
+                textAlign: 'center',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
+              }}>
+                <span style={{ fontSize: '3rem', display: 'block', marginBottom: '16px' }}>🛋️</span>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-white)', marginBottom: '12px' }}>
+                  VILODAG & ÅTERHÄMTNING
+                </h3>
+                <p style={{ maxWidth: '600px', margin: '0 auto', fontSize: '0.9rem', color: 'var(--text-silver)', lineHeight: 1.6 }}>
+                  Bra jobbat med din träning! Återhämtning är en av de absolut viktigaste delarna i ditt träningsprogram. Det är under vilan som din kropp reparerar mikroskadorna i musklerna, bygger upp ny styrka och fyller på dina energidepåer.
+                </p>
+                <div style={{
+                  marginTop: '24px',
+                  display: 'inline-flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                  background: 'rgba(0,0,0,0.2)',
+                  padding: '16px 24px',
+                  borderRadius: '10px',
+                  textAlign: 'left'
+                }}>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--accent-gold)', fontWeight: 'bold', textTransform: 'uppercase' }}>💡 Dagens tips för återhämtning:</span>
+                  <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '0.82rem', color: 'var(--text-silver)', lineHeight: 1.5 }}>
+                    <li>Fokusera på god sömn (7-9 timmar).</li>
+                    <li>Drick rikligt med water under dagen.</li>
+                    <li>Håll proteinintaget jämnt för att stödja muskelreparation.</li>
+                    <li>Gör gärna en lätt promenad för aktiv återhämtning och ökad blodcirkulation.</li>
+                  </ul>
+                </div>
+              </div>
+            ) : currentDay && (
+              <div>
+                <h3 style={{ color: 'var(--text-white)', margin: '0 0 16px 0', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                  {SPLIT_EMOJIS[currentDay.splitType]} {DAY_NAMES_SV[currentDay.splitType]}
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 'normal', marginLeft: '10px' }}>
+                    Vecka {activeWeek} · {currentDay.exercises.length} övningar
+                  </span>
+                </h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '14px' }}>
+                  {currentDay.exercises.map((ex, idx) => (
+                    <ExerciseCard key={ex.id + idx} ex={ex} idx={idx} />
                   ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Anatomisk & Muskel-analys ruta */}
-            
-            
-            
-            
-            
-            
-            {(selectedEx.isSmithSeatedShoulderPress || selectedEx.name_en === 'Smith Seated Shoulder Press' || selectedEx.name?.includes('Smith Seated Shoulder Press')) && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    💪 Vilka muskler tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Detta är huvudmålet. Den främre delen av axeln får jobba extremt hårt för att pressa stången uppåt.</li>
-                    <li><strong>Mellersta axeln (Lateral Deltoid):</strong> Assisterar i rörelsen och hjälper till att ge axlarna bredd.</li>
-                    <li><strong>Triceps Brachii:</strong> Musklerna på baksidan av överarmen jobbar för att sträcka ut armbågsleden i slutet av rörelsen.</li>
-                    <li><strong>Övre bröstmuskulaturen (Pectoralis Major):</strong> Den översta delen av bröstet hjälper till i början av pressen.</li>
-                    <li><strong>Trapezius & Serratus Anterior:</strong> Stabiliserar skulderbladen under hela rörelsen.</li>
-                  </ul>
                 </div>
 
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🦴 Vilka leder tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Axelleden:</strong> Genom abduktion och flexion (armarna rör sig uppåt och utåt).</li>
-                    <li><strong>Armbågsleden:</strong> Genom extension (armarna rätas ut).</li>
-                    <li><strong>Skulderbladen:</strong> Roterar uppåt för att tillåta armarna att nå högsta punkten.</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Sitt rakt:</strong> Tryck ryggen ordentligt mot sätet och håll bröstet högt.</li>
-                    <li><strong>Armbågarnas vinkel:</strong> Låt inte armbågarna peka rakt ut åt sidorna; ha dem aningen framför dig för att skona axelleden.</li>
-                    <li><strong>Stoppa i tid:</strong> Sänk stången till ungefär hakhöjd eller strax under. Går du för djupt kan det skapa onödig stress på axelns framsida.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {(selectedEx.isJackknifeSitUp || selectedEx.name_en === 'Jackknife Sit-Up' || selectedEx.name?.includes('Jackknife Sit-Up')) && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
-                  Jackknife Sit-Up (ofta kallad V-up) är en avancerad och intensiv magövning där du lyfter både överkropp och ben samtidigt för att mötas i en "V-position".
+                {/* RepDB attribution */}
+                <p style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '20px', textAlign: 'center' }}>
+                  Övningsdata & illustrationer: <a href="https://repdb.co" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-gold)' }}>RepDB</a> · CC BY-NC 4.0
                 </p>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    💪 Vilka muskler tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Primary Muscles (Huvudmuskler):</strong>
-                      <ul style={{ paddingLeft: '14px', marginTop: '4px' }}>
-                        <li><strong>Rectus Abdominis:</strong> De raka magmusklerna får jobba extremt hårt för att dra ihop överkroppen mot benen. Den tränar både övre och nedre delen av magen samtidigt.</li>
-                        <li><strong>Iliopsoas (Höftböjarna):</strong> Dessa är motorerna som lyfter dina ben från golvet.</li>
-                      </ul>
-                    </li>
-                    <li><strong>Secondary Muscles (Sekundära muskler):</strong>
-                      <ul style={{ paddingLeft: '14px', marginTop: '4px' }}>
-                        <li><strong>Obliques:</strong> De sneda magmusklerna hjälper till med balansen och stabiliteten i rörelsen.</li>
-                        <li><strong>Quadriceps (Framsida lår):</strong> Håller benen raka under lyftet.</li>
-                        <li><strong>Hip Adductors:</strong> Insida lår som hjälper till att hålla ihop benen.</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🦴 Vilka leder tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Ryggraden:</strong> Sker en kraftig flexion (böjning) när du rullar upp från golvet.</li>
-                    <li><strong>Höftleden:</strong> Sker en flexion när benen lyfts uppåt.</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Mötas på mitten:</strong> Tänk att händer och fötter ska mötas precis ovanför mitten av kroppen.</li>
-                    <li><strong>Kontrollerad retur:</strong> Slappna inte av på vägen ner. Håll emot med magen så att fötterna och armarna precis nuddar (eller svävar ovanför) golvet innan nästa rep.</li>
-                    <li><strong>Andning:</strong> Andas ut kraftfullt när du går upp i V-positionen – det hjälper dig att spänna magen maximalt.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {(selectedEx.isOtisUp || selectedEx.name_en === 'Otis Up' || selectedEx.name?.includes('Otis Up')) && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
-                  Otis Up är en avancerad, viktad variant av en sit-up där du håller en viktplatta med raka armar mot taket under hela rörelsen. Det är en övning som kombinerar rå styrka i magen med kontroll och stabilitet.
-                </p>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    💪 Vilka muskler tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Primary Muscles (Huvudmuskler):</strong>
-                      <ul style={{ paddingLeft: '14px', marginTop: '4px' }}>
-                        <li><strong>Rectus Abdominis:</strong> De raka magmusklerna jobbar extremt hårt för att lyfta överkroppen mot vikten.</li>
-                        <li><strong>Iliopsoas (Höftböjarna):</strong> Mycket aktiva eftersom det är en full sit-up-rörelse där överkroppen ska hela vägen upp till knäna.</li>
-                      </ul>
-                    </li>
-                    <li><strong>Secondary Muscles (Sekundära muskler):</strong>
-                      <ul style={{ paddingLeft: '14px', marginTop: '4px' }}>
-                        <li><strong>Obliques:</strong> De sneda magmusklerna stabiliserar lyftet.</li>
-                        <li><strong>Sartorius:</strong> Muskel i låret som hjälper till vid höftböjning.</li>
-                        <li><strong>Främre Axlar (Anterior Deltoid):</strong> Arbetar statiskt för att hålla viktplattan pressad rakt upp mot taket.</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🦴 Vilka leder tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Ryggraden:</strong> Genom flexion (böjning) när du rullar upp från golvet.</li>
-                    <li><strong>Höftleden:</strong> Här sker en kraftig flexion för att dra upp hela överkroppen.</li>
-                    <li><strong>Axelleden:</strong> Jobbar isometriskt (statiskt) för att stabilisera vikten ovanför huvudet.</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🎯 Varför ska man göra Otis Up?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Progressiv belastning:</strong> Till skillnad från vanliga situps är det väldigt lätt att göra Otis Up tyngre genom att öka vikten på plattan. Det är nyckeln till att bygga en riktigt stark och välutvecklad magmuskulatur.</li>
-                    <li><strong>Explosivitet och kraft:</strong> Den används ofta inom idrotter där man behöver explosiv bålstyrka (t.ex. kampsport eller tyngdlyftning) eftersom den tränar samspelet mellan mage, höft och axlar.</li>
-                    <li><strong>Bättre hållning och stabilitet:</strong> Eftersom du tvingas hålla armarna raka och pressa vikten uppåt, tränar du din förmåga att stabilisera ryggraden under tryck.</li>
-                    <li><strong>Helkroppskontroll:</strong> Den kräver att du kan kontrollera både över- och underkropp samtidigt. Om du inte spänner benen och magen kommer du inte upp.</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Pressa mot taket:</strong> Tänk att vikten ska röra sig spikrakt uppåt mot taket hela tiden, inte framåt mot knäna. Det gör övningen mycket jobbigare för magen.</li>
-                    <li><strong>Fötterna i golvet:</strong> Försök att hålla fötterna i golvet under hela rörelsen. Om de lyfter beror det ofta på att höftböjarna tar över för mycket eller att vikten är för tung.</li>
-                    <li><strong>Rulla ner långsamt:</strong> Släpp inte ner ryggen i golvet. Håll emot på vägen ner för att maximera tiden under spänning.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {(selectedEx.isAbdominalCrunch || selectedEx.name_en === 'Abdominal Crunch' || selectedEx.name?.includes('Abdominal Crunch')) && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
-                  Abdominal Crunch (Crunches) är den mest klassiska övningen för att isolera den raka magmuskeln. Till skillnad från en sit-up, där man lyfter hela ryggen, lyfter man här bara den översta delen.
-                </p>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    💪 Vilka muskler tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Rectus Abdominis (Huvudmuskel):</strong> Fokus ligger främst på den övre delen av "sexpacket".</li>
-                    <li><strong>Obliques (Sekundära):</strong> De sneda magmusklerna hjälper till att stabilisera rörelsen.</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🦴 Vilka leder tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Ryggraden:</strong> Rörelsen sker genom en kontrollerad flexion (böjning) i den övre delen av ryggraden (bröstryggen).</li>
-                    <li><strong>Viktigt:</strong> Till skillnad från situps är höftleden helt stilla, vilket isolerar magen mer.</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🎯 Varför ska man göra Abdominal Crunches?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Isolerar magen optimalt:</strong> Genom att begränsa rörelsen till att bara lyfta skulderbladen tvingas magmusklerna göra allt jobb utan att höftböjarna tar över (vilket ofta händer i situps).</li>
-                    <li><strong>Skonsam för ländryggen:</strong> Eftersom ländryggen stannar kvar i golvet hela tiden, är crunches betydligt snällare mot ryggkotorna än många andra magövningar.</li>
-                    <li><strong>Bygger definition:</strong> Det är en utmärkt övning för att bygga muskelmassa och "rutor" på överkroppen genom att skapa en kraftig sammandragning i muskeln.</li>
-                    <li><strong>Enkel att utföra:</strong> Kräver ingen utrustning och är perfekt för att lära sig hitta kontakten med magmusklerna.</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Dra inte i nacken:</strong> Händerna ska bara vila lätt bakom huvudet eller hållas över bröstet. Kraften ska komma från magen, inte armarna.</li>
-                    <li><strong>Rulla ihop:</strong> Tänk att du ska rulla ihop bröstkorgen mot naveln snarare än att du ska lyfta dig rakt upp.</li>
-                    <li><strong>Kvalitet före kvantitet:</strong> Det handlar inte om hur högt du kommer, utan hur hårt du kan spänna magen i toppläget.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {(selectedEx.isLyingLegRaise || selectedEx.name_en === 'Lying Leg Raise' || selectedEx.name?.includes('Lying Leg Raise')) && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    💪 Vilka muskler och leder tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Huvudmuskel:</strong> Nedre delen av magen (Rectus abdominis). Det är en av de bästa övningarna för att pricka just den nedre regionen.</li>
-                    <li><strong>Sekundära muskler:</strong> Höftböjarna (Iliopsoas) och framsida lår (Quadriceps). Även sätet jobbar för att stabilisera.</li>
-                    <li><strong>Leder:</strong> Höftleden (här sker själva rörelsen). Ländryggen tränas statiskt genom att du tvingas hålla den pressad mot golvet.</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🎯 Varför ska man göra den här övningen?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Fokus på nedre magen:</strong> Perfekt om man vill stärka den del av magen som ofta är svårast att komma åt med vanliga situps.</li>
-                    <li><strong>Bålstabilitet:</strong> Den tränar din förmåga att kontrollera bäckenet och ländryggen, vilket skyddar ryggen i vardagen och vid tunga lyft.</li>
-                    <li><strong>Hållning:</strong> Genom att stärka samspelet mellan mage och höft förbättrar du din hållning.</li>
-                    <li><strong>Enkel men utmanande:</strong> Kräver ingen utrustning men är mycket effektiv för att bygga en stark "korsett".</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Viktigt tips till klienten
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Pressa ner ländryggen:</strong> Pressa ner ländryggen i golvet under hela rörelsen. Om ryggen börjar svanka, stanna och vänd rörelsen uppåt igen för att undvika skador.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {(selectedEx.isAlternateHeelTouchers || selectedEx.name_en === 'Alternate Heel Touchers' || selectedEx.name?.includes('Alternate Heel Touchers')) && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    💪 Vilka muskler tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Primary Muscles (Huvudmuskler):</strong> Obliques (de sneda magmusklerna). Dessa sitter på sidorna av midjan och ansvarar för att böja kroppen i sidled.</li>
-                    <li><strong>Secondary Muscles (Sekundära muskler):</strong>
-                      <ul style={{ paddingLeft: '14px', marginTop: '4px' }}>
-                        <li><strong>Rectus Abdominis:</strong> Den raka magmuskeln ("sexpacket") jobbar statiskt för att hålla dina axlar lyfta från golvet.</li>
-                        <li><strong>Transversus Abdominis:</strong> De djupa magmusklerna som stabiliserar bålen.</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🦴 Vilka leder tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Ryggraden (Intervertebral-lederna):</strong> Rörelsen sker genom lateral flexion (sidoböjning) av ryggraden.</li>
-                    <li><strong>Nacken:</strong> Musklerna i nacken jobbar statiskt för att hålla huvudet uppe, vilket kan kännas för nybörjare.</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🎯 Varför ska man göra Alternate Heel Touchers?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Isolering av midjan:</strong> Det är en av de enklaste och mest effektiva övningarna för att specifikt pricka de sneda magmusklerna utan att behöva använda vikter.</li>
-                    <li><strong>Bättre muskeldefinition:</strong> Hjälper till att bygga uthållighet och tona musklerna på sidan av magen.</li>
-                    <li><strong>Enkelhet och tillgänglighet:</strong> Du behöver ingen utrustning alls. Den går att göra var som helst och är lätt att lära sig.</li>
-                    <li><strong>Skonsam för ländryggen:</strong> Liggande position med fötterna i golvet som är säker för ländryggen.</li>
-                    <li><strong>Stärker bålstabiliteten:</strong> Tränar din förmåga att kontrollera rörelser i sidled.</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Lyft axlarna:</strong> Nyckeln är att hålla skulderbladen en bit ovanför golvet under hela övningen. Det är då magen är aktiverad.</li>
-                    <li><strong>Tänk "Pingvin":</strong> Gör en kontrollerad rörelse från sida till sida. Försök att verkligen nudda hälen eller gå till och med förbi den för maximal kontakt i obliques.</li>
-                    <li><strong>Blicken mot taket:</strong> För att undvika ont i nacken, försök att hålla ett litet avstånd mellan hakan och bröstet (som om du höll en apelsin där) och titta snett uppåt.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {(selectedEx.isCrossBodyHammerCurl || selectedEx.name_en === 'Cross Body Hammer Curl' || selectedEx.name === 'Cross Body Hammer Curl') && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    💪 Vilka muskler tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Brachialis:</strong> Övningens huvudfokus. Muskeln som ligger under biceps. När den växer "lyfter" den upp biceps, vilket gör att hela överarmen ser betydligt bredare och maffigare ut från sidan.</li>
-                    <li><strong>Brachioradialis:</strong> Den stora muskeln på ovansidan av underarmen (neutralt grepp / tummen upp).</li>
-                    <li><strong>Biceps Brachii (Långa huvudet):</strong> Den yttre delen av biceps som skapar själva "toppen".</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🦴 Vilka leder tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Armbågsleden:</strong> Den primära rörelsen (flexion).</li>
-                    <li><strong>Axelleden:</strong> Fungerar som en stabilisator. Den lilla rotationen inåt gör att du får en annorlunda vinkel för muskelaktiveringen i axelpartiet.</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🎯 Varför ska man göra Cross Body Hammer Curls?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Bygger bredare armar:</strong> Fokuserar på musklerna kring biceps snarare än bara själva biceps-kulan.</li>
-                    <li><strong>Stärker greppet och underarmarna:</strong> Hög aktivering för tunga ryggövningar och marklyft.</li>
-                    <li><strong>Mindre fusk:</strong> Svårare att använda momentum (swing) eller att hjälpa till med ryggen.</li>
-                    <li><strong>Skonsam för handlederna:</strong> Att hålla hanteln med "tummen upp" är den mest naturliga positionen för handleden.</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Neutralt grepp:</strong> Håll hanteln som en hammare under hela rörelsen. Vrid inte på handleden.</li>
-                    <li><strong>Korsa bröstet:</strong> För hanteln mot den motsatta axeln, men stanna precis innan hanteln nuddar bröstet för att behålla spänningen.</li>
-                    <li><strong>Stilla överarm:</strong> Håll armbågen fixerad. Den ska inte vandra framåt eller utåt under lyftet.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {(selectedEx.isFrontPlank || selectedEx.name_en === 'Front Plank' || selectedEx.name === 'Front Plank') && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    💪 Vilka muskler tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Rectus Abdominis:</strong> De raka magmusklerna ("sexpacket").</li>
-                    <li><strong>Transversus Abdominis:</strong> Djupa magmusklerna (korsetten).</li>
-                    <li><strong>Obliques:</strong> De sneda magmusklerna (stabilisering).</li>
-                    <li><strong>Erector Spinae:</strong> Ryggsträckarna (håller ryggraden rak).</li>
-                    <li><strong>Serratus Anterior & Axlar:</strong> Håller dig uppe statiskt.</li>
-                    <li><strong>Säte & Framsida lår:</strong> Håller kroppen i en rak linje.</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🦴 Vilka leder tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Ryggraden:</strong> Neutral position (anti-extension).</li>
-                    <li><strong>Axelleden:</strong> Stabiliserar kroppsvikten.</li>
-                    <li><strong>Höftleden:</strong> Hålls stabil av höftböjare och säte.</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🎯 Varför göra Front Plank?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Bålstabilitet:</strong> Grunden för all annan styrka i knäböj och marklyft.</li>
-                    <li><strong>Hållning:</strong> Hjälper dig stå och sitta rakare.</li>
-                    <li><strong>Mindre ryggont:</strong> Avlastar ländryggen och minskar besvär.</li>
-                    <li><strong>Funktionell styrka:</strong> Skapar helkroppsanspänning.</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Ingen "hängbro":</strong> Spänn sätet och magen så höften inte sjunker.</li>
-                    <li><strong>Tryck ifrån:</strong> Sjunk inte mellan axlarna, pressa underarmarna mot golvet.</li>
-                    <li><strong>Andas:</strong> Håll inte andan under anspänningen.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {selectedEx.note && (
-              <div style={{
-                background: 'rgba(184,149,71,0.08)', padding: '12px 14px', borderRadius: '10px',
-                border: '1px solid rgba(184,149,71,0.2)', marginTop: '16px', fontSize: '0.82rem',
-                color: 'var(--accent-gold)'
-              }}>
-                <strong>💡 Tränarens notering:</strong>
-                <p style={{ margin: '4px 0 0 0', color: 'var(--text-silver)' }}>{selectedEx.note}</p>
-              </div>
-            )}
-
-            {(selectedEx.isBarbellReverseGripRow || selectedEx.name_en === 'Barbell Reverse Grip Bent over Row') && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>💪 Vilka muskler tränas?</strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Latissimus Dorsi:</strong> Underhandsgreppet ger djup sträckning och aktiverar nedre lats.</li>
-                    <li><strong>Biceps Brachii:</strong> Assisterar kraftfullt under roddrörelsen.</li>
-                    <li><strong>Trapezius & Rhomboids:</strong> Klämmer ihop ryggplattan i toppläget.</li>
-                  </ul>
-                </div>
-                <div>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>🎯 Varför göra övningen?</strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Bygger ryggtjocklek:</strong> En av de absolut bästa basövningarna för en fyllig rygg.</li>
-                    <li><strong>Bättre bålstabilitet:</strong> Stärker ryggsträckarna statiskt under belastning.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {(selectedEx.isWideGripPullUp || selectedEx.name_en === 'Wide-Grip Pull-Up') && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>💪 Vilka muskler tränas?</strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Latissimus Dorsi:</strong> Kungen av kroppsviktsövningar för bred V-taper.</li>
-                    <li><strong>Teres Major & Biceps:</strong> Ger styrka och form åt överarm och övre rygg.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {(selectedEx.isDumbbellStandingOneArmCurl || selectedEx.name_en === 'Dumbbell Standing One Arm Curl' || selectedEx.name === 'Dumbbell Standing One Arm Curl') && (
-              <div style={{
-                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
-                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
-                lineHeight: 1.5, color: 'var(--text-silver)'
-              }}>
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    💪 Vilka muskler tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Biceps Brachii:</strong> Huvudmålet (långa och korta huvudet).</li>
-                    <li><strong>Brachialis:</strong> Djup muskel som ger överarmen fyllighet.</li>
-                    <li><strong>Brachioradialis:</strong> Muskeln på ovansidan av underarmen.</li>
-                    <li><strong>Core (Bål):</strong> Sneda magmusklerna motverkar sidotippning.</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🦴 Vilka leder tränas?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Armbågsleden:</strong> Primär rörelse (flexion).</li>
-                    <li><strong>Handleden:</strong> Stabiliserar hanteln och tillåter supination.</li>
-                    <li><strong>Axelleden:</strong> Fungerar som stabilisator.</li>
-                  </ul>
-                </div>
-
-                <div style={{ marginBottom: '12px' }}>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    🎯 Varför göra övningen?
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Rätta till obalanser:</strong> Upptäck och korrigera styrkeskillnader mellan armarna.</li>
-                    <li><strong>Mind-Muscle Connection:</strong> Unilateralt fokus ger maximal kontakt.</li>
-                    <li><strong>Bättre rörlighet:</strong> Tillåter fri handledsrotation under rörelsen.</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
-                  </strong>
-                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
-                    <li><strong>Stå stadigt:</strong> Håll höftbredd och spänn sätet.</li>
-                    <li><strong>Ingen rotation:</strong> Låt inte kroppen luta sig eller hjälpa hanteln upp.</li>
-                    <li><strong>Vrid lillfingret uppåt:</strong> Rotera handleden i toppläget för maximal biceps-kontraktion.</li>
-                  </ul>
-                </div>
               </div>
             )}
           </div>
+        )}
+
+        {/* ══════════════════ MEAL PLAN TAB ══════════════════ */}
+        {activeTab === 'meals' && (
+          <div>
+            {/* Calorie summary header */}
+            {programData?.calories && (
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(184,149,71,0.08), rgba(16,185,129,0.06))',
+                border: '1px solid rgba(184,149,71,0.2)',
+                borderRadius: '14px', padding: '20px 24px',
+                marginBottom: '20px',
+              }}>
+                <h3 style={{ color: 'var(--accent-gold)', margin: '0 0 12px 0', fontSize: '1rem', fontWeight: 'bold' }}>
+                  🍽️ Kostschema — Mifflin-St Jeor Beräkning
+                </h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '12px' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--accent-gold)' }}>{programData.calories.targetCalories}</div>
+                    <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Dagligt kalorimål (kcal)</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#38bdf8' }}>{programData.calories.protein}g</div>
+                    <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Protein (1.8g/kg)</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#10b981' }}>{programData.calories.carbs}g</div>
+                    <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Kolhydrater</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#f59e0b' }}>{programData.calories.fat}g</div>
+                    <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Fett (0.9g/kg)</div>
+                  </div>
+                </div>
+                <div style={{ marginTop: '12px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  Mål: <strong style={{ color: 'var(--text-white)' }}>{programData.weightGoal}</strong> · Aktivitetsnivå: <strong style={{ color: 'var(--text-white)' }}>{programData.activityLevel}</strong>
+                </div>
+              </div>
+            )}
+
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
+              Nedan ser du ditt kompletta 14-dagars kostschema med frukost, lunch, middag och mellanmål. Dag {dayOfTrial} är markerat som idag.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {mealPlan.map(meal => (
+                <MealDayCard key={meal.day} meal={meal} isToday={meal.day === dayOfTrial} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── CTA ── */}
+        <div style={{
+          marginTop: '48px',
+          background: 'linear-gradient(135deg, rgba(184,149,71,0.1), rgba(99,102,241,0.08))',
+          border: '1px solid rgba(184,149,71,0.2)',
+          borderRadius: '20px', padding: '36px 24px', textAlign: 'center',
+        }}>
+          <h3 style={{ color: 'var(--text-white)', fontSize: '1.5rem', fontWeight: 'bold', margin: '0 0 12px 0' }}>
+            Vill du ha ett ännu mer skräddarsytt program? 🚀
+          </h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '0 0 24px 0', lineHeight: 1.6 }}>
+            Under testperioden ser du ett urval. Med ett fullständigt paket får du daglig coaching, personlig feedback och ett program uppdaterat varje vecka direkt från Ali.
+          </p>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link
+              to="/ansok"
+              style={{
+                background: 'linear-gradient(135deg, #b89547, #a07830)',
+                color: '#000', fontWeight: 'bold', fontSize: '0.95rem',
+                padding: '14px 28px', borderRadius: '100px',
+                textDecoration: 'none',
+                boxShadow: '0 4px 20px rgba(184,149,71,0.4)',
+              }}
+            >
+              Välj ett paket →
+            </Link>
+            <Link
+              to="/paket"
+              style={{
+                background: 'rgba(255,255,255,0.05)',
+                color: 'var(--text-silver)', fontWeight: '600', fontSize: '0.95rem',
+                padding: '14px 28px', borderRadius: '100px',
+                border: '1px solid rgba(255,255,255,0.12)',
+                textDecoration: 'none',
+              }}
+            >
+              Se priser
+            </Link>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }
-
-export default ClientProfile
