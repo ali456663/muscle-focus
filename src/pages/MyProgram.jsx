@@ -685,7 +685,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           ],
           note: 'Dumbbell Seated Shoulder Press (Sittande hantelpress) är en av de mest grundläggande och effektiva övningarna för att bygga styrka och volym i axlarna. Att sitta ner ger mer stabilitet, vilket gör att du kan fokusera helt på att pressa med musklerna.'
         },
-        { id: 'delts/lever-military-press', name_en: 'Lever Military Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/lever-military-press.gif' },
+        {
+          id: 'delts/lever-military-press',
+          name_en: 'Lever Military Press',
+          name_es: 'Press Militar en Máquina con Palanca',
+          name: 'Lever Military Press (sittande axelpress i maskin)',
+          equipment: 'leverage machine',
+          body_part: 'shoulders',
+          primary_muscles: ['anterior_deltoid'],
+          secondary_muscles: ['lateral_deltoid', 'triceps_brachii', 'pectoralis_major', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '45 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/lever-military-press.gif',
+          isLeverMilitaryPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/e1scliIVDQo?si=B9xv9mJyrkac3eJT',
+          instructions_en: [
+            'Ställ in sitshöjden så att handtagen hamnar i axelhöjd i startläget.',
+            'Sätt dig ner, tryck ner sätet och ryggen ordentligt mot ryggstödet och greppa handtagen med handflatorna framåt.',
+            'Håll armbågarna något framför kroppen och pressa handtagen kontrollerat uppåt tills armarna är nästan helt utsträckta.',
+            'Sänk handtagen långsamt och bromsande tillbaka till axelhöjd utan att släppa anspänningen.'
+          ],
+          instructions: [
+            'Ställ in sitshöjden så att handtagen hamnar i axelhöjd i startläget.',
+            'Sätt dig ner, tryck ner sätet och ryggen ordentligt mot ryggstödet och greppa handtagen med handflatorna framåt.',
+            'Håll armbågarna något framför kroppen och pressa handtagen kontrollerat uppåt tills armarna är nästan helt utsträckta.',
+            'Sänk handtagen långsamt och bromsande tillbaka till axelhöjd utan att släppa anspänningen.'
+          ],
+          tips_en: [
+            'Sitt djupt: Tryck ner sätet och ryggen ordentligt i dynan.',
+            'Armbågarnas position: Håll armbågarna något framför kroppen (istället för rakt ut åt sidorna) för att skona axelleden.',
+            'Full kontroll: Håll emot vikten på vägen ner så att du inte bara "släpper" den. Det är i den bromsande fasen axlarna växer som mest.'
+          ],
+          note: 'Lever Military Press (sittande axelpress i maskin) är en mycket effektiv övning för att bygga styrka och massa i axlarna med maximal kontroll.'
+        },
         { id: 'delts/band-standing-rear-delt-row', name_en: 'Band Standing Rear Delt Row', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/band-standing-rear-delt-row.gif' },
         { id: 'delts/kettlebell-lateral-raise', name_en: 'Kettlebell Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
         { id: 'delts/cable-seated-rear-lateral-raise', name_en: 'Cable Seated Rear Lateral Raise', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/cable-seated-rear-lateral-raise.gif' },
@@ -757,7 +790,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           isArnoldPress: ex.isArnoldPress,
           isOneArmShoulderPress: ex.isOneArmShoulderPress,
           isPoliquinLateralRaise: ex.isPoliquinLateralRaise,
-          isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress
+          isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress,
+          isLeverMilitaryPress: ex.isLeverMilitaryPress
         };
       });
 

@@ -714,7 +714,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           ],
           note: 'Dumbbell Seated Shoulder Press (Sittande hantelpress) är en av de mest grundläggande och effektiva övningarna för att bygga styrka och volym i axlarna. Att sitta ner ger mer stabilitet, vilket gör att du kan fokusera helt på att pressa med musklerna.'
         },
-        { id: 'delts/lever-military-press', name_en: 'Lever Military Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/lever-military-press.gif' },
+        {
+          id: 'delts/lever-military-press',
+          name_en: 'Lever Military Press',
+          name_es: 'Press Militar en Máquina con Palanca',
+          name: 'Lever Military Press (sittande axelpress i maskin)',
+          equipment: 'leverage machine',
+          body_part: 'shoulders',
+          primary_muscles: ['anterior_deltoid'],
+          secondary_muscles: ['lateral_deltoid', 'triceps_brachii', 'pectoralis_major', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '45 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/lever-military-press.gif',
+          isLeverMilitaryPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/e1scliIVDQo?si=B9xv9mJyrkac3eJT',
+          instructions_en: [
+            'Ställ in sitshöjden så att handtagen hamnar i axelhöjd i startläget.',
+            'Sätt dig ner, tryck ner sätet och ryggen ordentligt mot ryggstödet och greppa handtagen med handflatorna framåt.',
+            'Håll armbågarna något framför kroppen och pressa handtagen kontrollerat uppåt tills armarna är nästan helt utsträckta.',
+            'Sänk handtagen långsamt och bromsande tillbaka till axelhöjd utan att släppa anspänningen.'
+          ],
+          instructions: [
+            'Ställ in sitshöjden så att handtagen hamnar i axelhöjd i startläget.',
+            'Sätt dig ner, tryck ner sätet och ryggen ordentligt mot ryggstödet och greppa handtagen med handflatorna framåt.',
+            'Håll armbågarna något framför kroppen och pressa handtagen kontrollerat uppåt tills armarna är nästan helt utsträckta.',
+            'Sänk handtagen långsamt och bromsande tillbaka till axelhöjd utan att släppa anspänningen.'
+          ],
+          tips_en: [
+            'Sitt djupt: Tryck ner sätet och ryggen ordentligt i dynan.',
+            'Armbågarnas position: Håll armbågarna något framför kroppen (istället för rakt ut åt sidorna) för att skona axelleden.',
+            'Full kontroll: Håll emot vikten på vägen ner så att du inte bara "släpper" den. Det är i den bromsande fasen axlarna växer som mest.'
+          ],
+          note: 'Lever Military Press (sittande axelpress i maskin) är en mycket effektiv övning för att bygga styrka och massa i axlarna med maximal kontroll.'
+        },
         { id: 'delts/band-standing-rear-delt-row', name_en: 'Band Standing Rear Delt Row', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/band-standing-rear-delt-row.gif' },
         { id: 'delts/kettlebell-lateral-raise', name_en: 'Kettlebell Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
         { id: 'delts/cable-seated-rear-lateral-raise', name_en: 'Cable Seated Rear Lateral Raise', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/cable-seated-rear-lateral-raise.gif' },
@@ -786,7 +819,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           isArnoldPress: ex.isArnoldPress,
           isOneArmShoulderPress: ex.isOneArmShoulderPress,
           isPoliquinLateralRaise: ex.isPoliquinLateralRaise,
-          isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress
+          isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress,
+          isLeverMilitaryPress: ex.isLeverMilitaryPress
         };
       });
 
@@ -3391,7 +3425,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3415,6 +3449,54 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isLeverMilitaryPress || selectedEx.name_en === 'Lever Military Press' || selectedEx.name?.includes('axelpress i maskin')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Lever Military Press (sittande axelpress i maskin) är en mycket effektiv övning för att bygga styrka och massa i axlarna med maximal kontroll.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Den primära muskeln som gör det mesta arbetet.</li>
+                    <li><strong>Mellersta axeln (Lateral Deltoid):</strong> Hjälper till att stabilisera och lyfta vikten.</li>
+                    <li><strong>Triceps Brachii:</strong> Arbetar för att sträcka ut armen i toppläget.</li>
+                    <li><strong>Övre bröstmuskulaturen:</strong> Assisterar i den nedre delen av rörelsen.</li>
+                    <li><strong>Serratus Anterior:</strong> Musklerna vid revbenen som stabiliserar skulderbladen.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom pressrörelsen uppåt.</li>
+                    <li><strong>Armbågsleden:</strong> Genom uträtning (extension).</li>
+                    <li><strong>Skulderbladet:</strong> Roterar naturligt uppåt under lyftet.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Sitt djupt:</strong> Tryck ner sätet och ryggen ordentligt i dynan.</li>
+                    <li><strong>Armbågarnas position:</strong> Håll armbågarna något framför kroppen (istället för rakt ut åt sidorna) för att skona axelleden.</li>
+                    <li><strong>Full kontroll:</strong> Håll emot vikten på vägen ner så att du inte bara "släpper" den. Det är i den bromsande fasen axlarna växer som mest.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isDumbbellSeatedShoulderPress || selectedEx.name_en === 'Dumbbell Seated Shoulder Press' || (selectedEx.name?.includes('Sittande hantelpress') && !selectedEx.name?.includes('enarmad'))) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
