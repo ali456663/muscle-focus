@@ -753,7 +753,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           ],
           note: 'Band Standing Rear Delt Row (Stående rodd för baksida axlar med gummiband) är en av de bästa övningarna för att förbättra hållningen och stärka den ofta glömda baksidan av axeln.'
         },
-        { id: 'delts/kettlebell-lateral-raise', name_en: 'Kettlebell Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
+        {
+          id: 'delts/kettlebell-lateral-raise',
+          name_en: 'Kettlebell Lateral Raise',
+          name_es: 'Elevaciones Laterales con Pesa Rusa',
+          name: 'Kettlebell Lateral Raise (Sidolyft med kettlebell)',
+          equipment: 'kettlebell',
+          body_part: 'shoulders',
+          primary_muscles: ['lateral_deltoid'],
+          secondary_muscles: ['anterior_deltoid', 'trapezius', 'supraspinatus'],
+          sets: 3,
+          reps: '8-10',
+          rest: '45 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif',
+          isKettlebellLateralRaise: true,
+          youtubeUrl: 'https://youtube.com/shorts/77bxysmjs7Y?si=M9Hvs-CrIRwfWDGM',
+          instructions_en: [
+            'Stå rakt med en kettlebell i varje hand hängande längs sidorna.',
+            'Håll armbågarna lätt böjda och spänn bålen.',
+            'Lyft armarna utåt sidorna tills handtaget når ungefär axelhöjd, låt lillfingret komma aningen högre än tummen i toppläget.',
+            'Sänk kettlebells långsamt och kontrollerat tillbaka till startläget utan att gunga.'
+          ],
+          instructions: [
+            'Stå rakt med en kettlebell i varje hand hängande längs sidorna.',
+            'Håll armbågarna lätt böjda och spänn bålen.',
+            'Lyft armarna utåt sidorna tills handtaget når ungefär axelhöjd, låt lillfingret komma aningen högre än tummen i toppläget.',
+            'Sänk kettlebells långsamt och kontrollerat tillbaka till startläget utan att gunga.'
+          ],
+          tips_en: [
+            'Lätt böjda armar: Håll inte armarna helt spikraka; en liten böj i armbågen skyddar leden.',
+            'Häll ut vattnet: I toppläget kan du tänka att du ska hälla ut vatten ur en tillbringare (låt lillfingret komma aningen högre än tummen) för att verkligen pricka mellersta axeln.',
+            'Stoppa vid axelhöjd: Du behöver inte gå högre än axlarna. Går du högre tar nacken (traps) över jobbet.'
+          ],
+          note: 'Kettlebell Lateral Raise (Sidolyft med kettlebell) är en av de absolut bästa övningarna för att isolera den mellersta delen av axeln och skapa bredd.'
+        },
         { id: 'delts/cable-seated-rear-lateral-raise', name_en: 'Cable Seated Rear Lateral Raise', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/cable-seated-rear-lateral-raise.gif' },
         {
           id: 'delts/smith-seated-shoulder-press',
@@ -825,7 +858,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           isPoliquinLateralRaise: ex.isPoliquinLateralRaise,
           isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress,
           isLeverMilitaryPress: ex.isLeverMilitaryPress,
-          isBandRearDeltRow: ex.isBandRearDeltRow
+          isBandRearDeltRow: ex.isBandRearDeltRow,
+          isKettlebellLateralRaise: ex.isKettlebellLateralRaise
         };
       });
 

@@ -782,7 +782,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           ],
           note: 'Band Standing Rear Delt Row (Stående rodd för baksida axlar med gummiband) är en av de bästa övningarna för att förbättra hållningen och stärka den ofta glömda baksidan av axeln.'
         },
-        { id: 'delts/kettlebell-lateral-raise', name_en: 'Kettlebell Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
+        {
+          id: 'delts/kettlebell-lateral-raise',
+          name_en: 'Kettlebell Lateral Raise',
+          name_es: 'Elevaciones Laterales con Pesa Rusa',
+          name: 'Kettlebell Lateral Raise (Sidolyft med kettlebell)',
+          equipment: 'kettlebell',
+          body_part: 'shoulders',
+          primary_muscles: ['lateral_deltoid'],
+          secondary_muscles: ['anterior_deltoid', 'trapezius', 'supraspinatus'],
+          sets: 3,
+          reps: '8-10',
+          rest: '45 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif',
+          isKettlebellLateralRaise: true,
+          youtubeUrl: 'https://youtube.com/shorts/77bxysmjs7Y?si=M9Hvs-CrIRwfWDGM',
+          instructions_en: [
+            'Stå rakt med en kettlebell i varje hand hängande längs sidorna.',
+            'Håll armbågarna lätt böjda och spänn bålen.',
+            'Lyft armarna utåt sidorna tills handtaget når ungefär axelhöjd, låt lillfingret komma aningen högre än tummen i toppläget.',
+            'Sänk kettlebells långsamt och kontrollerat tillbaka till startläget utan att gunga.'
+          ],
+          instructions: [
+            'Stå rakt med en kettlebell i varje hand hängande längs sidorna.',
+            'Håll armbågarna lätt böjda och spänn bålen.',
+            'Lyft armarna utåt sidorna tills handtaget når ungefär axelhöjd, låt lillfingret komma aningen högre än tummen i toppläget.',
+            'Sänk kettlebells långsamt och kontrollerat tillbaka till startläget utan att gunga.'
+          ],
+          tips_en: [
+            'Lätt böjda armar: Håll inte armarna helt spikraka; en liten böj i armbågen skyddar leden.',
+            'Häll ut vattnet: I toppläget kan du tänka att du ska hälla ut vatten ur en tillbringare (låt lillfingret komma aningen högre än tummen) för att verkligen pricka mellersta axeln.',
+            'Stoppa vid axelhöjd: Du behöver inte gå högre än axlarna. Går du högre tar nacken (traps) över jobbet.'
+          ],
+          note: 'Kettlebell Lateral Raise (Sidolyft med kettlebell) är en av de absolut bästa övningarna för att isolera den mellersta delen av axeln och skapa bredd.'
+        },
         { id: 'delts/cable-seated-rear-lateral-raise', name_en: 'Cable Seated Rear Lateral Raise', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/cable-seated-rear-lateral-raise.gif' },
         {
           id: 'delts/smith-seated-shoulder-press',
@@ -854,7 +887,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           isPoliquinLateralRaise: ex.isPoliquinLateralRaise,
           isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress,
           isLeverMilitaryPress: ex.isLeverMilitaryPress,
-          isBandRearDeltRow: ex.isBandRearDeltRow
+          isBandRearDeltRow: ex.isBandRearDeltRow,
+          isKettlebellLateralRaise: ex.isKettlebellLateralRaise
         };
       });
 
@@ -3459,7 +3493,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3485,6 +3519,52 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isKettlebellLateralRaise || selectedEx.name_en === 'Kettlebell Lateral Raise' || selectedEx.name?.includes('Sidolyft med kettlebell')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Kettlebell Lateral Raise (Sidolyft med kettlebell) är en av de absolut bästa övningarna för att isolera den mellersta delen av axeln och skapa bredd.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Mellersta axeln (Lateral Deltoid):</strong> Detta är huvudmålet. Det är den muskel som ger axlarna dess runda form och bredd.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Assisterar i rörelsen.</li>
+                    <li><strong>Övre Trapezius (Nacken):</strong> Hjälper till att stabilisera och lyfta i slutet av rörelsen.</li>
+                    <li><strong>Supraspinatus:</strong> En viktig muskel i rotatorkuffen som hjälper till att påbörja lyftet.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom abduktion (armen lyfts utåt från kroppen).</li>
+                    <li><strong>Skulderbladet:</strong> Rör sig för att ge plats och stabilitet åt armen.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Lätt böjda armar:</strong> Håll inte armarna helt spikraka; en liten böj i armbågen skyddar leden.</li>
+                    <li><strong>Häll ut vattnet:</strong> I toppläget kan du tänka att du ska hälla ut vatten ur en tillbringare (låt lillfingret komma aningen högre än tummen) för att verkligen pricka mellersta axeln.</li>
+                    <li><strong>Stoppa vid axelhöjd:</strong> Du behöver inte gå högre än axlarna. Går du högre tar nacken (traps) över jobbet.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isBandRearDeltRow || selectedEx.name_en === 'Band Standing Rear Delt Row' || selectedEx.name?.includes('baksida axlar med gummiband')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
