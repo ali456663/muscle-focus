@@ -583,7 +583,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           ],
           note: 'Dumbbell Arnold Press är en variant av axelpress som skapades av Arnold Schwarzenegger. Det som gör den unik är den roterande rörelsen, vilket gör det till en mer komplett övning för hela axelpartiet.'
         },
-        { id: 'delts/dumbbell-one-arm-shoulder-press', name_en: 'Dumbbell Seated One Arm Shoulder Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-one-arm-shoulder-press.gif' },
+        {
+          id: 'delts/dumbbell-one-arm-shoulder-press',
+          name_en: 'Dumbbell Seated One Arm Shoulder Press',
+          name_es: 'Press de Hombros Sentado a Una Mano con Mancuerna',
+          name: 'Dumbbell Seated One Arm Shoulder Press (Sittande enarmad hantelpress)',
+          equipment: 'dumbbell',
+          body_part: 'shoulders',
+          primary_muscles: ['anterior_deltoid', 'lateral_deltoid'],
+          secondary_muscles: ['triceps_brachii', 'obliques', 'rectus_abdominis', 'pectoralis_major', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '50 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-one-arm-shoulder-press.gif',
+          isOneArmShoulderPress: true,
+          youtubeUrl: 'https://youtu.be/_KZcLQlkTyU?si=SE2OCwucKF_T8jDW',
+          instructions_en: [
+            'Sätt dig på en bänk med ryggstöd och håll en hantel i ena handen i axelhöjd med handflatan vänd framåt.',
+            'Håll den lediga handen på låret eller ta tag i kanten på sätets sida för extra stabilitet.',
+            'Spänn bålen kraftfullt så att du sitter helt rak utan att luta dig åt sidan.',
+            'Pressa hanteln rakt uppåt tills armen är nästan helt utsträckt, sänk sedan kontrollerat tillbaka till axelhöjd.'
+          ],
+          instructions: [
+            'Sätt dig på en bänk med ryggstöd och håll en hantel i ena handen i axelhöjd med handflatan vänd framåt.',
+            'Håll den lediga handen på låret eller ta tag i kanten på sätets sida för extra stabilitet.',
+            'Spänn bålen kraftfullt så att du sitter helt rak utan att luta dig åt sidan.',
+            'Pressa hanteln rakt uppåt tills armen är nästan helt utsträckt, sänk sedan kontrollerat tillbaka till axelhöjd.'
+          ],
+          tips_en: [
+            'Sitt spikrakt: Undvik att luta dig åt sidan för att "hjälpa" vikten upp. Om du inte kan sitta rakt är vikten för tung.',
+            'Lås bålen: Tänk att du ska "dra in naveln" och sitta stadigt mot ryggstödet.',
+            'Andra handen: Håll den lediga handen på låret eller ta tag i sätets kant för extra stabilitet.'
+          ],
+          note: 'Dumbbell Seated One Arm Shoulder Press (Sittande enarmad hantelpress) är en unilateral variant av axelpress som ger extra fokus på stabilitet och muskelbalans.'
+        },
         { id: 'delts/dumbbell-lateral-raise', name_en: 'Dumbbell Poliquin Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
         { id: 'delts/dumbbell-seated-shoulder-press', name_en: 'Dumbbell Seated Shoulder Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-seated-shoulder-press.gif' },
         { id: 'delts/lever-military-press', name_en: 'Lever Military Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/lever-military-press.gif' },
@@ -655,7 +688,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           rest: ex.rest || original.rest || '1.5 min',
           note: ex.note || original.note || '',
           isSmithSeatedShoulderPress: ex.isSmithSeatedShoulderPress,
-          isArnoldPress: ex.isArnoldPress
+          isArnoldPress: ex.isArnoldPress,
+          isOneArmShoulderPress: ex.isOneArmShoulderPress
         };
       });
 
@@ -2376,7 +2410,7 @@ function ExerciseCard({ ex, idx }) {
             {expanded ? '▲ Stäng' : '▼ Instruktioner'}
           </button>
           
-          {(ex.isArnoldPress || ex.isSmithSeatedShoulderPress || ex.isJackknifeSitUp || ex.isOtisUp || ex.isAbdominalCrunch || ex.isLyingLegRaise || ex.isAlternateHeelTouchers || ex.isFrontPlank || ex.isDumbbellStandingOneArmCurl || ex.isCrossBodyHammerCurl || ex.isBarbellReverseGripRow || ex.isWideGripPullUp || ex.isCableLowSeatedRow || ex.isCableNeutralGripLatPulldown || ex.isReverseGripPushdown || ex.isTricepsPushdown || ex.isPreacherCurl || ex.isStandardCableCurl || ex.note) && (
+          {(ex.isOneArmShoulderPress || ex.isArnoldPress || ex.isSmithSeatedShoulderPress || ex.isJackknifeSitUp || ex.isOtisUp || ex.isAbdominalCrunch || ex.isLyingLegRaise || ex.isAlternateHeelTouchers || ex.isFrontPlank || ex.isDumbbellStandingOneArmCurl || ex.isCrossBodyHammerCurl || ex.isBarbellReverseGripRow || ex.isWideGripPullUp || ex.isCableLowSeatedRow || ex.isCableNeutralGripLatPulldown || ex.isReverseGripPushdown || ex.isTricepsPushdown || ex.isPreacherCurl || ex.isStandardCableCurl || ex.note) && (
             <button
               onClick={() => setShowDetails(p => !p)}
               style={{
@@ -2429,6 +2463,45 @@ function ExerciseCard({ ex, idx }) {
             
             
             
+            
+            {ex.isOneArmShoulderPress && (
+              <>
+                <p style={{ margin: '0 0 10px 0', lineHeight: 1.45 }}>
+                  Dumbbell Seated One Arm Shoulder Press (Sittande enarmad hantelpress) är en unilateral variant av axelpress som ger extra fokus på stabilitet och muskelbalans.
+                </p>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Främre och mellersta axeln (Deltoideus):</strong> Huvudmålet för att bygga styrka och bredd i axelpartiet.</li>
+                    <li><strong>Triceps Brachii:</strong> Hjälper till att sträcka ut armen i toppläget.</li>
+                    <li><strong>Core (Bål):</strong> Mycket viktigt! Eftersom du bara håller en vikt på ena sidan måste dina magmuskler (särskilt obliques) jobba hårt för att hålla överkroppen rak och motverka att du tippar åt sidan.</li>
+                    <li><strong>Övre bröst & Serratus Anterior:</strong> Stabiliserar lyftet och bröstkorgen.</li>
+                  </ul>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Axelleden:</strong> Genom pressrörelsen uppåt.</li>
+                    <li><strong>Armbågsleden:</strong> Genom uträtning (extension).</li>
+                    <li><strong>Skulderbladet:</strong> Roterar och stabiliserar rörelsen.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '2px', letterSpacing: '0.05em', fontSize: '0.68rem' }}>
+                    Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '14px' }}>
+                    <li><strong>Sitt spikrakt:</strong> Undvik att luta dig åt sidan för att "hjälpa" vikten upp. Om du inte kan sitta rakt är vikten för tung.</li>
+                    <li><strong>Lås bålen:</strong> Tänk att du ska "dra in naveln" och sitta stadigt mot ryggstödet.</li>
+                    <li><strong>Andra handen:</strong> Håll den lediga handen på låret eller ta tag i sätets kant för extra stabilitet.</li>
+                  </ul>
+                </div>
+              </>
+            )}
             {ex.isArnoldPress && (
               <>
                 <p style={{ margin: '0 0 10px 0', lineHeight: 1.45 }}>
