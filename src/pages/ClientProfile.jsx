@@ -64,18 +64,393 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
   split.forEach((splitType, dayIdx) => {
     if (splitType === 'chest') {
       const chestExercises = [
-        { id: 'pectorals/barbell-bench-press', name_en: 'Bench Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/barbell-bench-press.gif' },
-        { id: 'pectorals/lever-seated-fly', name_en: 'Lever Seated Fly', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/lever-seated-fly.gif' },
-        { id: 'pectorals/barbell-incline-bench-press', name_en: 'Incline Bench Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/barbell-incline-bench-press.gif' },
-        { id: 'pectorals/dumbbell-incline-bench-press', name_en: 'Dumbbell Incline Bench Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/dumbbell-incline-bench-press.gif' },
-        { id: 'pectorals/dumbbell-bench-press', name_en: 'Dumbbell Bench Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/dumbbell-bench-press.gif' },
-        { id: 'pectorals/cable-standing-fly', name_en: 'Cable Standing Fly', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/cable-standing-fly.gif' },
-        { id: 'pectorals/push-up', name_en: 'Push-up', sets: 3, reps: '8-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/push-up.gif' },
-        { id: 'pectorals/smith-incline-bench-press', name_en: 'Smith Incline Bench Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/smith-incline-bench-press.gif' },
+        {
+          id: 'pectorals/barbell-bench-press',
+          name_en: 'Bench Press',
+          name_es: 'Press de Banca con Barra',
+          name_fa: 'پرس سینه با هالتر',
+          name: 'Bench Press (Bänkpress)',
+          equipment: 'barbell',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'triceps_brachii', 'serratus_anterior', 'latissimus_dorsi', 'rectus_abdominis'],
+          sets: 3,
+          reps: '8-10',
+          rest: '50 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/barbell-bench-press.gif',
+          isBenchPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/_FkbD0FhgVE?si=jGwqbrcEDRDnayYC',
+          instructions_en: [
+            'Ligg på rygg på bänken med fem kontaktpunkter: huvud, övre rygg och säte på bänken, samt båda fötterna stadigt i golvet.',
+            'Greppa skivstången något bredare än axelbrett och dra ihop skulderbladen ("stoppa dem i bakfickorna").',
+            'Sänk stången kontrollerat ner till bröstet utan att studsa, medan underarmarna hålls vertikala.',
+            'Pressa stången kraftfullt uppåt till nästan helt utsträckta armar och håll spänningen i bröstmusklerna.'
+          ],
+          instructions: [
+            'Ligg på rygg på bänken med fem kontaktpunkter: huvud, övre rygg och säte på bänken, samt båda fötterna stadigt i golvet.',
+            'Greppa skivstången något bredare än axelbrett och dra ihop skulderbladen ("stoppa dem i bakfickorna").',
+            'Sänk stången kontrollerat ner till bröstet utan att studsa, medan underarmarna hålls vertikala.',
+            'Pressa stången kraftfullt uppåt till nästan helt utsträckta armar och håll spänningen i bröstmusklerna.'
+          ],
+          tips_en: [
+            'Fem kontaktpunkter: Huvud, övre rygg och säte ska alltid vara i bänken, och båda fötterna ska vara stadigt i golvet ("foot drive").',
+            'Dra ihop skulderbladen: Tänk att du ska "stoppa skulderbladen i bakfickorna". Det skapar en stabil bas och skyddar axlarna.',
+            'Sänk kontrollerat: Låt inte stången studsa mot bröstet. Håll emot på vägen ner för att maximera muskeluppbyggnaden.',
+            'Grepp: Håll stången så att underarmarna är vertikala (raka ner mot golvet) när stången nuddar bröstet.'
+          ],
+          note: 'Bench Press (Bänkpress) anses ofta vara "kungen" av överkroppsövningar. Det är en tung basövning (flerledsövning) som är den ultimata mätstocken för styrka i överkroppens pressmuskulatur.'
+        },
+        {
+          id: 'pectorals/lever-seated-fly',
+          name_en: 'Lever Seated Fly',
+          name_es: 'Aperturas en Máquina Sentado',
+          name_fa: 'قفسه سینه دستگاه',
+          name: 'Lever Seated Fly (Pec Deck / Bröstflyes i maskin)',
+          equipment: 'lever / maskin',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '50 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/lever-seated-fly.gif',
+          isLeverSeatedFly: true,
+          youtubeUrl: 'https://youtube.com/shorts/a9vQ_hwIksU?si=EpSIPH4kTKREowSw',
+          instructions_en: [
+            'Sätt dig tillrätta i maskinen med rygg och huvud stadigt mot ryggstödet.',
+            'Greppa handtagen med lätt böjda armar i brösthöjd.',
+            'För handtagen samman framför kroppen genom att krama ihop bröstmusklerna.',
+            'Pressa ihop i toppläget 1 sekund och återgå kontrollerat till startläget under motstånd.'
+          ],
+          instructions: [
+            'Sätt dig tillrätta i maskinen med rygg och huvud stadigt mot ryggstödet.',
+            'Greppa handtagen med lätt böjda armar i brösthöjd.',
+            'För handtagen samman framför kroppen genom att krama ihop bröstmusklerna.',
+            'Pressa ihop i toppläget 1 sekund och återgå kontrollerat till startläget under motstånd.'
+          ],
+          tips_en: [
+            '"Krama ett träd": Föreställ dig att du ska krama ett stort träd. Håll armarna lätt böjda men stela.',
+            'Pressa ihop: När händerna möts i mitten, tänk att du ska pressa ihop dina bröstmuskler så hårt du kan i en sekund.',
+            'Sitt stadigt: Håll ryggen och huvudet mot ryggstödet. Undvik att skjuta fram axlarna när du pressar ihop.'
+          ],
+          note: 'Lever Seated Fly (ofta kallad "Pec Deck" eller bröstflyes i maskin) är en ren isolationsövning för bröstet. Här är en kort genomgång av varför den är ett utmärkt komplement till pressövningar.'
+        },
+        {
+          id: 'pectorals/barbell-incline-bench-press',
+          name_en: 'Incline Bench Press',
+          name_es: 'Press Inclinado con Barra',
+          name_fa: 'پرس بالا سینه با هالتر',
+          name: 'Incline Bench Press (Lutande bänkpress)',
+          equipment: 'barbell',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'triceps_brachii', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '50 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/barbell-incline-bench-press.gif',
+          isInclineBenchPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/98HWfiRonkE?si=XQXYyPGAWMhbFRd0',
+          instructions_en: [
+            'Ställ in bänken på ca 30 graders lutning och ligg med ryggen och huvudet stadigt mot ryggstödet.',
+            'Greppa skivstången något bredare än axelbrett och lås skulderbladen genom att dra dem ihop och nedåt.',
+            'Sänk stången kontrollerat mot den övre delen av bröstet, nära nyckelbenen.',
+            'Pressa stången kraftfullt uppåt till nästan helt utsträckta armar utan att släppa anspänningen i övre bröstet.'
+          ],
+          instructions: [
+            'Ställ in bänken på ca 30 graders lutning och ligg med ryggen och huvudet stadigt mot ryggstödet.',
+            'Greppa skivstången något bredare än axelbrett och lås skulderbladen genom att dra dem ihop och nedåt.',
+            'Sänk stången kontrollerat mot den övre delen av bröstet, nära nyckelbenen.',
+            'Pressa stången kraftfullt uppåt till nästan helt utsträckta armar utan att släppa anspänningen i övre bröstet.'
+          ],
+          tips_en: [
+            'Sänk stången högt: Vid vanlig bänkpress sänks stången mot mitten av bröstet; här sänks den mot den övre delen av bröstet, nära nyckelbenen.',
+            'Lås skulderbladen: Precis som i vanlig bänkpress ska skulderbladen dras ihop och nedåt för att skapa en stabil bas och skydda axlarna.',
+            'Vinkel på bänken: Överstiger lutningen 45 grader blir det mer av en ren axelövning. Håll dig runt 30 grader för att maximera kontakten med övre bröstet.'
+          ],
+          note: 'Incline Bench Press (Lutande bänkpress) är en tung basövning som flyttar belastningen högre upp på bröstkorgen jämfört med vanlig bänkpress. Den utförs på en bänk med ca 30–45 graders lutning.'
+        },
+        {
+          id: 'pectorals/dumbbell-incline-bench-press',
+          name_en: 'Dumbbell Incline Bench Press',
+          name_es: 'Press Inclinado con Mancuernas',
+          name_fa: 'پرس بالا سینه با دمبل',
+          name: 'Dumbbell Incline Bench Press (Lutande hantelpress)',
+          equipment: 'dumbbell',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'triceps_brachii'],
+          sets: 3,
+          reps: '8-10',
+          rest: '50 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/dumbbell-incline-bench-press.gif',
+          isDbInclineBenchPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/8fXfwG4ftaQ?si=2IzJxPUiwDYv7wu9',
+          instructions_en: [
+            'Sätt dig på en bänk med 30–45 graders lutning och håll en hantel i varje hand vilande mot låren.',
+            'Sparka upp hantlarna en i taget och ligg bakåt med fötterna stadigt i golvet.',
+            'Sänk hantlarna kontrollerat djupt så att du känner stretchen i övre bröstet.',
+            'Pressa hantlarna uppåt i en båge tills de möts ovanför bröstet utan att slå ihop.'
+          ],
+          instructions: [
+            'Sätt dig på en bänk med 30–45 graders lutning och håll en hantel i varje hand vilande mot låren.',
+            'Sparka upp hantlarna en i taget och ligg bakåt med fötterna stadigt i golvet.',
+            'Sänk hantlarna kontrollerat djupt så att du känner stretchen i övre bröstet.',
+            'Pressa hantlarna uppåt i en båge tills de möts ovanför bröstet utan att slå ihop.'
+          ],
+          tips_en: [
+            'Bänkvinkel: 30–45 grader är lagom. Mer än så och det blir nästan bara en axelövning.',
+            'Sänk kontrollerat: Gå djupt så att du känner stretchen i bröstet, men utan att tappa kontrollen.',
+            'Pressa ihop: Tänk att hantlarna ska mötas i en båge ovanför bröstet (utan att de slår ihop) för att få maximal kontakt.'
+          ],
+          note: 'Dumbbell Incline Bench Press (Lutande hantelpress) är en av de mest effektiva övningarna för att bygga en komplett och välutvecklad bröstmuskulatur. Genom att använda hantlar istället för skivstång får du både större rörelseomfång och bättre muskelbalans.'
+        },
+        {
+          id: 'pectorals/dumbbell-bench-press',
+          name_en: 'Dumbbell Bench Press',
+          name_es: 'Press de Banca con Mancuernas',
+          name_fa: 'پرس سینه با دمبل',
+          name: 'Dumbbell Bench Press (Hantelbänkpress)',
+          equipment: 'dumbbell',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'triceps_brachii'],
+          sets: 3,
+          reps: '8-10',
+          rest: '50 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/dumbbell-bench-press.gif',
+          isDbBenchPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/mTaiQemkEpU?si=pl6igO7GmeGDe2Xr',
+          instructions_en: [
+            'Sätt dig på en plan bänk och håll en hantel i varje hand vilande mot låren.',
+            'Ligg bakåt med fötterna stadigt i golvet och dra ihop skulderbladen mot bänken.',
+            'Sänk hantlarna kontrollerat mot brösthöjd tills du känner en fin stretch i bröstet.',
+            'Pressa hantlarna uppåt i en lätt båge mot varandra utan att slå ihop dem i toppläget.'
+          ],
+          instructions: [
+            'Sätt dig på en plan bänk och håll en hantel i varje hand vilande mot låren.',
+            'Ligg bakåt med fötterna stadigt i golvet och dra ihop skulderbladen mot bänken.',
+            'Sänk hantlarna kontrollerat mot brösthöjd tills du känner en fin stretch i bröstet.',
+            'Pressa hantlarna uppåt i en lätt båge mot varandra utan att slå ihop dem i toppläget.'
+          ],
+          tips_en: [
+            'Håll ihop skulderbladen: Skapa en stabil bas mot bänken.',
+            'Kontrollerad sänkning: Gå djupt nog för att känna en stretch i bröstet, men utan att tappa kontrollen.',
+            'Pressa ihop: Tänk att hantlarna ska röra sig mot varandra i toppläget (utan att slå ihop dem) för att verkligen spänna bröstet.'
+          ],
+          note: 'Dumbbell Bench Press (Hantelbänkpress) är ett av de mest effektiva alternativen till skivstångsbänkpress. Den ger en fantastisk kombination av muskeluppbyggnad, balans och rörlighet.'
+        },
+        {
+          id: 'pectorals/cable-standing-fly',
+          name_en: 'Cable Standing Fly',
+          name_es: 'Aperturas de Pecho en Polea de Pie',
+          name_fa: 'قفسه سینه سیم‌کش ایستاده',
+          name: 'Cable Standing Fly (Cable Cross-over)',
+          equipment: 'cable',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'serratus_anterior', 'rectus_abdominis'],
+          sets: 3,
+          reps: '8-10',
+          rest: '50 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/cable-standing-fly.gif',
+          isCableStandingFly: true,
+          youtubeUrl: 'https://youtube.com/shorts/y4RJDSOBEl8?si=e61YTgFTsx8HVX_y',
+          instructions_en: [
+            'Stå i mitten av kabelmaskinen med kablarna fästa högt upp och ta ett kliv framåt i en split-stance position.',
+            'Håll armarna i en fast, lätt böjd position (som om du kramar ett stort träd) och spänn bålen.',
+            'Dra kablarna i en kontrollerad båge uppifrån och ned tills händerna möts framför nedre delen av bröstet.',
+            'Kläm ihop bröstmusklerna kraftfullt i 1 sekund och släpp kontrollerat tillbaka till en stretch i bröstet.'
+          ],
+          instructions: [
+            'Stå i mitten av kabelmaskinen med kablarna fästa högt upp och ta ett kliv framåt i en split-stance position.',
+            'Håll armarna i en fast, lätt böjd position (som om du kramar ett stort träd) och spänn bålen.',
+            'Dra kablarna i en kontrollerad båge uppifrån och ned tills händerna möts framför nedre delen av bröstet.',
+            'Kläm ihop bröstmusklerna kraftfullt i 1 sekund och släpp kontrollerat tillbaka till en stretch i bröstet.'
+          ],
+          tips_en: [
+            '"Krama ett träd": Håll armarna i en fast, lätt böjd position (som om du kramar ett stort träd).',
+            'Stabilitet: Stå med en fot framför den andra (split stance) för att stå stadigt och undvika att gunga med överkroppen.',
+            'Kläm ihop: Fokusera på att verkligen pressa ihop bröstmusklerna när händerna möts.'
+          ],
+          note: 'Cable Standing Fly (ofta kallat Cable Cross-over) är en av de absolut bästa isolationsövningarna för bröstet tack vare kabelmaskinens jämna motstånd.'
+        },
+        {
+          id: 'pectorals/push-up',
+          name_en: 'Push-up',
+          name_es: 'Flexiones de Pecho',
+          name_fa: 'شنا سوئدی',
+          name: 'Push-up (Armhävning)',
+          equipment: 'kroppsvikt',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'triceps_brachii', 'rectus_abdominis', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '40 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/push-up.gif',
+          isPushUp: true,
+          youtubeUrl: 'https://youtube.com/shorts/GHJgsTIW_bQ?si=1QAZVoENKTMIAYJe',
+          instructions_en: [
+            'Starta i en hög plankposition med händerna placerade något bredare än axelbrett och kroppen spikrak.',
+            'Spänn sätet och bålen för att hålla en stabil planka utan att höften hänger ner eller rumpan pekar upp.',
+            'Sänk kroppen kontrollerat tills bröstet nästan nudder golvet, hålla armbågarna i ca 45 graders vinkel från kroppen.',
+            'Pressa dig kraftfullt uppåt till helt utsträckta armar i toppläget.'
+          ],
+          instructions: [
+            'Starta i en hög plankposition med händerna placerade något bredare än axelbrett och kroppen spikrak.',
+            'Spänn sätet och bålen för att hålla en stabil planka utan att höften hänger ner eller rumpan pekar upp.',
+            'Sänk kroppen kontrollerat tills bröstet nästan nudder golvet, hålla armbågarna i ca 45 graders vinkel från kroppen.',
+            'Pressa dig kraftfullt uppåt till helt utsträckta armar i toppläget.'
+          ],
+          tips_en: [
+            'Kroppen som en planka: Spänn sätet och magen. Höften får inte hänga ner mot golvet och rumpan ska inte peka upp i vädret.',
+            'Armbågarnas vinkel: Låt inte armbågarna peka rakt ut åt sidorna (T-form). Håll dem i ca 45 graders vinkel från kroppen (pil-form) för att skona axlarna.',
+            'Hela vägen: Bröstet ska nästan nudda golvet och armarna ska sträckas ut helt i toppläget.'
+          ],
+          note: 'Push-up (Armhävning) är den ultimata kroppsviktsövningen för överkroppen. Det är en basövning som tränar hela framsidan av kroppen samtidigt.'
+        },
+        {
+          id: 'pectorals/smith-incline-bench-press',
+          name_en: 'Smith Incline Bench Press',
+          name_es: 'Press Inclinado i Smith Machine',
+          name_fa: 'پرس بالا سینه اسمیت',
+          name: 'Smith Incline Bench Press (Lutande bänkpress i Smith-maskin)',
+          equipment: 'smith',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'triceps_brachii', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '40 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/smith-incline-bench-press.gif',
+          isSmithInclineBenchPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/VXaBbUYMfIs?si=AhwpUGUt0k7eqsKY',
+          instructions_en: [
+            'Placera den lutande bänken precis mitt under stången i Smith-maskinen.',
+            'Greppa stången något bredare än axelbrett och tryck ner skulderbladen i bänken.',
+            'Lossa stången och sänk den kontrollerat mot den övre delen av bröstet, strax under nyckelbenen.',
+            'Pressa stången kraftfullt uppåt till nästan helt utsträckta armar och lås fast stången efter avslutade rep.'
+          ],
+          instructions: [
+            'Placera den lutande bänken precis mitt under stången i Smith-maskinen.',
+            'Greppa stången något bredare än axelbrett och tryck ner skulderbladen i bänken.',
+            'Lossa stången och sänk den kontrollerat mot den övre delen av bröstet, strax under nyckelbenen.',
+            'Pressa stången kraftfullt uppåt till nästan helt utsträckta armar och lås fast stången efter avslutade rep.'
+          ],
+          tips_en: [
+            'Positionering: Se till att bänken står precis mitt under stången. Stången ska sänkas mot den övre delen av bröstet, strax under nyckelbenen.',
+            'Skulderbladen: Dra ihop skulderbladen och tryck ner dem i bänken för att skydda axlarna och skapa en stabil plattform.',
+            'Grepp: Håll ett grepp som är något bredare än axelbrett så att underarmarna är vertikala i bottenläget.'
+          ],
+          note: 'Smith Incline Bench Press (Lutande bänkpress i Smith-maskin) är en suverän övning för att bygga den övre delen av bröstmuskulaturen med maximal stabilitet och säkerhet.'
+        },
         { id: 'pectorals/lever-incline-fly', name_en: 'Lever Incline Fly (male)', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/lever-seated-fly.gif' },
-        { id: 'pectorals/lever-chest-press', name_en: 'Lever Chest Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/lever-chest-press.gif' },
-        { id: 'pectorals/incline-push-up', name_en: 'Elevated Push-up', sets: 3, reps: '8-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/incline-push-up.gif' },
-        { id: 'pectorals/lever-decline-chest-press', name_en: 'Lever Lying Chest Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/lever-decline-chest-press.gif' },
+        {
+          id: 'pectorals/lever-chest-press',
+          name_en: 'Lever Chest Press',
+          name_es: 'Press de Pecho en Máquina Sentado',
+          name_fa: 'پرس سینه دستگاه نشسته',
+          name: 'Lever Chest Press (Sittande bröstpress i maskin)',
+          equipment: 'lever / maskin',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'triceps_brachii', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '40 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/lever-chest-press.gif',
+          isLeverChestPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/hkU6fSHcslw?si=8coxD_1yKwA1k8St',
+          instructions_en: [
+            'Justera sitsen så att handtagen hamnar i höjd med mitten eller nedre delen av bröstet.',
+            'Sätt dig stadigt, dra ihop skulderbladen och tryck ner dem mot ryggstödet.',
+            'Pressa handtagen kraftfullt framåt tills armarna är nästan helt utsträckta.',
+            'Håll emot kontrollerat på vägen tillbaka i den excentriska fasen utan att tappa anspänningen.'
+          ],
+          instructions: [
+            'Justera sitsen så att handtagen hamnar i höjd med mitten eller nedre delen av bröstet.',
+            'Sätt dig stadigt, dra ihop skulderbladen och tryck ner dem mot ryggstödet.',
+            'Pressa handtagen kraftfullt framåt tills armarna är nästan helt utsträckta.',
+            'Håll emot kontrollerat på vägen tillbaka i den excentriska fasen utan att tappa anspänningen.'
+          ],
+          tips_en: [
+            'Dra bak axlarna: Innan du börjar, dra ihop skulderbladen och tryck ner dem. Håll kvar dem mot ryggstödet under hela setet för att skydda axlarna och låta bröstet göra jobbet.',
+            'Inställning av sitsen: Justera sitsen så att handtagen är i höjd med mitten eller nedre delen av ditt bröst.',
+            'Håll emot: Var noga med att hålla emot vikten på vägen tillbaka (excentrisk fas). Det är där mycket av muskeluppbyggnaden sker!'
+          ],
+          note: 'Lever Chest Press (Sittande bröstpress i maskin) är en kraftfull basövning för överkroppen som låter dig träna bröstmuskulaturen med hög belastning och maximal säkerhet.'
+        },
+        {
+          id: 'pectorals/incline-push-up',
+          name_en: 'Elevated Push-up',
+          name_es: 'Flexiones Inclinadas en Banco',
+          name_fa: 'شنا سوئدی شیب‌دار (دست بالا)',
+          name: 'Elevated Push-up (Incline Push-up)',
+          equipment: 'kroppsvikt / bänk',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['triceps_brachii', 'anterior_deltoid', 'rectus_abdominis'],
+          sets: 3,
+          reps: '8-10',
+          rest: '40 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/incline-push-up.gif',
+          isElevatedPushUp: true,
+          youtubeUrl: 'https://youtube.com/shorts/7f8JOu0i1cQ?si=are7DprNqnKHRX36',
+          instructions_en: [
+            'Placera händerna på en stabil bänk eller steplåda något bredare än axelbrett.',
+            'Sträck ut benen bakåt och spänn sätet och magen så att kroppen bildar en rak planka.',
+            'Sänk bröstet kontrollerat tills det nästan nuddar kanten på bänken, hålla armbågarna i ca 45 graders vinkel.',
+            'Pressa dig kraftfullt uppåt till helt utsträckta armar utan att låta höften svanka.'
+          ],
+          instructions: [
+            'Placera händerna på en stabil bänk eller steplåda något bredare än axelbrett.',
+            'Sträck ut benen bakåt och spänn sätet och magen så att kroppen bildar en rak planka.',
+            'Sänk bröstet kontrollerat tills det nästan nuddar kanten på bänken, hålla armbågarna i ca 45 graders vinkel.',
+            'Pressa dig kraftfullt uppåt till helt utsträckta armar utan att låta höften svanka.'
+          ],
+          tips_en: [
+            'Kroppskontroll: Precis som i en vanlig armhävning ska kroppen vara spikrak från huvud till häl. Låt inte höften svanka eller peka uppåt.',
+            'Sänk bröstet mot kanten: Sänk dig kontrollerat tills bröstet nästan nuddar kanten på steplådan/bänken.',
+            'Armbågsvinkel: Håll armbågarna i ca 45 graders vinkel från kroppen (inte rakt ut åt sidorna) för att skydda axlarna.'
+          ],
+          note: 'Elevated Push-up (ibland kallad Incline Push-up) är en variant av armhävningar där du placerar händerna på en upphöjd yta, som en bänk eller en steplåda. Detta är en utmärkt övning för att anpassa svårighetsgraden och ändra vinkeln på bröstträningen.'
+        },
+        {
+          id: 'pectorals/lever-decline-chest-press',
+          name_en: 'Lever Lying Chest Press',
+          name_es: 'Press de Pecho en Máquina Inclinada',
+          name_fa: 'پرس سینه شیب‌دار دستگاه',
+          name: 'Lever Lying Chest Press (Incline Lever Press)',
+          equipment: 'lever / maskin',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'triceps_brachii', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '40 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/lever-decline-chest-press.gif',
+          isInclineLeverPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/T0huVIujERo?si=Km-defgSxGdPUe78',
+          instructions_en: [
+            'Sätt dig djupt i sätet, tryck bak axlarna mot ryggstödet och greppa maskinens handtag.',
+            'Håll bröstet högt och spänn bålen för maximal stabilitet.',
+            'Pressa handtagen snett uppåt/framåt i en kontrollerad rörelse utan att smälla fast armbågarna i toppläget.',
+            'Bromsa rörelsen sakta på vägen tillbaka (excentrisk fas) för att maximera muskeltillväxten.'
+          ],
+          instructions: [
+            'Sätt dig djupt i sätet, tryck bak axlarna mot ryggstödet och greppa maskinens handtag.',
+            'Håll bröstet högt och spänn bålen för maximal stabilitet.',
+            'Pressa handtagen snett uppåt/framåt i en kontrollerad rörelse utan att smälla fast armbågarna i toppläget.',
+            'Bromsa rörelsen sakta på vägen tillbaka (excentrisk fas) för att maximera muskeltillväxten.'
+          ],
+          tips_en: [
+            'Sitt djupt i sätet: Tryck bak axlarna och håll bröstet högt under hela rörelsen.',
+            'Håll emot: Var noga med att inte låta vikten "falla" tillbaka. Bromsa rörelsen på vägen ner för att maximera muskeltillväxten.',
+            'Lås inte ut helt: Undvik att "smälla" fast armbågarna i rakt läge; håll en liten mikroböj i toppen för att behålla spänningen i muskeln.'
+          ],
+          note: 'Lever Lying Chest Press (här i en lutande variant, ofta kallad Incline Lever Press) är en maskinövning som fokuserar på överkroppens pressmuskulatur med hög stabilitet.'
+        },
         { id: 'pectorals/cable-middle-fly', name_en: 'Cable Middle Fly', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/cable-middle-fly.gif' },
         { id: 'pectorals/dumbbell-fly', name_en: 'Dumbbell Fly', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/dumbbell-fly.gif' },
         { id: 'pectorals/cable-low-fly', name_en: 'Cable Low Fly', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/cable-low-fly.gif' },
@@ -90,7 +465,26 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           name_en: ex.name_en,
           name_es: original.name_es || ex.name_en,
           name_fa: original.name_fa || ex.name_en,
-          name: ex.name_en,
+          name_es: ex.name_es || original.name_es || ex.name_en,
+          name_fa: original.name_fa || ex.name_en,
+          name: ex.name || ex.name_en,
+          rest: ex.rest || '50 sek',
+          note: ex.note || original.note || '',
+          gifUrl: ex.gifUrl,
+          instructions: ex.instructions || original.instructions || [],
+          tips_en: ex.tips_en || original.tips_en || [],
+          youtubeUrl: ex.youtubeUrl || original.youtubeUrl || '',
+          isBenchPress: ex.isBenchPress,
+          isLeverSeatedFly: ex.isLeverSeatedFly,
+          isInclineBenchPress: ex.isInclineBenchPress,
+          isDbInclineBenchPress: ex.isDbInclineBenchPress,
+          isDbBenchPress: ex.isDbBenchPress,
+          isCableStandingFly: ex.isCableStandingFly,
+          isPushUp: ex.isPushUp,
+          isSmithInclineBenchPress: ex.isSmithInclineBenchPress,
+          isLeverChestPress: ex.isLeverChestPress,
+          isElevatedPushUp: ex.isElevatedPushUp,
+          isInclineLeverPress: ex.isInclineLeverPress,
           equipment: original.equipment || (ex.id.includes('barbell') ? 'barbell' : ex.id.includes('dumbbell') ? 'dumbbell' : ex.id.includes('cable') ? 'cable' : 'none'),
           sets: ex.sets,
           reps: ex.reps,
@@ -3556,7 +3950,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isStandardPushdown && !selectedEx.isReverseGripPushdown && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isInclineLeverPress && !selectedEx.isElevatedPushUp && !selectedEx.isLeverChestPress && !selectedEx.isSmithInclineBenchPress && !selectedEx.isPushUp && !selectedEx.isCableStandingFly && !selectedEx.isDbBenchPress && !selectedEx.isDbInclineBenchPress && !selectedEx.isInclineBenchPress && !selectedEx.isLeverSeatedFly && !selectedEx.isBenchPress && !selectedEx.isStandardPushdown && !selectedEx.isReverseGripPushdown && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3588,6 +3982,523 @@ function ClientProfile() {
             
             
             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            {(selectedEx.isInclineLeverPress || selectedEx.name_en === 'Lever Lying Chest Press' || selectedEx.name?.includes('Incline Lever Press')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Lever Lying Chest Press (här i en lutande variant, ofta kallad Incline Lever Press) är en maskinövning som fokuserar på överkroppens pressmuskulatur med hög stabilitet.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Övre bröstmuskulaturen (Pectoralis Major, klavikulära delen):</strong> Tack vare lutningen läggs huvudfokus på den övre delen av bröstet, vilket fyller ut partiet vid nyckelbenen.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Kopplas in kraftigt på grund av vinkeln.</li>
+                    <li><strong>Triceps Brachii:</strong> Arbetar för att sträcka ut armarna i slutfasen av pressen.</li>
+                    <li><strong>Serratus Anterior:</strong> Musklerna på sidan av bröstkorgen som stabiliserar skulderbladen.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom en pressrörelse (flexion och adduktion).</li>
+                    <li><strong>Armbågsleden:</strong> Genom uträtning (extension).</li>
+                    <li><strong>Skulderbladen:</strong> Som rör sig statiskt mot ryggstödet för stabilitet.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Sitt djupt i sätet:</strong> Tryck bak axlarna och håll bröstet högt under hela rörelsen.</li>
+                    <li><strong>Håll emot:</strong> Var noga med att inte låta vikten "falla" tillbaka. Bromsa rörelsen på vägen ner för att maximera muskeltillväxten.</li>
+                    <li><strong>Lås inte ut helt:</strong> Undvik att "smälla" fast armbågarna i rakt läge; håll en liten mikroböj i toppen för att behålla spänningen i muskeln.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {(selectedEx.isElevatedPushUp || selectedEx.name_en === 'Elevated Push-up' || selectedEx.name?.includes('Incline Push-up')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Elevated Push-up (ibland kallad Incline Push-up) är en variant av armhävningar där du placerar händerna på en upphöjd yta, som en bänk eller en steplåda. Detta är en utmärkt övning för att anpassa svårighetsgraden och ändra vinkeln på bröstträningen.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Stora bröstmuskeln (Pectoralis Major):</strong> Huvudmålet. Tack vare vinkeln läggs ett extra fokus på den nedre och mellersta delen av bröstet.</li>
+                    <li><strong>Triceps Brachii:</strong> Musklerna på baksidan av armen som hjälper till att pressa kroppen uppåt.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Assisterar i pressrörelsen.</li>
+                    <li><strong>Core (Bål):</strong> Magmusklerna jobbar statiskt för att hålla kroppen rak som en planka.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom horisontell adduktion (armarna förs in mot mitten).</li>
+                    <li><strong>Armbågsleden:</strong> Genom uträtning (extension).</li>
+                    <li><strong>Handleden:</strong> Belastas mindre än vid vanliga armhävningar eftersom vinkeln ofta blir naturligare.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Kroppskontroll:</strong> Precis som i en vanlig armhävning ska kroppen vara spikrak från huvud till häl. Låt inte höften svanka eller peka uppåt.</li>
+                    <li><strong>Sänk bröstet mot kanten:</strong> Sänk dig kontrollerat tills bröstet nästan nuddar kanten på steplådan/bänken.</li>
+                    <li><strong>Armbågsvinkel:</strong> Håll armbågarna i ca 45 graders vinkel från kroppen (inte rakt ut åt sidorna) för att skydda axlarna.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {(selectedEx.isLeverChestPress || selectedEx.name_en === 'Lever Chest Press' || selectedEx.name?.includes('bröstpress i maskin')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Lever Chest Press (Sittande bröstpress i maskin) är en kraftfull basövning för överkroppen som låter dig träna bröstmuskulaturen med hög belastning och maximal säkerhet.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Stora bröstmuskeln (Pectoralis Major):</strong> Huvudmålet. Maskinen är designad för att maximera belastningen på hela bröstpartiet.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Assisterar kraftfullt i pressrörelsen.</li>
+                    <li><strong>Triceps Brachii:</strong> Jobbar för att sträcka ut armarna i slutfasen av pressen.</li>
+                    <li><strong>Serratus Anterior:</strong> Stabiliserar bröstkorgen och skulderbladen under lyftet.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom horisontell adduktion (armarna pressas framåt och inåt).</li>
+                    <li><strong>Armbågsleden:</strong> Genom extension (uträtning).</li>
+                    <li><strong>Skulderbladen:</strong> Som ligger fixerade mot ryggstödet för att skapa en stabil bas.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Dra bak axlarna:</strong> Innan du börjar, dra ihop skulderbladen och tryck ner dem. Håll kvar dem mot ryggstödet under hela setet för att skydda axlarna och låta bröstet göra jobbet.</li>
+                    <li><strong>Inställning av sitsen:</strong> Justera sitsen så att handtagen är i höjd med mitten eller nedre delen av ditt bröst.</li>
+                    <li><strong>Håll emot:</strong> Var noga med att hålla emot vikten på vägen tillbaka (excentrisk fas). Det är där mycket av muskeluppbyggnaden sker!</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {(selectedEx.isSmithInclineBenchPress || selectedEx.name_en === 'Smith Incline Bench Press' || selectedEx.name?.includes('Smith-maskin')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Smith Incline Bench Press (Lutande bänkpress i Smith-maskin) är en suverän övning för att bygga den övre delen av bröstmuskulaturen med maximal stabilitet och säkerhet.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Övre bröstmuskulaturen (Pectoralis Major, klavikulära delen):</strong> Huvudfokus tack vare bänkens lutning.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Kopplas in kraftigt på grund av vinkeln.</li>
+                    <li><strong>Triceps Brachii:</strong> Hjälper till att pressa stången den sista biten och sträcka ut armarna.</li>
+                    <li><strong>Serratus Anterior:</strong> Stabiliserar skulderbladen.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom pressrörelsen (flexion och adduktion).</li>
+                    <li><strong>Armbågsleden:</strong> Genom uträtning (extension).</li>
+                    <li><strong>Skulderbladen:</strong> Som rör sig statiskt mot bänken för att skapa en stabil bas.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Positionering:</strong> Se till att bänken står precis mitt under stången. Stången ska sänkas mot den övre delen av bröstet, strax under nyckelbenen.</li>
+                    <li><strong>Skulderbladen:</strong> Dra ihop skulderbladen och tryck ner dem i bänken för att skydda axlarna och skapa en stabil plattform.</li>
+                    <li><strong>Grepp:</strong> Håll ett grepp som är något bredare än axelbrett så att underarmarna är vertikala i bottenläget.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {(selectedEx.isPushUp || selectedEx.name_en === 'Push-up' || selectedEx.name?.includes('Armhävning')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Push-up (Armhävning) är den ultimata kroppsviktsövningen för överkroppen. Det är en basövning som tränar hela framsidan av kroppen samtidigt.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Stora bröstmuskeln (Pectoralis Major):</strong> Huvudmålet för rörelsen.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Jobbar hårt för att hjälpa till i pressen.</li>
+                    <li><strong>Triceps Brachii:</strong> Musklerna på baksidan av överarmen som rätar ut armbågarna.</li>
+                    <li><strong>Core (Bål):</strong> Magmusklerna och ländryggen jobbar statiskt för att hålla kroppen spikrak.</li>
+                    <li><strong>Serratus Anterior:</strong> Musklerna vid revbenen som stabiliserar skulderbladen mot bröstkorgen.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom horisontell adduktion (armarna förs in mot mitten).</li>
+                    <li><strong>Armbågsleden:</strong> Genom extension (uträtning).</li>
+                    <li><strong>Skulderbladen:</strong> Som rör sig aktivt för att stödja axelns position.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Kroppen som en planka:</strong> Spänn sätet och magen. Höften får inte hänga ner mot golvet och rumpan ska inte peka upp i vädret.</li>
+                    <li><strong>Armbågarnas vinkel:</strong> Låt inte armbågarna peka rakt ut åt sidorna (T-form). Håll dem i ca 45 graders vinkel från kroppen (pil-form) för att skona axlarna.</li>
+                    <li><strong>Hela vägen:</strong> Bröstet ska nästan nudda golvet och armarna ska sträckas ut helt i toppläget.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {(selectedEx.isCableStandingFly || selectedEx.name_en === 'Cable Standing Fly' || selectedEx.name?.includes('Cable Cross-over')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Cable Standing Fly (ofta kallat Cable Cross-over) är en av de absolut bästa isolationsövningarna för bröstet tack vare kabelmaskinens jämna motstånd.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Stora bröstmuskeln (Pectoralis Major):</strong> Detta är huvudmålet.
+                      <br /><em style={{ fontSize: '0.78rem', color: '#00f2fe' }}>Notera: I bilden dras kablarna uppifrån och ned, vilket lägger extra fokus på den nedre och mellersta delen av bröstet.</em>
+                    </li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Assisterar i rörelsen att föra armarna framåt.</li>
+                    <li><strong>Serratus Anterior:</strong> Musklerna på sidan av bröstkorgen som stabiliserar skulderbladen.</li>
+                    <li><strong>Core (Bål):</strong> Eftersom du står upp tvingas magmusklerna jobba hårt för att hålla kroppen stabil så att inte kablarna drar dig bakåt.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Detta är en isolationsövning (enledsövning). Rörelsen sker genom horisontell adduktion (armarna förs in mot kroppens mittlinje).</li>
+                    <li><strong>Armbågsleden:</strong> Jobbar endast statiskt. Armbågarna ska vara lätt böjda men helt fixerade under hela rörelsen.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>"Krama ett träd":</strong> Håll armarna i en fast, lätt böjd position (som om du kramar ett stort träd).</li>
+                    <li><strong>Stabilitet:</strong> Stå med en fot framför den andra (split stance) för att stå stadigt och undvika att gunga med överkroppen.</li>
+                    <li><strong>Kläm ihop:</strong> Fokusera på att verkligen pressa ihop bröstmusklerna när händerna möts.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {(selectedEx.isDbBenchPress || selectedEx.name_en === 'Dumbbell Bench Press' || selectedEx.name?.includes('Hantelbänkpress')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Dumbbell Bench Press (Hantelbänkpress) är ett av de mest effektiva alternativen till skivstångsbänkpress. Den ger en fantastisk kombination av muskeluppbyggnad, balans och rörlighet.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Stora bröstmuskeln (Pectoralis Major):</strong> Huvudmålet. Hantlarna gör att du kan träffa muskeln över ett större område.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Jobbar hårt för att hjälpa till i pressen.</li>
+                    <li><strong>Triceps Brachii:</strong> Ansvarar för att räta ut armarna i slutfasen.</li>
+                    <li><strong>Stabiliserande muskler:</strong> Små muskler kring axeln och bålen jobbar konstant för att hålla hantlarna på plats.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom pressrörelsen (horisontell adduktion).</li>
+                    <li><strong>Armbågsleden:</strong> Genom uträtning (extension).</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Håll ihop skulderbladen:</strong> Skapa en stabil bas mot bänken.</li>
+                    <li><strong>Kontrollerad sänkning:</strong> Gå djupt nog för att känna en stretch i bröstet, men utan att tappa kontrollen.</li>
+                    <li><strong>Pressa ihop:</strong> Tänk att hantlarna ska röra sig mot varandra i toppläget (utan att slå ihop dem) för att verkligen spänna bröstet.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {(selectedEx.isDbInclineBenchPress || selectedEx.name_en === 'Dumbbell Incline Bench Press' || selectedEx.name?.includes('Lutande hantelpress')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Dumbbell Incline Bench Press (Lutande hantelpress) är en av de mest effektiva övningarna för att bygga en komplett och välutvecklad bröstmuskulatur. Genom att använda hantlar istället för skivstång får du både större rörelseomfång och bättre muskelbalans.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Övre bröstmuskulaturen (Pectoralis Major, klavikulära delen):</strong> Detta är huvudmålet. Lutningen på bänken tvingar den övre delen av bröstet att ta mer av belastningen.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Kopplas in kraftigt på grund av den uppåtlutade vinkeln.</li>
+                    <li><strong>Triceps Brachii:</strong> Arbetar för att pressa upp vikterna och sträcka ut armbågen.</li>
+                    <li><strong>Stabiliserande muskler:</strong> Små muskler kring axeln och bålen jobbar hårt för att hålla hantlarna stabila.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom pressrörelsen (horisontell adduktion och flexion).</li>
+                    <li><strong>Armbågsleden:</strong> Genom uträtning (extension).</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Bänkvinkel:</strong> 30–45 grader är lagom. Mer än så och det blir nästan bara en axelövning.</li>
+                    <li><strong>Sänk kontrollerat:</strong> Gå djupt så att du känner stretchen i bröstet, men utan att tappa kontrollen.</li>
+                    <li><strong>Pressa ihop:</strong> Tänk att hantlarna ska mötas i en båge ovanför bröstet (utan att de slår ihop) för att få maximal kontakt.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {(selectedEx.isInclineBenchPress || selectedEx.name_en === 'Incline Bench Press' || selectedEx.name?.includes('Lutande bänkpress')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Incline Bench Press (Lutande bänkpress) är en tung basövning som flyttar belastningen högre upp på bröstkorgen jämfört med vanlig bänkpress. Den utförs på en bänk med ca 30–45 graders lutning.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Övre bröstmuskulaturen (Pectoralis Major, klavikulära delen):</strong> Detta är huvudmålet. Lutningen gör att de övre fibrerna av bröstmuskeln får jobba betydligt hårdare än vid plan bänkpress.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Eftersom vinkeln är brantare kopplas axlarna in mer, vilket bygger styrka och massa i axelpartiet.</li>
+                    <li><strong>Triceps Brachii:</strong> Arbetar för att sträcka ut armarna i den sista delen av pressen.</li>
+                    <li><strong>Serratus Anterior:</strong> Stabiliserar skulderbladen.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom en kombination av flexion och adduktion.</li>
+                    <li><strong>Armbågsleden:</strong> Genom extension (uträtning).</li>
+                    <li><strong>Skulderbladen:</strong> Som stabiliserar rörelsen mot bänken.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Sänk stången högt:</strong> Vid vanlig bänkpress sänks stången mot mitten av bröstet; här sänks den mot den övre delen av bröstet, nära nyckelbenen.</li>
+                    <li><strong>Lås skulderbladen:</strong> Precis som i vanlig bänkpress ska skulderbladen dras ihop och nedåt för att skapa en stabil bas och skydda axlarna.</li>
+                    <li><strong>Vinkel på bänken:</strong> Överstiger lutningen 45 grader blir det mer av en ren axelövning. Håll dig runt 30 grader för att maximera kontakten med övre bröstet.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {(selectedEx.isLeverSeatedFly || selectedEx.name_en === 'Lever Seated Fly' || selectedEx.name?.includes('Pec Deck') || selectedEx.name?.includes('bröstflyes i maskin')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Lever Seated Fly (ofta kallad "Pec Deck" eller bröstflyes i maskin) är en ren isolationsövning för bröstet. Här är en kort genomgång av varför den är ett utmärkt komplement till pressövningar.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Stora bröstmuskeln (Pectoralis Major):</strong> Detta är huvudmålet. Övningen är särskilt bra för att träna bröstmuskeln i sitt helt utsträckta läge och i sitt helt sammandragna läge.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Assisterar i rörelsen att föra armarna in mot mitten.</li>
+                    <li><strong>Serratus Anterior:</strong> Musklerna på sidan av bröstkorgen som stabiliserar skulderbladen.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Detta är en enledsövning. Rörelsen sker genom horisontell adduktion (armarna förs in mot kroppens mittlinje i axelhöjd).</li>
+                    <li><strong>Armbågsleden (Notera):</strong> Ska hållas i en fast, lätt böjd position under hela rörelsen och ska inte röra sig.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>"Krama ett träd":</strong> Föreställ dig att du ska krama ett stort träd. Håll armarna lätt böjda men stela.</li>
+                    <li><strong>Pressa ihop:</strong> När händerna möts i mitten, tänk att du ska pressa ihop dina bröstmuskler så hårt du kan i en sekund.</li>
+                    <li><strong>Sitt stadigt:</strong> Håll ryggen och huvudet mot ryggstödet. Undvik att skjuta fram axlarna när du pressar ihop.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {(selectedEx.isBenchPress || selectedEx.name_en === 'Bench Press' || selectedEx.name?.includes('Bänkpress')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Bench Press (Bänkpress) anses ofta vara "kungen" av överkroppsövningar. Det är en tung basövning (flerledsövning) som är den ultimata mätstocken för styrka i överkroppens pressmuskulatur.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Stora bröstmuskeln (Pectoralis Major):</strong> Detta är huvudmålet. Övningen bygger både massa och explosiv kraft i hela bröstpartiet.</li>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Jobbar mycket hårt för att hjälpa till att pressa stången uppåt.</li>
+                    <li><strong>Triceps Brachii:</strong> Musklerna på baksidan av överarmen ansvarar för att räta ut armbågarna i den sista delen av lyftet.</li>
+                    <li><strong>Serratus Anterior:</strong> Musklerna på sidan av bröstkorgen som stabiliserar skulderbladen.</li>
+                    <li><strong>Core & Rygg:</strong> Latissimus dorsi (latsen) och bålen jobbar statiskt för att skapa en stabil plattform på bänken.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom horisontell adduktion (armarna förs in mot kroppens mittlinje).</li>
+                    <li><strong>Armbågsleden:</strong> Genom extension (uträtning av armen).</li>
+                    <li><strong>Skulderbladen:</strong> Som ska hållas fixerade och tillbakadragna för att skydda axlarna.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Fem kontaktpunkter:</strong> Huvud, övre rygg och säte ska alltid vara i bänken, och båda fötterna ska vara stadigt i golvet ("foot drive").</li>
+                    <li><strong>Dra ihop skulderbladen:</strong> Tänk att du ska "stoppa skulderbladen i bakfickorna". Det skapar en stabil bas och skyddar axlarna.</li>
+                    <li><strong>Sänk kontrollerat:</strong> Låt inte stången studsa mot bröstet. Håll emot på vägen ner för att maximera muskeluppbyggnaden.</li>
+                    <li><strong>Grepp:</strong> Håll stången så att underarmarna är vertikala (raka ner mot golvet) när stången nuddar bröstet.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isStandardPushdown || selectedEx.name_en === 'Classic Cable Triceps Pushdown' || selectedEx.name?.includes('klassiska varianten med stång')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
