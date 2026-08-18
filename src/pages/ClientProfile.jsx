@@ -577,7 +577,41 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
 
     if (splitType === 'shoulders') {
       const shoulderExercises = [
-        { id: 'delts/dumbbell-arnold-press', name_en: 'Dumbbell Arnold Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-arnold-press.gif' },
+        {
+          id: 'delts/dumbbell-arnold-press',
+          name_en: 'Dumbbell Arnold Press',
+          name_es: 'Press Arnold con Mancuernas',
+          name: 'Dumbbell Arnold Press (Arnoldpress)',
+          equipment: 'dumbbell',
+          body_part: 'shoulders',
+          primary_muscles: ['anterior_deltoid', 'lateral_deltoid'],
+          secondary_muscles: ['posterior_deltoid', 'triceps_brachii', 'trapezius', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '50 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-arnold-press.gif',
+          isArnoldPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/AjB-UXErljM?si=KX20B_qo7ZAugELA',
+          instructions_en: [
+            'Sätt dig på en träningsbänk med ryggstöd och håll en hantel i varje hand i brösthöjd med handflatorna vända mot dig.',
+            'Börja pressa hantlarna uppåt medan du roterar handlederna så att handflatorna pekar framåt i toppläget.',
+            'Pressa upp till nästan raka armar utan att låsa armbågarna.',
+            'Sänk hantlarna kontrollerat tillbaka till startläget under omvänd rotation.'
+          ],
+          instructions: [
+            'Sätt dig på en träningsbänk med ryggstöd och håll en hantel i varje hand i brösthöjd med handflatorna vända mot dig.',
+            'Börja pressa hantlarna uppåt medan du roterar handlederna så att handflatorna pekar framåt i toppläget.',
+            'Pressa upp till nästan raka armar utan att låsa armbågarna.',
+            'Sänk hantlarna kontrollerat tillbaka till startläget under omvänd rotation.'
+          ],
+          tips_en: [
+            'Startposition: Håll hantlarna framför axlarna med handflatorna vända mot dig.',
+            'Rotationen: Börja pressa uppåt samtidigt som du roterar händerna så att handflatorna pekar bort från dig i toppläget.',
+            'Kontroll: Utför rörelsen i en mjuk, flytande bana. Det ska inte vara två separata rörelser, utan en enda roterande press.',
+            'Sitt eller stå: Sittande med ryggstöd ger mer isolering för axlarna, medan stående utmanar din bålstabilitet mer.'
+          ],
+          note: 'Dumbbell Arnold Press är en variant av axelpress som skapades av Arnold Schwarzenegger. Det som gör den unik är den roterande rörelsen, vilket gör det till en mer komplett övning för hela axelpartiet.'
+        },
         { id: 'delts/dumbbell-one-arm-shoulder-press', name_en: 'Dumbbell Seated One Arm Shoulder Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-one-arm-shoulder-press.gif' },
         { id: 'delts/dumbbell-lateral-raise', name_en: 'Dumbbell Poliquin Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
         { id: 'delts/dumbbell-seated-shoulder-press', name_en: 'Dumbbell Seated Shoulder Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-seated-shoulder-press.gif' },
@@ -649,7 +683,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           youtubeUrl: ex.youtubeUrl || original.youtubeUrl || '',
           rest: ex.rest || original.rest || '1.5 min',
           note: ex.note || original.note || '',
-          isSmithSeatedShoulderPress: ex.isSmithSeatedShoulderPress
+          isSmithSeatedShoulderPress: ex.isSmithSeatedShoulderPress,
+          isArnoldPress: ex.isArnoldPress
         };
       });
 
@@ -3274,6 +3309,59 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isArnoldPress || selectedEx.name_en === 'Dumbbell Arnold Press' || selectedEx.name?.includes('Arnold Press')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Dumbbell Arnold Press är en variant av axelpress som skapades av Arnold Schwarzenegger. Det som gör den unik är den roterande rörelsen, vilket gör det till en mer komplett övning för hela axelpartiet.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Deltoideus (Axlarna) – Alla tre huvudena:</strong>
+                      <ul style={{ paddingLeft: '14px', marginTop: '4px' }}>
+                        <li><strong>Främre (Anterior):</strong> Jobbar mest under själva pressen.</li>
+                        <li><strong>Mellersta (Lateral):</strong> Ger bredd åt axlarna och aktiveras under rotationen.</li>
+                        <li><strong>Bakre (Posterior):</strong> Jobbar statiskt för att stabilisera vikten under rotationen i bottenläget.</li>
+                      </ul>
+                    </li>
+                    <li><strong>Triceps Brachii:</strong> Sträcker ut armen i toppläget.</li>
+                    <li><strong>Övre Trapezius:</strong> Assisterar vid lyftet.</li>
+                    <li><strong>Serratus Anterior:</strong> Musklerna vid revbenen som stabiliserar skulderbladen.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> En komplex rörelse som kombinerar flexion, abduktion och extern rotation.</li>
+                    <li><strong>Armbågsleden:</strong> Genom extension (uträtning).</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Startposition:</strong> Håll hantlarna framför axlarna med handflatorna vända mot dig.</li>
+                    <li><strong>Rotationen:</strong> Börja pressa uppåt samtidigt som du roterar händerna så att handflatorna pekar bort från dig i toppläget.</li>
+                    <li><strong>Kontroll:</strong> Utför rörelsen i en mjuk, flytande bana. Det ska inte vara två separata rörelser, utan en enda roterande press.</li>
+                    <li><strong>Sitt eller stå:</strong> Sittande med ryggstöd ger mer isolering för axlarna, medan stående utmanar din bålstabilitet mer.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isSmithSeatedShoulderPress || selectedEx.name_en === 'Smith Seated Shoulder Press' || selectedEx.name?.includes('Smith Seated Shoulder Press')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
