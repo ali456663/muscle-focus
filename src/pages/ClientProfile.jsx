@@ -626,7 +626,7 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           rest: '50 sek',
           gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-one-arm-shoulder-press.gif',
           isOneArmShoulderPress: true,
-          youtubeUrl: 'https://youtu.be/_KZcLQlkTyU?si=SE2OCwucKF_T8jDW',
+          youtubeUrl: 'https://youtube.com/shorts/Kl3LEzQ5Zqs?si=GnQaOPMmZ6-UAo4s',
           instructions_en: [
             'Sätt dig på en bänk med ryggstöd och håll en hantel i ena handen i axelhöjd med handflatan vänd framåt.',
             'Håll den lediga handen på låret eller ta tag i kanten på sätets sida för extra stabilitet.',
@@ -3323,7 +3323,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:

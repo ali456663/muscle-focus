@@ -597,7 +597,7 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           rest: '50 sek',
           gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-one-arm-shoulder-press.gif',
           isOneArmShoulderPress: true,
-          youtubeUrl: 'https://youtu.be/_KZcLQlkTyU?si=SE2OCwucKF_T8jDW',
+          youtubeUrl: 'https://youtube.com/shorts/Kl3LEzQ5Zqs?si=GnQaOPMmZ6-UAo4s',
           instructions_en: [
             'Sätt dig på en bänk med ryggstöd och håll en hantel i ena handen i axelhöjd med handflatan vänd framåt.',
             'Håll den lediga handen på låret eller ta tag i kanten på sätets sida för extra stabilitet.',
