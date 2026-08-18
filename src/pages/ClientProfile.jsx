@@ -816,7 +816,41 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           ],
           note: 'Kettlebell Lateral Raise (Sidolyft med kettlebell) är en av de absolut bästa övningarna för att isolera den mellersta delen av axeln och skapa bredd.'
         },
-        { id: 'delts/cable-seated-rear-lateral-raise', name_en: 'Cable Seated Rear Lateral Raise', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/cable-seated-rear-lateral-raise.gif' },
+        {
+          id: 'delts/cable-seated-rear-lateral-raise',
+          name_en: 'Cable Seated Rear Lateral Raise',
+          name_es: 'Elevaciones Laterales Posteriores Sentado en Polea',
+          name: 'Cable Seated Rear Lateral Raise (Sittande kabellyft för baksida axlar)',
+          equipment: 'cable',
+          body_part: 'shoulders',
+          primary_muscles: ['posterior_deltoid'],
+          secondary_muscles: ['rhomboids', 'trapezius', 'infraspinatus', 'teres_minor'],
+          sets: 3,
+          reps: '8-10',
+          rest: '45 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/cable-seated-rear-lateral-raise.gif',
+          isCableSeatedRearLateral: true,
+          youtubeUrl: 'https://youtu.be/6WgNq17iN58?si=8MQoBGA9zKvhNts2',
+          instructions_en: [
+            'Sätt dig på en träningsbänk placerad mitt emellan två låga kabeltrissor.',
+            'Korsa armarna och ta tag i vänster kabel med höger hand och höger kabel med vänster hand.',
+            'Håll armarna nästan helt raka med en liten fast böjning i armbågarna och spänn bålen.',
+            'Dra kablarna bakåt och utåt åt sidorna genom att leda med armbågarna tills armarna är i linje med kroppen, sänk sedan kontrollerat tillbaka.'
+          ],
+          instructions: [
+            'Sätt dig på en träningsbänk placerad mitt emellan två låga kabeltrissor.',
+            'Korsa armarna och ta tag i vänster kabel med höger hand och höger kabel med vänster hand.',
+            'Håll armarna nästan helt raka med en liten fast böjning i armbågarna och spänn bålen.',
+            'Dra kablarna bakåt och utåt åt sidorna genom att leda med armbågarna tills armarna är i linje med kroppen, sänk sedan kontrollerat tillbaka.'
+          ],
+          tips_en: [
+            'Korsa kablarna: Ta tag i vänster kabel med höger hand och höger kabel med vänster hand för att få rätt dragvinkel.',
+            'Lätta armbågar: Håll armarna nästan helt raka, men med en liten, fast böjning i armbågen under hela setet.',
+            'Led med armbågarna: Tänk att du ska dra armbågarna så långt ut åt sidorna som möjligt, snarare än att bara dra med händerna.',
+            'Stoppa i tid: Gå inte längre bak än att armarna är i linje med kroppen. Går du längre bak tar de stora ryggmusklerna över jobbet från axlarna.'
+          ],
+          note: 'Cable Seated Rear Lateral Raise (Sittande kabellyft för baksida axlar) är en av de mest effektiva isolationsövningarna för att träna den bakre delen av axelpartiet. Att utföra den sittande med kablar ger en unik muskelkontakt.'
+        },
         {
           id: 'delts/smith-seated-shoulder-press',
           name_en: 'Smith Seated Shoulder Press',
@@ -888,7 +922,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress,
           isLeverMilitaryPress: ex.isLeverMilitaryPress,
           isBandRearDeltRow: ex.isBandRearDeltRow,
-          isKettlebellLateralRaise: ex.isKettlebellLateralRaise
+          isKettlebellLateralRaise: ex.isKettlebellLateralRaise,
+          isCableSeatedRearLateral: ex.isCableSeatedRearLateral
         };
       });
 
@@ -3493,7 +3528,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3520,6 +3555,52 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isCableSeatedRearLateral || selectedEx.name_en === 'Cable Seated Rear Lateral Raise' || selectedEx.name?.includes('kabellyft för baksida axlar')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Cable Seated Rear Lateral Raise (Sittande kabellyft för baksida axlar) är en av de mest effektiva isolationsövningarna för att träna den bakre delen av axelpartiet. Att utföra den sittande med kablar ger en unik muskelkontakt.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Baksida axlar (Posterior Deltoid):</strong> Huvudmålet. Denna muskel ger axeln dess fyllighet bakifrån och är avgörande för en balanserad fysik.</li>
+                    <li><strong>Övre rygg (Rombuider & mellersta Trapezius):</strong> Hjälper till att dra ihop skulderbladen.</li>
+                    <li><strong>Rotatorkuffen (Infraspinatus & Teres Minor):</strong> Små muskler som stabiliserar axelleden.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Rörelsen sker genom horisontell abduktion (armarna förs utåt/bakåt i sidled).</li>
+                    <li><strong>Skulderbladen:</strong> Som rör sig aktivt inåt mot ryggraden i slutet av rörelsen.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Korsa kablarna:</strong> Ta tag i vänster kabel med höger hand och höger kabel med vänster hand för att få rätt dragvinkel.</li>
+                    <li><strong>Lätta armbågar:</strong> Håll armarna nästan helt raka, men med en liten, fast böjning i armbågen under hela setet.</li>
+                    <li><strong>Led med armbågarna:</strong> Tänk att du ska dra armbågarna så långt ut åt sidorna som möjligt, snarare än att bara dra med händerna.</li>
+                    <li><strong>Stoppa i tid:</strong> Gå inte längre bak än att armarna är i linje med kroppen. Går du längre bak tar de stora ryggmusklerna över jobbet från axlarna.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isKettlebellLateralRaise || selectedEx.name_en === 'Kettlebell Lateral Raise' || selectedEx.name?.includes('Sidolyft med kettlebell')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
