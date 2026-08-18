@@ -2000,13 +2000,18 @@ const tricepsPushdownEx = {
 
     const tricepsPushdownEx = {
       id: 'triceps/cable-reverse-grip-pushdown',
-      name_en: 'Cable Reverse-grip Pushdown',
+      name_en: 'Reverse Grip Triceps Pushdown',
       name_es: 'Pushdown de Tríceps con Agarre Invertido',
       name_fa: 'پشت بازو سیم‌کش مچ برعکس',
-      name: 'Cable Reverse-grip Pushdown',
+      name: 'Reverse Grip Triceps Pushdown (Tricepspress med underhandsgrepp)',
       equipment: 'kabel',
       body_part: 'arms',
       primary_muscles: ['triceps'],
+      secondary_muscles: ['forearms', 'rectus_abdominis'],
+      sets: 3,
+      reps: '8-10',
+      rest: '45 sek',
+      gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-reverse-grip-pushdown.gif',
       images: {
         classic: {
           start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-reverse-grip-pushdown.gif',
@@ -2017,23 +2022,26 @@ const tricepsPushdownEx = {
           peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-reverse-grip-pushdown.gif'
         }
       },
+      isReverseGripPushdown: true,
+      youtubeUrl: 'https://youtube.com/shorts/_EuYEt1lNYw?si=gCkPdGnE02H8bOsx',
       instructions_en: [
         'Stå framför kabelmaskinen och greppa stången med ett underhandsgrepp (handflatorna uppåt).',
-        'Håll armbågarna nära sidorna och överarmarna helt stilla.',
-        'Pressa stången nedåt genom att sträcka ut armarna helt.',
-        'Släpp kontrollerat tillbaka till startpositionen under motstånd.'
+        'Håll armbågarna nära sidorna, peka dem rakt ner mot golvet och spänn bålen.',
+        'Pressa stången nedåt genom att sträcka ut armarna helt tills triceps är maximalt kontraherad.',
+        'Släpp kontrollerat tillbaka till startpositionen under motstånd utan att böja handlederna.'
       ],
       instructions: [
         'Stå framför kabelmaskinen och greppa stången med ett underhandsgrepp (handflatorna uppåt).',
-        'Håll armbågarna nära sidorna och överarmarna helt stilla.',
-        'Pressa stången nedåt genom att sträcka ut armarna helt.',
-        'Släpp kontrollerat tillbaka till startpositionen under motstånd.'
+        'Håll armbågarna nära sidorna, peka dem rakt ner mot golvet och spänn bålen.',
+        'Pressa stången nedåt genom att sträcka ut armarna helt tills triceps är maximalt kontraherad.',
+        'Släpp kontrollerat tillbaka till startpositionen under motstånd utan att böja handlederna.'
       ],
-      youtubeUrl: 'https://youtube.com/shorts/_EuYEt1lNYw?si=gCkPdGnE02H8bOsx',
-      isReverseGripPushdown: true,
-      rest: tRest,
-      targetWeight: tWeight,
-      note: 'Lås handlederna! Var noga med att inte låta handlederna böjas bakåt av vikten; håll dem raka och starka genom hela rörelsen.'
+      tips_en: [
+        'Lås handlederna: Var noga med att handlederna är raka och inte böjs bakåt av vikten.',
+        'Håll armbågarna nära: Armbågarna ska peka rakt ner mot golvet och vara fixerade vid sidorna under hela rörelsen.',
+        'Lättare vikt: Man orkar oftast inte lika mycket vikt som vid vanligt grepp, så fokusera på teknik och kontakt snarare än tunga kilon.'
+      ],
+      note: 'Här är en genomgång av Reverse Grip Triceps Pushdown (Tricepspress med underhandsgrepp) baserat på din bild.'
     };
 
     const oneArmTricepsExtensionEx = {
@@ -3542,7 +3550,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isReverseGripPushdown && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3572,6 +3580,55 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isReverseGripPushdown || selectedEx.name_en === 'Reverse Grip Triceps Pushdown' || selectedEx.name?.includes('Tricepspress med underhandsgrepp')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Här är en genomgång av Reverse Grip Triceps Pushdown (Tricepspress med underhandsgrepp) baserat på din bild.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Primary Muscles (Huvudmuskler):</strong> Triceps Brachii. Övningen tränar alla tre huvuden, men underhandsgreppet lägger ett extra stort fokus på det mediala huvudet (det som sitter på insidan av armen, nära armbågen).</li>
+                    <li><strong>Secondary Muscles (Sekundära muskler):</strong>
+                      <ul style={{ margin: '4px 0 0 0', paddingLeft: '18px' }}>
+                        <li><strong>Underarmar:</strong> Du tränar din greppstyrka och musklerna i underarmarna eftersom de måste jobba statiskt för att hålla stången med handflatorna uppåt.</li>
+                        <li><strong>Core:</strong> Håller din kropp stabil under rörelsen.</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Armbågsleden:</strong> Rörelsen sker genom extension (uträtning).</li>
+                    <li><strong>Handleden:</strong> Jobbar statiskt. Det krävs mer kraft i handlederna för att hålla greppet stabilt jämfört med ett vanligt överhandsgrepp.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Lås handlederna:</strong> Var noga med att handlederna är raka och inte böjs bakåt av vikten.</li>
+                    <li><strong>Håll armbågarna nära:</strong> Armbågarna ska peka rakt ner mot golvet och vara fixerade vid sidorna under hela rörelsen.</li>
+                    <li><strong>Lättare vikt:</strong> Man orkar oftast inte lika mycket vikt som vid vanligt grepp, så fokusera på teknik och kontakt snarare än tunga kilon.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isCableOneArmTricepPushdown || selectedEx.name_en === 'Cable One Arm Tricep Pushdown' || selectedEx.name?.includes('Enarmad tricepspress i kabel')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',

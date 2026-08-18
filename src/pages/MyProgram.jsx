@@ -1939,13 +1939,18 @@ const tricepsPushdownEx = {
 
     const tricepsPushdownEx = {
       id: 'triceps/cable-reverse-grip-pushdown',
-      name_en: 'Cable Reverse-grip Pushdown',
+      name_en: 'Reverse Grip Triceps Pushdown',
       name_es: 'Pushdown de Tríceps con Agarre Invertido',
       name_fa: 'پشت بازو سیم‌کش مچ برعکس',
-      name: 'Cable Reverse-grip Pushdown',
+      name: 'Reverse Grip Triceps Pushdown (Tricepspress med underhandsgrepp)',
       equipment: 'kabel',
       body_part: 'arms',
       primary_muscles: ['triceps'],
+      secondary_muscles: ['forearms', 'rectus_abdominis'],
+      sets: 3,
+      reps: '8-10',
+      rest: '45 sek',
+      gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-reverse-grip-pushdown.gif',
       images: {
         classic: {
           start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-reverse-grip-pushdown.gif',
@@ -1956,23 +1961,26 @@ const tricepsPushdownEx = {
           peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-reverse-grip-pushdown.gif'
         }
       },
+      isReverseGripPushdown: true,
+      youtubeUrl: 'https://youtube.com/shorts/_EuYEt1lNYw?si=gCkPdGnE02H8bOsx',
       instructions_en: [
         'Stå framför kabelmaskinen och greppa stången med ett underhandsgrepp (handflatorna uppåt).',
-        'Håll armbågarna nära sidorna och överarmarna helt stilla.',
-        'Pressa stången nedåt genom att sträcka ut armarna helt.',
-        'Släpp kontrollerat tillbaka till startpositionen under motstånd.'
+        'Håll armbågarna nära sidorna, peka dem rakt ner mot golvet och spänn bålen.',
+        'Pressa stången nedåt genom att sträcka ut armarna helt tills triceps är maximalt kontraherad.',
+        'Släpp kontrollerat tillbaka till startpositionen under motstånd utan att böja handlederna.'
       ],
       instructions: [
         'Stå framför kabelmaskinen och greppa stången med ett underhandsgrepp (handflatorna uppåt).',
-        'Håll armbågarna nära sidorna och överarmarna helt stilla.',
-        'Pressa stången nedåt genom att sträcka ut armarna helt.',
-        'Släpp kontrollerat tillbaka till startpositionen under motstånd.'
+        'Håll armbågarna nära sidorna, peka dem rakt ner mot golvet och spänn bålen.',
+        'Pressa stången nedåt genom att sträcka ut armarna helt tills triceps är maximalt kontraherad.',
+        'Släpp kontrollerat tillbaka till startpositionen under motstånd utan att böja handlederna.'
       ],
-      youtubeUrl: 'https://youtube.com/shorts/_EuYEt1lNYw?si=gCkPdGnE02H8bOsx',
-      isReverseGripPushdown: true,
-      rest: tRest,
-      targetWeight: tWeight,
-      note: 'Lås handlederna! Var noga med att inte låta handlederna böjas bakåt av vikten; håll dem raka och starka genom hela rörelsen.'
+      tips_en: [
+        'Lås handlederna: Var noga med att handlederna är raka och inte böjs bakåt av vikten.',
+        'Håll armbågarna nära: Armbågarna ska peka rakt ner mot golvet och vara fixerade vid sidorna under hela rörelsen.',
+        'Lättare vikt: Man orkar oftast inte lika mycket vikt som vid vanligt grepp, så fokusera på teknik och kontakt snarare än tunga kilon.'
+      ],
+      note: 'Här är en genomgång av Reverse Grip Triceps Pushdown (Tricepspress med underhandsgrepp) baserat på din bild.'
     };
 
     const oneArmTricepsExtensionEx = {
