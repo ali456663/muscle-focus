@@ -651,7 +651,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           ],
           note: 'Dumbbell Poliquin Lateral Raise är en effektiv variant av sidolyft som utvecklades av tränaren Charles Poliquin för att bygga bredare axlar med mer vikt.'
         },
-        { id: 'delts/dumbbell-seated-shoulder-press', name_en: 'Dumbbell Seated Shoulder Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-seated-shoulder-press.gif' },
+        {
+          id: 'delts/dumbbell-seated-shoulder-press',
+          name_en: 'Dumbbell Seated Shoulder Press',
+          name_es: 'Press de Hombros Sentado con Mancuernas',
+          name: 'Dumbbell Seated Shoulder Press (Sittande hantelpress)',
+          equipment: 'dumbbell',
+          body_part: 'shoulders',
+          primary_muscles: ['anterior_deltoid', 'lateral_deltoid'],
+          secondary_muscles: ['triceps_brachii', 'pectoralis_major', 'trapezius', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '55 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-seated-shoulder-press.gif',
+          isDumbbellSeatedShoulderPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/qEwKCR5JCog',
+          instructions_en: [
+            'Sätt dig på en bänk med ryggstöd uppfällt i 90 grader och håll en hantel i varje hand i axelhöjd.',
+            'Vinkla armbågarna cirka 30 grader framåt från kroppen och spänn bålen.',
+            'Pressa hantlarna kontrollerat uppåt i en mjuk båge tills armarna är nästan raka ovanför huvudet utan att slå ihop hantlarna.',
+            'Sänk hantlarna långsamt och kontrollerat tillbaka till startläget i axelhöjd.'
+          ],
+          instructions: [
+            'Sätt dig på en bänk med ryggstöd uppfällt i 90 grader och håll en hantel i varje hand i axelhöjd.',
+            'Vinkla armbågarna cirka 30 grader framåt från kroppen och spänn bålen.',
+            'Pressa hantlarna kontrollerat uppåt i en mjuk båge tills armarna är nästan raka ovanför huvudet utan att slå ihop hantlarna.',
+            'Sänk hantlarna långsamt och kontrollerat tillbaka till startläget i axelhöjd.'
+          ],
+          tips_en: [
+            'Sänk axlarna: Undvik att dra upp axlarna mot öronen. Håll dem nere och "stolta" under hela pressen.',
+            'Vinkla in armbågarna: Ha inte armbågarna peka rakt ut åt sidorna (i 180 grader). Vinkla dem ca 30 grader framåt för att skona axelleden och få bättre kraft.',
+            'Pressa ihop: Tänk att hantlarna ska mötas i en båge ovanför huvudet, men utan att de slår ihop.'
+          ],
+          note: 'Dumbbell Seated Shoulder Press (Sittande hantelpress) är en av de mest grundläggande och effektiva övningarna för att bygga styrka och volym i axlarna. Att sitta ner ger mer stabilitet, vilket gör att du kan fokusera helt på att pressa med musklerna.'
+        },
         { id: 'delts/lever-military-press', name_en: 'Lever Military Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/lever-military-press.gif' },
         { id: 'delts/band-standing-rear-delt-row', name_en: 'Band Standing Rear Delt Row', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/band-standing-rear-delt-row.gif' },
         { id: 'delts/kettlebell-lateral-raise', name_en: 'Kettlebell Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
@@ -723,7 +756,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           isSmithSeatedShoulderPress: ex.isSmithSeatedShoulderPress,
           isArnoldPress: ex.isArnoldPress,
           isOneArmShoulderPress: ex.isOneArmShoulderPress,
-          isPoliquinLateralRaise: ex.isPoliquinLateralRaise
+          isPoliquinLateralRaise: ex.isPoliquinLateralRaise,
+          isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress
         };
       });
 

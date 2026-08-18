@@ -680,7 +680,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           ],
           note: 'Dumbbell Poliquin Lateral Raise är en effektiv variant av sidolyft som utvecklades av tränaren Charles Poliquin för att bygga bredare axlar med mer vikt.'
         },
-        { id: 'delts/dumbbell-seated-shoulder-press', name_en: 'Dumbbell Seated Shoulder Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-seated-shoulder-press.gif' },
+        {
+          id: 'delts/dumbbell-seated-shoulder-press',
+          name_en: 'Dumbbell Seated Shoulder Press',
+          name_es: 'Press de Hombros Sentado con Mancuernas',
+          name: 'Dumbbell Seated Shoulder Press (Sittande hantelpress)',
+          equipment: 'dumbbell',
+          body_part: 'shoulders',
+          primary_muscles: ['anterior_deltoid', 'lateral_deltoid'],
+          secondary_muscles: ['triceps_brachii', 'pectoralis_major', 'trapezius', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '55 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-seated-shoulder-press.gif',
+          isDumbbellSeatedShoulderPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/qEwKCR5JCog',
+          instructions_en: [
+            'Sätt dig på en bänk med ryggstöd uppfällt i 90 grader och håll en hantel i varje hand i axelhöjd.',
+            'Vinkla armbågarna cirka 30 grader framåt från kroppen och spänn bålen.',
+            'Pressa hantlarna kontrollerat uppåt i en mjuk båge tills armarna är nästan raka ovanför huvudet utan att slå ihop hantlarna.',
+            'Sänk hantlarna långsamt och kontrollerat tillbaka till startläget i axelhöjd.'
+          ],
+          instructions: [
+            'Sätt dig på en bänk med ryggstöd uppfällt i 90 grader och håll en hantel i varje hand i axelhöjd.',
+            'Vinkla armbågarna cirka 30 grader framåt från kroppen och spänn bålen.',
+            'Pressa hantlarna kontrollerat uppåt i en mjuk båge tills armarna är nästan raka ovanför huvudet utan att slå ihop hantlarna.',
+            'Sänk hantlarna långsamt och kontrollerat tillbaka till startläget i axelhöjd.'
+          ],
+          tips_en: [
+            'Sänk axlarna: Undvik att dra upp axlarna mot öronen. Håll dem nere och "stolta" under hela pressen.',
+            'Vinkla in armbågarna: Ha inte armbågarna peka rakt ut åt sidorna (i 180 grader). Vinkla dem ca 30 grader framåt för att skona axelleden och få bättre kraft.',
+            'Pressa ihop: Tänk att hantlarna ska mötas i en båge ovanför huvudet, men utan att de slår ihop.'
+          ],
+          note: 'Dumbbell Seated Shoulder Press (Sittande hantelpress) är en av de mest grundläggande och effektiva övningarna för att bygga styrka och volym i axlarna. Att sitta ner ger mer stabilitet, vilket gör att du kan fokusera helt på att pressa med musklerna.'
+        },
         { id: 'delts/lever-military-press', name_en: 'Lever Military Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/lever-military-press.gif' },
         { id: 'delts/band-standing-rear-delt-row', name_en: 'Band Standing Rear Delt Row', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/band-standing-rear-delt-row.gif' },
         { id: 'delts/kettlebell-lateral-raise', name_en: 'Kettlebell Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
@@ -752,7 +785,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           isSmithSeatedShoulderPress: ex.isSmithSeatedShoulderPress,
           isArnoldPress: ex.isArnoldPress,
           isOneArmShoulderPress: ex.isOneArmShoulderPress,
-          isPoliquinLateralRaise: ex.isPoliquinLateralRaise
+          isPoliquinLateralRaise: ex.isPoliquinLateralRaise,
+          isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress
         };
       });
 
@@ -3357,7 +3391,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3380,6 +3414,54 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isDumbbellSeatedShoulderPress || selectedEx.name_en === 'Dumbbell Seated Shoulder Press' || (selectedEx.name?.includes('Sittande hantelpress') && !selectedEx.name?.includes('enarmad'))) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Dumbbell Seated Shoulder Press (Sittande hantelpress) är en av de mest grundläggande och effektiva övningarna för att bygga styrka och volym i axlarna. Att sitta ner ger mer stabilitet, vilket gör att du kan fokusera helt på att pressa med musklerna.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Främre axeln (Anterior Deltoid):</strong> Den muskel som gör grovjobbet i pressen.</li>
+                    <li><strong>Mellersta axeln (Lateral Deltoid):</strong> Aktiveras för att stabilisera och hjälpa till att lyfta vikten utåt/uppåt.</li>
+                    <li><strong>Triceps Brachii:</strong> Musklerna på baksidan av överarmen som sträcker ut armbågen.</li>
+                    <li><strong>Övre bröstmuskulaturen:</strong> Hjälper till i den nedre delen av rörelsen.</li>
+                    <li><strong>Trapezius & Serratus Anterior:</strong> Stabiliserar skulderbladen så att axelleden kan röra sig säkert.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom pressrörelsen uppåt.</li>
+                    <li><strong>Armbågsleden:</strong> Genom uträtning (extension).</li>
+                    <li><strong>Skulderbladet:</strong> Roterar uppåt för att ge plats åt armrörelsen.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Sänk axlarna:</strong> Undvik att dra upp axlarna mot öronen. Håll dem nere och "stolta" under hela pressen.</li>
+                    <li><strong>Vinkla in armbågarna:</strong> Ha inte armbågarna peka rakt ut åt sidorna (i 180 grader). Vinkla dem ca 30 grader framåt för att skona axelleden och få bättre kraft.</li>
+                    <li><strong>Pressa ihop:</strong> Tänk att hantlarna ska mötas i en båge ovanför huvudet, men utan att de slår ihop.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isPoliquinLateralRaise || selectedEx.name_en === 'Dumbbell Poliquin Lateral Raise' || selectedEx.name?.includes('Poliquin Lateral Raise')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
