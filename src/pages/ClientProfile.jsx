@@ -626,7 +626,7 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           rest: '50 sek',
           gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-one-arm-shoulder-press.gif',
           isOneArmShoulderPress: true,
-          youtubeUrl: 'https://youtube.com/shorts/Kl3LEzQ5Zqs?si=GnQaOPMmZ6-UAo4s',
+          youtubeUrl: 'https://youtu.be/_KZcLQlkTyU?si=Ef62bz06GlUO9rBi',
           instructions_en: [
             'Sätt dig på en bänk med ryggstöd och håll en hantel i ena handen i axelhöjd med handflatan vänd framåt.',
             'Håll den lediga handen på låret eller ta tag i kanten på sätets sida för extra stabilitet.',
@@ -660,7 +660,7 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           rest: '50 sek',
           gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif',
           isPoliquinLateralRaise: true,
-          youtubeUrl: 'https://youtube.com/shorts/3VzFhFq1x8E',
+          youtubeUrl: 'https://youtube.com/shorts/Kl3LEzQ5Zqs?si=dxylNsoR_2xrDHI0',
           instructions_en: [
             'Stå rakt med en hantel i varje hand och böj armbågarna i 90 graders vinkel.',
             'Lyft armbågarna utåt sidorna tills överarmarna är parallella med golvet.',
