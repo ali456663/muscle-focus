@@ -719,7 +719,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           ],
           note: 'Lever Military Press (sittande axelpress i maskin) är en mycket effektiv övning för att bygga styrka och massa i axlarna med maximal kontroll.'
         },
-        { id: 'delts/band-standing-rear-delt-row', name_en: 'Band Standing Rear Delt Row', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/band-standing-rear-delt-row.gif' },
+        {
+          id: 'delts/band-standing-rear-delt-row',
+          name_en: 'Band Standing Rear Delt Row',
+          name_es: 'Remo de Deltoides Posteriores De Pie con Banda',
+          name: 'Band Standing Rear Delt Row (Stående rodd för baksida axlar med gummiband)',
+          equipment: 'band',
+          body_part: 'shoulders',
+          primary_muscles: ['posterior_deltoid'],
+          secondary_muscles: ['rhomboids', 'trapezius', 'infraspinatus', 'teres_minor', 'biceps_brachii'],
+          sets: 3,
+          reps: '8-10',
+          rest: '45 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/band-standing-rear-delt-row.gif',
+          isBandRearDeltRow: true,
+          youtubeUrl: 'https://youtube.com/shorts/WcXfHh28KGU?si=EMEykLiNENhraBLa',
+          instructions_en: [
+            'Fäst gummibandet i stolphöjd eller håll det sträckt framför dig i brösthöjd.',
+            'Stå stadigt med fötterna axelbrett isär, spänn bålen och håll armarna sträckta framåt med höga armbågar.',
+            'Dra bandet mot ansiktet eller övre bröstet genom att föra armbågarna rakt utåt sidorna och klämma ihop skulderbladen i toppläget.',
+            'Sänk/sträck ut armarna kontrollerat tillbaka till startläget utan att gunga med överkroppen.'
+          ],
+          instructions: [
+            'Fäst gummibandet i stolphöjd eller håll det sträckt framför dig i brösthöjd.',
+            'Stå stadigt med fötterna axelbrett isär, spänn bålen och håll armarna sträckta framåt med höga armbågar.',
+            'Dra bandet mot ansiktet eller övre bröstet genom att föra armbågarna rakt utåt sidorna och klämma ihop skulderbladen i toppläget.',
+            'Sänk/sträck ut armarna kontrollerat tillbaka till startläget utan att gunga med överkroppen.'
+          ],
+          tips_en: [
+            'Höga armbågar: Dra bandet mot ansiktet eller övre delen av bröstet. Armbågarna ska peka rakt ut åt sidorna, inte neråt.',
+            'Kläm ihop: Tänk att du ska klämma ihop en penna mellan skulderbladen i det bakersta läget.',
+            'Stilla kropp: Undvik att gunga med överkroppen för att få fart. Rörelsen ska vara kontrollerad och strikt.'
+          ],
+          note: 'Band Standing Rear Delt Row (Stående rodd för baksida axlar med gummiband) är en av de bästa övningarna för att förbättra hållningen och stärka den ofta glömda baksidan av axeln.'
+        },
         { id: 'delts/kettlebell-lateral-raise', name_en: 'Kettlebell Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
         { id: 'delts/cable-seated-rear-lateral-raise', name_en: 'Cable Seated Rear Lateral Raise', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/cable-seated-rear-lateral-raise.gif' },
         {
@@ -791,7 +824,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           isOneArmShoulderPress: ex.isOneArmShoulderPress,
           isPoliquinLateralRaise: ex.isPoliquinLateralRaise,
           isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress,
-          isLeverMilitaryPress: ex.isLeverMilitaryPress
+          isLeverMilitaryPress: ex.isLeverMilitaryPress,
+          isBandRearDeltRow: ex.isBandRearDeltRow
         };
       });
 

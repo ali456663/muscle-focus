@@ -748,7 +748,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           ],
           note: 'Lever Military Press (sittande axelpress i maskin) är en mycket effektiv övning för att bygga styrka och massa i axlarna med maximal kontroll.'
         },
-        { id: 'delts/band-standing-rear-delt-row', name_en: 'Band Standing Rear Delt Row', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/band-standing-rear-delt-row.gif' },
+        {
+          id: 'delts/band-standing-rear-delt-row',
+          name_en: 'Band Standing Rear Delt Row',
+          name_es: 'Remo de Deltoides Posteriores De Pie con Banda',
+          name: 'Band Standing Rear Delt Row (Stående rodd för baksida axlar med gummiband)',
+          equipment: 'band',
+          body_part: 'shoulders',
+          primary_muscles: ['posterior_deltoid'],
+          secondary_muscles: ['rhomboids', 'trapezius', 'infraspinatus', 'teres_minor', 'biceps_brachii'],
+          sets: 3,
+          reps: '8-10',
+          rest: '45 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/band-standing-rear-delt-row.gif',
+          isBandRearDeltRow: true,
+          youtubeUrl: 'https://youtube.com/shorts/WcXfHh28KGU?si=EMEykLiNENhraBLa',
+          instructions_en: [
+            'Fäst gummibandet i stolphöjd eller håll det sträckt framför dig i brösthöjd.',
+            'Stå stadigt med fötterna axelbrett isär, spänn bålen och håll armarna sträckta framåt med höga armbågar.',
+            'Dra bandet mot ansiktet eller övre bröstet genom att föra armbågarna rakt utåt sidorna och klämma ihop skulderbladen i toppläget.',
+            'Sänk/sträck ut armarna kontrollerat tillbaka till startläget utan att gunga med överkroppen.'
+          ],
+          instructions: [
+            'Fäst gummibandet i stolphöjd eller håll det sträckt framför dig i brösthöjd.',
+            'Stå stadigt med fötterna axelbrett isär, spänn bålen och håll armarna sträckta framåt med höga armbågar.',
+            'Dra bandet mot ansiktet eller övre bröstet genom att föra armbågarna rakt utåt sidorna och klämma ihop skulderbladen i toppläget.',
+            'Sänk/sträck ut armarna kontrollerat tillbaka till startläget utan att gunga med överkroppen.'
+          ],
+          tips_en: [
+            'Höga armbågar: Dra bandet mot ansiktet eller övre delen av bröstet. Armbågarna ska peka rakt ut åt sidorna, inte neråt.',
+            'Kläm ihop: Tänk att du ska klämma ihop en penna mellan skulderbladen i det bakersta läget.',
+            'Stilla kropp: Undvik att gunga med överkroppen för att få fart. Rörelsen ska vara kontrollerad och strikt.'
+          ],
+          note: 'Band Standing Rear Delt Row (Stående rodd för baksida axlar med gummiband) är en av de bästa övningarna för att förbättra hållningen och stärka den ofta glömda baksidan av axeln.'
+        },
         { id: 'delts/kettlebell-lateral-raise', name_en: 'Kettlebell Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
         { id: 'delts/cable-seated-rear-lateral-raise', name_en: 'Cable Seated Rear Lateral Raise', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/cable-seated-rear-lateral-raise.gif' },
         {
@@ -820,7 +853,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           isOneArmShoulderPress: ex.isOneArmShoulderPress,
           isPoliquinLateralRaise: ex.isPoliquinLateralRaise,
           isDumbbellSeatedShoulderPress: ex.isDumbbellSeatedShoulderPress,
-          isLeverMilitaryPress: ex.isLeverMilitaryPress
+          isLeverMilitaryPress: ex.isLeverMilitaryPress,
+          isBandRearDeltRow: ex.isBandRearDeltRow
         };
       });
 
@@ -3425,7 +3459,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3450,6 +3484,53 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isBandRearDeltRow || selectedEx.name_en === 'Band Standing Rear Delt Row' || selectedEx.name?.includes('baksida axlar med gummiband')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Band Standing Rear Delt Row (Stående rodd för baksida axlar med gummiband) är en av de bästa övningarna för att förbättra hållningen och stärka den ofta glömda baksidan av axeln.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Baksida axlar (Posterior Deltoid):</strong> Detta är huvudmålet. Denna lilla muskel ger axeln ett komplett, välformat utseende från sidan och bakifrån.</li>
+                    <li><strong>Övre rygg (Rombuider & Mellersta Trapezius):</strong> Musklerna mellan skulderbladen som hjälper till att dra ihop ryggen.</li>
+                    <li><strong>Rotatorkuffen:</strong> Små stabiliserande muskler som är avgörande för axelhälsa.</li>
+                    <li><strong>Biceps:</strong> Assisterar något när du böjer armarna.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Genom en horisontell rörelse bakåt (horisontell abduktion).</li>
+                    <li><strong>Skulderbladen:</strong> Som dras ihop mot ryggraden (retraktion).</li>
+                    <li><strong>Armbågsleden:</strong> Genom en lätt böjning (flexion).</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Höga armbågar:</strong> Dra bandet mot ansiktet eller övre delen av bröstet. Armbågarna ska peka rakt ut åt sidorna, inte neråt.</li>
+                    <li><strong>Kläm ihop:</strong> Tänk att du ska klämma ihop en penna mellan skulderbladen i det bakersta läget.</li>
+                    <li><strong>Stilla kropp:</strong> Undvik att gunga med överkroppen för att få fart. Rörelsen ska vara kontrollerad och strikt.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isLeverMilitaryPress || selectedEx.name_en === 'Lever Military Press' || selectedEx.name?.includes('axelpress i maskin')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
