@@ -3528,7 +3528,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3556,6 +3556,51 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isRopeTricepsPushdown || selectedEx.name_en === 'Rope Triceps Pushdown' || selectedEx.name?.includes('Tricepspress med rep')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Rope Triceps Pushdown (Tricepspress med rep) är en av de absolut bästa övningarna för att isolera baksidan av överarmen och få en maximal muskelkontakt.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Triceps Brachii (Huvudmål):</strong> Övningen tränar alla tre huvuden av triceps, men repet är särskilt effektivt för att pricka det laterala (yttre) huvudet, vilket ger den klassiska "hästsko-formen" på armen.</li>
+                    <li><strong>Anconeus:</strong> Den lilla muskeln vid armbågen som hjälper till vid uträtning.</li>
+                    <li><strong>Core:</strong> Magmusklerna jobbar statiskt för att hålla kroppen stabil så att du inte tippar framåt mot kabelmaskinen.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Armbågsleden:</strong> Detta är en ren isolationsövning där rörelsen sker genom extension (uträtning) av armbågen.</li>
+                    <li><strong>Axelleden:</strong> Fungerar som stabilisator. Axlarna ska hållas fixerade och nere för att isolera triceps helt.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Lås armbågarna:</strong> De ska vara som fastlimmade vid sidorna. Om de rör sig fram och tillbaka tappar du kontakten med triceps.</li>
+                    <li><strong>Dra isär i botten:</strong> Tänk att du ska försöka dra isär repets ändar mot dina fickor i det nedersta läget.</li>
+                    <li><strong>Stolt bröstkorg:</strong> Stå stadigt med sänkta axlar för att undvika att nacken tar över.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isCableSeatedRearLateral || selectedEx.name_en === 'Cable Seated Rear Lateral Raise' || selectedEx.name?.includes('kabellyft för baksida axlar')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',

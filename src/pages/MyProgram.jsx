@@ -933,71 +933,53 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
         tSets1 = 4; tReps1 = '10-14'; tRest = '1-1:15 min'; tWeight = 'Tung vikt'; tSets2 = 4; tReps2 = '12-14';
       }
 
-      const ropeTricepsPushdownEx = {
-        id: 'triceps/rope-pushdown',
-        name_en: 'Rope Triceps Pushdown',
-        name_es: 'Tríceps Polea Alta con Soga',
-        name_fa: 'پشت بازو سیم‌کش طناب',
-        name: 'Rope Triceps Pushdown',
-        equipment: 'cable',
-        body_part: 'arms',
-        primary_muscles: ['triceps'],
-        images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/rope-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/rope-pushdown.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/rope-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/rope-pushdown.gif' }
+    const ropeTricepsPushdownEx = {
+      id: 'triceps/cable-pushdown-with-rope-attachment',
+      name_en: 'Rope Triceps Pushdown',
+      name_es: 'Pushdown de Tríceps con Cuerda',
+      name_fa: 'پشت بازو سیم‌کش با طناب',
+      name: 'Rope Triceps Pushdown (Tricepspress med rep)',
+      equipment: 'kabel / rep',
+      body_part: 'arms',
+      primary_muscles: ['triceps'],
+      secondary_muscles: ['anconeus', 'rectus_abdominis'],
+      sets: 3,
+      reps: '8-10',
+      rest: '45 sek',
+      gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown-with-rope-attachment.gif',
+      images: {
+        classic: {
+          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown-with-rope-attachment.gif',
+          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown-with-rope-attachment.gif'
         },
-        instructions_en: [
-          'Fäst ett rep i det övre fästet på en kabelmaskin.',
-          'Greppa handtaget och håll armbågarna tätt intill kroppen, böjda i ca 90 grader.',
-          'Pressa ner handtaget genom att sträcka ut armarna helt tills de är raka.',
-          'Dra ändarna något utåt i bottenläget för extra spänning och håll emot på vägen upp.'
-        ],
-        instructions: [
-          'Fäst ett rep i det övre fästet på en kabelmaskin.',
-          'Greppa handtaget och håll armbågarna tätt intill kroppen, böjda i ca 90 grader.',
-          'Pressa ner handtaget genom att sträcka ut armarna helt tills de är raka.',
-          'Dra ändarna något utåt i bottenläget för extra spänning och håll emot på vägen upp.'
-        ],
-        youtubeUrl: 'https://youtu.be/mr5Jgz67SX8?si=N-z04s9p2w1X46g_',
-        isOneArmExtension: false,
-        rest: tRest,
-        targetWeight: tWeight,
-        note: 'Fokus på kontakt och pressa ändarna utåt i botten för maximal triceps-spänning.'
-      };
+        flat: {
+          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown-with-rope-attachment.gif',
+          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown-with-rope-attachment.gif'
+        }
+      },
+      isRopeTricepsPushdown: true,
+      youtubeUrl: 'https://youtube.com/shorts/mr5Jgz67SX8?si=OMdBPKhsEhVXUWbk',
+      instructions_en: [
+        'Stå stadigt framför kabelmaskinen med fästet högt och greppa repet med handflatorna vända mot varandra.',
+        'Fixera armbågarna tätt intill sidorna av kroppen och spänn bålen.',
+        'Pressa repet nedåt tills armarna är helt utsträckta och dra isär repets ändar utåt sidorna i det nedersta läget.',
+        'Släpp kontrollerat tillbaka upp till brösthöjd utan att låta armbågarna rör sig framåt.'
+      ],
+      instructions: [
+        'Stå stadigt framför kabelmaskinen med fästet högt och greppa repet med handflatorna vända mot varandra.',
+        'Fixera armbågarna tätt intill sidorna av kroppen och spänn bålen.',
+        'Pressa repet nedåt tills armarna är helt utsträckta och dra isär repets ändar utåt sidorna i det nedersta läget.',
+        'Släpp kontrollerat tillbaka upp till brösthöjd utan att låta armbågarna rör sig framåt.'
+      ],
+      tips_en: [
+        'Lås armbågarna: De ska vara som fastlimmade vid sidorna. Om de rör sig fram och tillbaka tappar du kontakten med triceps.',
+        'Dra isär i botten: Tänk att du ska försöka dra isär repets ändar mot dina fickor i det nedersta läget.',
+        'Stolt bröstkorg: Stå stadigt med sänkta axlar för att undvika att nacken tar över.'
+      ],
+      note: 'Rope Triceps Pushdown (Tricepspress med rep) är en av de absolut bästa övningarna för att isolera baksidan av överarmen och få en maximal muskelkontakt.'
+    };
 
-      const oneArmTricepsExtensionEx = {
-        id: 'triceps/cable-one-arm-extension',
-        name_en: 'Cable One Arm Triceps Extension',
-        name_es: 'Extensión de Tríceps a Una Mano con Polea',
-        name_fa: 'پشت بازو سیم‌کش تک دست',
-        name: 'Cable One Arm Triceps Extension',
-        equipment: 'cable',
-        body_part: 'arms',
-        primary_muscles: ['triceps'],
-        images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-extension.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-extension.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-extension.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-extension.gif' }
-        },
-        instructions_en: [
-          'Stå med sidan mot kabelmaskinen med det övre fästet monterat.',
-          'Greppa handtaget med en hand och håll armbågen tätt intill sidan.',
-          'Pressa ner handtaget tills armen är helt utsträckt.',
-          'Släpp långsamt upp vikten till startpositionen under kontroll.'
-        ],
-        instructions: [
-          'Stå med sidan mot kabelmaskinen med det övre fästet monterat.',
-          'Greppa handtaget med en hand och håll armbågen tätt intill sidan.',
-          'Pressa ner handtaget tills armen är helt utsträckt.',
-          'Släpp långsamt upp vikten till startpositionen under kontroll.'
-        ],
-        youtubeUrl: 'https://youtu.be/GgCX9ccl3EE?si=7o9u5b3t_eR0r6wG',
-        isOneArmExtension: true,
-        rest: tRest,
-        targetWeight: tWeight,
-        note: 'Enarmad övning för att jämna ut styrka och isolera triceps helt.'
-      };
-
-      const tricepsPushdownEx = {
+const tricepsPushdownEx = {
         id: 'triceps/reverse-grip-pushdown',
         name_en: 'Cable Reverse-grip Pushdown',
         name_es: 'Tríceps Polea Alta con Agarre Invertido',
