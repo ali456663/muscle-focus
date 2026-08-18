@@ -617,7 +617,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           ],
           note: 'Dumbbell Seated One Arm Shoulder Press (Sittande enarmad hantelpress) är en unilateral variant av axelpress som ger extra fokus på stabilitet och muskelbalans.'
         },
-        { id: 'delts/dumbbell-lateral-raise', name_en: 'Dumbbell Poliquin Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
+        {
+          id: 'delts/dumbbell-lateral-raise',
+          name_en: 'Dumbbell Poliquin Lateral Raise',
+          name_es: 'Elevaciones Laterales Poliquin',
+          name: 'Dumbbell Poliquin Lateral Raise (Poliquin sidolyft med hantlar)',
+          equipment: 'dumbbell',
+          body_part: 'shoulders',
+          primary_muscles: ['lateral_deltoid'],
+          secondary_muscles: ['anterior_deltoid', 'posterior_deltoid', 'trapezius', 'supraspinatus'],
+          sets: 3,
+          reps: '10-12',
+          rest: '50 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif',
+          isPoliquinLateralRaise: true,
+          youtubeUrl: 'https://youtube.com/shorts/3VzFhFq1x8E',
+          instructions_en: [
+            'Stå rakt med en hantel i varje hand och böj armbågarna i 90 graders vinkel.',
+            'Lyft armbågarna utåt sidorna tills överarmarna är parallella med golvet.',
+            'Rätta ut armarna i toppläget för att maximera spänningen i utsida axel.',
+            'Sänk hantlarna långsamt och kontrollerat tillbaka till startpositionen.'
+          ],
+          instructions: [
+            'Stå rakt med en hantel i varje hand och böj armbågarna i 90 graders vinkel.',
+            'Lyft armbågarna utåt sidorna tills överarmarna är parallella med golvet.',
+            'Rätta ut armarna i toppläget för att maximera spänningen i utsida axel.',
+            'Sänk hantlarna långsamt och kontrollerat tillbaka till startpositionen.'
+          ],
+          tips_en: [
+            'Böj armbågarna: Starta med armbågarna böjda i 90 grader för att lyfta tyngre vikt med mindre hävarm.',
+            'Sträck ut i toppläget: Rätta ut armarna i toppläget och sänk hantlarna långsamt och kontrollerat på vägen ner.',
+            'Kontrollera vikten: Undvik att gunga upp vikten med höften.'
+          ],
+          note: 'Dumbbell Poliquin Lateral Raise är en effektiv variant av sidolyft som utvecklades av tränaren Charles Poliquin för att bygga bredare axlar med mer vikt.'
+        },
         { id: 'delts/dumbbell-seated-shoulder-press', name_en: 'Dumbbell Seated Shoulder Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-seated-shoulder-press.gif' },
         { id: 'delts/lever-military-press', name_en: 'Lever Military Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/lever-military-press.gif' },
         { id: 'delts/band-standing-rear-delt-row', name_en: 'Band Standing Rear Delt Row', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/band-standing-rear-delt-row.gif' },
@@ -689,7 +722,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           note: ex.note || original.note || '',
           isSmithSeatedShoulderPress: ex.isSmithSeatedShoulderPress,
           isArnoldPress: ex.isArnoldPress,
-          isOneArmShoulderPress: ex.isOneArmShoulderPress
+          isOneArmShoulderPress: ex.isOneArmShoulderPress,
+          isPoliquinLateralRaise: ex.isPoliquinLateralRaise
         };
       });
 

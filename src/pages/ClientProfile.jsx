@@ -646,7 +646,40 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           ],
           note: 'Dumbbell Seated One Arm Shoulder Press (Sittande enarmad hantelpress) är en unilateral variant av axelpress som ger extra fokus på stabilitet och muskelbalans.'
         },
-        { id: 'delts/dumbbell-lateral-raise', name_en: 'Dumbbell Poliquin Lateral Raise', sets: 3, reps: '10-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif' },
+        {
+          id: 'delts/dumbbell-lateral-raise',
+          name_en: 'Dumbbell Poliquin Lateral Raise',
+          name_es: 'Elevaciones Laterales Poliquin',
+          name: 'Dumbbell Poliquin Lateral Raise (Poliquin sidolyft med hantlar)',
+          equipment: 'dumbbell',
+          body_part: 'shoulders',
+          primary_muscles: ['lateral_deltoid'],
+          secondary_muscles: ['anterior_deltoid', 'posterior_deltoid', 'trapezius', 'supraspinatus'],
+          sets: 3,
+          reps: '10-12',
+          rest: '50 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-lateral-raise.gif',
+          isPoliquinLateralRaise: true,
+          youtubeUrl: 'https://youtube.com/shorts/3VzFhFq1x8E',
+          instructions_en: [
+            'Stå rakt med en hantel i varje hand och böj armbågarna i 90 graders vinkel.',
+            'Lyft armbågarna utåt sidorna tills överarmarna är parallella med golvet.',
+            'Rätta ut armarna i toppläget för att maximera spänningen i utsida axel.',
+            'Sänk hantlarna långsamt och kontrollerat tillbaka till startpositionen.'
+          ],
+          instructions: [
+            'Stå rakt med en hantel i varje hand och böj armbågarna i 90 graders vinkel.',
+            'Lyft armbågarna utåt sidorna tills överarmarna är parallella med golvet.',
+            'Rätta ut armarna i toppläget för att maximera spänningen i utsida axel.',
+            'Sänk hantlarna långsamt och kontrollerat tillbaka till startpositionen.'
+          ],
+          tips_en: [
+            'Böj armbågarna: Starta med armbågarna böjda i 90 grader för att lyfta tyngre vikt med mindre hävarm.',
+            'Sträck ut i toppläget: Rätta ut armarna i toppläget och sänk hantlarna långsamt och kontrollerat på vägen ner.',
+            'Kontrollera vikten: Undvik att gunga upp vikten med höften.'
+          ],
+          note: 'Dumbbell Poliquin Lateral Raise är en effektiv variant av sidolyft som utvecklades av tränaren Charles Poliquin för att bygga bredare axlar med mer vikt.'
+        },
         { id: 'delts/dumbbell-seated-shoulder-press', name_en: 'Dumbbell Seated Shoulder Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/dumbbell-seated-shoulder-press.gif' },
         { id: 'delts/lever-military-press', name_en: 'Lever Military Press', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/lever-military-press.gif' },
         { id: 'delts/band-standing-rear-delt-row', name_en: 'Band Standing Rear Delt Row', sets: 3, reps: '12-15', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/delts/band-standing-rear-delt-row.gif' },
@@ -718,7 +751,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           note: ex.note || original.note || '',
           isSmithSeatedShoulderPress: ex.isSmithSeatedShoulderPress,
           isArnoldPress: ex.isArnoldPress,
-          isOneArmShoulderPress: ex.isOneArmShoulderPress
+          isOneArmShoulderPress: ex.isOneArmShoulderPress,
+          isPoliquinLateralRaise: ex.isPoliquinLateralRaise
         };
       });
 
@@ -3323,7 +3357,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3345,6 +3379,51 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isPoliquinLateralRaise || selectedEx.name_en === 'Dumbbell Poliquin Lateral Raise' || selectedEx.name?.includes('Poliquin Lateral Raise')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Dumbbell Poliquin Lateral Raise är en effektiv variant av sidolyft som utvecklades av tränaren Charles Poliquin för att bygga bredare axlar med mer vikt.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Mellersta axeln (Lateral Deltoideus):</strong> Huvudfokus för att bygga breda och runda axlar.</li>
+                    <li><strong>Övre Trapezius & Supraspinatus:</strong> Assisterar vid lyftet och initierar rörelsen.</li>
+                    <li><strong>Baksida axel (Posterior Deltoid):</strong> Stabiliserar i toppläget.</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Axelleden:</strong> Abduktion (lyft utåt sidan).</li>
+                    <li><strong>Armbågsleden:</strong> Flexion och extension under rörelsen.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Böj armbågarna:</strong> Starta med armbågarna böjda i 90 grader för att lyfta tyngre vikt med mindre hävarm.</li>
+                    <li><strong>Sträck ut i toppläget:</strong> Rätta ut armarna i toppläget och sänk hantlarna långsamt och kontrollerat på vägen ner.</li>
+                    <li><strong>Kontrollera vikten:</strong> Undvik att gunga upp vikten med höften.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isOneArmShoulderPress || selectedEx.name_en === 'Dumbbell Seated One Arm Shoulder Press' || selectedEx.name?.includes('One Arm Shoulder Press') || selectedEx.name?.includes('enarmad hantelpress')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
