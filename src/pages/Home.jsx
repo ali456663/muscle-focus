@@ -34,7 +34,7 @@ function Home() {
                   overflow: 'hidden',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
                   boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-                  marginBottom: '28px',
+                  marginBottom: '14px',
                   cursor: 'pointer',
                   background: '#060b13'
                 }}
@@ -53,6 +53,30 @@ function Home() {
                   onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
                 />
                 
+                {/* Arbete pågår badge top right */}
+                <div 
+                  style={{
+                    position: 'absolute',
+                    top: '12px',
+                    right: '12px',
+                    backgroundColor: '#ffcc00',
+                    color: '#000000',
+                    padding: '4px 10px',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontWeight: '900',
+                    fontSize: '0.75rem',
+                    border: '2px solid #000000',
+                    zIndex: 2
+                  }}
+                >
+                  <img src="/arbete_pagar.png" alt="Arbete pågår" style={{ width: '20px', height: 'auto', display: 'block' }} />
+                  <span>ARBETE PÅGÅR</span>
+                </div>
+
                 {/* White Rounded Badge overlay positioned at the bottom */}
                 <div 
                   style={{
@@ -61,7 +85,7 @@ function Home() {
                     left: '50%',
                     transform: 'translateX(-50%)',
                     backgroundColor: '#ffffff',
-                    padding: '8px 24px',
+                    padding: '8px 20px',
                     borderRadius: '30px',
                     border: '3px solid #d4af37',
                     boxShadow: '0 4px 15px rgba(0,0,0,0.25)',
@@ -69,9 +93,11 @@ function Home() {
                     pointerEvents: 'none',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    gap: '8px'
                   }}
                 >
+                  <img src="/arbete_pagar.png" alt="Arbete pågår" style={{ width: '22px', height: 'auto', objectFit: 'contain' }} />
                   <span 
                     style={{
                       fontFamily: 'var(--font-heading), Impact, sans-serif',
@@ -82,10 +108,37 @@ function Home() {
                       textTransform: 'uppercase'
                     }}
                   >
-                    {language === 'en' ? 'Start your 2-week free trial today!' : 'Starta din 2-veckors gratis provperiod idag!'}
+                    Starta din 2- veckors gratis provperiod idag
                   </span>
                 </div>
               </Link>
+
+              {/* Arbete Pågår Alert Box under banner */}
+              <div 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  backgroundColor: 'rgba(255, 204, 0, 0.12)',
+                  border: '1.5px solid #ffcc00',
+                  borderRadius: '10px',
+                  padding: '10px 16px',
+                  marginBottom: '28px',
+                  maxWidth: '540px',
+                  width: '100%',
+                  textAlign: 'left'
+                }}
+              >
+                <img src="/arbete_pagar.png" alt="Arbete pågår" style={{ width: '38px', height: 'auto', flexShrink: 0 }} />
+                <div>
+                  <strong style={{ color: '#ffcc00', fontSize: '0.82rem', display: 'block', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    ⚠️ Arbete Pågår — Tjänsten Utvecklas
+                  </strong>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '0.78rem', lineHeight: 1.4, display: 'block' }}>
+                    Tjänsten för "Starta din 2- veckors gratis provperiod idag" färdigställs just nu.
+                  </span>
+                </div>
+              </div>
               <h1 className="hero-title text-gradient-neon">
                 {t('heroWelcome')}<span>{t('heroTitle')}</span>
               </h1>
