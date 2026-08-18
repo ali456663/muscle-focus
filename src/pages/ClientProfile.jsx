@@ -994,39 +994,53 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
         note: 'Fokus på kontakt och pressa ändarna utåt i botten för maximal triceps-spänning.'
       };
 
-      const oneArmTricepsExtensionEx = {
-        id: 'triceps/cable-one-arm-extension',
-        name_en: 'Cable One Arm Triceps Extension',
-        name_es: 'Extensión de Tríceps a Una Mano con Polea',
-        name_fa: 'پشت بازو سیم‌کش تک دست',
-        name: 'Cable One Arm Triceps Extension',
-        equipment: 'cable',
-        body_part: 'arms',
-        primary_muscles: ['triceps'],
-        images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-extension.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-extension.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-extension.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-extension.gif' }
+    const oneArmTricepsExtensionEx = {
+      id: 'triceps/cable-one-arm-tricep-pushdown',
+      name_en: 'Cable One Arm Tricep Pushdown',
+      name_es: 'Extensión de Tríceps a un Brazo en Polea',
+      name_fa: 'پشت بازو سیم‌کش تک دست',
+      name: 'Cable One Arm Tricep Pushdown (Enarmad tricepspress i kabel)',
+      equipment: 'kabel',
+      body_part: 'arms',
+      primary_muscles: ['triceps'],
+      secondary_muscles: ['anconeus', 'rectus_abdominis'],
+      sets: 3,
+      reps: '8-10',
+      rest: '45 sek',
+      gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif',
+      images: {
+        classic: {
+          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif',
+          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif'
         },
-        instructions_en: [
-          'Stå med sidan mot kabelmaskinen med det övre fästet monterat.',
-          'Greppa handtaget med en hand och håll armbågen tätt intill sidan.',
-          'Pressa ner handtaget tills armen är helt utsträckt.',
-          'Släpp långsamt upp vikten till startpositionen under kontroll.'
-        ],
-        instructions: [
-          'Stå med sidan mot kabelmaskinen med det övre fästet monterat.',
-          'Greppa handtaget med en hand och håll armbågen tätt intill sidan.',
-          'Pressa ner handtaget tills armen är helt utsträckt.',
-          'Släpp långsamt upp vikten till startpositionen under kontroll.'
-        ],
-        youtubeUrl: 'https://youtu.be/GgCX9ccl3EE?si=7o9u5b3t_eR0r6wG',
-        isOneArmExtension: true,
-        rest: tRest,
-        targetWeight: tWeight,
-        note: 'Enarmad övning för att jämna ut styrka och isolera triceps helt.'
-      };
+        flat: {
+          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif',
+          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif'
+        }
+      },
+      isCableOneArmTricepPushdown: true,
+      youtubeUrl: 'https://youtube.com/shorts/GgCX9ccl3EE?si=FGHix8jPtdjjMzC1',
+      instructions_en: [
+        'Stå framför kabelmaskinen och greppa enkelhandtaget med en hand, håll armbågen intill sidan.',
+        'Spänn bålen kraftfullt för att hålla överkroppen helt rak och stilla.',
+        'Pressa handtaget nedåt tills armen är helt utsträckt i bottenläget.',
+        'Släpp kontrollerat tillbaka upp till brösthöjd utan att överarmen rör sig framåt.'
+      ],
+      instructions: [
+        'Stå framför kabelmaskinen och greppa enkelhandtaget med en hand, håll armbågen intill sidan.',
+        'Spänn bålen kraftfullt för att hålla överkroppen helt rak och stilla.',
+        'Pressa handtaget nedåt tills armen är helt utsträckt i bottenläget.',
+        'Släpp kontrollerat tillbaka upp till brösthöjd utan att överarmen rör sig framåt.'
+      ],
+      tips_en: [
+        'Håll överarmen stilla: Tänk att din överarm är fastlimmad mot sidan av din kropp. Det är bara underarmen som ska röra sig.',
+        'Ingen rotation: Spänn magen ordentligt så att din överkropp inte vrider sig mot maskinen när det blir tungt.',
+        'Fullt utslag: Sträck ut armen helt i bottenläget och håll emot kontrollerat på vägen upp.'
+      ],
+      note: 'Här är en genomgång av Cable One Arm Tricep Pushdown (Enarmad tricepspress i kabel), baserat på din bild.'
+    };
 
-      const tricepsPushdownEx = {
+const tricepsPushdownEx = {
         id: 'triceps/reverse-grip-pushdown',
         name_en: 'Cable Reverse-grip Pushdown',
         name_es: 'Tríceps Polea Alta con Agarre Invertido',
@@ -3528,7 +3542,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3557,6 +3571,55 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isCableOneArmTricepPushdown || selectedEx.name_en === 'Cable One Arm Tricep Pushdown' || selectedEx.name?.includes('Enarmad tricepspress i kabel')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Här är en genomgång av Cable One Arm Tricep Pushdown (Enarmad tricepspress i kabel), baserat på din bild.
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Primary Muscles (Huvudmuskler):</strong> Triceps Brachii. Denna övning isolerar alla tre huvuden av triceps, men genom att köra en arm i taget är det ofta lättare att få extra kontakt med det laterala (yttre) huvudet.</li>
+                    <li><strong>Secondary Muscles (Sekundära muskler):</strong>
+                      <ul style={{ margin: '4px 0 0 0', paddingLeft: '18px' }}>
+                        <li><strong>Anconeus:</strong> Den lilla muskeln vid armbågen som hjälper till att sträcka ut leden.</li>
+                        <li><strong>Core (Bål):</strong> Eftersom belastningen sker på bara en sida av kroppen måste magmusklerna jobba hårt för att hålla överkroppen stabil och rak.</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    🦴 Vilka leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Armbågsleden:</strong> Detta är huvudleden som arbetar genom extension (uträtning av armen).</li>
+                    <li><strong>Axelleden:</strong> Fungerar som en statisk stabilisator. Axeln ska hållas helt stilla för att isolera triceps.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Håll överarmen stilla:</strong> Tänk att din överarm är fastlimmad mot sidan av din kropp. Det är bara underarmen som ska röra sig.</li>
+                    <li><strong>Ingen rotation:</strong> Spänn magen ordentligt så att din överkropp inte vrider sig mot maskinen när det blir tungt.</li>
+                    <li><strong>Fullt utslag:</strong> Sträck ut armen helt i bottenläget och håll emot kontrollerat på vägen upp.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isRopeTricepsPushdown || selectedEx.name_en === 'Rope Triceps Pushdown' || selectedEx.name?.includes('Tricepspress med rep')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',

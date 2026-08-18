@@ -1977,13 +1977,18 @@ const tricepsPushdownEx = {
 
     const oneArmTricepsExtensionEx = {
       id: 'triceps/cable-one-arm-tricep-pushdown',
-      name_en: 'Cable Standing One Arm Triceps Extension',
-      name_es: 'Extensión de Tríceps a un Brazo',
-      name_fa: 'پشت بازو سیم‌کش تک بازو',
-      name: 'Cable Standing One Arm Triceps Extension',
+      name_en: 'Cable One Arm Tricep Pushdown',
+      name_es: 'Extensión de Tríceps a un Brazo en Polea',
+      name_fa: 'پشت بازو سیم‌کش تک دست',
+      name: 'Cable One Arm Tricep Pushdown (Enarmad tricepspress i kabel)',
       equipment: 'kabel',
       body_part: 'arms',
       primary_muscles: ['triceps'],
+      secondary_muscles: ['anconeus', 'rectus_abdominis'],
+      sets: 3,
+      reps: '8-10',
+      rest: '45 sek',
+      gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif',
       images: {
         classic: {
           start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif',
@@ -1994,23 +1999,26 @@ const tricepsPushdownEx = {
           peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif'
         }
       },
+      isCableOneArmTricepPushdown: true,
+      youtubeUrl: 'https://youtube.com/shorts/GgCX9ccl3EE?si=FGHix8jPtdjjMzC1',
       instructions_en: [
-        'Stå med sidan eller ansiktet mot kabelmaskinen och håll handtaget med en hand.',
-        'Håll överarmen fixerad mot sidan av kroppen och armbågen böjd.',
-        'Pressa eller dra kabeln nedåt tills armen är helt utsträckt.',
-        'Släpp kontrollerat tillbaka under motstånd.'
+        'Stå framför kabelmaskinen och greppa enkelhandtaget med en hand, håll armbågen intill sidan.',
+        'Spänn bålen kraftfullt för att hålla överkroppen helt rak och stilla.',
+        'Pressa handtaget nedåt tills armen är helt utsträckt i bottenläget.',
+        'Släpp kontrollerat tillbaka upp till brösthöjd utan att överarmen rör sig framåt.'
       ],
       instructions: [
-        'Stå med sidan eller ansiktet mot kabelmaskinen och håll handtaget med en hand.',
-        'Håll överarmen fixerad mot sidan av kroppen och armbågen böjd.',
-        'Pressa eller dra kabeln nedåt tills armen är helt utsträckt.',
-        'Släpp kontrollerat tillbaka under motstånd.'
+        'Stå framför kabelmaskinen och greppa enkelhandtaget med en hand, håll armbågen intill sidan.',
+        'Spänn bålen kraftfullt för att hålla överkroppen helt rak och stilla.',
+        'Pressa handtaget nedåt tills armen är helt utsträckt i bottenläget.',
+        'Släpp kontrollerat tillbaka upp till brösthöjd utan att överarmen rör sig framåt.'
       ],
-      youtubeUrl: 'https://youtube.com/shorts/GgCX9ccl3EE?si=FGHix8jPtdjjMzC1',
-      isOneArmExtension: true,
-      rest: tRest,
-      targetWeight: tWeight,
-      note: 'Överarmen ska vara som fastgjuten i sidan. Det är bara underarmen som ska röra sig. Undvik att axeln åker upp mot örat.'
+      tips_en: [
+        'Håll överarmen stilla: Tänk att din överarm är fastlimmad mot sidan av din kropp. Det är bara underarmen som ska röra sig.',
+        'Ingen rotation: Spänn magen ordentligt så att din överkropp inte vrider sig mot maskinen när det blir tungt.',
+        'Fullt utslag: Sträck ut armen helt i bottenläget och håll emot kontrollerat på vägen upp.'
+      ],
+      note: 'Här är en genomgång av Cable One Arm Tricep Pushdown (Enarmad tricepspress i kabel), baserat på din bild.'
     };
 
     const classicTricepsPushdownEx = {
