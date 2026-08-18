@@ -2084,13 +2084,18 @@ const tricepsPushdownEx = {
 
     const classicTricepsPushdownEx = {
       id: 'triceps/cable-pushdown',
-      name_en: 'Cable Triceps Pushdown',
-      name_es: 'Pushdown de Tríceps con Barra',
-      name_fa: 'پشت بازو سیم‌کش با میله',
-      name: 'Cable Triceps Pushdown',
-      equipment: 'kabel',
+      name_en: 'Classic Cable Triceps Pushdown',
+      name_es: 'Pushdown de Tríceps con Barra/V-Bar',
+      name_fa: 'پشت بازو سیم‌کش کلاسیک',
+      name: 'Cable Triceps Pushdown (den klassiska varianten med stång eller V-stång)',
+      equipment: 'kabel / stång',
       body_part: 'arms',
       primary_muscles: ['triceps'],
+      secondary_muscles: ['anconeus', 'rectus_abdominis'],
+      sets: 3,
+      reps: '8-10',
+      rest: '50 sek',
+      gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown.gif',
       images: {
         classic: {
           start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown.gif',
@@ -2101,23 +2106,24 @@ const tricepsPushdownEx = {
           peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown.gif'
         }
       },
+      isStandardPushdown: true,
+      youtubeUrl: 'https://youtube.com/shorts/u6sqENBsXjg?si=vteGyrv1W9NkzQ-b',
       instructions_en: [
-        'Stå framför kabelmaskinen och greppa stången med ett överhandsgrepp.',
-        'Håll överarmarna fixerade vid sidorna.',
-        'Tryck stången kontrollerat hela vägen ner tills armarna är helt utsträckta.',
-        'Släpp långsamt tillbaka stången till startläge under konstant spänning.'
+        'Stå framför kabelmaskinen och greppa stången eller V-stången med ett överhandsgrepp i brösthöjd.',
+        'Fixera armbågarna tätt intill sidorna av kroppen som om de vore fastlimmade och spänn bålen.',
+        'Tryck stången kontrollerat hela vägen ner tills armarna är helt utsträckta i bottenläget.',
+        'Släpp långsamt tillbaka stången till startläge under konstant spänning utan att armbågarna rör sig framåt.'
       ],
       instructions: [
-        'Stå framför kabelmaskinen och greppa stången med ett överhandsgrepp.',
-        'Håll överarmarna fixerade vid sidorna.',
-        'Tryck stången kontrollerat hela vägen ner tills armarna är helt utsträckta.',
-        'Släpp långsamt tillbaka stången till startläge under konstant spänning.'
+        'Stå framför kabelmaskinen och greppa stången eller V-stången med ett överhandsgrepp i brösthöjd.',
+        'Fixera armbågarna tätt intill sidorna av kroppen som om de vore fastlimmade och spänn bålen.',
+        'Tryck stången kontrollerat hela vägen ner tills armarna är helt utsträckta i bottenläget.',
+        'Släpp långsamt tillbaka stången till startläge under konstant spänning utan att armbågarna rör sig framåt.'
       ],
-      youtubeUrl: 'https://youtu.be/WJD82PDO4XI?si=Iy4yWLMz2-ufpYrK',
-      isStandardPushdown: true,
-      rest: tRest,
-      targetWeight: tWeight,
-      note: 'Möjliggör tyngre belastning för mekanisk spänning. Låt överkroppen vara stabil och tryck vikten kontrollerat hela vägen ner.'
+      tips_en: [
+        'Fixerade armbågar: Håll armbågarna fixerade vid sidorna som om de vore fastlimmade. Det är bara underarmarna som ska röra sig för att garantera att det är triceps som gör jobbet!'
+      ],
+      note: 'Här är en kort sammanfattning av Cable Triceps Pushdown (den klassiska varianten med stång eller V-stång).'
     };
 
     const techSummaryTricepsPushdownEx = {
@@ -3550,7 +3556,7 @@ function ClientProfile() {
             </div>
 
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isReverseGripPushdown && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isStandardPushdown && !selectedEx.isReverseGripPushdown && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 Tekniktips:
@@ -3581,6 +3587,39 @@ function ClientProfile() {
             
             
             
+            
+            {(selectedEx.isStandardPushdown || selectedEx.name_en === 'Classic Cable Triceps Pushdown' || selectedEx.name?.includes('klassiska varianten med stång')) && (
+              <div style={{
+                background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
+                border: '1px solid rgba(0, 242, 254, 0.25)', marginTop: '16px', fontSize: '0.82rem',
+                lineHeight: 1.5, color: 'var(--text-silver)'
+              }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', lineHeight: 1.5, color: 'var(--text-white)' }}>
+                  Här är en kort sammanfattning av Cable Triceps Pushdown (den klassiska varianten med stång eller V-stång):
+                </p>
+
+                <div style={{ marginBottom: '12px' }}>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    💪 Vilka muskler och leder tränas?
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Huvudmuskel:</strong> Triceps Brachii (hela baksidan av överarmen). Den fokuserar extra mycket på det laterala huvudet (utsidan), vilket ger armen den klassiska "hästsko-formen".</li>
+                    <li><strong>Sekundära muskler:</strong> Anconeus (vid armbågen) och Core (för att hålla kroppen stabil).</li>
+                    <li><strong>Leder:</strong> Armbågsleden. Det är en ren isolationsövning (enledsövning) där rörelsen sker genom att du rätar ut armen (extension).</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
+                    ✨ Tekniktips till klienten
+                  </strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                    <li><strong>Fixerade armbågar:</strong> Håll armbågarna fixerade vid sidorna som om de vore fastlimmade. Det är bara underarmarna som ska röra sig för att garantera att det är triceps som gör jobbet!</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {(selectedEx.isReverseGripPushdown || selectedEx.name_en === 'Reverse Grip Triceps Pushdown' || selectedEx.name?.includes('Tricepspress med underhandsgrepp')) && (
               <div style={{
                 background: 'rgba(0,0,0,0.35)', padding: '16px', borderRadius: '12px',
