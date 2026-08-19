@@ -422,10 +422,146 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           ],
           note: 'Lever Lying Chest Press (här i en lutande variant, ofta kallad Incline Lever Press) är en maskinövning som fokuserar på överkroppens pressmuskulatur med hög stabilitet.'
         },
-        { id: 'pectorals/cable-middle-fly', name_en: 'Cable Middle Fly', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/cable-middle-fly.gif' },
-        { id: 'pectorals/dumbbell-fly', name_en: 'Dumbbell Fly', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/dumbbell-fly.gif' },
-        { id: 'pectorals/cable-low-fly', name_en: 'Cable Low Fly', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/cable-low-fly.gif' },
-        { id: 'pectorals/dumbbell-around-pullover', name_en: 'Dumbbell Flat Around the World', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/dumbbell-around-pullover.gif' }
+        {
+          id: 'pectorals/cable-middle-fly',
+          name_en: 'Cable Middle Fly',
+          name_es: 'Aperturas de Pecho Media en Polea',
+          name_fa: 'قفسه سینه سیم‌کش وسط',
+          name: 'Cable Middle Fly (Cable Cross-over i axelhöjd)',
+          equipment: 'cable',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'rectus_abdominis', 'biceps_brachii'],
+          sets: 3,
+          reps: '8-10',
+          rest: '40 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/cable-middle-fly.gif',
+          isCableMiddleFly: true,
+          youtubeUrl: 'https://youtu.be/M8RzNJYzTHk?si=AF8SeeXEDSoNhrwT',
+          instructions_en: [
+            'Ställ in kablarna i axelhöjd, greppa handtagen och ta ett kliv framåt i en split stance position.',
+            'Håll en stolt bröstkorg, dra ihop skulderbladen och spänn bålen.',
+            'För handtagen framåt i en kontrollerad bågrörelse i brösthöjd tills händerna möts framför kroppen.',
+            'Håll armbågarna fixerade i en lätt böjd vinkel och spänn bröstmusklerna kraftfullt i mötespunkten.'
+          ],
+          instructions: [
+            'Ställ in kablarna i axelhöjd, greppa handtagen och ta ett kliv framåt i en split stance position.',
+            'Håll en stolt bröstkorg, dra ihop skulderbladen och spänn bålen.',
+            'För handtagen framåt i en kontrollerad bågrörelse i brösthöjd tills händerna möts framför kroppen.',
+            'Håll armbågarna fixerade i en lätt böjd vinkel och spänn bröstmusklerna kraftfullt i mötespunkten.'
+          ],
+          tips_en: [
+            '"Krama ett träd": Håll armarna i en fast position som om du kramar en stor trädstam. Rörelsen ska inte vara en press (böja/sträcka armarna).',
+            'Stabilitet: Stå med en fot framför den andra (split stance) och luta dig aningen framåt för att stå stadigt.',
+            'Brösta upp dig: Håll en stolt bröstkorg och dra ihop skulderbladen för att skydda axlarna och låta bröstet jobba maximalt.'
+          ],
+          note: 'Cable Middle Fly (ibland kallat Cable Cross-over i axelhöjd) är en av de bästa isolationsövningarna för att forma och stärka bröstmuskulaturen. Genom att ha kablarna i axelhöjd fokuserar man maximalt på bröstets mellersta del.'
+        },
+        {
+          id: 'pectorals/dumbbell-fly',
+          name_en: 'Dumbbell Fly',
+          name_es: 'Aperturas con Mancuernas en Banco Plano',
+          name_fa: 'قفسه سینه دمبل',
+          name: 'Dumbbell Fly (Hantelflyes)',
+          equipment: 'dumbbell',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'serratus_anterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '40 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/dumbbell-fly.gif',
+          isDbFly: true,
+          youtubeUrl: 'https://youtube.com/shorts/rk8YayRoTRQ?si=ElOznSxQdivdDSq0',
+          instructions_en: [
+            'Ligg på en plan bänk med en hantel i varje hand rakt över bröstet och handflatorna mot varandra.',
+            'Fixera en lätt böjning i armbågarna och sänk hantlarna kontrollerat åt sidorna i en bred båge.',
+            'Stanna när du känner en skön stretch i bröstmuskulaturen utan att sänka händerna lägre än axelnivå.',
+            'Vänd rörelsen och för ihop hantlarna igen genom att krama ihop bröstmusklerna utan att låsa ut armbågarna.'
+          ],
+          instructions: [
+            'Ligg på en plan bänk med en hantel i varje hand rakt över bröstet och handflatorna mot varandra.',
+            'Fixera en lätt böjning i armbågarna och sänk hantlarna kontrollerat åt sidorna i en bred båge.',
+            'Stanna när du känner en skön stretch i bröstmuskulaturen utan att sänka händerna lägre än axelnivå.',
+            'Vänd rörelsen och för ihop hantlarna igen genom att krama ihop bröstmusklerna utan att låsa ut armbågarna.'
+          ],
+          tips_en: [
+            '"Krama ett träd": Tänk att du ska krama en stor trädstam. Håll armarna lätt böjda hela tiden.',
+            'Stoppa i tid: Sänk hantlarna kontrollerat tills du känner en bra stretch i bröstet, men gå inte så djupt att det gör ont i axlarna. Handen ska aldrig gå lägre än axelnivån.',
+            'Lätta vikter: Detta är inte en övning där man ska lyfta extremt tungt. Fokusera på kontakt och kontroll snarare än kilon på hantlarna.'
+          ],
+          note: 'Dumbbell Fly (Hantelflyes) är en av de mest klassiska isolationsövningarna för bröstet. Det är en övning som fokuserar på att sträcka ut och dra ihop bröstmuskulaturen utan att involvera triceps.'
+        },
+        {
+          id: 'pectorals/cable-low-fly',
+          name_en: 'Cable Low Fly',
+          name_es: 'Aperturas de Pecho Bajas en Polea',
+          name_fa: 'قفسه سینه سیم‌کش پایین به بالا',
+          name: 'Cable Low Fly (Kabeldrag underifrån)',
+          equipment: 'cable',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'serratus_anterior', 'rectus_abdominis'],
+          sets: 3,
+          reps: '8-10',
+          rest: '40 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/cable-low-fly.gif',
+          isCableLowFly: true,
+          youtubeUrl: 'https://youtu.be/KFl3Re5UbPo?si=2h16UJ5EAtVtIVc3',
+          instructions_en: [
+            'Ställ in kablarna längst ned i maskinen, greppa handtagen och ta ett kliv framåt i en split-stance position.',
+            'Håll en stolt bröstkorg, dra ihop skulderbladen och spänn bålen.',
+            'Gör en skopande rörelse med händerna nerifrån och uppåt/inåt mot mitten tills händerna möts i bröst- eller hakanivå.',
+            'Fixera armbågarna i en lätt böjning och håll emot kontrollerat på vägen tillbaka till utgångsläget.'
+          ],
+          instructions: [
+            'Ställ in kablarna längst ned i maskinen, greppa handtagen och ta ett kliv framåt i en split-stance position.',
+            'Håll en stolt bröstkorg, dra ihop skulderbladen och spänn bålen.',
+            'Gör en skopande rörelse med händerna nerifrån och uppåt/inåt mot mitten tills händerna möts i bröst- eller hakanivå.',
+            'Fixera armbågarna i en lätt böjning och håll emot kontrollerat på vägen tillbaka till utgångsläget.'
+          ],
+          tips_en: [
+            '"Skopa upp": Tänk att du gör en skopande rörelse med händerna nerifrån och upp mot hakan eller ansiktet.',
+            'Stilla armbågar: Fixera armbågarna i en lätt böjning. Det ska inte vara en pressrörelse där du böjer och sträcker på armarna.',
+            'Stabilitet: Stå stadigt med en fot framför den andra (split stance) och håll bröstet högt under hela övningen.'
+          ],
+          note: 'Cable Low Fly (Kabeldrag underifrån) lägger huvudfokus på den övre delen av bröstmuskulaturen (vid nyckelbenen) genom att dra kablarna nerifrån och uppåt.'
+        },
+        {
+          id: 'pectorals/dumbbell-around-pullover',
+          name_en: 'Dumbbell Flat Around the World',
+          name_es: 'Alrededor del Mundo con Mancuernas en Banco Plano',
+          name_fa: 'دور دنیا با دمبل روی نیمکت صاف',
+          name: 'Dumbbell Flat Around the World',
+          equipment: 'dumbbell',
+          body_part: 'chest',
+          primary_muscles: ['pectoralis_major'],
+          secondary_muscles: ['anterior_deltoid', 'serratus_anterior', 'latissimus_dorsi'],
+          sets: 3,
+          reps: '8-10',
+          rest: '55 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/dumbbell-around-pullover.gif',
+          isDbAroundWorld: true,
+          youtubeUrl: 'https://youtu.be/FmPhr_yDk84?si=2jHQKDmDXORC0Nel',
+          instructions_en: [
+            'Ligg platt på rygg på en bänk med en lätt hantel i varje hand vilande mot låren och handflatorna uppåt mot taket.',
+            'Håll en lätt böjning i armbågarna och för hantlarna utåt i en halv-cirkelformad båge längs sidorna.',
+            'Fortsätt cirkelrörelsen tills hantlarna möts ovanför huvudet med handflatorna fortfarande mot taket.',
+            'Vänd rörelsen och för sakta tillbaka hantlarna längs samma cirkulära bana ner till låren.'
+          ],
+          instructions: [
+            'Ligg platt på rygg på en bänk med en lätt hantel i varje hand vilande mot låren och handflatorna uppåt mot taket.',
+            'Håll en lätt böjning i armbågarna och för hantlarna utåt i en halv-cirkelformad båge längs sidorna.',
+            'Fortsätt cirkelrörelsen tills hantlarna möts ovanför huvudet med handflatorna fortfarande mot taket.',
+            'Vänd rörelsen och för sakta tillbaka hantlarna längs samma cirkulära bana ner till låren.'
+          ],
+          tips_en: [
+            'Lätta vikter: Detta är en teknisk övning. Börja med mycket lätta hantlar för att skydda axelleden.',
+            'Handflatorna uppåt: Håll handflatorna vända mot taket under hela rörelsen (från höfterna till ovanför huvudet).',
+            'Rita en cirkel: Tänk att du ska rita en så stor cirkel som möjligt med hantlarna. Armarna ska vara lätt böjda men helt fixerade.'
+          ],
+          note: 'Dumbbell Flat Around the World är en unik isolationsövning för bröst och axlar som fokuserar på muskelkontakt och stabilitet genom ett extremt stort rörelseomfång.'
+        }
       ];
 
       const mapped = chestExercises.map(ex => {
@@ -456,6 +592,10 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           isLeverChestPress: ex.isLeverChestPress,
           isElevatedPushUp: ex.isElevatedPushUp,
           isInclineLeverPress: ex.isInclineLeverPress,
+          isCableMiddleFly: ex.isCableMiddleFly,
+          isDbFly: ex.isDbFly,
+          isCableLowFly: ex.isCableLowFly,
+          isDbAroundWorld: ex.isDbAroundWorld,
           equipment: original.equipment || (ex.id.includes('barbell') ? 'barbell' : ex.id.includes('dumbbell') ? 'dumbbell' : ex.id.includes('cable') ? 'cable' : 'none'),
           sets: ex.sets,
           reps: ex.reps,
