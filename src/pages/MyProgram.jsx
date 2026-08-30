@@ -1031,7 +1031,147 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
         { id: 'side-split-squat', name_en: 'Side Split Squat', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/quads/barbell-side-split-squat.gif' },
         { id: 'step-up', name_en: 'Step-up', sets: 3, reps: '8-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/dumbbell-step-up.gif' },
         { id: 'barbell-lunge', name_en: 'Barbell Lunge', sets: 3, reps: '8-12', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/barbell-lunge.gif' },
-        { id: 'marklyft', name_en: 'Marklyft', sets: 5, reps: '5', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/barbell-deadlift.gif' }
+        { id: 'marklyft', name_en: 'Marklyft', sets: 5, reps: '5', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/barbell-deadlift.gif' },
+        {
+          id: 'calves/lever-seated-squat-calf-raise-on-leg-press-machine',
+          name_en: 'Lever Seated Calf Raise on Leg Press Machine',
+          name_es: 'Elevación de Gemelos en Prensa de Piernas',
+          name_fa: 'ساق پا دستگاه پرس پا',
+          name: 'Lever Seated Calf Raise on Leg Press Machine (Vadhäv i benpress)',
+          equipment: 'lever / maskin',
+          body_part: 'calves',
+          primary_muscles: ['gastrocnemius'],
+          secondary_muscles: ['soleus', 'tibialis_posterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '40 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/calves/lever-seated-squat-calf-raise-on-leg-press-machine.gif',
+          isLeverSeatedCalfRaise: true,
+          youtubeUrl: 'https://youtu.be/dhRz1Ns60Zg?si=oGtwDOywVkhuuNK6',
+          instructions_en: [
+            'Placera främre delen av fötterna (tårna och trampdynorna) längst ned på benpressens fotplatta med hälarna utanför.',
+            'Håll benen nästan helt raka med en liten mikroböj i knäna för att skydda leden.',
+            'Sänk hälarna långsamt och kontrollerat under fotplattan tills du känner en rejäl stretch i vaderna.',
+            'Pressa kraftfullt uppåt genom trampdynorna så högt du kan på tå, och kläm åt vaderna i 1 sekund i toppläget.'
+          ],
+          instructions: [
+            'Placera främre delen av fötterna (tårna och trampdynorna) längst ned på benpressens fotplatta med hälarna utanför.',
+            'Håll benen nästan helt raka med en liten mikroböj i knäna för att skydda leden.',
+            'Sänk hälarna långsamt och kontrollerat under fotplattan tills du känner en rejäl stretch i vaderna.',
+            'Pressa kraftfullt uppåt genom trampdynorna så högt du kan på tå, och kläm åt vaderna i 1 sekund i toppläget.'
+          ],
+          tips_en: [
+            'Mikroböj i knäna: Lås aldrig knäna helt "stenhårt". En liten böj skyddar leden mot det tunga trycket.',
+            'Fullt rörelseomfång: Gå hela vägen ner tills du känner en rejäl stretch, och pressa hela vägen upp på tå. Stanna gärna i toppläget i en sekund och "kläm åt".',
+            'Kontroll: Undvik att "studsa" i bottenläget. Rörelsen ska vara lugn och kontrollerad för att undvika skador på hälsenan.'
+          ],
+          note: 'Lever Seated Calf Raise on Leg Press Machine (Vadhäv i benpress) är en av de mest effektiva övningarna för att bygga starka och välutvecklade vader. Genom att använda benpressen kan du belasta vaderna tungt med full kontroll.'
+        },
+        {
+          id: 'calves/smith-standing-leg-calf-raise',
+          name_en: 'Smith Calf Raise',
+          name_es: 'Elevación de Gemelos en Máquina Smith',
+          name_fa: 'ساق پا ایستاده دستگاه اسمیت',
+          name: 'Smith Calf Raise (Stående vadhäv i Smith-maskin)',
+          equipment: 'smith',
+          body_part: 'calves',
+          primary_muscles: ['gastrocnemius'],
+          secondary_muscles: ['soleus', 'rectus_abdominis', 'erector_spinae'],
+          sets: 3,
+          reps: '8-10',
+          rest: '45 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/calves/smith-standing-leg-calf-raise.gif',
+          isSmithCalfRaise: true,
+          youtubeUrl: 'https://youtube.com/shorts/v6b6CFxUkkI?si=fe4JYOMKAq8VgtRS',
+          instructions_en: [
+            'Ställ en bräda eller steplåda under Smith-maskinens stång. Placera stången över axlarna/nacken och kliv upp med främre delen av fötterna på brädan.',
+            'Stå med fötterna i höftbredd och håll ryggen rak och spänd bål.',
+            'Sänk hälarna långsamt och kontrollerat nedför brädan tills du känner en djup stretch i vaderna.',
+            'Pressa kraftfullt uppåt genom tårna och trampdynorna så högt du kan, och stanna i 1 sekund i toppläget för maximal kontraktion.'
+          ],
+          instructions: [
+            'Ställ en bräda eller steplåda under Smith-maskinens stång. Placera stången över axlarna/nacken och kliv upp med främre delen av fötterna på brädan.',
+            'Stå med fötterna i höftbredd och håll ryggen rak och spänd bål.',
+            'Sänk hälarna långsamt och kontrollerat nedför brädan tills du känner en djup stretch i vaderna.',
+            'Pressa kraftfullt uppåt genom tårna och trampdynorna så högt du kan, och stanna i 1 sekund i toppläget för maximal kontraktion.'
+          ],
+          tips_en: [
+            'Pausa i botten: Stanna en sekund i det lägsta läget för att stretcha ut muskeln ordentligt och undvika att hälsenan "studsar" upp vikten.',
+            'Krama ur i toppen: Gå så högt upp på tå du kan och håll kvar i en sekund för att få en maximal sammandragning.',
+            'Mjuka knän: Lås inte knäleden helt "stenhårt"; ha en mikroskopisk böjning för att skydda lederna mot den tunga belastningen.'
+          ],
+          note: 'Smith Calf Raise (Stående vadhäv i Smith-maskin) är en kraftfull basövning för vaderna som låter dig träna med hög belastning i en stabil miljö.'
+        },
+        {
+          id: 'calves/lever-seated-calf-raise',
+          name_en: 'Lever Seated Calf Raise',
+          name_es: 'Elevación de Gemelos Sentado en Máquina',
+          name_fa: 'ساق پا نشسته دستگاه',
+          name: 'Lever Seated Calf Raise (Sittande vadhäv i maskin)',
+          equipment: 'lever / maskin',
+          body_part: 'calves',
+          primary_muscles: ['soleus'],
+          secondary_muscles: ['gastrocnemius', 'tibialis_posterior'],
+          sets: 3,
+          reps: '8-10',
+          rest: '45 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/calves/lever-seated-calf-raise.gif',
+          isLeverSeatedCalfRaiseMachine: true,
+          youtubeUrl: 'https://youtube.com/shorts/pHm6LFuGGbs?si=eFOV2DSkixOVyUrH',
+          instructions_en: [
+            'Sätt dig tillrätta i maskinen och placera främre delen av fötterna på fotstödet med hälarna fria.',
+            'Justera kuddarna över den nedre delen av låren (ovanför knäna) så att de sitter stadigt mot benen.',
+            'Lossa säkerhetsspärren och sänk hälarna långsamt och kontrollerat så djupt du kan för en djup stretch i Soleus.',
+            'Pressa kraftfullt uppåt genom trampdynorna så högt du kan på tå och håll kvar i 1 sekund i toppläget.'
+          ],
+          instructions: [
+            'Sätt dig tillrätta i maskinen och placera främre delen av fötterna på fotstödet med hälarna fria.',
+            'Justera kuddarna över den nedre delen av låren (ovanför knäna) så att de sitter stadigt mot benen.',
+            'Lossa säkerhetsspärren och sänk hälarna långsamt och kontrollerat så djupt du kan för en djup stretch i Soleus.',
+            'Pressa kraftfullt uppåt genom trampdynorna så högt du kan på tå och håll kvar i 1 sekund i toppläget.'
+          ],
+          tips_en: [
+            'Håll emot i stretchen: Sänk hälarna långsamt så djupt du kan och stanna i bottenläget i 1–2 sekunder. Detta tar bort "studseffekten" från hälsenan och tvingar muskeln att göra jobbet.',
+            'Pressa hela vägen upp: Gå så högt upp på tå du bara kan och håll kvar en kort sekund för att få en maximal sammandragning.',
+            'Positionering: Placera kuddarna stadigt över den nedre delen av låren (inte på knäna) för att få bäst hävstångseffekt.'
+          ],
+          note: 'Lever Seated Calf Raise (Sittande vadhäv i maskin) är en unik och viktig övning för underbenen som skiljer sig markant från stående vadhävningar.'
+        },
+        {
+          id: 'glutes/sled-45-leg-press',
+          name_en: 'Sled 45° Leg Press',
+          name_es: 'Prensa de Piernas a 45 Grados',
+          name_fa: 'پرس پا ۴۵ درجه',
+          name: 'Sled 45° Leg Press (Benpress 45 grader)',
+          equipment: 'sled machine / maskin',
+          body_part: 'quads',
+          primary_muscles: ['quadriceps'],
+          secondary_muscles: ['gluteus_maximus', 'hamstrings', 'adductors'],
+          sets: 3,
+          reps: '8-10',
+          rest: '55 sek',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/glutes/sled-45-leg-press.gif',
+          isSled45LegPress: true,
+          youtubeUrl: 'https://youtube.com/shorts/EotSw18oR9w?si=gE-Ssht6gscsgwhA',
+          instructions_en: [
+            'Sätt dig tillrätta i benpressen med ryggen och huvudet stadigt mot ryggstödet.',
+            'Placera fötterna i axelbredd mitt på fotplattan med tårna svagt peka utåt.',
+            'Lossa säkerhetsspärrarna och sänk släden kontrollerat tills knäna bildar ca 90 graders vinkel utan att sätet lyfter från dynan.',
+            'Pressa kraftfullt tillbaka släden genom hela foten (särskilt hälarna) till utgångsläget med en liten mikroböj i knäna.'
+          ],
+          instructions: [
+            'Sätt dig tillrätta i benpressen med ryggen och huvudet stadigt mot ryggstödet.',
+            'Placera fötterna i axelbredd mitt på fotplattan med tårna svagt peka utåt.',
+            'Lossa säkerhetsspärrarna och sänk släden kontrollerat tills knäna bildar ca 90 graders vinkel utan att sätet lyfter från dynan.',
+            'Pressa kraftfullt tillbaka släden genom hela foten (särskilt hälarna) till utgångsläget med en liten mikroböj i knäna.'
+          ],
+          tips_en: [
+            'Lås inte knäna: Undvik att smälla fast knäna i helt rakt läge i toppen; håll en liten "mikroböj" för att behålla spänningen i musklerna och skydda leden.',
+            'Håll sätet i dynan: Om ditt säte lyfter från ryggstödet i bottenläget går du för djupt, vilket belastar ländryggen. Stoppa precis innan sätet börjar rulla framåt.',
+            'Hela foten i: Pressa med hela foten, särskilt hälarna. Lyft inte hälarna från plattan.'
+          ],
+          note: 'Sled 45° Leg Press (Benpress 45 grader) är en av de kraftfullaste maskinövningarna för underkroppen. Den låter dig träna benen med mycket tung belastning samtidigt som ryggen är i en säker position.'
+        }
       ];
 
       const mapped = legExercises.map(ex => {
@@ -1042,7 +1182,17 @@ function buildProgram({ trainingDays, equipment, experienceLevel }) {
           name_en: ex.name_en,
           name_es: original.name_es || ex.name_en,
           name_fa: original.name_fa || ex.name_en,
-          name: ex.name_en,
+          name: ex.name || ex.name_en,
+          rest: ex.rest || '50 sek',
+          note: ex.note || original.note || '',
+          gifUrl: ex.gifUrl,
+          instructions: ex.instructions || original.instructions || [],
+          tips_en: ex.tips_en || original.tips_en || [],
+          youtubeUrl: ex.youtubeUrl || original.youtubeUrl || '',
+          isLeverSeatedCalfRaise: ex.isLeverSeatedCalfRaise,
+          isSmithCalfRaise: ex.isSmithCalfRaise,
+          isLeverSeatedCalfRaiseMachine: ex.isLeverSeatedCalfRaiseMachine,
+          isSled45LegPress: ex.isSled45LegPress,
           equipment: original.equipment || (ex.id.includes('barbell') ? 'barbell' : ex.id.includes('dumbbell') || ex.id === 'step-up' ? 'dumbbell' : 'none'),
           sets: ex.sets,
           reps: ex.reps,
