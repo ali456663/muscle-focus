@@ -1,11 +1,13 @@
-import React from 'react'
+
 import { Link } from 'react-router-dom'
 import { MessageSquare, Mail } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
+import { useCookieConsent } from '../context/CookieConsentContext'
 import './Footer.css'
 
 function Footer() {
   const { t, language } = useLanguage()
+  const { openSettings } = useCookieConsent()
 
   return (
     <footer className="footer">
@@ -50,6 +52,10 @@ function Footer() {
           <Link to="/varfor-styrketrana">{t('whyStrengthLink')}</Link>
           <Link to="/ideal-klient">{t('idealLink')}</Link>
           <Link to="/villkor">{t('termsLink')}</Link>
+          <Link to="/integritetspolicy">{language === 'fa' ? 'حریم خصوصی' : language === 'en' ? 'Privacy policy' : 'Integritetspolicy'}</Link>
+          <button type="button" className="cookie-footer-btn" onClick={openSettings}>
+            {language === 'fa' ? 'تنظیمات کوکی' : language === 'en' ? 'Cookie settings' : 'Cookie-inställningar'}
+          </button>
         </div>
 
         <div className="footer-contact">

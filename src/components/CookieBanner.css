@@ -1,0 +1,262 @@
+/* Cookie-banner & inställningar – följer sajtens färgtokens i index.css */
+.cookie-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1100; /* ovanför chatboten (1000–1002) */
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 18px 22px;
+  background: rgba(10, 17, 13, 0.96);
+  border: 1px solid var(--border-neon);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-dark);
+  backdrop-filter: blur(12px);
+  font-family: var(--font-body);
+  color: var(--text-silver);
+  animation: cookie-slide-up 0.35s ease-out;
+}
+
+.cookie-banner h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  color: var(--text-white);
+}
+
+.cookie-banner h2 svg { color: var(--accent-gold); flex-shrink: 0; }
+
+.cookie-banner p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.cookie-banner a,
+.cookie-dialog a {
+  color: var(--accent-gold);
+  text-decoration: underline;
+}
+
+.cookie-banner-text { flex: 1; min-width: 0; }
+
+.cookie-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+/* "Acceptera alla" och "Endast nödvändiga" har medvetet samma utseende (IMY:s vägledning). */
+.cookie-btn {
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--accent-gold);
+  background: rgba(184, 149, 71, 0.14);
+  color: var(--text-white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.cookie-btn:hover { background: rgba(184, 149, 71, 0.28); }
+
+.cookie-btn-ghost {
+  background: transparent;
+  border-color: var(--border-glass);
+  color: var(--text-silver);
+}
+
+.cookie-btn-ghost:hover { background: rgba(255, 255, 255, 0.06); }
+
+.cookie-btn:focus-visible,
+.cookie-icon-btn:focus-visible,
+.cookie-switch:focus-visible,
+.cookie-footer-btn:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
+}
+
+/* Inställningsdialog */
+.cookie-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.cookie-dialog {
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 24px;
+  background: var(--bg-dark);
+  border: 1px solid var(--border-neon);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-dark);
+  color: var(--text-silver);
+  font-family: var(--font-body);
+}
+
+.cookie-dialog:focus { outline: none; }
+
+.cookie-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cookie-dialog-header h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--text-white);
+}
+
+.cookie-icon-btn {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background: transparent;
+  color: var(--text-silver);
+  cursor: pointer;
+}
+
+.cookie-icon-btn:hover { background: rgba(255, 255, 255, 0.06); }
+
+.cookie-category-list {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+}
+
+.cookie-category {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.cookie-category-text label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-white);
+  margin-bottom: 4px;
+}
+
+.cookie-category-text p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.cookie-category-text .cookie-note {
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.cookie-always-on {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  white-space: nowrap;
+}
+
+.cookie-switch {
+  appearance: none;
+  flex-shrink: 0;
+  position: relative;
+  width: 44px;
+  height: 24px;
+  margin-top: 2px;
+  border-radius: 999px;
+  background: var(--text-dark);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.cookie-switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text-white);
+  transition: transform var(--transition-fast);
+}
+
+.cookie-switch:checked { background: var(--accent-gold); }
+.cookie-switch:checked::after { transform: translateX(20px); }
+[dir='rtl'] .cookie-switch:checked::after { transform: translateX(-20px); }
+[dir='rtl'] .cookie-switch::after { left: auto; right: 3px; }
+
+.cookie-dialog .cookie-actions { justify-content: flex-end; }
+
+/* Footer-länk för att öppna inställningarna igen */
+.cookie-footer-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.cookie-footer-btn:hover { color: var(--accent-gold); }
+
+@keyframes cookie-slide-up {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-banner { animation: none; }
+}
+
+@media (max-width: 760px) {
+  .cookie-banner {
+    flex-direction: column;
+    align-items: stretch;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    padding: 16px;
+  }
+  .cookie-banner p { font-size: 0.82rem; }
+  .cookie-banner h2 { font-size: 0.98rem; }
+  .cookie-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .cookie-actions .cookie-btn { width: 100%; padding: 10px 8px; }
+  .cookie-actions .cookie-btn-ghost { grid-column: 1 / -1; order: 3; min-height: 40px; }
+  .cookie-dialog .cookie-actions { grid-template-columns: 1fr; }
+}

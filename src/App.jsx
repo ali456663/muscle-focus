@@ -1,10 +1,11 @@
-import React, { useEffect, lazy, Suspense } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 import Chatbot from './components/Chatbot'
+import CookieBanner from './components/CookieBanner'
 const Packages = lazy(() => import('./pages/Packages'))
 const Apply = lazy(() => import('./pages/Apply'))
 const AdminLogin = lazy(() => import('./pages/AdminLogin'))
@@ -21,6 +22,7 @@ const BmiCalculator = lazy(() => import('./pages/BmiCalculator'))
 const FindBuddy = lazy(() => import('./pages/FindBuddy'))
 const PaymentSuccess = lazy(() => import('./pages/PaymentSuccess'))
 const PaymentCancel = lazy(() => import('./pages/PaymentCancel'))
+const Privacy = lazy(() => import('./pages/Privacy'))
 
 // Helper component to scroll to top on path changes
 function ScrollToTop() {
@@ -50,6 +52,7 @@ function App() {
           <Route path="/varfor-styrketrana" element={<WhyStrength />} />
           <Route path="/ideal-klient" element={<IdealClient />} />
           <Route path="/villkor" element={<Terms />} />
+          <Route path="/integritetspolicy" element={<Privacy />} />
           <Route path="/login" element={<ClientLogin />} />
           <Route path="/register" element={<ClientRegister />} />
           <Route path="/profil" element={<ClientProfile />} />
@@ -64,6 +67,7 @@ function App() {
       </main>
       <Footer />
       <Chatbot />
+      <CookieBanner />
     </div>
   )
 }

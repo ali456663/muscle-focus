@@ -85,12 +85,14 @@
   padding-bottom: 4px;
 }
 
-.footer-links-group a {
+.footer-links-group a,
+.footer-links-group .cookie-footer-btn {
   font-size: 0.95rem;
   transition: var(--transition-fast);
 }
 
-.footer-links-group a:hover {
+.footer-links-group a:hover,
+.footer-links-group .cookie-footer-btn:hover {
   color: var(--accent-cyan);
   padding-left: 4px;
 }

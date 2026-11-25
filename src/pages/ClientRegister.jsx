@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { getPasswordStrength, getPasswordError } from '../utils/passwordPolicy'
 import { registerClient } from '../services/api'
 import { Lock, Mail, User, Phone, AlertCircle, ShieldCheck, CheckCircle2, Calendar, Flame, Activity, ChevronRight } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
@@ -23,16 +24,6 @@ function ClientRegister() {
       navigate('/profil')
     }
   }, [navigate])
-
-  const getPasswordStrength = (pass) => {
-    if (!pass) return 0
-    let score = 0
-    if (pass.length >= 6) score += 1
-    if (pass.length >= 8) score += 1
-    if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) score += 1
-    if (/[0-9]/.test(pass) || /[^A-Za-z0-9]/.test(pass)) score += 1
-    return Math.min(4, Math.max(1, score))
-  }
 
   const getStrengthLabel = (score) => {
     if (language === 'fa') {
@@ -74,6 +65,13 @@ function ClientRegister() {
 
     if (!fullName || !phoneNumber || !email || !password) {
       setError(language === 'fa' ? 'لطفاً تمامی فیلدها را پر کنید.' : language === 'en' ? 'Please fill in all fields.' : 'Vänligen fyll i alla fält.')
+      setLoading(false)
+      return
+    }
+
+    const pwError = getPasswordError(password, language)
+    if (pwError) {
+      setError(pwError)
       setLoading(false)
       return
     }
@@ -348,7 +346,12 @@ function ClientRegister() {
                 onChange={() => {}} // Controlled by wrapper click
                 required
               />
-              <span className="gdpr-text">{langText.gdprLabel}</span>
+              <span className="gdpr-text">
+                {langText.gdprLabel}{' '}
+                <Link to="/integritetspolicy" target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()} style={{ color: 'var(--accent-gold)', textDecoration: 'underline' }}>
+                  {language === 'fa' ? 'سیاست حفظ حریم خصوصی' : language === 'en' ? 'Privacy policy' : 'Integritetspolicy'}
+                </Link>
+              </span>
             </div>
 
             {/* Submit button */}

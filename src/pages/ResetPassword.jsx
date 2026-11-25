@@ -5,6 +5,7 @@ import { Lock, AlertCircle, CheckCircle, Dumbbell } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
 import { usePageTitle } from '../hooks/usePageTitle'
 import './ClientAuth.css'
+import { getPasswordError } from '../utils/passwordPolicy'
 
 function ResetPassword() {
   const [password, setPassword] = useState('')
@@ -45,8 +46,9 @@ function ResetPassword() {
       return
     }
 
-    if (password.length < 6) {
-      setError(language === 'fa' ? 'رمز عبور باید حداقل ۶ کاراکتر باشد.' : language === 'en' ? 'Password must be at least 6 characters.' : 'Lösenordet måste vara minst 6 tecken långt.')
+    const pwError = getPasswordError(password, language)
+    if (pwError) {
+      setError(pwError)
       setLoading(false)
       return
     }

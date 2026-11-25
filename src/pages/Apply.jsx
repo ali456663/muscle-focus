@@ -5,6 +5,7 @@ import { Check, Mail, Phone, MapPin, Send, AlertCircle, Dumbbell, CreditCard, Ar
 import { useLanguage } from '../hooks/useLanguage'
 import { usePageTitle } from '../hooks/usePageTitle'
 import './Apply.css'
+import { getPasswordError, isPasswordValid } from '../utils/passwordPolicy'
 
 function Apply() {
   const [searchParams] = useSearchParams()
@@ -322,8 +323,9 @@ function Apply() {
 
     // Password validation (only for free trial registration)
     if (isFreeTrial) {
-      if (!formData.password || formData.password.length < 6) {
-        setError(language === 'en' ? 'Password must be at least 6 characters.' : 'Lösenordet måste vara minst 6 tecken.')
+      const pwError = getPasswordError(formData.password || '', language)
+      if (pwError) {
+        setError(pwError)
         return false
       }
       if (formData.password !== formData.confirmPassword) {
@@ -976,7 +978,7 @@ function Apply() {
                     <div className="form-row">
                       <div className="form-group">
                         <label htmlFor="password" style={{ fontSize: '0.82rem' }}>
-                          {language === 'en' ? 'Password (min 6 characters)' : 'Lösenord (minst 6 tecken)'}
+                          {language === 'en' ? 'Password (min 12 characters)' : 'Lösenord (minst 12 tecken)'}
                         </label>
                         <input
                           type="password"
@@ -986,11 +988,11 @@ function Apply() {
                           onChange={handleChange}
                           placeholder="••••••••"
                           required
-                          style={{ background: 'rgba(0,0,0,0.2)', border: formData.password.length > 0 && formData.password.length < 6 ? '1px solid #ef4444' : '1px solid var(--border-glass)' }}
+                          style={{ background: 'rgba(0,0,0,0.2)', border: formData.password.length > 0 && !isPasswordValid(formData.password) ? '1px solid #ef4444' : '1px solid var(--border-glass)' }}
                         />
-                        {formData.password.length > 0 && formData.password.length < 6 && (
+                        {formData.password.length > 0 && !isPasswordValid(formData.password) && (
                           <span style={{ fontSize: '0.72rem', color: '#ef4444', marginTop: '3px', display: 'block' }}>
-                            {language === 'en' ? 'Too short — min 6 chars' : 'För kort — minst 6 tecken'}
+                            {language === 'en' ? 'Min 12 chars incl. uppercase, lowercase and special character' : 'Minst 12 tecken med versal, gemen och specialtecken'}
                           </span>
                         )}
                       </div>
