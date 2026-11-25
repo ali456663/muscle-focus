@@ -10,7 +10,7 @@ Status per 2026-11-25. ✅ = klart och verifierat · 🟡 = delvis / kräver åt
 | ✅ | **GDPR:** Cookie-banner finns | Neka är lika enkelt som att acceptera, inga förkryssade rutor, valet sparas med datum i 12 månader och kan ändras via "Cookie-inställningar" i footern. |
 | ✅ | **GDPR:** Ingen onödig överföring till tredje part | Google Fonts ersatt med självhostade typsnitt. |
 | 🟡 | **GDPR:** Uppgifter raderas när de inte behövs | Lagringstider står i policyn. **Backend måste faktiskt radera** (t.ex. ett schemalagt jobb för ansökningar äldre än 12 månader). |
-| 🟡 | **GDPR:** Uttryckligt samtycke för hälsouppgifter | Ansökningsformuläret samlar in skador/allergier. Lägg till en separat kryssruta för samtycke till hälsouppgifter (art. 9). |
+| ✅ | **GDPR:** Uttryckligt samtycke för hälsouppgifter | Separat kryssruta (art. 9.2 a) visas när skador/allergier anges och måste kryssas i för att skicka. `healthDataConsent` + tidpunkt skickas med ansökan som bevis. **Backend bör spara dessa fält.** |
 | ✅ | **Härdning:** Säkerhetsheaders | HSTS, CSP, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy i `nginx.conf` + `netlify.toml`. Testat med nginx 1.24. |
 | ✅ | **Härdning:** Endast 443 öppen | Netlify/Render exponerar bara 80→443. |
 | 🟡 | **Härdning:** Standardkonton borttagna | Kontrollera i backend att inget konto heter `admin` med standardlösenord. |
@@ -32,6 +32,8 @@ Status per 2026-11-25. ✅ = klart och verifierat · 🟡 = delvis / kräver åt
 
 ## Övriga fynd att åtgärda
 
-- **Känsliga uppgifter sparas i webbläsaren vid serverfel.** `src/services/api.js` sparar hela ansökan (inklusive personnummer och hälsouppgifter) okrypterat i `localStorage` om backend inte svarar. På en delad dator kan nästa användare läsa dem. Överväg att visa ett felmeddelande i stället, eller att bara spara icke-känsliga fält.
+- ✅ **Åtgärdat: känsliga uppgifter sparades i webbläsaren vid serverfel.** Ansökningar (personnummer, hälsouppgifter) sparas inte längre i `localStorage` – användaren får i stället ett tydligt felmeddelande och kan försöka igen. Ansökningar som redan låg sparade skickas till servern och rensas när den svarar.
+- ✅ **Åtgärdat: lösenordet skickades med i ansökan.** Vid gratis provperiod följde lösenordet med i ansökan till `/leads` (och i klartext till `localStorage` vid serverfel). Nu skickas det endast till registreringen. **Kontrollera i backend/databasen att inga gamla ansökningar innehåller ett `password`-fält – radera i så fall det fältet.**
+- ✅ Det lokalt sparade träningsprogrammet (`client_program_data`) innehåller inte längre personnummer, vårdnadshavare, signatur eller hälsodetaljer.
 - **Inloggningstoken i `localStorage`.** Den kan läsas av skript vid en eventuell XSS. Säkrare är en `HttpOnly`-cookie som backend sätter. CSP:n minskar risken under tiden.
 - **Adminsidan `/admin` länkas från footern.** Det är inte farligt i sig om backend kontrollerar behörighet, men att ta bort länken minskar exponeringen.

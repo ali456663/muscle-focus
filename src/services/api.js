@@ -35,19 +35,6 @@ function storeBuddy(buddy) {
    ────────────────────────────────────────────── */
 const LEAD_STORAGE_KEY = 'musclefocus_leads_offline';
 
-function storeLead(lead) {
-  const stored = JSON.parse(localStorage.getItem(LEAD_STORAGE_KEY) || '[]');
-  const newLead = {
-    ...lead,
-    id: Date.now(),
-    createdAt: new Date().toISOString(),
-    _offline: true,
-  };
-  stored.unshift(newLead);
-  localStorage.setItem(LEAD_STORAGE_KEY, JSON.stringify(stored));
-  return newLead;
-}
-
 export const submitLead = async (leadData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/leads`, {
@@ -57,10 +44,12 @@ export const submitLead = async (leadData) => {
     });
     if (!response.ok) throw new Error('Backend error');
     return response.json();
-  } catch (networkError) {
-    // Backend is down → save to localStorage
-    const saved = storeLead(leadData);
-    return { ...saved, _offline: true, stripeCheckoutUrl: null };
+  } catch {
+    // Ansökningar innehåller personnummer och hälsouppgifter och sparas därför
+    // ALDRIG i webbläsaren (localStorage är okrypterat och kan läsas av nästa användare).
+    const error = new Error('OFFLINE');
+    error.code = 'OFFLINE';
+    throw error;
   }
 };
 

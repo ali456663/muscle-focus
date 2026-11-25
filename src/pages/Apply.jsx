@@ -72,6 +72,7 @@ function Apply() {
     hasInjuries: 'Nej',
     injuryDetails: '',
     healthDeclarationConfirmed: false,
+    healthDataConsent: false, // Uttryckligt samtycke till hälsouppgifter (GDPR art. 9.2 a)
     // Diet & Allergies
     dietPreference: 'Blandkost',
     hasAllergies: 'Nej',
@@ -337,6 +338,51 @@ function Apply() {
     return true
   }
 
+  // ── GDPR art. 9: hälsouppgifter (skador/allergier) kräver uttryckligt samtycke ──
+  const providesHealthData = formData.hasInjuries === 'Ja' || formData.hasAllergies === 'Ja'
+  const healthConsentOk = !providesHealthData || formData.healthDataConsent
+
+  const renderHealthConsent = (idSuffix) => providesHealthData && (
+    <div
+      className="form-group checkbox-group fade-in"
+      style={{
+        display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '10px', marginBottom: '20px',
+        background: 'rgba(184,149,71,0.06)', padding: '12px', borderRadius: 'var(--border-radius-sm)',
+        border: `1px solid ${formData.healthDataConsent ? 'var(--border-glass)' : 'var(--accent-gold)'}`
+      }}
+    >
+      <input
+        type="checkbox"
+        id={`healthDataConsent-${idSuffix}`}
+        checked={formData.healthDataConsent}
+        onChange={(e) => setFormData(prev => ({ ...prev, healthDataConsent: e.target.checked }))}
+        style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--accent-gold)', marginTop: '2px', flexShrink: 0 }}
+      />
+      <label
+        htmlFor={`healthDataConsent-${idSuffix}`}
+        style={{ cursor: 'pointer', fontSize: '0.85rem', color: 'var(--text-silver)', margin: 0, lineHeight: '1.45' }}
+      >
+        {language === 'fa'
+          ? 'من صریحاً موافقت می‌کنم که Muscle & Focus اطلاعات سلامتی من (آسیب‌ها و آلرژی‌ها) را فقط برای تنظیم برنامه تمرینی و غذایی‌ام پردازش کند. می‌توانم هر زمان این موافقت را لغو کنم. '
+          : language === 'en'
+          ? 'I explicitly consent to Muscle & Focus processing my health information (injuries and allergies) solely to adapt my training and nutrition plan. I can withdraw my consent at any time. '
+          : 'Jag samtycker uttryckligen till att Muscle & Focus behandlar mina hälsouppgifter (skador och allergier) enbart för att anpassa mitt tränings- och kostprogram. Jag kan när som helst återkalla samtycket. '}
+        <Link to="/integritetspolicy" target="_blank" rel="noopener" style={{ color: 'var(--accent-gold)', textDecoration: 'underline' }}>
+          {language === 'fa' ? 'حریم خصوصی' : language === 'en' ? 'Privacy policy' : 'Integritetspolicy'}
+        </Link>
+        {!formData.healthDataConsent && (
+          <span style={{ display: 'block', marginTop: '6px', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+            {language === 'fa'
+              ? 'اگر نمی‌خواهید این اطلاعات را اینجا ثبت کنید، «خیر» را انتخاب کنید و آن را در اولین گفتگو با مربی بگویید.'
+              : language === 'en'
+              ? 'If you prefer not to share this here, choose "No" and tell your coach at the first call instead.'
+              : 'Vill du inte lämna uppgifterna här kan du välja "Nej" och berätta dem för din coach vid första samtalet i stället.'}
+          </span>
+        )}
+      </label>
+    </div>
+  )
+
   const handleFormSubmit = async (e, payNow) => {
     if (e) e.preventDefault()
     setError('')
@@ -346,6 +392,16 @@ function Apply() {
     if (!validateStep1()) {
       setLoading(false)
       setFormStep(1)
+      return
+    }
+
+    if (!healthConsentOk) {
+      setError(language === 'fa'
+        ? 'لطفاً با پردازش اطلاعات سلامتی موافقت کنید یا «خیر» را برای آسیب‌ها/آلرژی‌ها انتخاب کنید.'
+        : language === 'en'
+        ? 'Please consent to the processing of your health information, or choose "No" for injuries/allergies.'
+        : 'Godkänn behandlingen av dina hälsouppgifter, eller välj "Nej" för skador/allergier.')
+      setLoading(false)
       return
     }
 
@@ -372,8 +428,14 @@ function Apply() {
     const customMessage = `[Interaktiv Analys]\n- Personnummer: ${formData.personalNumber}${targetWeightText}${bmiText}${bodyText}${goalsText}${focusText}${healthText}${dietText}${calorieText}${freeTrialText}\n\nMeddelande:\n${formData.message}`
 
     try {
+      // Lösenordet skickas aldrig med i ansökan – det går bara till registerClient
+      const leadFields = { ...formData }
+      delete leadFields.password
+      delete leadFields.confirmPassword
       const payload = {
-        ...formData,
+        ...leadFields,
+        healthDataConsent: providesHealthData ? formData.healthDataConsent : false,
+        healthDataConsentAt: providesHealthData && formData.healthDataConsent ? new Date().toISOString() : null,
         age: parseInt(formData.age, 10),
         payNow: payNow,
         priceOption: isStudentOrSenior ? 'discounted' : 'regular',
@@ -416,6 +478,13 @@ function Apply() {
                 ...formData,
                 password: undefined,        // Never store password
                 confirmPassword: undefined,
+                // Lagra inte personnummer, vårdnadshavare, signatur eller hälsodetaljer i webbläsaren
+                personalNumber: undefined,
+                guardianEmail: undefined,
+                guardianPhone: undefined,
+                signature: undefined,
+                injuryDetails: undefined,
+                allergyDetails: undefined,
                 trialStartDate: new Date().toISOString(),
                 bmi: calculateBmi(),
                 calories: calculateCaloriesAndMacros(),
@@ -468,23 +537,6 @@ function Apply() {
           try {
             const res = await submitLead(payload)
             
-            if (res._offline) {
-              setIsOffline(true)
-              if (payNow) {
-                setError(language === 'fa' 
-                  ? 'پرداخت آنلاین در حالت آفلاین امکان‌پذیر نیست. لطفاً دوباره تلاش کنید یا تماس بگیرید.' 
-                  : language === 'en' 
-                  ? 'Online payment is not available in offline mode. Please try again or contact us.' 
-                  : 'Onlinebetalning är inte tillgänglig i offline-läge. Försök igen eller kontakta oss.')
-                setIsAnalyzing(false)
-                setLoading(false)
-                return
-              }
-              setIsAnalyzing(false)
-              setSubmitted(true)
-              return
-            }
-            
             if (payNow && res.stripeCheckoutUrl) {
               window.location.href = res.stripeCheckoutUrl
             } else {
@@ -493,7 +545,16 @@ function Apply() {
             }
           } catch (err) {
             setIsAnalyzing(false)
-            setError(err.message || 'Ett fel uppstod när ansökan skickades. Kontrollera att servern körs.')
+            if (err.code === 'OFFLINE') {
+              setIsOffline(true)
+              setError(language === 'fa'
+                ? 'سرور در حال حاضر پاسخ نمی‌دهد و درخواست شما ارسال نشد. لطفاً چند دقیقه دیگر دوباره تلاش کنید یا با ما تماس بگیرید: info.musclefocus@gmail.com'
+                : language === 'en'
+                ? 'The server is not responding right now and your application was not sent. Please try again in a few minutes or contact us at info.musclefocus@gmail.com.'
+                : 'Servern svarar inte just nu och din ansökan skickades inte. Försök igen om några minuter eller kontakta oss på info.musclefocus@gmail.com.')
+            } else {
+              setError(err.message || 'Ett fel uppstod när ansökan skickades. Kontrollera att servern körs.')
+            }
           } finally {
             setLoading(false)
           }
@@ -1730,6 +1791,8 @@ function Apply() {
                 </label>
               </div>
 
+              {renderHealthConsent('step3')}
+
               {/* Action row (Submit buttons if paid package, otherwise Continue) */}
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', gap: '10px', flexWrap: 'wrap' }}>
                 <button type="button" onClick={() => setFormStep(2)} style={{ background: 'none', border: 'none', color: 'var(--text-silver)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -1742,7 +1805,7 @@ function Apply() {
                     onClick={() => setFormStep(4)} 
                     className="btn-primary" 
                     style={{ padding: '12px 32px' }}
-                    disabled={!formData.healthDeclarationConfirmed}
+                    disabled={!formData.healthDeclarationConfirmed || !healthConsentOk}
                   >
                     {language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} style={{ marginLeft: '8px' }} />
                   </button>
@@ -1752,7 +1815,7 @@ function Apply() {
                       type="button" 
                       className="btn-secondary" 
                       onClick={(e) => handleFormSubmit(e, false)}
-                      disabled={loading || !formData.healthDeclarationConfirmed}
+                      disabled={loading || !formData.healthDeclarationConfirmed || !healthConsentOk}
                       style={{ padding: '12px 24px', fontSize: '0.9rem', display: 'flex', alignItems: 'center' }}
                     >
                       <Send size={14} style={{ marginRight: '8px' }} />
@@ -1763,7 +1826,7 @@ function Apply() {
                       type="button" 
                       className="btn-primary" 
                       onClick={(e) => handleFormSubmit(e, true)}
-                      disabled={loading || !formData.healthDeclarationConfirmed}
+                      disabled={loading || !formData.healthDeclarationConfirmed || !healthConsentOk}
                       style={{ padding: '12px 24px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}
                     >
                       <CreditCard size={14} style={{ marginRight: '8px' }} />
@@ -2282,6 +2345,7 @@ function Apply() {
                       required
                     ></textarea>
                   )}
+                  {renderHealthConsent('step4')}
                 </div>
               </div>
 
