@@ -340,7 +340,7 @@ function Packages() {
       {activeModalPackage && (
         <div className="cert-modal-overlay" onClick={() => setActiveModalPackage(null)}>
           <div className="summer-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="cert-modal-close" onClick={() => setActiveModalPackage(null)} aria-label="Stäng modal">
+            <button className="cert-modal-close" onClick={() => setActiveModalPackage(null)} aria-label={language === 'fa' ? 'بستن' : language === 'en' ? 'Close' : 'Stäng'}>
               <X size={20} />
             </button>
             {activeModalPackage.image && (

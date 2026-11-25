@@ -30,10 +30,10 @@ function PackageRecommender({ isOpen, onClose, packages }) {
   const getBmiCategory = (bmi) => {
     if (!bmi) return ''
     const val = parseFloat(bmi)
-    if (val < 18.5) return { label: language === 'en' ? 'Underweight' : 'Undervikt', color: '#3b82f6' }
-    if (val < 25) return { label: language === 'en' ? 'Normal weight' : 'Normalvikt', color: '#10b981' }
-    if (val < 30) return { label: language === 'en' ? 'Overweight' : 'Övervikt', color: '#f59e0b' }
-    return { label: language === 'en' ? 'Obese' : 'Fetma', color: '#ef4444' }
+    if (val < 18.5) return { label: language === 'fa' ? 'کمبود وزن' : language === 'en' ? 'Underweight' : 'Undervikt', color: '#3b82f6' }
+    if (val < 25) return { label: language === 'fa' ? 'وزن طبیعی' : language === 'en' ? 'Normal weight' : 'Normalvikt', color: '#10b981' }
+    if (val < 30) return { label: language === 'fa' ? 'اضافه وزن' : language === 'en' ? 'Overweight' : 'Övervikt', color: '#f59e0b' }
+    return { label: language === 'fa' ? 'چاقی' : language === 'en' ? 'Obese' : 'Fetma', color: '#ef4444' }
   }
 
   // Toggle helpers
@@ -136,15 +136,15 @@ function PackageRecommender({ isOpen, onClose, packages }) {
           <div style={{ textAlign: 'center', padding: '10px 0' }}>
             <Sparkles size={48} style={{ color: 'var(--accent-gold)', marginBottom: '16px' }} />
             <h2 style={{ fontSize: '2rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)', marginBottom: '12px' }}>
-              {language === 'en' ? 'Find Your Perfect Training Package' : 'Hitta ditt perfekta träningspaket'}
+              {language === 'fa' ? 'بسته تمرینی مناسب خود را پیدا کنید' : language === 'en' ? 'Find Your Perfect Training Package' : 'Hitta ditt perfekta träningspaket'}
             </h2>
             <p style={{ color: 'var(--text-silver)', fontSize: '1.05rem', lineHeight: '1.6', marginBottom: '30px' }}>
-              {language === 'en' 
+              {language === 'fa' ? 'به چند سؤال کوتاه درباره بدن، اهداف و نیازهای خود پاسخ دهید تا بسته‌ای را که بیشترین تناسب را با شما دارد پیشنهاد کنم.' : language === 'en' 
                 ? 'Answer a few quick questions about your body, goals, and needs, and I will recommend the package that suits you best.' 
                 : 'Svara på några snabba frågor om din kropp, dina mål och önskemål, så rekommenderar jag det paket som passar dig bäst.'}
             </p>
             <button onClick={handleNext} className="btn-primary" style={{ padding: '14px 40px', fontSize: '1.05rem' }}>
-              {language === 'en' ? 'Start Test' : 'Starta testet'} <ArrowRight size={18} style={{ marginLeft: '8px' }} />
+              {language === 'fa' ? 'شروع آزمون' : language === 'en' ? 'Start Test' : 'Starta testet'} <ArrowRight size={18} style={{ marginLeft: '8px' }} />
             </button>
           </div>
         )}
@@ -153,14 +153,14 @@ function PackageRecommender({ isOpen, onClose, packages }) {
         {step === 1 && (
           <div>
             <h3 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)', marginBottom: '20px' }}>
-              {language === 'en' ? 'Tell me about yourself' : 'Berätta lite om dig själv'}
+              {language === 'fa' ? 'درباره خودتان بگویید' : language === 'en' ? 'Tell me about yourself' : 'Berätta lite om dig själv'}
             </h3>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {/* Gender selector */}
               <div>
                 <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '8px' }}>
-                  {language === 'en' ? 'Gender' : 'Kön'}
+                  {language === 'fa' ? 'جنسیت' : language === 'en' ? 'Gender' : 'Kön'}
                 </label>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   {['kvinna', 'man', 'annat'].map(g => (
@@ -179,7 +179,7 @@ function PackageRecommender({ isOpen, onClose, packages }) {
                         textTransform: 'capitalize'
                       }}
                     >
-                      {g === 'kvinna' ? (language === 'en' ? 'Female' : 'Kvinna') : g === 'man' ? (language === 'en' ? 'Male' : 'Man') : (language === 'en' ? 'Other' : 'Annat')}
+                      {g === 'kvinna' ? (language === 'fa' ? 'زن' : language === 'en' ? 'Female' : 'Kvinna') : g === 'man' ? (language === 'fa' ? 'مرد' : language === 'en' ? 'Male' : 'Man') : (language === 'fa' ? 'سایر' : language === 'en' ? 'Other' : 'Annat')}
                     </button>
                   ))}
                 </div>
@@ -189,7 +189,7 @@ function PackageRecommender({ isOpen, onClose, packages }) {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div>
                   <label htmlFor="heightInput" style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '8px' }}>
-                    {language === 'en' ? 'Height (cm)' : 'Längd (cm)'}
+                    {language === 'fa' ? 'قد (سانتی‌متر)' : language === 'en' ? 'Height (cm)' : 'Längd (cm)'}
                   </label>
                   <input
                     type="number"
@@ -202,7 +202,7 @@ function PackageRecommender({ isOpen, onClose, packages }) {
                 </div>
                 <div>
                   <label htmlFor="weightInput" style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '8px' }}>
-                    {language === 'en' ? 'Weight (kg)' : 'Vikt (kg)'}
+                    {language === 'fa' ? 'وزن (کیلوگرم)' : language === 'en' ? 'Weight (kg)' : 'Vikt (kg)'}
                   </label>
                   <input
                     type="number"
@@ -234,10 +234,10 @@ function PackageRecommender({ isOpen, onClose, packages }) {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
               <button onClick={handleBack} style={{ background: 'none', border: 'none', color: 'var(--text-silver)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <ArrowLeft size={16} /> {language === 'en' ? 'Back' : 'Bakåt'}
+                <ArrowLeft size={16} /> {language === 'fa' ? 'پشت' : language === 'en' ? 'Back' : 'Bakåt'}
               </button>
               <button onClick={handleNext} className="btn-primary" disabled={!gender || !height || !weight} style={{ padding: '10px 24px' }}>
-                {language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} />
+                {language === 'fa' ? 'ادامه' : language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} />
               </button>
             </div>
           </div>
@@ -247,20 +247,20 @@ function PackageRecommender({ isOpen, onClose, packages }) {
         {step === 2 && (
           <div>
             <h3 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)', marginBottom: '10px', textAlign: 'center' }}>
-              {language === 'en' ? 'What are your main goals?' : 'Vad är dina huvudsakliga mål?'}
+              {language === 'fa' ? 'اهداف اصلی شما چیست؟' : language === 'en' ? 'What are your main goals?' : 'Vad är dina huvudsakliga mål?'}
             </h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', textAlign: 'center', marginBottom: '20px' }}>
-              {language === 'en' ? 'Select all that apply:' : 'Välj alla som passar:'}
+              {language === 'fa' ? 'همه موارد مرتبط را انتخاب کنید:' : language === 'en' ? 'Select all that apply:' : 'Välj alla som passar:'}
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {[
-                { id: 'lose_weight', label: language === 'en' ? 'Lose weight' : 'Gå ner i vikt', icon: '🔥' },
-                { id: 'get_fit', label: language === 'en' ? 'Get fit' : 'Komma i form', icon: '🏃' },
-                { id: 'gain_muscle', label: language === 'en' ? 'Gain muscle' : 'Bygga muskler', icon: '💪' },
-                { id: 'metabolism', label: language === 'en' ? 'Boost metabolism' : 'Öka förbränning', icon: '⚡' },
-                { id: 'energy', label: language === 'en' ? 'Improve energy levels' : 'Få mer energi i vardagen', icon: '☀️' },
-                { id: 'health', label: language === 'en' ? 'Improve overall health' : 'Bättre hälsa & livsbalans', icon: '❤️' }
+                { id: 'lose_weight', label: language === 'fa' ? 'کاهش وزن' : language === 'en' ? 'Lose weight' : 'Gå ner i vikt', icon: '🔥' },
+                { id: 'get_fit', label: language === 'fa' ? 'تناسب اندام' : language === 'en' ? 'Get fit' : 'Komma i form', icon: '🏃' },
+                { id: 'gain_muscle', label: language === 'fa' ? 'افزایش عضله' : language === 'en' ? 'Gain muscle' : 'Bygga muskler', icon: '💪' },
+                { id: 'metabolism', label: language === 'fa' ? 'تقویت متابولیسم' : language === 'en' ? 'Boost metabolism' : 'Öka förbränning', icon: '⚡' },
+                { id: 'energy', label: language === 'fa' ? 'افزایش انرژی' : language === 'en' ? 'Improve energy levels' : 'Få mer energi i vardagen', icon: '☀️' },
+                { id: 'health', label: language === 'fa' ? 'بهبود سلامت عمومی' : language === 'en' ? 'Improve overall health' : 'Bättre hälsa & livsbalans', icon: '❤️' }
               ].map(item => {
                 const isSelected = goals.includes(item.id)
                 return (
@@ -295,10 +295,10 @@ function PackageRecommender({ isOpen, onClose, packages }) {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
               <button onClick={handleBack} style={{ background: 'none', border: 'none', color: 'var(--text-silver)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <ArrowLeft size={16} /> {language === 'en' ? 'Back' : 'Bakåt'}
+                <ArrowLeft size={16} /> {language === 'fa' ? 'پشت' : language === 'en' ? 'Back' : 'Bakåt'}
               </button>
               <button onClick={handleNext} className="btn-primary" disabled={goals.length === 0} style={{ padding: '10px 24px' }}>
-                {language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} />
+                {language === 'fa' ? 'ادامه' : language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} />
               </button>
             </div>
           </div>
@@ -308,15 +308,15 @@ function PackageRecommender({ isOpen, onClose, packages }) {
         {step === 3 && (
           <div>
             <h3 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)', marginBottom: '20px', textAlign: 'center' }}>
-              {language === 'en' ? 'Choose your current body type:' : 'Välj din nuvarande kroppstyp:'}
+              {language === 'fa' ? 'نوع بدن فعلی خود را انتخاب کنید:' : language === 'en' ? 'Choose your current body type:' : 'Välj din nuvarande kroppstyp:'}
             </h3>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {[
-                { id: 'skinny', label: language === 'en' ? 'Skinny' : 'Smal', desc: language === 'en' ? 'Lean, fast metabolism, hard to build muscle' : 'Hög förbränning, svårt att bygga massa' },
-                { id: 'regular', label: language === 'en' ? 'Regular' : 'Normal', desc: language === 'en' ? 'Average build, balanced body composition' : 'Balanserad kroppssammansättning' },
-                { id: 'pot_belly', label: language === 'en' ? 'Pot belly' : 'Lite mage / Mjuk', desc: language === 'en' ? 'Mainly storing fat around the midsection' : 'Lagrar mest fett runt magen' },
-                { id: 'extra', label: language === 'en' ? 'Extra' : 'Kraftig / Övervikt', desc: language === 'en' ? 'More body fat, slow metabolism' : 'Långsammare förbränning, mer fettmassa' }
+                { id: 'skinny', label: language === 'fa' ? 'لاغر' : language === 'en' ? 'Skinny' : 'Smal', desc: language === 'fa' ? 'لاغر، متابولیسم سریع، عضله‌سازی دشوار' : language === 'en' ? 'Lean, fast metabolism, hard to build muscle' : 'Hög förbränning, svårt att bygga massa' },
+                { id: 'regular', label: language === 'fa' ? 'معمولی' : language === 'en' ? 'Regular' : 'Normal', desc: language === 'fa' ? 'اندام متوسط، ترکیب بدنی متعادل' : language === 'en' ? 'Average build, balanced body composition' : 'Balanserad kroppssammansättning' },
+                { id: 'pot_belly', label: language === 'fa' ? 'شکم برآمده' : language === 'en' ? 'Pot belly' : 'Lite mage / Mjuk', desc: language === 'fa' ? 'ذخیره چربی بیشتر در ناحیه شکم' : language === 'en' ? 'Mainly storing fat around the midsection' : 'Lagrar mest fett runt magen' },
+                { id: 'extra', label: language === 'fa' ? 'دارای اضافه وزن' : language === 'en' ? 'Extra' : 'Kraftig / Övervikt', desc: language === 'fa' ? 'چربی بدن بیشتر، متابولیسم کند' : language === 'en' ? 'More body fat, slow metabolism' : 'Långsammare förbränning, mer fettmassa' }
               ].map(item => {
                 const isSelected = currentBody === item.id
                 return (
@@ -343,10 +343,10 @@ function PackageRecommender({ isOpen, onClose, packages }) {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
               <button onClick={handleBack} style={{ background: 'none', border: 'none', color: 'var(--text-silver)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <ArrowLeft size={16} /> {language === 'en' ? 'Back' : 'Bakåt'}
+                <ArrowLeft size={16} /> {language === 'fa' ? 'پشت' : language === 'en' ? 'Back' : 'Bakåt'}
               </button>
               <button onClick={handleNext} className="btn-primary" disabled={!currentBody} style={{ padding: '10px 24px' }}>
-                {language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} />
+                {language === 'fa' ? 'ادامه' : language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} />
               </button>
             </div>
           </div>
@@ -356,15 +356,15 @@ function PackageRecommender({ isOpen, onClose, packages }) {
         {step === 4 && (
           <div>
             <h3 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)', marginBottom: '20px', textAlign: 'center' }}>
-              {language === 'en' ? 'Choose the body you want:' : 'Välj den kroppsform du vill uppnå:'}
+              {language === 'fa' ? 'بدن دلخواه خود را انتخاب کنید:' : language === 'en' ? 'Choose the body you want:' : 'Välj den kroppsform du vill uppnå:'}
             </h3>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {[
-                { id: 'smaller', label: language === 'en' ? 'A few sizes smaller' : 'Några storlekar mindre', desc: language === 'en' ? 'Main focus on calorie deficit and weight loss' : 'Huvudfokus på viktnedgång och fettförbränning' },
-                { id: 'lean', label: language === 'en' ? 'Lean / Toned' : 'Hård & Deffad', desc: language === 'en' ? 'Lower fat percentage, visible definition' : 'Låg fettprocent, definierade konturer' },
-                { id: 'athletic', label: language === 'en' ? 'Athletic' : 'Atletisk & Stark', desc: language === 'en' ? 'Strong body, good muscle tone and condition' : 'Stark fysik, bra muskeltonus och flås' },
-                { id: 'shredded', label: language === 'en' ? 'Shredded / Muscular' : 'Muskelös & Rippad', desc: language === 'en' ? 'Maximum muscle mass and high definition' : 'Maximal muskelmassa och hög definition' }
+                { id: 'smaller', label: language === 'fa' ? 'چند سایز کوچک‌تر' : language === 'en' ? 'A few sizes smaller' : 'Några storlekar mindre', desc: language === 'fa' ? 'تمرکز اصلی بر کسری کالری و کاهش وزن' : language === 'en' ? 'Main focus on calorie deficit and weight loss' : 'Huvudfokus på viktnedgång och fettförbränning' },
+                { id: 'lean', label: language === 'fa' ? 'لاغر و سفت' : language === 'en' ? 'Lean / Toned' : 'Hård & Deffad', desc: language === 'fa' ? 'درصد چربی کمتر، عضلات نمایان' : language === 'en' ? 'Lower fat percentage, visible definition' : 'Låg fettprocent, definierade konturer' },
+                { id: 'athletic', label: language === 'fa' ? 'ورزشکاری' : language === 'en' ? 'Athletic' : 'Atletisk & Stark', desc: language === 'fa' ? 'بدنی قوی با عضلات سفت و آمادگی خوب' : language === 'en' ? 'Strong body, good muscle tone and condition' : 'Stark fysik, bra muskeltonus och flås' },
+                { id: 'shredded', label: language === 'fa' ? 'عضلانی و کات' : language === 'en' ? 'Shredded / Muscular' : 'Muskelös & Rippad', desc: language === 'fa' ? 'حداکثر حجم عضلانی و تفکیک بالا' : language === 'en' ? 'Maximum muscle mass and high definition' : 'Maximal muskelmassa och hög definition' }
               ].map(item => {
                 const isSelected = desiredBody === item.id
                 return (
@@ -391,10 +391,10 @@ function PackageRecommender({ isOpen, onClose, packages }) {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
               <button onClick={handleBack} style={{ background: 'none', border: 'none', color: 'var(--text-silver)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <ArrowLeft size={16} /> {language === 'en' ? 'Back' : 'Bakåt'}
+                <ArrowLeft size={16} /> {language === 'fa' ? 'پشت' : language === 'en' ? 'Back' : 'Bakåt'}
               </button>
               <button onClick={handleNext} className="btn-primary" disabled={!desiredBody} style={{ padding: '10px 24px' }}>
-                {language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} />
+                {language === 'fa' ? 'ادامه' : language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} />
               </button>
             </div>
           </div>
@@ -404,20 +404,20 @@ function PackageRecommender({ isOpen, onClose, packages }) {
         {step === 5 && (
           <div>
             <h3 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)', marginBottom: '10px', textAlign: 'center' }}>
-              {language === 'en' ? 'Any areas you\'d like to improve?' : 'Några områden du vill fokusera extra på?'}
+              {language === 'fa' ? 'کدام قسمت‌های بدن را می‌خواهید بهتر کنید؟' : language === 'en' ? 'Any areas you\'d like to improve?' : 'Några områden du vill fokusera extra på?'}
             </h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', textAlign: 'center', marginBottom: '20px' }}>
-              {language === 'en' ? 'Select focus areas:' : 'Välj fokusområden:'}
+              {language === 'fa' ? 'نواحی تمرکز را انتخاب کنید:' : language === 'en' ? 'Select focus areas:' : 'Välj fokusområden:'}
             </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               {[
-                { id: 'chest', label: language === 'en' ? 'Chest' : 'Bröst', icon: '🔘' },
-                { id: 'belly', label: language === 'en' ? 'Belly / Core' : 'Mage / Midja', icon: '🌀' },
-                { id: 'legs', label: language === 'en' ? 'Legs' : 'Ben', icon: '🦵' },
-                { id: 'arms', label: language === 'en' ? 'Arms' : 'Armar', icon: '💪' },
-                { id: 'back', label: language === 'en' ? 'Back' : 'Rygg', icon: '🛡️' },
-                { id: 'butt', label: language === 'en' ? 'Glutes / Butt' : 'Säte / Rumpa', icon: '🍑' }
+                { id: 'chest', label: language === 'fa' ? 'سینه' : language === 'en' ? 'Chest' : 'Bröst', icon: '🔘' },
+                { id: 'belly', label: language === 'fa' ? 'شکم / میان‌تنه' : language === 'en' ? 'Belly / Core' : 'Mage / Midja', icon: '🌀' },
+                { id: 'legs', label: language === 'fa' ? 'پاها' : language === 'en' ? 'Legs' : 'Ben', icon: '🦵' },
+                { id: 'arms', label: language === 'fa' ? 'بازوها' : language === 'en' ? 'Arms' : 'Armar', icon: '💪' },
+                { id: 'back', label: language === 'fa' ? 'پشت' : language === 'en' ? 'Back' : 'Rygg', icon: '🛡️' },
+                { id: 'butt', label: language === 'fa' ? 'باسن' : language === 'en' ? 'Glutes / Butt' : 'Säte / Rumpa', icon: '🍑' }
               ].map(item => {
                 const isSelected = focusAreas.includes(item.id)
                 return (
@@ -451,10 +451,10 @@ function PackageRecommender({ isOpen, onClose, packages }) {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
               <button onClick={handleBack} style={{ background: 'none', border: 'none', color: 'var(--text-silver)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <ArrowLeft size={16} /> {language === 'en' ? 'Back' : 'Bakåt'}
+                <ArrowLeft size={16} /> {language === 'fa' ? 'پشت' : language === 'en' ? 'Back' : 'Bakåt'}
               </button>
               <button onClick={handleNext} className="btn-primary" style={{ padding: '10px 24px' }}>
-                {language === 'en' ? 'Show Results' : 'Visa resultat'} <ArrowRight size={16} />
+                {language === 'fa' ? 'نمایش نتیجه' : language === 'en' ? 'Show Results' : 'Visa resultat'} <ArrowRight size={16} />
               </button>
             </div>
           </div>
@@ -466,7 +466,7 @@ function PackageRecommender({ isOpen, onClose, packages }) {
             <div style={{ textAlign: 'center', marginBottom: '24px' }}>
               <ShieldCheck size={48} style={{ color: '#10b981', marginBottom: '12px' }} />
               <h3 style={{ fontSize: '1.8rem', fontFamily: 'var(--font-heading)', color: 'var(--text-white)', margin: 0 }}>
-                {language === 'en' ? 'Your Tailored Result' : 'Din skräddarsydda analys'}
+                {language === 'fa' ? 'نتیجه اختصاصی شما' : language === 'en' ? 'Your Tailored Result' : 'Din skräddarsydda analys'}
               </h3>
             </div>
 
@@ -485,13 +485,13 @@ function PackageRecommender({ isOpen, onClose, packages }) {
 
               {/* Analysis Text */}
               <p style={{ fontSize: '0.98rem', lineHeight: '1.6', color: 'var(--text-silver)', margin: 0 }}>
-                {language === 'en' 
+                {language === 'fa' ? `بر اساس شاخص‌های شما (${height} سانتی‌متر، ${weight} کیلوگرم) و نوع بدن (${currentBody})، می‌خواهید بدنی بسازید که ` : language === 'en' 
                   ? `Based on your metrics (${height}cm, ${weight}kg) and body type (${currentBody}), you want to build a body that is ` 
                   : `Baserat på dina mått (${height} cm, ${weight} kg) och kroppstyp (${currentBody === 'skinny' ? 'smal' : currentBody === 'regular' ? 'normal' : currentBody === 'pot_belly' ? 'lite mage' : 'kraftig'}), vill du uppnå en kroppsform som är `}
                 <strong style={{ color: 'var(--accent-gold)' }}>
-                  {desiredBody === 'smaller' ? (language === 'en' ? 'smaller' : 'några storlekar mindre') : desiredBody === 'lean' ? (language === 'en' ? 'lean' : 'hård & deffad') : desiredBody === 'athletic' ? (language === 'en' ? 'athletic' : 'atletisk & stark') : (language === 'en' ? 'shredded' : 'muskelös & rippad')}.
+                  {desiredBody === 'smaller' ? (language === 'fa' ? 'کوچک‌تر' : language === 'en' ? 'smaller' : 'några storlekar mindre') : desiredBody === 'lean' ? (language === 'fa' ? 'لاغر و سفت' : language === 'en' ? 'lean' : 'hård & deffad') : desiredBody === 'athletic' ? (language === 'fa' ? 'ورزشکاری' : language === 'en' ? 'athletic' : 'atletisk & stark') : (language === 'fa' ? 'عضلانی و کات' : language === 'en' ? 'shredded' : 'muskelös & rippad')}.
                 </strong>
-                {language === 'en'
+                {language === 'fa' ? ` تمرکز اصلی شما بر این نواحی است: ${focusAreas.join('، ')}.` : language === 'en'
                   ? ` Your main focus is to target: ${focusAreas.join(', ')}.`
                   : ` Ditt fokus är att förbättra: ${focusAreas.map(a => a === 'chest' ? 'bröst' : a === 'belly' ? 'mage' : a === 'legs' ? 'ben' : a === 'arms' ? 'armar' : a === 'back' ? 'rygg' : 'rumpa').join(', ')}.`}
               </p>
@@ -499,7 +499,7 @@ function PackageRecommender({ isOpen, onClose, packages }) {
 
             {/* Recommended Packages Title */}
             <h4 style={{ fontSize: '1.15rem', color: 'var(--text-white)', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-              {language === 'en' ? 'Recommended Packages for You:' : 'Rekommenderade paket för dig:'}
+              {language === 'fa' ? 'بسته‌های پیشنهادی برای شما:' : language === 'en' ? 'Recommended Packages for You:' : 'Rekommenderade paket för dig:'}
             </h4>
 
             {/* Package list display */}
@@ -519,7 +519,7 @@ function PackageRecommender({ isOpen, onClose, packages }) {
                     style={{ padding: '8px 18px', fontSize: '0.85rem' }}
                     onClick={onClose}
                   >
-                    {language === 'en' ? 'Choose' : 'Välj paket'}
+                    {language === 'fa' ? 'انتخاب' : language === 'en' ? 'Choose' : 'Välj paket'}
                   </Link>
                 </div>
               ))}
@@ -544,17 +544,17 @@ function PackageRecommender({ isOpen, onClose, packages }) {
               </div>
               <div style={{ flex: 1 }}>
                 <span style={{ fontSize: '0.72rem', fontWeight: 'bold', color: 'var(--accent-gold)', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '2px' }}>
-                  {language === 'en' ? 'Limited Offer' : 'Tidsbegränsat erbjudande'}
+                  {language === 'fa' ? 'پیشنهاد محدود' : language === 'en' ? 'Limited Offer' : 'Tidsbegränsat erbjudande'}
                 </span>
                 <h5 style={{ fontSize: '1.1rem', color: 'var(--text-white)', margin: '0 0 2px 0' }}>
-                  {language === 'en' ? 'Start with 2 Weeks Free' : 'Starta med 2 veckor helt gratis'}
+                  {language === 'fa' ? 'با ۲ هفته رایگان شروع کنید' : language === 'en' ? 'Start with 2 Weeks Free' : 'Starta med 2 veckor helt gratis'}
                 </h5>
                 <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: 0 }}>
-                  {language === 'en' ? 'No strings attached. Try workout & meal plans today!' : 'Träningsprogram & kostschema helt utan förpliktelser!'}
+                  {language === 'fa' ? 'بدون هیچ تعهدی. همین امروز برنامه تمرینی و غذایی را امتحان کنید!' : language === 'en' ? 'No strings attached. Try workout & meal plans today!' : 'Träningsprogram & kostschema helt utan förpliktelser!'}
                 </p>
               </div>
               <Link 
-                to={`/ansok?paket=${encodeURIComponent(language === 'en' ? 'Free 2-Week Trial Period' : 'Gratis 2-veckors testperiod')}`}
+                to={`/ansok?paket=${encodeURIComponent(language === 'fa' ? 'دوره آزمایشی رایگان ۲ هفته‌ای' : language === 'en' ? 'Free 2-Week Trial Period' : 'Gratis 2-veckors testperiod')}`}
                 className="btn-primary"
                 style={{ 
                   padding: '8px 18px', 
@@ -564,7 +564,7 @@ function PackageRecommender({ isOpen, onClose, packages }) {
                 }}
                 onClick={onClose}
               >
-                {language === 'en' ? 'Try Free' : 'Testa gratis'}
+                {language === 'fa' ? 'امتحان رایگان' : language === 'en' ? 'Try Free' : 'Testa gratis'}
               </Link>
             </div>
 
@@ -583,7 +583,7 @@ function PackageRecommender({ isOpen, onClose, packages }) {
                 }}
                 style={{ background: 'none', border: 'none', color: 'var(--text-muted)', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.9rem' }}
               >
-                {language === 'en' ? 'Restart test' : 'Gör om testet'}
+                {language === 'fa' ? 'شروع دوباره آزمون' : language === 'en' ? 'Restart test' : 'Gör om testet'}
               </button>
             </div>
           </div>

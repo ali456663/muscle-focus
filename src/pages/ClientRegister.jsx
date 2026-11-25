@@ -191,7 +191,7 @@ function ClientRegister() {
               <div className="mock-stats-row">
                 <div className="mock-stat-info">
                   <h4>{langText.kcals}</h4>
-                  <span>Proteiner: 175g · Kolhydrater: 220g</span>
+                  <span>{language === 'fa' ? 'پروتئین: ۱۷۵ گرم · کربوهیدرات: ۲۲۰ گرم' : language === 'en' ? 'Protein: 175 g · Carbs: 220 g' : 'Protein: 175 g · Kolhydrater: 220 g'}</span>
                 </div>
                 <div className="mock-progress-circle">
                   <svg width="48" height="48">
@@ -234,7 +234,7 @@ function ClientRegister() {
               <span>Muscle & Focus PT</span>
             </div>
             <div className="footer-badge">
-              <span>8+ år erfarenhet</span>
+              <span>{language === 'fa' ? 'بیش از ۸ سال تجربه' : language === 'en' ? '8+ years of experience' : '8+ års erfarenhet'}</span>
             </div>
           </div>
         </div>

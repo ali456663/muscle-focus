@@ -73,8 +73,8 @@ function Home() {
                     zIndex: 2
                   }}
                 >
-                  <img src="/arbete_pagar.png" alt="Arbete pågår" style={{ width: '20px', height: 'auto', display: 'block' }} />
-                  <span>ARBETE PÅGÅR</span>
+                  <img src="/arbete_pagar.png" alt={language === 'fa' ? 'در حال توسعه' : language === 'en' ? 'Work in progress' : 'Arbete pågår'} style={{ width: '20px', height: 'auto', display: 'block' }} />
+                  <span>{language === 'fa' ? 'در حال توسعه' : language === 'en' ? 'WORK IN PROGRESS' : 'ARBETE PÅGÅR'}</span>
                 </div>
 
                 {/* White Rounded Badge overlay positioned at the bottom */}
@@ -97,7 +97,7 @@ function Home() {
                     gap: '8px'
                   }}
                 >
-                  <img src="/arbete_pagar.png" alt="Arbete pågår" style={{ width: '22px', height: 'auto', objectFit: 'contain' }} />
+                  <img src="/arbete_pagar.png" alt={language === 'fa' ? 'در حال توسعه' : language === 'en' ? 'Work in progress' : 'Arbete pågår'} style={{ width: '22px', height: 'auto', objectFit: 'contain' }} />
                   <span 
                     style={{
                       fontFamily: 'var(--font-heading), Impact, sans-serif',
@@ -108,7 +108,7 @@ function Home() {
                       textTransform: 'uppercase'
                     }}
                   >
-                    Starta din 2- veckors gratis provperiod idag
+                    {language === 'fa' ? 'دوره آزمایشی رایگان ۲ هفته‌ای خود را همین امروز شروع کنید' : language === 'en' ? 'Start your 2-week free trial today' : 'Starta din 2-veckors gratis provperiod idag'}
                   </span>
                 </div>
               </Link>
@@ -129,13 +129,13 @@ function Home() {
                   textAlign: 'left'
                 }}
               >
-                <img src="/arbete_pagar.png" alt="Arbete pågår" style={{ width: '38px', height: 'auto', flexShrink: 0 }} />
+                <img src="/arbete_pagar.png" alt={language === 'fa' ? 'در حال توسعه' : language === 'en' ? 'Work in progress' : 'Arbete pågår'} style={{ width: '38px', height: 'auto', flexShrink: 0 }} />
                 <div>
                   <strong style={{ color: '#ffcc00', fontSize: '0.82rem', display: 'block', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                    ⚠️ Arbete Pågår — Tjänsten Utvecklas
+                    {language === 'fa' ? '⚠️ در حال توسعه — این سرویس در حال آماده‌سازی است' : language === 'en' ? '⚠️ Work in progress — service under development' : '⚠️ Arbete pågår — tjänsten utvecklas'}
                   </strong>
                   <span style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '0.78rem', lineHeight: 1.4, display: 'block' }}>
-                    Tjänsten för "Starta din 2- veckors gratis provperiod idag" färdigställs just nu.
+                    {language === 'fa' ? 'سرویس «دوره آزمایشی رایگان ۲ هفته‌ای» در حال تکمیل است.' : language === 'en' ? 'The "Start your 2-week free trial today" service is being finalized right now.' : 'Tjänsten "Starta din 2-veckors gratis provperiod idag" färdigställs just nu.'}
                   </span>
                 </div>
               </div>
@@ -174,16 +174,16 @@ function Home() {
                 </div>
                 <div className="visual-body" style={{ paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <div className="stat-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>Erfarenhet / Experience</span>
-                    <span className="stat-value" style={{ color: '#ffb700', fontWeight: '800', textShadow: '0 0 8px rgba(255, 183, 0, 0.4)' }}>8+ År</span>
+                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>{language === 'fa' ? 'تجربه' : language === 'en' ? 'Experience' : 'Erfarenhet'}</span>
+                    <span className="stat-value" style={{ color: '#ffb700', fontWeight: '800', textShadow: '0 0 8px rgba(255, 183, 0, 0.4)' }}>{language === 'fa' ? 'بیش از ۸ سال' : language === 'en' ? '8+ years' : '8+ år'}</span>
                   </div>
                   <div className="stat-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>Stöd / Support</span>
-                    <span className="stat-value" style={{ color: '#00f5ff', fontWeight: '800', textShadow: '0 0 8px rgba(0, 245, 255, 0.4)' }}>Flerspråkigt</span>
+                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>{language === 'fa' ? 'پشتیبانی' : language === 'en' ? 'Support' : 'Stöd'}</span>
+                    <span className="stat-value" style={{ color: '#00f5ff', fontWeight: '800', textShadow: '0 0 8px rgba(0, 245, 255, 0.4)' }}>{language === 'fa' ? 'چندزبانه' : language === 'en' ? 'Multilingual' : 'Flerspråkigt'}</span>
                   </div>
                   <div className="stat-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>Coaching</span>
-                    <span className="stat-value" style={{ color: '#00ff88', fontWeight: '800', textShadow: '0 0 8px rgba(0, 255, 136, 0.4)' }}>Online & På plats</span>
+                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>{language === 'fa' ? 'مربیگری' : language === 'en' ? 'Coaching' : 'Coaching'}</span>
+                    <span className="stat-value" style={{ color: '#00ff88', fontWeight: '800', textShadow: '0 0 8px rgba(0, 255, 136, 0.4)' }}>{language === 'fa' ? 'آنلاین و حضوری' : language === 'en' ? 'Online & on-site' : 'Online & på plats'}</span>
                   </div>
                 </div>
               </div>
@@ -342,7 +342,7 @@ function Home() {
             <div className="why-video-wrapper glass-panel" style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', borderRadius: 'var(--border-radius-lg)', border: '1px solid var(--border-glass)', boxShadow: 'var(--shadow-cyan)' }}>
               <img 
                 src="/why_choose_me.png" 
-                alt="Varför välja mig" 
+                alt={language === 'fa' ? 'چرا من را انتخاب کنید' : language === 'en' ? 'Why choose me' : 'Varför välja mig'} 
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
               />
@@ -528,7 +528,7 @@ function Home() {
               <div className="result-img-wrapper" style={{ width: '100%', aspectRatio: '1.2', borderRadius: 'var(--border-radius-md)', overflow: 'hidden', border: '1px solid var(--border-glass)' }}>
                 <img 
                   src="/transformation_male.png" 
-                  alt="Viktnedgång & Styrka" 
+                  alt={language === 'fa' ? 'کاهش وزن و قدرت' : language === 'en' ? 'Weight loss & strength' : 'Viktnedgång & styrka'} 
                   loading="lazy"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform var(--transition-normal)' }}
                   onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
@@ -545,7 +545,7 @@ function Home() {
               <div className="result-img-wrapper" style={{ width: '100%', aspectRatio: '1.2', borderRadius: 'var(--border-radius-md)', overflow: 'hidden', border: '1px solid var(--border-glass)' }}>
                 <img 
                   src="/transformation_female.png" 
-                  alt="Fettförbränning & Livsstil" 
+                  alt={language === 'fa' ? 'چربی‌سوزی و سبک زندگی' : language === 'en' ? 'Fat burning & lifestyle' : 'Fettförbränning & livsstil'} 
                   loading="lazy"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform var(--transition-normal)' }}
                   onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}

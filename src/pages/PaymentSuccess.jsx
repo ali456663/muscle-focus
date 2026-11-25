@@ -18,7 +18,7 @@ function PaymentSuccess() {
   useEffect(() => {
     if (!sessionId) {
       setStatus('error')
-      setErrorMessage(language === 'fa' ? 'Session-ID saknas' : 'Session ID is missing')
+      setErrorMessage(language === 'fa' ? 'شناسه جلسه (Session ID) وجود ندارد' : language === 'en' ? 'Session ID is missing' : 'Session-ID saknas')
       return
     }
 
@@ -34,7 +34,7 @@ function PaymentSuccess() {
         }
       } catch (err) {
         setStatus('error')
-        setErrorMessage(err.message || 'Ett nätverksfel uppstod.')
+        setErrorMessage(err.message || (language === 'fa' ? 'خطای شبکه رخ داد.' : language === 'en' ? 'A network error occurred.' : 'Ett nätverksfel uppstod.'))
       }
     }
 
@@ -67,10 +67,10 @@ function PaymentSuccess() {
           <div className="status-icon-wrapper error-icon">
             <ShieldAlert size={40} />
           </div>
-          <h2>{language === 'fa' ? 'Verifiering misslyckades' : language === 'en' ? 'Verification Failed' : 'Verifiering misslyckades'}</h2>
+          <h2>{language === 'fa' ? 'تأیید پرداخت ناموفق بود' : language === 'en' ? 'Verification Failed' : 'Verifiering misslyckades'}</h2>
           <p className="status-message">{errorMessage}</p>
           <p className="error-tip">
-            {language === 'fa' ? 'Om du har betalat och ser detta fel, kontakta Ali på info.musclefocus@gmail.com med ditt session-ID.' : 
+            {language === 'fa' ? 'اگر پرداخت کرده‌اید و این خطا را می‌بینید، لطفاً با شناسه جلسه (Session ID) خود به علی از طریق info.musclefocus@gmail.com پیام دهید.' : 
              language === 'en' ? 'If you made a payment and see this error, please contact Ali at info.musclefocus@gmail.com with your session ID.' : 
              'Om du har betalat och ser detta fel, vänligen kontakta Ali på info.musclefocus@gmail.com med ditt session-ID.'}
           </p>

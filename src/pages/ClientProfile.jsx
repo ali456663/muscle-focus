@@ -3408,6 +3408,14 @@ function ClientProfile() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const { t, language } = useLanguage()
+
+  // Välj övningstext på besökarens språk när översättning finns, annars svenska/engelska
+  const exField = (ex, field) => {
+    if (!ex) return undefined
+    if (language === 'en') return ex[`${field}_en`] || ex[field]
+    if (language === 'fa') return ex[`${field}_fa`] || ex[field] || ex[`${field}_en`]
+    return ex[field] || ex[`${field}_en`]
+  }
   usePageTitle('client_profile')
 
   // Main navigation tab
@@ -4181,13 +4189,13 @@ function ClientProfile() {
             }}>
               <img
                 src={selectedEx.gifUrl}
-                alt={selectedEx.name}
+                alt={exField(selectedEx, 'name')}
                 style={{ height: '210px', objectFit: 'contain', filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.4))' }}
               />
             </div>
 
             <h4 style={{ color: 'var(--text-white)', fontSize: '1.2rem', fontWeight: 'bold', margin: '0 0 8px 0' }}>
-              {selectedEx.name}
+              {exField(selectedEx, 'name')}
             </h4>
 
             {/* Tags */}
@@ -4227,10 +4235,10 @@ function ClientProfile() {
             {/* Instructions */}
             <div style={{ marginBottom: '20px' }}>
               <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: 'var(--accent-gold)', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
-                📌 Instruktioner:
+                📌 {language === 'fa' ? 'دستورالعمل:' : language === 'en' ? 'Instructions:' : 'Instruktioner:'}
               </strong>
               <ol style={{ margin: 0, paddingLeft: '20px', fontSize: '0.85rem', color: 'var(--text-silver)', lineHeight: 1.6 }}>
-                {(selectedEx.instructions || selectedEx.instructions_en || ['Utför kontrollerat.']).map((inst, i) => (
+                {(exField(selectedEx, 'instructions') || [language === 'fa' ? 'با کنترل انجام دهید.' : language === 'en' ? 'Perform with control.' : 'Utför kontrollerat.']).map((inst, i) => (
                   <li key={i} style={{ marginBottom: '6px' }}>{inst}</li>
                 ))}
               </ol>
@@ -4240,10 +4248,10 @@ function ClientProfile() {
             {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isSled45LegPress && !selectedEx.isLeverSeatedCalfRaiseMachine && !selectedEx.isSmithCalfRaise && !selectedEx.isLeverSeatedCalfRaise && !selectedEx.isDbAroundWorld && !selectedEx.isCableLowFly && !selectedEx.isDbFly && !selectedEx.isCableMiddleFly && !selectedEx.isInclineLeverPress && !selectedEx.isElevatedPushUp && !selectedEx.isLeverChestPress && !selectedEx.isSmithInclineBenchPress && !selectedEx.isPushUp && !selectedEx.isCableStandingFly && !selectedEx.isDbBenchPress && !selectedEx.isDbInclineBenchPress && !selectedEx.isInclineBenchPress && !selectedEx.isLeverSeatedFly && !selectedEx.isBenchPress && !selectedEx.isStandardPushdown && !selectedEx.isReverseGripPushdown && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
-                  💡 Tekniktips:
+                  💡 {language === 'fa' ? 'نکات تکنیکی:' : language === 'en' ? 'Technique tips:' : 'Tekniktips:'}
                 </strong>
                 <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '0.82rem', color: 'var(--text-silver)', lineHeight: 1.5 }}>
-                  {(selectedEx.tips || selectedEx.tips_en).map((tip, i) => (
+                  {exField(selectedEx, 'tips').map((tip, i) => (
                     <li key={i} style={{ marginBottom: '4px' }}>{tip}</li>
                   ))}
                 </ul>

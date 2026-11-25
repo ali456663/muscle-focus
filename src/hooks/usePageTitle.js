@@ -3,6 +3,10 @@ import { useLanguage } from './useLanguage'
 
 const pageTitles = {
   sv: {
+    clientLogin: 'Logga in | Muscle & Focus',
+    clientRegister: 'Skapa konto | Muscle & Focus',
+    clientProfile: 'Min profil | Muscle & Focus',
+    resetPassword: 'Återställ lösenord | Muscle & Focus',
     home: 'Muscle & Focus | Personlig Tränare, Online Coach & Kostrådgivning',
     packages: 'Träningspaket | Din Personliga Tränare Online | Muscle & Focus',
     apply: 'Bli Klient | Skräddarsydd Personlig Träning Online | Muscle & Focus',
@@ -18,6 +22,10 @@ const pageTitles = {
     paymentCancel: 'Betalning Avbruten | Muscle & Focus',
   },
   en: {
+    clientLogin: 'Log in | Muscle & Focus',
+    clientRegister: 'Create account | Muscle & Focus',
+    clientProfile: 'My profile | Muscle & Focus',
+    resetPassword: 'Reset password | Muscle & Focus',
     home: 'Muscle & Focus | Personal Trainer, Online Coach & Nutritionist',
     packages: 'Training Packages | Personal Training & Coaching | Muscle & Focus',
     apply: 'Become a Client | Personal Trainer Online | Muscle & Focus',
@@ -33,6 +41,10 @@ const pageTitles = {
     paymentCancel: 'Payment Cancelled | Muscle & Focus',
   },
   fa: {
+    clientLogin: 'ورود | Muscle & Focus',
+    clientRegister: 'ایجاد حساب کاربری | Muscle & Focus',
+    clientProfile: 'پروفایل من | Muscle & Focus',
+    resetPassword: 'بازیابی رمز عبور | Muscle & Focus',
     home: 'Muscle & Focus | مربی شخصی (PT)، مربی آنلاین و مشاوره تغذیه',
     packages: 'بسته‌های تمرینی و برنامه‌ها | Muscle & Focus',
     apply: 'ثبت نام و شروع تمرین | Muscle & Focus',
@@ -60,7 +72,8 @@ export function usePageTitle(pageKey) {
 
   useEffect(() => {
     const titles = pageTitles[language] || pageTitles['sv']
-    const title = titles[pageKey] || titles['home']
+    const key = { client_login: 'clientLogin', client_register: 'clientRegister', client_profile: 'clientProfile', reset_password: 'resetPassword' }[pageKey] || pageKey
+    const title = titles[key] || titles['home']
     document.title = title
 
     // Update Open Graph meta tags

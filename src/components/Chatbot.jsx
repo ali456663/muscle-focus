@@ -241,7 +241,7 @@ function Chatbot() {
         <button 
           onClick={() => setIsOpen(true)} 
           className="chatbot-float-btn"
-          aria-label="Open Chatbot"
+          aria-label={language === 'fa' ? 'باز کردن گفتگو' : language === 'en' ? 'Open chat' : 'Öppna chatt'}
         >
           <MessageCircle size={28} />
           <div className="btn-pulse-glow"></div>
@@ -288,11 +288,11 @@ function Chatbot() {
                       onClick={() => handleRedirect(msg.redirect)} 
                       className="msg-redirect-btn"
                     >
-                      {msg.redirect === '/paket' ? (language === 'fa' ? 'مشاهده پکیج‌ها 🏋️' : 'View Packages 🏋️') :
-                       msg.redirect === '/ansok' ? (language === 'fa' ? 'رزرو رایگان 📅' : 'Book Free 📅') :
-                       msg.redirect === '/bmi' ? (language === 'fa' ? 'محاسبه‌گر BMI 📊' : 'BMI Calculator 📊') :
-                       msg.redirect === '/hitta-kompis' ? (language === 'fa' ? 'هم‌تمرینی 🤝' : 'Find Buddy 🤝') :
-                       (language === 'fa' ? 'باز کردن صفحه 🔗' : 'Open Page 🔗')}
+                      {msg.redirect === '/paket' ? (language === 'fa' ? 'مشاهده پکیج‌ها 🏋️' : language === 'en' ? 'View Packages 🏋️' : 'Visa paket 🏋️') :
+                       msg.redirect === '/ansok' ? (language === 'fa' ? 'رزرو رایگان 📅' : language === 'en' ? 'Book Free 📅' : 'Boka gratis 📅') :
+                       msg.redirect === '/bmi' ? (language === 'fa' ? 'محاسبه‌گر BMI 📊' : language === 'en' ? 'BMI Calculator 📊' : 'BMI-räknare 📊') :
+                       msg.redirect === '/hitta-kompis' ? (language === 'fa' ? 'هم‌تمرینی 🤝' : language === 'en' ? 'Find Buddy 🤝' : 'Hitta kompis 🤝') :
+                       (language === 'fa' ? 'باز کردن صفحه 🔗' : language === 'en' ? 'Open Page 🔗' : 'Öppna sidan 🔗')}
                     </button>
                   )}
 

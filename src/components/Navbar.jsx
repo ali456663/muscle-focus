@@ -40,11 +40,11 @@ function Navbar() {
               value={language} 
               onChange={(e) => setLanguage(e.target.value)} 
               className="lang-select-dropdown"
-              aria-label="Select Language"
+              aria-label={language === 'fa' ? 'انتخاب زبان' : language === 'en' ? 'Select language' : 'Välj språk'}
             >
               <option value="sv">Svenska</option>
               <option value="en">English</option>
-              <option value="fa">فارسی (Persiska)</option>
+              <option value="fa">فارسی</option>
             </select>
           </div>
           
@@ -76,7 +76,7 @@ function Navbar() {
         </div>
 
         {/* Mobile Hamburger Toggle */}
-        <button className="mobile-toggle" onClick={toggleMenu} aria-label="Toggle menu">
+        <button className="mobile-toggle" onClick={toggleMenu} aria-label={language === 'fa' ? 'باز/بستن منو' : language === 'en' ? 'Toggle menu' : 'Öppna/stäng meny'}>
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
@@ -89,11 +89,11 @@ function Navbar() {
             value={language} 
             onChange={(e) => setLanguage(e.target.value)} 
             className="lang-select-dropdown mobile-lang-select"
-            aria-label="Select Language"
+            aria-label={language === 'fa' ? 'انتخاب زبان' : language === 'en' ? 'Select language' : 'Välj språk'}
           >
             <option value="sv">Svenska</option>
             <option value="en">English</option>
-            <option value="fa">فارسی (Persiska)</option>
+            <option value="fa">فارسی</option>
           </select>
         </div>
         <Link to="/" className={`mobile-link ${isActive('/')}`} onClick={closeMenu}>{t('home')}</Link>

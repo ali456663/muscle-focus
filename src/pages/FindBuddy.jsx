@@ -327,7 +327,7 @@ function FindBuddy() {
                     id="gym"
                     value={gym}
                     onChange={(e) => setGym(e.target.value)}
-                    placeholder="SATS Odenplan, Friskis, Hemma, etc."
+                    placeholder={language === 'fa' ? 'مثلاً SATS Odenplan، Friskis، خانه و...' : language === 'en' ? 'SATS Odenplan, Friskis, at home, etc.' : 'SATS Odenplan, Friskis, hemma, etc.'}
                     className="buddy-input"
                     required
                     disabled={submitting}

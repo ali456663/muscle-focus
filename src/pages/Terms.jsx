@@ -39,7 +39,7 @@ function Terms() {
           <ul>
             {sections.map((sec, idx) => {
               // Only include main numbered headers in sidebar outline
-              const isNumbered = /^\d+\./.test(sec.title)
+              const isNumbered = /^[0-9۰-۹]+\./.test(sec.title)
               if (!isNumbered && idx > 0) return null
               return (
                 <li key={idx}>
@@ -55,7 +55,7 @@ function Terms() {
         {/* Content Panel */}
         <main className="terms-content">
           {sections.map((sec, idx) => {
-            const isNumbered = /^\d+\./.test(sec.title)
+            const isNumbered = /^[0-9۰-۹]+\./.test(sec.title)
             return (
               <section 
                 key={idx} 

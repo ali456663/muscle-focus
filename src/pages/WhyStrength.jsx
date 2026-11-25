@@ -108,7 +108,7 @@ function WhyStrength({ isHomepage = false }) {
                   ? '"Strength does not come from winning. Your struggles develop your strengths. When you go through hardships and decide not to surrender, that is strength."'
                   : '"Styrka handlar inte om vad du kan göra. Det handlar om att övervinna de saker du en gång trodde att du inte kunde göra."'}
               </blockquote>
-              <cite>— Muscle & Focus Philosophy</cite>
+              <cite>— {language === 'fa' ? 'فلسفه Muscle & Focus' : language === 'en' ? 'Muscle & Focus Philosophy' : 'Muscle & Focus filosofi'}</cite>
               <div className="summary-actions">
                 <Link to="/ansok" className="btn-primary">
                   {language === 'fa' ? 'امروز شروع کنید' : language === 'en' ? 'Start your journey today' : 'Påbörja din resa idag'}

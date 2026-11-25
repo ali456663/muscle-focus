@@ -6,6 +6,21 @@ import { useLanguage } from '../hooks/useLanguage'
 import { usePageTitle } from '../hooks/usePageTitle'
 import './Apply.css'
 import { getPasswordError, isPasswordValid } from '../utils/passwordPolicy'
+import { FREE_TRIAL_TERMS } from '../data/freeTrialTerms'
+
+
+// Visningsetiketter för val vars värden lagras på svenska
+const OPTION_LABELS = {
+  Hemma: { en: 'Home', fa: 'خانه' },
+  Gym: { en: 'Gym', fa: 'باشگاه' },
+  Båda: { en: 'Both', fa: 'هر دو' },
+  Nybörjare: { en: 'Beginner', fa: 'مبتدی' },
+  Medel: { en: 'Intermediate', fa: 'متوسط' },
+  Avancerad: { en: 'Advanced', fa: 'پیشرفته' },
+  Ja: { en: 'Yes', fa: 'بله' },
+  Nej: { en: 'No', fa: 'خیر' },
+}
+const optionLabel = (value, language) => OPTION_LABELS[value]?.[language] || value
 
 function Apply() {
   const [searchParams] = useSearchParams()
@@ -285,10 +300,10 @@ function Apply() {
   const getBmiCategory = (bmi) => {
     if (!bmi) return ''
     const val = parseFloat(bmi)
-    if (val < 18.5) return { label: language === 'en' ? 'Underweight' : 'Undervikt', color: '#3b82f6' }
-    if (val < 25) return { label: language === 'en' ? 'Normal weight' : 'Normalvikt', color: '#10b981' }
-    if (val < 30) return { label: language === 'en' ? 'Overweight' : 'Övervikt', color: '#f59e0b' }
-    return { label: language === 'en' ? 'Obese' : 'Fetma', color: '#ef4444' }
+    if (val < 18.5) return { label: language === 'fa' ? 'کمبود وزن' : language === 'en' ? 'Underweight' : 'Undervikt', color: '#3b82f6' }
+    if (val < 25) return { label: language === 'fa' ? 'وزن طبیعی' : language === 'en' ? 'Normal weight' : 'Normalvikt', color: '#10b981' }
+    if (val < 30) return { label: language === 'fa' ? 'اضافه وزن' : language === 'en' ? 'Overweight' : 'Övervikt', color: '#f59e0b' }
+    return { label: language === 'fa' ? 'چاقی' : language === 'en' ? 'Obese' : 'Fetma', color: '#ef4444' }
   }
 
   // Validation helper for step transitions
@@ -308,7 +323,7 @@ function Apply() {
     // Require guardian details if under 18 (16 or 17 years old)
     if (ageNum < 18) {
       if (!formData.guardianEmail || !formData.guardianPhone) {
-        setError(language === 'en' 
+        setError(language === 'fa' ? 'از آنجا که زیر ۱۸ سال هستید، ایمیل و شماره تلفن ولی یا سرپرست الزامی است.' : language === 'en' 
           ? 'Guardian\'s email and phone number are required since you are under 18.' 
           : 'Vårdnadshavares e-postadress och telefonnummer krävs eftersom du är under 18 år.');
         return false;
@@ -318,7 +333,7 @@ function Apply() {
     // Simple personal number format validation (either 10 or 12 digits, with optional hyphen)
     const personalNumberClean = formData.personalNumber.replace(/[^0-9]/g, '')
     if (personalNumberClean.length !== 10 && personalNumberClean.length !== 12) {
-      setError(language === 'fa' ? 'لطفاً یک شماره ملی/کد ملی معتبر وارد کنید.' : language === 'en' ? 'Please enter a valid personal number (ÅÅÅÅMMDD-XXXX).' : 'Vänligen ange ett giltigt personnummer (ÅÅÅÅMMDD-XXXX).')
+      setError(language === 'fa' ? 'لطفاً یک شماره ملی/کد ملی معتبر وارد کنید.' : language === 'en' ? 'Please enter a valid Swedish personal identity number (YYYYMMDD-XXXX).' : 'Vänligen ange ett giltigt personnummer (ÅÅÅÅMMDD-XXXX).')
       return false
     }
 
@@ -330,7 +345,7 @@ function Apply() {
         return false
       }
       if (formData.password !== formData.confirmPassword) {
-        setError(language === 'en' ? 'Passwords do not match.' : 'Lösenorden matchar inte.')
+        setError(language === 'fa' ? 'رمزهای عبور با هم مطابقت ندارند.' : language === 'en' ? 'Passwords do not match.' : 'Lösenorden matchar inte.')
         return false
       }
     }
@@ -502,11 +517,11 @@ function Apply() {
               setIsAnalyzing(false)
               // If email already exists, offer to log in instead
               if (err.message && err.message.toLowerCase().includes('redan')) {
-                setError((language === 'en'
+                setError((language === 'fa' ? 'این ایمیل قبلاً ثبت شده است. لطفاً وارد شوید: ' : language === 'en'
                   ? 'This email is already registered. Please log in: '
                   : 'Den här e-postadressen är redan registrerad. Logga in: ') + '/login')
               } else {
-                setError(err.message || 'Kunde inte skapa konto. Försök igen.')
+                setError(err.message || (language === 'fa' ? 'ایجاد حساب کاربری ممکن نشد. لطفاً دوباره تلاش کنید.' : language === 'en' ? 'Could not create account. Please try again.' : 'Kunde inte skapa konto. Försök igen.'))
               }
               setLoading(false)
             }
@@ -553,7 +568,7 @@ function Apply() {
                 ? 'The server is not responding right now and your application was not sent. Please try again in a few minutes or contact us at info.musclefocus@gmail.com.'
                 : 'Servern svarar inte just nu och din ansökan skickades inte. Försök igen om några minuter eller kontakta oss på info.musclefocus@gmail.com.')
             } else {
-              setError(err.message || 'Ett fel uppstod när ansökan skickades. Kontrollera att servern körs.')
+              setError(err.message || (language === 'fa' ? 'هنگام ارسال درخواست خطایی رخ داد. لطفاً دوباره تلاش کنید.' : language === 'en' ? 'Something went wrong when sending your application. Please try again.' : 'Ett fel uppstod när ansökan skickades. Försök igen.'))
             }
           } finally {
             setLoading(false)
@@ -563,7 +578,7 @@ function Apply() {
 
     } catch (err) {
       setIsAnalyzing(false)
-      setError(err.message || 'Ett fel uppstod när ansökan skickades. Kontrollera att servern körs.')
+      setError(err.message || (language === 'fa' ? 'هنگام ارسال درخواست خطایی رخ داد. لطفاً دوباره تلاش کنید.' : language === 'en' ? 'Something went wrong when sending your application. Please try again.' : 'Ett fel uppstod när ansökan skickades. Försök igen.'))
       setLoading(false)
     }
   }
@@ -650,10 +665,10 @@ function Apply() {
           {/* Checklist with dynamic checkboxes based on progress */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', textAlign: 'left', padding: '0 10px', marginTop: '10px' }}>
             {[
-              { label: language === 'en' ? 'Reviewing your answers...' : 'Går igenom dina svar...', trigger: 20 },
-              { label: language === 'en' ? 'Analyzing your body metrics...' : 'Analyserar dina kroppsmått...', trigger: 40 },
-              { label: language === 'en' ? 'Calculating calorie & diet needs...' : 'Beräknar kalori- & kostbehov...', trigger: 60 },
-              { label: language === 'en' ? 'Matching workout split & exercises...' : 'Matchar träningssplit & övningar...', trigger: 80 }
+              { label: language === 'fa' ? 'در حال بررسی پاسخ‌های شما...' : language === 'en' ? 'Reviewing your answers...' : 'Går igenom dina svar...', trigger: 20 },
+              { label: language === 'fa' ? 'در حال تحلیل شاخص‌های بدنی شما...' : language === 'en' ? 'Analyzing your body metrics...' : 'Analyserar dina kroppsmått...', trigger: 40 },
+              { label: language === 'fa' ? 'در حال محاسبه کالری و نیازهای غذایی...' : language === 'en' ? 'Calculating calorie & diet needs...' : 'Beräknar kalori- & kostbehov...', trigger: 60 },
+              { label: language === 'fa' ? 'در حال انتخاب برنامه تمرینی و حرکات مناسب...' : language === 'en' ? 'Matching workout split & exercises...' : 'Matchar träningssplit & övningar...', trigger: 80 }
             ].map((item, idx) => {
               const isChecked = progress >= item.trigger
               return (
@@ -681,9 +696,9 @@ function Apply() {
           </div>
 
           <div style={{ color: 'var(--text-silver)', fontSize: '0.9rem', fontWeight: 'bold', marginTop: '10px' }}>
-            {language === 'en' ? 'Over 10,000 People' : 'Över 10 000 personer'}
+            {language === 'fa' ? 'بیش از ۱۰٬۰۰۰ نفر' : language === 'en' ? 'Over 10,000 People' : 'Över 10 000 personer'}
             <p style={{ margin: '4px 0 0 0', fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>
-              {language === 'en' ? 'have chosen Muscle & Focus' : 'har valt Muscle & Focus'}
+              {language === 'fa' ? 'Muscle & Focus را انتخاب کرده‌اند' : language === 'en' ? 'have chosen Muscle & Focus' : 'har valt Muscle & Focus'}
             </p>
           </div>
 
@@ -746,13 +761,13 @@ function Apply() {
 
     // Goal adjustments (Deficit / Surplus / Balance)
     let goalAdjustment = 0
-    let goalLabel = language === 'en' ? 'Maintenance (0 kcal)' : 'Balans (0 kcal)'
+    let goalLabel = language === 'fa' ? 'حفظ وزن (۰ کیلوکالری)' : language === 'en' ? 'Maintenance (0 kcal)' : 'Balans (0 kcal)'
     if (formData.weightGoal === 'Viktnedgång') {
       goalAdjustment = -500
-      goalLabel = language === 'en' ? 'Deficit (-500 kcal)' : 'Underskott (-500 kcal)'
+      goalLabel = language === 'fa' ? 'کسری کالری (۵۰۰- کیلوکالری)' : language === 'en' ? 'Deficit (-500 kcal)' : 'Underskott (-500 kcal)'
     } else if (formData.weightGoal === 'Viktuppgång') {
       goalAdjustment = 300
-      goalLabel = language === 'en' ? 'Surplus (+300 kcal)' : 'Överskott (+300 kcal)'
+      goalLabel = language === 'fa' ? 'مازاد کالری (۳۰۰+ کیلوکالری)' : language === 'en' ? 'Surplus (+300 kcal)' : 'Överskott (+300 kcal)'
     }
 
     const targetCalories = Math.max(1000, tdee + goalAdjustment)
@@ -830,17 +845,17 @@ function Apply() {
           {/* Progress Indicator */}
           <div className="form-steps-indicator" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '30px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
             <span style={{ fontWeight: formStep === 1 ? 'bold' : 'normal', color: formStep === 1 ? 'var(--accent-gold)' : 'var(--text-muted)' }}>
-              1. {language === 'en' ? 'Create Profile' : 'Skapa Profil'}
+              1. {language === 'fa' ? 'ساخت پروفایل' : language === 'en' ? 'Create Profile' : 'Skapa Profil'}
             </span>
             <span style={{ fontWeight: formStep === 2 ? 'bold' : 'normal', color: formStep === 2 ? 'var(--accent-gold)' : 'var(--text-muted)' }}>
-              2. {language === 'en' ? 'Goals & Focus' : 'Mål & Fokus'}
+              2. {language === 'fa' ? 'اهداف و تمرکز' : language === 'en' ? 'Goals & Focus' : 'Mål & Fokus'}
             </span>
             <span style={{ fontWeight: formStep === 3 ? 'bold' : 'normal', color: formStep === 3 ? 'var(--accent-gold)' : 'var(--text-muted)' }}>
-              3. {language === 'en' ? 'Physical Info' : 'Fysisk Info'}
+              3. {language === 'fa' ? 'اطلاعات بدنی' : language === 'en' ? 'Physical Info' : 'Fysisk Info'}
             </span>
             {isFreeTrial && (
               <span style={{ fontWeight: formStep === 4 ? 'bold' : 'normal', color: formStep === 4 ? 'var(--accent-gold)' : 'var(--text-muted)' }}>
-                4. {language === 'en' ? 'Lifestyle' : 'Livsstil'}
+                4. {language === 'fa' ? 'سبک زندگی' : language === 'en' ? 'Lifestyle' : 'Livsstil'}
               </span>
             )}
           </div>
@@ -919,13 +934,13 @@ function Apply() {
                 {formData.age && parseInt(formData.age, 10) < 18 && (
                   <div className="fade-in" style={{ backgroundColor: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.15)', borderRadius: 'var(--border-radius-sm)', padding: '16px', marginBottom: '20px' }}>
                     <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', color: '#ef4444', fontWeight: 'bold' }}>
-                      ⚠️ {language === 'en' 
+                      ⚠️ {language === 'fa' ? 'زیر ۱۸ سال: برای ارسال قرارداد، اطلاعات ولی یا سرپرست لازم است.' : language === 'en' 
                         ? 'Under 18: Guardian details required to send the contract/agreement.' 
                         : 'Under 18 år: Uppgifter till vårdnadshavare krävs för att skicka avtalet.'}
                     </p>
                     <div className="form-row">
                       <div className="form-group" style={{ margin: 0 }}>
-                        <label htmlFor="guardianEmail">{language === 'en' ? 'Guardian\'s Email *' : 'Vårdnadshavares E-post *'}</label>
+                        <label htmlFor="guardianEmail">{language === 'fa' ? 'ایمیل ولی/سرپرست *' : language === 'en' ? 'Guardian\'s Email *' : 'Vårdnadshavares E-post *'}</label>
                         <input
                           type="email"
                           id="guardianEmail"
@@ -937,7 +952,7 @@ function Apply() {
                         />
                       </div>
                       <div className="form-group" style={{ margin: 0 }}>
-                        <label htmlFor="guardianPhone">{language === 'en' ? 'Guardian\'s Phone *' : 'Vårdnadshavares Tel *'}</label>
+                        <label htmlFor="guardianPhone">{language === 'fa' ? 'تلفن ولی/سرپرست *' : language === 'en' ? 'Guardian\'s Phone *' : 'Vårdnadshavares Tel *'}</label>
                         <input
                           type="tel"
                           id="guardianPhone"
@@ -963,7 +978,7 @@ function Apply() {
                     name="personalNumber"
                     value={formData.personalNumber}
                     onChange={handleChange}
-                    placeholder="ÅÅÅÅMMDD-XXXX"
+                    placeholder={language === 'fa' ? 'YYYYMMDD-XXXX' : language === 'en' ? 'YYYYMMDD-XXXX' : 'ÅÅÅÅMMDD-XXXX'}
                     required
                   />
                   <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>
@@ -1027,10 +1042,10 @@ function Apply() {
                       <span style={{ fontSize: '1.3rem' }}>🔐</span>
                       <div>
                         <h4 style={{ color: 'var(--accent-gold)', margin: 0, fontSize: '0.95rem', fontWeight: 'bold' }}>
-                          {language === 'en' ? 'Create your account' : 'Skapa ditt konto'}
+                          {language === 'fa' ? 'حساب کاربری خود را بسازید' : language === 'en' ? 'Create your account' : 'Skapa ditt konto'}
                         </h4>
                         <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '0.78rem', marginTop: '2px' }}>
-                          {language === 'en'
+                          {language === 'fa' ? 'با این رمز عبور وارد می‌شوید و برنامه ۱۴ روزه خود را می‌بینید.' : language === 'en'
                             ? 'You will use this password to log in and view your 14-day program.'
                             : 'Du loggar in med detta lösenord för att se ditt 14-dagars program efter att du svarat på frågorna.'}
                         </p>
@@ -1039,7 +1054,7 @@ function Apply() {
                     <div className="form-row">
                       <div className="form-group">
                         <label htmlFor="password" style={{ fontSize: '0.82rem' }}>
-                          {language === 'en' ? 'Password (min 12 characters)' : 'Lösenord (minst 12 tecken)'}
+                          {language === 'fa' ? 'رمز عبور (حداقل ۱۲ کاراکتر)' : language === 'en' ? 'Password (min 12 characters)' : 'Lösenord (minst 12 tecken)'}
                         </label>
                         <input
                           type="password"
@@ -1053,13 +1068,13 @@ function Apply() {
                         />
                         {formData.password.length > 0 && !isPasswordValid(formData.password) && (
                           <span style={{ fontSize: '0.72rem', color: '#ef4444', marginTop: '3px', display: 'block' }}>
-                            {language === 'en' ? 'Min 12 chars incl. uppercase, lowercase and special character' : 'Minst 12 tecken med versal, gemen och specialtecken'}
+                            {language === 'fa' ? 'حداقل ۱۲ کاراکتر شامل حرف بزرگ، حرف کوچک و کاراکتر ویژه' : language === 'en' ? 'Min 12 chars incl. uppercase, lowercase and special character' : 'Minst 12 tecken med versal, gemen och specialtecken'}
                           </span>
                         )}
                       </div>
                       <div className="form-group">
                         <label htmlFor="confirmPassword" style={{ fontSize: '0.82rem' }}>
-                          {language === 'en' ? 'Confirm Password' : 'Bekräfta lösenord'}
+                          {language === 'fa' ? 'تکرار رمز عبور' : language === 'en' ? 'Confirm Password' : 'Bekräfta lösenord'}
                         </label>
                         <input
                           type="password"
@@ -1078,12 +1093,12 @@ function Apply() {
                         />
                         {formData.confirmPassword.length > 0 && formData.confirmPassword !== formData.password && (
                           <span style={{ fontSize: '0.72rem', color: '#ef4444', marginTop: '3px', display: 'block' }}>
-                            {language === 'en' ? 'Does not match' : 'Matchar inte'}
+                            {language === 'fa' ? 'مطابقت ندارد' : language === 'en' ? 'Does not match' : 'Matchar inte'}
                           </span>
                         )}
                         {formData.confirmPassword.length > 0 && formData.confirmPassword === formData.password && (
                           <span style={{ fontSize: '0.72rem', color: '#10b981', marginTop: '3px', display: 'block' }}>
-                            ✓ {language === 'en' ? 'Passwords match' : 'Matchar!'}
+                            ✓ {language === 'fa' ? 'رمزها مطابقت دارند' : language === 'en' ? 'Passwords match' : 'Matchar!'}
                           </span>
                         )}
                       </div>
@@ -1145,7 +1160,7 @@ function Apply() {
                     className="btn-primary" 
                     style={{ padding: '12px 32px' }}
                   >
-                    {language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} style={{ marginLeft: '8px' }} />
+                    {language === 'fa' ? 'ادامه' : language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} style={{ marginLeft: '8px' }} />
                   </button>
                 </div>
               </form>
@@ -1156,17 +1171,17 @@ function Apply() {
           {formStep === 2 && (
             <div className="fade-in">
               <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', marginBottom: '16px' }}>
-                {language === 'en' ? 'What are your main goals?' : 'Vad är dina träningsmål?'}
+                {language === 'fa' ? 'اهداف اصلی شما چیست؟' : language === 'en' ? 'What are your main goals?' : 'Vad är dina träningsmål?'}
               </h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
                 {[
-                  { id: 'lose_weight', label: language === 'en' ? 'Lose weight' : 'Gå ner i vikt', icon: '🔥' },
-                  { id: 'get_fit', label: language === 'en' ? 'Get fit' : 'Komma i form', icon: '🏃' },
-                  { id: 'gain_muscle', label: language === 'en' ? 'Gain muscle' : 'Bygga muskler', icon: '💪' },
-                  { id: 'metabolism', label: language === 'en' ? 'Boost metabolism' : 'Öka förbränning', icon: '⚡' },
-                  { id: 'energy', label: language === 'en' ? 'Improve energy levels' : 'Få mer energi i vardagen', icon: '☀️' },
-                  { id: 'health', label: language === 'en' ? 'Improve overall health' : 'Bättre hälsa & livsbalans', icon: '❤️' }
+                  { id: 'lose_weight', label: language === 'fa' ? 'کاهش وزن' : language === 'en' ? 'Lose weight' : 'Gå ner i vikt', icon: '🔥' },
+                  { id: 'get_fit', label: language === 'fa' ? 'تناسب اندام' : language === 'en' ? 'Get fit' : 'Komma i form', icon: '🏃' },
+                  { id: 'gain_muscle', label: language === 'fa' ? 'افزایش عضله' : language === 'en' ? 'Gain muscle' : 'Bygga muskler', icon: '💪' },
+                  { id: 'metabolism', label: language === 'fa' ? 'تقویت متابولیسم' : language === 'en' ? 'Boost metabolism' : 'Öka förbränning', icon: '⚡' },
+                  { id: 'energy', label: language === 'fa' ? 'افزایش انرژی' : language === 'en' ? 'Improve energy levels' : 'Få mer energi i vardagen', icon: '☀️' },
+                  { id: 'health', label: language === 'fa' ? 'بهبود سلامت عمومی' : language === 'en' ? 'Improve overall health' : 'Bättre hälsa & livsbalans', icon: '❤️' }
                 ].map(item => {
                   const isSelected = formData.goals.includes(item.id)
                   return (
@@ -1200,17 +1215,17 @@ function Apply() {
               </div>
 
               <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', marginBottom: '16px' }}>
-                {language === 'en' ? 'Any areas you\'d like to improve?' : 'Några områden du vill fokusera extra på?'}
+                {language === 'fa' ? 'کدام قسمت‌های بدن را می‌خواهید بهتر کنید؟' : language === 'en' ? 'Any areas you\'d like to improve?' : 'Några områden du vill fokusera extra på?'}
               </h3>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '24px' }}>
                 {[
-                  { id: 'chest', label: language === 'en' ? 'Chest' : 'Bröst', icon: '🔘' },
-                  { id: 'belly', label: language === 'en' ? 'Belly / Core' : 'Mage / Midja', icon: '🌀' },
-                  { id: 'legs', label: language === 'en' ? 'Legs' : 'Ben', icon: '🦵' },
-                  { id: 'arms', label: language === 'en' ? 'Arms' : 'Armar', icon: '💪' },
-                  { id: 'back', label: language === 'en' ? 'Back' : 'Rygg', icon: '🛡️' },
-                  { id: 'butt', label: language === 'en' ? 'Glutes / Butt' : 'Säte / Rumpa', icon: '🍑' }
+                  { id: 'chest', label: language === 'fa' ? 'سینه' : language === 'en' ? 'Chest' : 'Bröst', icon: '🔘' },
+                  { id: 'belly', label: language === 'fa' ? 'شکم / میان‌تنه' : language === 'en' ? 'Belly / Core' : 'Mage / Midja', icon: '🌀' },
+                  { id: 'legs', label: language === 'fa' ? 'پاها' : language === 'en' ? 'Legs' : 'Ben', icon: '🦵' },
+                  { id: 'arms', label: language === 'fa' ? 'بازوها' : language === 'en' ? 'Arms' : 'Armar', icon: '💪' },
+                  { id: 'back', label: language === 'fa' ? 'پشت' : language === 'en' ? 'Back' : 'Rygg', icon: '🛡️' },
+                  { id: 'butt', label: language === 'fa' ? 'باسن' : language === 'en' ? 'Glutes / Butt' : 'Säte / Rumpa', icon: '🍑' }
                 ].map(item => {
                   const isSelected = formData.focusAreas.includes(item.id)
                   return (
@@ -1245,10 +1260,10 @@ function Apply() {
 
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
                 <button type="button" onClick={() => setFormStep(1)} style={{ background: 'none', border: 'none', color: 'var(--text-silver)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ArrowLeft size={16} /> {language === 'en' ? 'Back' : 'Bakåt'}
+                  <ArrowLeft size={16} /> {language === 'fa' ? 'پشت' : language === 'en' ? 'Back' : 'Bakåt'}
                 </button>
                 <button type="button" onClick={() => setFormStep(3)} className="btn-primary" style={{ padding: '12px 32px' }}>
-                  {language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} style={{ marginLeft: '8px' }} />
+                  {language === 'fa' ? 'ادامه' : language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} style={{ marginLeft: '8px' }} />
                 </button>
               </div>
             </div>
@@ -1258,15 +1273,15 @@ function Apply() {
           {formStep === 3 && (
             <div className="fade-in">
               <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', marginBottom: '16px' }}>
-                {language === 'en' ? 'Choose your current body type:' : 'Välj din nuvarande kroppstyp:'}
+                {language === 'fa' ? 'نوع بدن فعلی خود را انتخاب کنید:' : language === 'en' ? 'Choose your current body type:' : 'Välj din nuvarande kroppstyp:'}
               </h3>
               
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '24px' }}>
                 {[
-                  { id: 'skinny', label: language === 'en' ? 'Skinny' : 'Smal' },
-                  { id: 'regular', label: language === 'en' ? 'Regular' : 'Normal' },
-                  { id: 'pot_belly', label: language === 'en' ? 'Pot belly' : 'Lite mage' },
-                  { id: 'extra', label: language === 'en' ? 'Extra' : 'Kraftig / Övervikt' }
+                  { id: 'skinny', label: language === 'fa' ? 'لاغر' : language === 'en' ? 'Skinny' : 'Smal' },
+                  { id: 'regular', label: language === 'fa' ? 'معمولی' : language === 'en' ? 'Regular' : 'Normal' },
+                  { id: 'pot_belly', label: language === 'fa' ? 'شکم برآمده' : language === 'en' ? 'Pot belly' : 'Lite mage' },
+                  { id: 'extra', label: language === 'fa' ? 'دارای اضافه وزن' : language === 'en' ? 'Extra' : 'Kraftig / Övervikt' }
                 ].map(item => {
                   const isSelected = formData.currentBody === item.id
                   return (
@@ -1291,15 +1306,15 @@ function Apply() {
               </div>
 
               <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', marginBottom: '16px' }}>
-                {language === 'en' ? 'Choose the body you want:' : 'Välj din målkropp:'}
+                {language === 'fa' ? 'بدن دلخواه خود را انتخاب کنید:' : language === 'en' ? 'Choose the body you want:' : 'Välj din målkropp:'}
               </h3>
               
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '24px' }}>
                 {[
-                  { id: 'smaller', label: language === 'en' ? 'Smaller size' : 'Mindre storlek' },
-                  { id: 'lean', label: language === 'en' ? 'Lean / Toned' : 'Hård & Deffad' },
-                  { id: 'athletic', label: language === 'en' ? 'Athletic' : 'Atletisk & Stark' },
-                  { id: 'shredded', label: language === 'en' ? 'Shredded' : 'Muskelös / Rippad' }
+                  { id: 'smaller', label: language === 'fa' ? 'سایز کوچک‌تر' : language === 'en' ? 'Smaller size' : 'Mindre storlek' },
+                  { id: 'lean', label: language === 'fa' ? 'لاغر و سفت' : language === 'en' ? 'Lean / Toned' : 'Hård & Deffad' },
+                  { id: 'athletic', label: language === 'fa' ? 'ورزشکاری' : language === 'en' ? 'Athletic' : 'Atletisk & Stark' },
+                  { id: 'shredded', label: language === 'fa' ? 'عضلانی و کات' : language === 'en' ? 'Shredded' : 'Muskelös / Rippad' }
                 ].map(item => {
                   const isSelected = formData.desiredBody === item.id
                   return (
@@ -1324,12 +1339,12 @@ function Apply() {
               </div>
 
               <h3 style={{ fontSize: '1.25rem', color: 'var(--text-white)', marginBottom: '16px' }}>
-                {language === 'en' ? 'Enter your metrics' : 'Ange dina mått'}
+                {language === 'fa' ? 'شاخص‌های خود را وارد کنید' : language === 'en' ? 'Enter your metrics' : 'Ange dina mått'}
               </h3>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '20px' }}>
                 <div className="form-group" style={{ margin: 0 }}>
-                  <label htmlFor="height" style={{ fontSize: '0.78rem' }}>{language === 'en' ? 'Height (cm)' : 'Längd (cm)'}</label>
+                  <label htmlFor="height" style={{ fontSize: '0.78rem' }}>{language === 'fa' ? 'قد (سانتی‌متر)' : language === 'en' ? 'Height (cm)' : 'Längd (cm)'}</label>
                   <input
                     type="number"
                     id="height"
@@ -1341,7 +1356,7 @@ function Apply() {
                   />
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
-                  <label htmlFor="weight" style={{ fontSize: '0.78rem' }}>{language === 'en' ? 'Current (kg)' : 'Vikt (kg)'}</label>
+                  <label htmlFor="weight" style={{ fontSize: '0.78rem' }}>{language === 'fa' ? 'وزن فعلی (کیلوگرم)' : language === 'en' ? 'Current (kg)' : 'Vikt (kg)'}</label>
                   <input
                     type="number"
                     id="weight"
@@ -1353,7 +1368,7 @@ function Apply() {
                   />
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
-                  <label htmlFor="targetWeight" style={{ fontSize: '0.78rem' }}>{language === 'en' ? 'Target (kg)' : 'Målvikt (kg)'}</label>
+                  <label htmlFor="targetWeight" style={{ fontSize: '0.78rem' }}>{language === 'fa' ? 'وزن هدف (کیلوگرم)' : language === 'en' ? 'Target (kg)' : 'Målvikt (kg)'}</label>
                   <input
                     type="number"
                     id="targetWeight"
@@ -1369,11 +1384,11 @@ function Apply() {
               {/* Optional US Navy Body Fat % Measurements */}
               <div style={{ marginBottom: '16px', background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <div style={{ fontSize: '0.78rem', color: 'var(--accent-gold)', fontWeight: 'bold', marginBottom: '8px' }}>
-                  {language === 'en' ? '📏 Optional Body Measurements (for US Navy Body Fat %):' : '📏 Valfria kroppsmått (för exakt US Navy Kroppsfett %):'}
+                  {language === 'fa' ? '📏 اندازه‌های اختیاری بدن (برای محاسبه درصد چربی به روش نیروی دریایی آمریکا):' : language === 'en' ? '📏 Optional Body Measurements (for US Navy Body Fat %):' : '📏 Valfria kroppsmått (för exakt US Navy Kroppsfett %):'}
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
                   <div className="form-group" style={{ margin: 0 }}>
-                    <label htmlFor="neck" style={{ fontSize: '0.72rem' }}>{language === 'en' ? 'Neck (cm)' : 'Hals (cm)'}</label>
+                    <label htmlFor="neck" style={{ fontSize: '0.72rem' }}>{language === 'fa' ? 'دور گردن (سانتی‌متر)' : language === 'en' ? 'Neck (cm)' : 'Hals (cm)'}</label>
                     <input
                       type="number"
                       step="0.5"
@@ -1386,7 +1401,7 @@ function Apply() {
                     />
                   </div>
                   <div className="form-group" style={{ margin: 0 }}>
-                    <label htmlFor="waist" style={{ fontSize: '0.72rem' }}>{language === 'en' ? 'Waist (cm)' : 'Midja (cm)'}</label>
+                    <label htmlFor="waist" style={{ fontSize: '0.72rem' }}>{language === 'fa' ? 'دور کمر (سانتی‌متر)' : language === 'en' ? 'Waist (cm)' : 'Midja (cm)'}</label>
                     <input
                       type="number"
                       step="0.5"
@@ -1399,7 +1414,7 @@ function Apply() {
                     />
                   </div>
                   <div className="form-group" style={{ margin: 0 }}>
-                    <label htmlFor="hip" style={{ fontSize: '0.72rem' }}>{language === 'en' ? 'Hip (cm - Kvinna)' : 'Höft (cm - Kvinna)'}</label>
+                    <label htmlFor="hip" style={{ fontSize: '0.72rem' }}>{language === 'fa' ? 'دور باسن (سانتی‌متر - بانوان)' : language === 'en' ? 'Hip (cm - women)' : 'Höft (cm - Kvinna)'}</label>
                     <input
                       type="number"
                       step="0.5"
@@ -1417,7 +1432,7 @@ function Apply() {
               {/* Activity level and weight goal select inputs */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
                 <div className="form-group" style={{ margin: 0 }}>
-                  <label htmlFor="activityLevel" style={{ fontSize: '0.78rem' }}>{language === 'en' ? 'Activity Level' : 'Aktivitetsnivå'}</label>
+                  <label htmlFor="activityLevel" style={{ fontSize: '0.78rem' }}>{language === 'fa' ? 'سطح فعالیت' : language === 'en' ? 'Activity Level' : 'Aktivitetsnivå'}</label>
                   <select
                     id="activityLevel"
                     name="activityLevel"
@@ -1425,15 +1440,15 @@ function Apply() {
                     onChange={handleChange}
                     style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-glass)', padding: '10px', height: '42px', color: 'var(--text-white)' }}
                   >
-                    <option value="Stillasittande">{language === 'en' ? 'Sedentary (PAL 1.2 - No exercise)' : 'Stillasittande (PAL 1,2 - Ingen träning)'}</option>
-                    <option value="Lätt aktiv">{language === 'en' ? 'Lightly Active (PAL 1.375 - 1-3x/week)' : 'Lätt aktiv (PAL 1,375 - Träning 1–3 ggr/v)'}</option>
-                    <option value="Måttligt aktiv">{language === 'en' ? 'Moderately Active (PAL 1.55 - 3-5x/week)' : 'Måttligt aktiv (PAL 1,55 - Träning 3–5 ggr/v)'}</option>
-                    <option value="Mycket aktiv">{language === 'en' ? 'Very Active (PAL 1.725 - 6-7x/week)' : 'Mycket aktiv (PAL 1,725 - Träning 6–7 ggr/v)'}</option>
-                    <option value="Extremt aktiv">{language === 'en' ? 'Extremely Active (PAL 1.9 - Physical job)' : 'Extremt aktiv (PAL 1,9 - Hårt jobb + träning)'}</option>
+                    <option value="Stillasittande">{language === 'fa' ? 'کم‌تحرک (PAL 1.2 - بدون ورزش)' : language === 'en' ? 'Sedentary (PAL 1.2 - No exercise)' : 'Stillasittande (PAL 1,2 - Ingen träning)'}</option>
+                    <option value="Lätt aktiv">{language === 'fa' ? 'کمی فعال (PAL 1.375 - ۱ تا ۳ بار در هفته)' : language === 'en' ? 'Lightly Active (PAL 1.375 - 1-3x/week)' : 'Lätt aktiv (PAL 1,375 - Träning 1–3 ggr/v)'}</option>
+                    <option value="Måttligt aktiv">{language === 'fa' ? 'نسبتاً فعال (PAL 1.55 - ۳ تا ۵ بار در هفته)' : language === 'en' ? 'Moderately Active (PAL 1.55 - 3-5x/week)' : 'Måttligt aktiv (PAL 1,55 - Träning 3–5 ggr/v)'}</option>
+                    <option value="Mycket aktiv">{language === 'fa' ? 'بسیار فعال (PAL 1.725 - ۶ تا ۷ بار در هفته)' : language === 'en' ? 'Very Active (PAL 1.725 - 6-7x/week)' : 'Mycket aktiv (PAL 1,725 - Träning 6–7 ggr/v)'}</option>
+                    <option value="Extremt aktiv">{language === 'fa' ? 'فوق‌العاده فعال (PAL 1.9 - کار بدنی)' : language === 'en' ? 'Extremely Active (PAL 1.9 - Physical job)' : 'Extremt aktiv (PAL 1,9 - Hårt jobb + träning)'}</option>
                   </select>
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
-                  <label htmlFor="weightGoal" style={{ fontSize: '0.78rem' }}>{language === 'en' ? 'Caloric Goal' : 'Mål för kaloriberäkning'}</label>
+                  <label htmlFor="weightGoal" style={{ fontSize: '0.78rem' }}>{language === 'fa' ? 'هدف کالری' : language === 'en' ? 'Caloric Goal' : 'Mål för kaloriberäkning'}</label>
                   <select
                     id="weightGoal"
                     name="weightGoal"
@@ -1441,9 +1456,9 @@ function Apply() {
                     onChange={handleChange}
                     style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-glass)', padding: '10px', height: '42px', color: 'var(--text-white)' }}
                   >
-                    <option value="Viktnedgång">{language === 'en' ? 'Weight Loss (Deficit -500 kcal)' : 'Viktnedgång (Underskott -500 kcal)'}</option>
-                    <option value="Viktuppgång">{language === 'en' ? 'Muscle Gain (Surplus +300 kcal)' : 'Viktuppgång / Muskelbygge (Överskott +300 kcal)'}</option>
-                    <option value="Bibehålla">{language === 'en' ? 'Maintenance (Balance 0 kcal)' : 'Bibehålla vikten (Balans 0 kcal)'}</option>
+                    <option value="Viktnedgång">{language === 'fa' ? 'کاهش وزن (کسری ۵۰۰- کیلوکالری)' : language === 'en' ? 'Weight Loss (Deficit -500 kcal)' : 'Viktnedgång (Underskott -500 kcal)'}</option>
+                    <option value="Viktuppgång">{language === 'fa' ? 'افزایش عضله (مازاد ۳۰۰+ کیلوکالری)' : language === 'en' ? 'Muscle Gain (Surplus +300 kcal)' : 'Viktuppgång / Muskelbygge (Överskott +300 kcal)'}</option>
+                    <option value="Bibehålla">{language === 'fa' ? 'حفظ وزن (تعادل ۰ کیلوکالری)' : language === 'en' ? 'Maintenance (Balance 0 kcal)' : 'Bibehålla vikten (Balans 0 kcal)'}</option>
                   </select>
                 </div>
               </div>
@@ -1460,13 +1475,13 @@ function Apply() {
                   }}
                 >
                   <h4 style={{ color: 'var(--text-white)', fontSize: '1rem', fontWeight: 'bold', margin: '0 0 16px 0', textAlign: 'center' }}>
-                    {language === 'en' ? 'Your personal summary' : 'Din personliga sammanfattning'}
+                    {language === 'fa' ? 'خلاصه شخصی شما' : language === 'en' ? 'Your personal summary' : 'Din personliga sammanfattning'}
                   </h4>
 
                   {/* BMI Progress bar chart */}
                   <div style={{ marginBottom: '16px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
-                      <span>{language === 'en' ? 'Body Mass Index (BMI)' : 'Kroppsmasseindex (BMI)'}</span>
+                      <span>{language === 'fa' ? 'شاخص توده بدنی (BMI)' : language === 'en' ? 'Body Mass Index (BMI)' : 'Kroppsmasseindex (BMI)'}</span>
                       <span style={{ color: 'var(--accent-gold)', fontWeight: 'bold' }}>{bmi}</span>
                     </div>
                     
@@ -1491,10 +1506,10 @@ function Apply() {
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '22px' }}>
-                      <span>{language === 'en' ? 'Underweight' : 'Undervikt'}</span>
-                      <span>{language === 'en' ? 'Healthy' : 'Normalvikt'}</span>
-                      <span>{language === 'en' ? 'Overweight' : 'Övervikt'}</span>
-                      <span>{language === 'en' ? 'Obese' : 'Fetma'}</span>
+                      <span>{language === 'fa' ? 'کمبود وزن' : language === 'en' ? 'Underweight' : 'Undervikt'}</span>
+                      <span>{language === 'fa' ? 'سالم' : language === 'en' ? 'Healthy' : 'Normalvikt'}</span>
+                      <span>{language === 'fa' ? 'اضافه وزن' : language === 'en' ? 'Overweight' : 'Övervikt'}</span>
+                      <span>{language === 'fa' ? 'چاقی' : language === 'en' ? 'Obese' : 'Fetma'}</span>
                     </div>
                   </div>
 
@@ -1517,10 +1532,10 @@ function Apply() {
                     <span>🎯</span>
                     <span>
                       {parseFloat(bmi) < 18.5 
-                        ? (language === 'en' ? 'Focus on healthy weight gain & muscle building.' : 'Fokus på hälsosam viktuppgång & muskelbygge.')
+                        ? (language === 'fa' ? 'تمرکز بر افزایش وزن سالم و عضله‌سازی.' : language === 'en' ? 'Focus on healthy weight gain & muscle building.' : 'Fokus på hälsosam viktuppgång & muskelbygge.')
                         : parseFloat(bmi) < 25
-                        ? (language === 'en' ? 'Good starting BMI to get a fit body.' : 'Bra start-BMI för att skulptera och tona kroppen.')
-                        : (language === 'en' ? 'Excellent starting point for fat loss and energy boost.' : 'Utmärkt utgångspunkt för fettförbränning och ökad energi.')}
+                        ? (language === 'fa' ? 'BMI شروع خوبی برای رسیدن به بدنی متناسب است.' : language === 'en' ? 'Good starting BMI to get a fit body.' : 'Bra start-BMI för att skulptera och tona kroppen.')
+                        : (language === 'fa' ? 'نقطه شروع عالی برای چربی‌سوزی و افزایش انرژی.' : language === 'en' ? 'Excellent starting point for fat loss and energy boost.' : 'Utmärkt utgångspunkt för fettförbränning och ökad energi.')}
                     </span>
                   </div>
 
@@ -1554,13 +1569,13 @@ function Apply() {
                         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '14px', alignItems: 'center' }}>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                             <div style={{ fontSize: '0.82rem', color: 'var(--text-silver)' }}>
-                              🔍 {language === 'en' ? 'Body Fat' : 'Kroppsfett'}: <strong style={{ color: 'var(--accent-cyan)' }}>{navyBf ? `${navyBf}% (US Navy)` : `${deurenbergBf}% (Est.)`}</strong>
+                              🔍 {language === 'fa' ? 'چربی بدن' : language === 'en' ? 'Body Fat' : 'Kroppsfett'}: <strong style={{ color: 'var(--accent-cyan)' }}>{navyBf ? `${navyBf}% (US Navy)` : `${deurenbergBf}% (Est.)`}</strong>
                             </div>
                             <div style={{ fontSize: '0.82rem', color: 'var(--text-silver)' }}>
-                              📊 {language === 'en' ? 'BMR (Basal metabolism)' : 'BMR (Basalmetabolism)'}: <strong style={{ color: 'var(--text-white)' }}>{metrics ? `${metrics.bmr} kcal` : '--'}</strong>
+                              📊 {language === 'fa' ? 'BMR (متابولیسم پایه)' : language === 'en' ? 'BMR (Basal metabolism)' : 'BMR (Basalmetabolism)'}: <strong style={{ color: 'var(--text-white)' }}>{metrics ? `${metrics.bmr} kcal` : '--'}</strong>
                             </div>
                             <div style={{ fontSize: '0.82rem', color: 'var(--text-silver)' }}>
-                              ⚡ {language === 'en' ? 'TDEE (Daily energy need)' : 'TDEE (Dagligt energibehov)'}: <strong style={{ color: 'var(--text-white)' }}>{metrics ? `${metrics.tdee} kcal` : '--'}</strong>
+                              ⚡ {language === 'fa' ? 'TDEE (انرژی مورد نیاز روزانه)' : language === 'en' ? 'TDEE (Daily energy need)' : 'TDEE (Dagligt energibehov)'}: <strong style={{ color: 'var(--text-white)' }}>{metrics ? `${metrics.tdee} kcal` : '--'}</strong>
                             </div>
                           </div>
                           
@@ -1591,13 +1606,13 @@ function Apply() {
                                 alignItems: 'center'
                               }}
                             >
-                              <span>🔥 {language === 'en' ? 'Daily Target Calories:' : 'Ditt dagliga kalorimål:'}</span>
+                              <span>🔥 {language === 'fa' ? 'کالری هدف روزانه:' : language === 'en' ? 'Daily Target Calories:' : 'Ditt dagliga kalorimål:'}</span>
                               <span style={{ fontSize: '1rem', color: 'var(--text-white)' }}>{metrics.targetCalories} kcal</span>
                             </div>
 
                             {/* Macro Breakdown Rows */}
                             <h5 style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                              {language === 'en' ? 'Calculated Macro Target (Mifflin-St Jeor)' : 'Beräknad makrofördelning (Mifflin-St Jeor):'}
+                              {language === 'fa' ? 'درشت‌مغذی‌های محاسبه‌شده (Mifflin-St Jeor)' : language === 'en' ? 'Calculated Macro Target (Mifflin-St Jeor)' : 'Beräknad makrofördelning (Mifflin-St Jeor):'}
                             </h5>
                             
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
@@ -1631,15 +1646,15 @@ function Apply() {
               {/* Dietary Preferences Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'What is your dietary preference?' : 'Vilken kostpreferens har du?'}
+                  {language === 'fa' ? 'رژیم غذایی ترجیحی شما چیست؟' : language === 'en' ? 'What is your dietary preference?' : 'Vilken kostpreferens har du?'}
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '10px' }}>
                   {[
-                    { id: 'Blandkost', label: language === 'en' ? 'Standard / All foods' : 'Blandkost' },
-                    { id: 'Vegetarisk', label: language === 'en' ? 'Vegetarian' : 'Vegetarisk' },
-                    { id: 'Vegansk', label: language === 'en' ? 'Vegan' : 'Vegansk' },
-                    { id: 'Pescetarisk', label: language === 'en' ? 'Pescetarian' : 'Pescetarisk' },
-                    { id: 'Annat', label: language === 'en' ? 'Other' : 'Annat' }
+                    { id: 'Blandkost', label: language === 'fa' ? 'معمولی / همه نوع غذا' : language === 'en' ? 'Standard / All foods' : 'Blandkost' },
+                    { id: 'Vegetarisk', label: language === 'fa' ? 'گیاه‌خوار' : language === 'en' ? 'Vegetarian' : 'Vegetarisk' },
+                    { id: 'Vegansk', label: language === 'fa' ? 'وگان' : language === 'en' ? 'Vegan' : 'Vegansk' },
+                    { id: 'Pescetarisk', label: language === 'fa' ? 'پسکاتارین (گیاه‌خوار + ماهی)' : language === 'en' ? 'Pescetarian' : 'Pescetarisk' },
+                    { id: 'Annat', label: language === 'fa' ? 'سایر' : language === 'en' ? 'Other' : 'Annat' }
                   ].map(opt => {
                     const isSelected = formData.dietPreference === opt.id
                     return (
@@ -1668,7 +1683,7 @@ function Apply() {
               {/* Food Allergies Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'Do you have any food allergies or intolerances?' : 'Har du några matallergier eller intoleranser?'}
+                  {language === 'fa' ? 'آیا آلرژی یا عدم تحمل غذایی دارید؟' : language === 'en' ? 'Do you have any food allergies or intolerances?' : 'Har du några matallergier eller intoleranser?'}
                 </label>
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                   {['Ja', 'Nej'].map(opt => {
@@ -1690,7 +1705,7 @@ function Apply() {
                           fontWeight: '600'
                         }}
                       >
-                        {opt === 'Ja' ? (language === 'en' ? 'Yes' : 'Ja') : (language === 'en' ? 'No' : 'Nej')}
+                        {opt === 'Ja' ? (language === 'fa' ? 'بله' : language === 'en' ? 'Yes' : 'Ja') : (language === 'fa' ? 'خیر' : language === 'en' ? 'No' : 'Nej')}
                       </button>
                     )
                   })}
@@ -1702,7 +1717,7 @@ function Apply() {
                       name="allergyDetails"
                       value={formData.allergyDetails}
                       onChange={handleChange}
-                      placeholder={language === 'en' ? 'Describe your allergies or food restrictions so we can adjust your diet plan safely...' : 'Beskriv dina allergier eller livsmedel du inte kan äta så vi kan anpassa kostschemat säkert...'}
+                      placeholder={language === 'fa' ? 'آلرژی‌ها یا محدودیت‌های غذایی خود را شرح دهید تا برنامه غذایی را با خیال راحت تنظیم کنیم...' : language === 'en' ? 'Describe your allergies or food restrictions so we can adjust your diet plan safely...' : 'Beskriv dina allergier eller livsmedel du inte kan äta så vi kan anpassa kostschemat säkert...'}
                       rows="3"
                       style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-glass)' }}
                       required
@@ -1714,7 +1729,7 @@ function Apply() {
               {/* Injuries & Medical Conditions Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'Do you have any injuries, medical conditions, or illnesses?' : 'Har du några skador, sjukdomar eller medicinska tillstånd?'}
+                  {language === 'fa' ? 'آیا آسیب‌دیدگی، مشکل پزشکی یا بیماری دارید؟' : language === 'en' ? 'Do you have any injuries, medical conditions, or illnesses?' : 'Har du några skador, sjukdomar eller medicinska tillstånd?'}
                 </label>
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                   {['Ja', 'Nej'].map(opt => {
@@ -1736,7 +1751,7 @@ function Apply() {
                           fontWeight: '600'
                         }}
                       >
-                        {opt === 'Ja' ? (language === 'en' ? 'Yes' : 'Ja') : (language === 'en' ? 'No' : 'Nej')}
+                        {opt === 'Ja' ? (language === 'fa' ? 'بله' : language === 'en' ? 'Yes' : 'Ja') : (language === 'fa' ? 'خیر' : language === 'en' ? 'No' : 'Nej')}
                       </button>
                     )
                   })}
@@ -1748,7 +1763,7 @@ function Apply() {
                       name="injuryDetails"
                       value={formData.injuryDetails}
                       onChange={handleChange}
-                      placeholder={language === 'en' ? 'Describe your injury or condition so we can safely customize your plan...' : 'Beskriv din skada eller ditt tillstånd så vi kan anpassa träningen säkert...'}
+                      placeholder={language === 'fa' ? 'آسیب‌دیدگی یا وضعیت خود را شرح دهید تا برنامه را با خیال راحت برایتان تنظیم کنیم...' : language === 'en' ? 'Describe your injury or condition so we can safely customize your plan...' : 'Beskriv din skada eller ditt tillstånd så vi kan anpassa träningen säkert...'}
                       rows="3"
                       style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-glass)' }}
                       required
@@ -1796,7 +1811,7 @@ function Apply() {
               {/* Action row (Submit buttons if paid package, otherwise Continue) */}
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', gap: '10px', flexWrap: 'wrap' }}>
                 <button type="button" onClick={() => setFormStep(2)} style={{ background: 'none', border: 'none', color: 'var(--text-silver)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ArrowLeft size={16} /> {language === 'en' ? 'Back' : 'Bakåt'}
+                  <ArrowLeft size={16} /> {language === 'fa' ? 'پشت' : language === 'en' ? 'Back' : 'Bakåt'}
                 </button>
                 
                 {isFreeTrial ? (
@@ -1807,7 +1822,7 @@ function Apply() {
                     style={{ padding: '12px 32px' }}
                     disabled={!formData.healthDeclarationConfirmed || !healthConsentOk}
                   >
-                    {language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} style={{ marginLeft: '8px' }} />
+                    {language === 'fa' ? 'ادامه' : language === 'en' ? 'Continue' : 'Fortsätt'} <ArrowRight size={16} style={{ marginLeft: '8px' }} />
                   </button>
                 ) : (
                   <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
@@ -1851,13 +1866,13 @@ function Apply() {
                 />
                 <div>
                   <h4 style={{ color: '#10b981', margin: '0 0 4px 0', fontSize: '0.98rem', fontWeight: 'bold' }}>
-                    {language === 'en' ? 'Get visible results in 4 weeks' : 'Få synliga resultat på 4 veckor'}
+                    {language === 'fa' ? 'در ۴ هفته نتایج قابل مشاهده بگیرید' : language === 'en' ? 'Get visible results in 4 weeks' : 'Få synliga resultat på 4 veckor'}
                   </h4>
                   <div style={{ display: 'flex', color: 'var(--accent-gold)', gap: '2px', marginBottom: '6px' }}>
                     {[...Array(5)].map((_, i) => <Star key={i} size={12} fill="currentColor" />)}
                   </div>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-silver)', lineHeight: '1.4', margin: 0 }}>
-                    {language === 'en' 
+                    {language === 'fa' ? '«با این برنامه وزن کم کردم و قوی‌تر شدم. حتماً توصیه می‌کنم!» - اندی پرایس، ۳۶ ساله' : language === 'en' 
                       ? '"I lost weight and gained strength following this plan. Highly recommend!" - Andy Price, 36' 
                       : '"Jag tappade fett och byggde muskler snabbt med detta upplägg. Rekommenderas starkt!" - Jonas, 36'}
                   </p>
@@ -1867,14 +1882,14 @@ function Apply() {
               {/* Sleep Hours Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'How many hours do you usually sleep?' : 'Hur många timmar sover du vanligtvis?'}
+                  {language === 'fa' ? 'معمولاً چند ساعت می‌خوابید؟' : language === 'en' ? 'How many hours do you usually sleep?' : 'Hur många timmar sover du vanligtvis?'}
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                   {[
-                    { id: '<5', label: language === 'en' ? 'Less than 5h' : 'Mindre än 5 timmar' },
+                    { id: '<5', label: language === 'fa' ? 'کمتر از ۵ ساعت' : language === 'en' ? 'Less than 5h' : 'Mindre än 5 timmar' },
                     { id: '5-6', label: '5-6 timmar' },
                     { id: '7-8', label: '7-8 timmar' },
-                    { id: '>8', label: language === 'en' ? 'More than 8h' : 'Mer än 8 timmar' }
+                    { id: '>8', label: language === 'fa' ? 'بیشتر از ۸ ساعت' : language === 'en' ? 'More than 8h' : 'Mer än 8 timmar' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -1899,14 +1914,14 @@ function Apply() {
               {/* Water Intake Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'How much water do you drink daily?' : 'Hur mycket vatten dricker du per dag?'}
+                  {language === 'fa' ? 'روزانه چقدر آب می‌نوشید؟' : language === 'en' ? 'How much water do you drink daily?' : 'Hur mycket vatten dricker du per dag?'}
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                   {[
-                    { id: 'coffee', label: language === 'en' ? 'Just coffee/tea' : 'Bara kaffe eller te' },
-                    { id: '2-5', label: language === 'en' ? '2-5 glasses' : '2-5 glas' },
-                    { id: '6-8', label: language === 'en' ? '6-8 glasses' : '6-8 glas' },
-                    { id: '8+', label: language === 'en' ? 'More than 8 glasses' : 'Mer än 8 glas' }
+                    { id: 'coffee', label: language === 'fa' ? 'فقط قهوه/چای' : language === 'en' ? 'Just coffee/tea' : 'Bara kaffe eller te' },
+                    { id: '2-5', label: language === 'fa' ? '۲ تا ۵ لیوان' : language === 'en' ? '2-5 glasses' : '2-5 glas' },
+                    { id: '6-8', label: language === 'fa' ? '۶ تا ۸ لیوان' : language === 'en' ? '6-8 glasses' : '6-8 glas' },
+                    { id: '8+', label: language === 'fa' ? 'بیشتر از ۸ لیوان' : language === 'en' ? 'More than 8 glasses' : 'Mer än 8 glas' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -1931,16 +1946,16 @@ function Apply() {
               {/* Daily habits checklist */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'Select all that you tend to do:' : 'Välj de vanor som stämmer in på dig:'}
+                  {language === 'fa' ? 'همه مواردی را که معمولاً انجام می‌دهید انتخاب کنید:' : language === 'en' ? 'Select all that you tend to do:' : 'Välj de vanor som stämmer in på dig:'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: 'late_eat', label: language === 'en' ? 'I eat late at night' : 'Jag äter sent på kvällen' },
-                    { id: 'sweets', label: language === 'en' ? "I can't give up eating sweets" : 'Jag har svårt att motstå sötsaker' },
-                    { id: 'soda', label: language === 'en' ? 'I love soft drinks / soda' : 'Jag dricker mycket läsk/energidryck' },
-                    { id: 'alcohol', label: language === 'en' ? 'I consume alcohol from time to time' : 'Jag dricker alkohol då och då' },
-                    { id: 'fastfood', label: language === 'en' ? 'I love fatty or salty foods' : 'Jag äter ofta fet/salt mat eller snabbmat' },
-                    { id: 'none', label: language === 'en' ? 'None of the above' : 'Inget av ovanstående' }
+                    { id: 'late_eat', label: language === 'fa' ? 'آخر شب غذا می‌خورم' : language === 'en' ? 'I eat late at night' : 'Jag äter sent på kvällen' },
+                    { id: 'sweets', label: language === 'fa' ? "نمی‌توانم شیرینی را کنار بگذارم" : language === 'en' ? "I can't give up eating sweets" : 'Jag har svårt att motstå sötsaker' },
+                    { id: 'soda', label: language === 'fa' ? 'نوشابه را دوست دارم' : language === 'en' ? 'I love soft drinks / soda' : 'Jag dricker mycket läsk/energidryck' },
+                    { id: 'alcohol', label: language === 'fa' ? 'گاهی الکل مصرف می‌کنم' : language === 'en' ? 'I consume alcohol from time to time' : 'Jag dricker alkohol då och då' },
+                    { id: 'fastfood', label: language === 'fa' ? 'غذاهای چرب یا شور را دوست دارم' : language === 'en' ? 'I love fatty or salty foods' : 'Jag äter ofta fet/salt mat eller snabbmat' },
+                    { id: 'none', label: language === 'fa' ? 'هیچ‌کدام' : language === 'en' ? 'None of the above' : 'Inget av ovanstående' }
                   ].map(item => {
                     const isSelected = formData.habits.includes(item.id)
                     return (
@@ -1975,14 +1990,14 @@ function Apply() {
               {/* Energy levels */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'What are your energy levels throughout the day?' : 'Hur är din energinivå under dagen?'}
+                  {language === 'fa' ? 'سطح انرژی شما در طول روز چگونه است؟' : language === 'en' ? 'What are your energy levels throughout the day?' : 'Hur är din energinivå under dagen?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: 'low', label: language === 'en' ? 'Low, I feel tired throughout the day' : 'Låg, känner mig trött hela dagen', icon: '😴' },
-                    { id: 'slump', label: language === 'en' ? 'Post lunch slump' : 'Trött efter lunch', icon: '🥱' },
-                    { id: 'before_meals', label: language === 'en' ? 'Dragging before meals' : 'Trött och hungrig innan måltider', icon: '😕' },
-                    { id: 'high', label: language === 'en' ? 'High and steady' : 'Hög och stabil energi', icon: '🤩' }
+                    { id: 'low', label: language === 'fa' ? 'پایین، در طول روز احساس خستگی می‌کنم' : language === 'en' ? 'Low, I feel tired throughout the day' : 'Låg, känner mig trött hela dagen', icon: '😴' },
+                    { id: 'slump', label: language === 'fa' ? 'بعد از ناهار افت انرژی دارم' : language === 'en' ? 'Post lunch slump' : 'Trött efter lunch', icon: '🥱' },
+                    { id: 'before_meals', label: language === 'fa' ? 'قبل از وعده‌های غذایی بی‌حال می‌شوم' : language === 'en' ? 'Dragging before meals' : 'Trött och hungrig innan måltider', icon: '😕' },
+                    { id: 'high', label: language === 'fa' ? 'بالا و پایدار' : language === 'en' ? 'High and steady' : 'Hög och stabil energi', icon: '🤩' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2012,13 +2027,13 @@ function Apply() {
               {/* Typical Day Activity Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'How would you describe your typical day?' : 'Hur skulle du beskriva en vanlig dag för dig?'}
+                  {language === 'fa' ? 'یک روز معمولی شما چگونه است؟' : language === 'en' ? 'How would you describe your typical day?' : 'Hur skulle du beskriva en vanlig dag för dig?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: 'sitting', label: language === 'en' ? 'I spend most of the day sitting' : 'Mest stillasittande under dagen', icon: '💻' },
-                    { id: 'breaks', label: language === 'en' ? 'I take active breaks' : 'Jag tar aktiva pauser', icon: '🚶' },
-                    { id: 'feet', label: language === 'en' ? "I'm on my feet all day long" : 'Står och går hela dagen', icon: '🏃' }
+                    { id: 'sitting', label: language === 'fa' ? 'بیشتر روز را نشسته می‌گذرانم' : language === 'en' ? 'I spend most of the day sitting' : 'Mest stillasittande under dagen', icon: '💻' },
+                    { id: 'breaks', label: language === 'fa' ? 'استراحت‌های فعال دارم' : language === 'en' ? 'I take active breaks' : 'Jag tar aktiva pauser', icon: '🚶' },
+                    { id: 'feet', label: language === 'fa' ? "تمام روز سرپا هستم" : language === 'en' ? "I'm on my feet all day long" : 'Står och går hela dagen', icon: '🏃' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2047,13 +2062,13 @@ function Apply() {
               {/* Weight Change Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'How does your weight typically change?' : 'Hur brukar din vikt förändras?'}
+                  {language === 'fa' ? 'وزن شما معمولاً چگونه تغییر می‌کند؟' : language === 'en' ? 'How does your weight typically change?' : 'Hur brukar din vikt förändras?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: 'fast_slow', label: language === 'en' ? 'I gain weight fast but lose it slowly' : 'Går upp snabbt men tappar långsamt', icon: '📉' },
-                    { id: 'easily', label: language === 'en' ? 'I gain and lose weight easily' : 'Går upp och ner enkelt', icon: '⚖️' },
-                    { id: 'struggle', label: language === 'en' ? 'I struggle to gain weight or muscle' : 'Kämpar med att gå upp i vikt eller muskler', icon: '📈' }
+                    { id: 'fast_slow', label: language === 'fa' ? 'سریع وزن اضافه می‌کنم ولی به‌سختی کم می‌کنم' : language === 'en' ? 'I gain weight fast but lose it slowly' : 'Går upp snabbt men tappar långsamt', icon: '📉' },
+                    { id: 'easily', label: language === 'fa' ? 'به‌راحتی وزن اضافه و کم می‌کنم' : language === 'en' ? 'I gain and lose weight easily' : 'Går upp och ner enkelt', icon: '⚖️' },
+                    { id: 'struggle', label: language === 'fa' ? 'به‌سختی وزن یا عضله اضافه می‌کنم' : language === 'en' ? 'I struggle to gain weight or muscle' : 'Kämpar med att gå upp i vikt eller muskler', icon: '📈' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2082,14 +2097,14 @@ function Apply() {
               {/* Exercise Frequency Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'How often do you exercise?' : 'Hur ofta tränar du?'}
+                  {language === 'fa' ? 'چند وقت یک بار ورزش می‌کنید؟' : language === 'en' ? 'How often do you exercise?' : 'Hur ofta tränar du?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: 'never', label: language === 'en' ? 'Never' : 'Aldrig', bars: '░░░' },
-                    { id: 'month', label: language === 'en' ? 'Several times per month' : 'Några gånger i månaden', bars: '█░░' },
-                    { id: 'week', label: language === 'en' ? 'Several times per week' : 'Några gånger i veckan', bars: '██░' },
-                    { id: 'daily', label: language === 'en' ? 'Almost every day' : 'Nästan varje dag', bars: '███' }
+                    { id: 'never', label: language === 'fa' ? 'هرگز' : language === 'en' ? 'Never' : 'Aldrig', bars: '░░░' },
+                    { id: 'month', label: language === 'fa' ? 'چند بار در ماه' : language === 'en' ? 'Several times per month' : 'Några gånger i månaden', bars: '█░░' },
+                    { id: 'week', label: language === 'fa' ? 'چند بار در هفته' : language === 'en' ? 'Several times per week' : 'Några gånger i veckan', bars: '██░' },
+                    { id: 'daily', label: language === 'fa' ? 'تقریباً هر روز' : language === 'en' ? 'Almost every day' : 'Nästan varje dag', bars: '███' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2120,13 +2135,13 @@ function Apply() {
               {/* 1. Workout Habits, Experience & Availability Section */}
               <div style={{ marginBottom: '32px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '20px' }}>
                 <h4 style={{ color: 'var(--accent-gold)', fontSize: '1.1rem', fontWeight: 'bold', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  🏃‍♂️ {language === 'en' ? 'Training Habits & Availability' : 'Träningsvanor & Tillgänglighet'}
+                  🏃‍♂️ {language === 'fa' ? 'عادت‌های تمرینی و زمان در دسترس' : language === 'en' ? 'Training Habits & Availability' : 'Träningsvanor & Tillgänglighet'}
                 </h4>
 
                 {/* Days per week */}
                 <div style={{ marginBottom: '20px' }}>
                   <label style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                    {language === 'en' ? 'How many days a week do you want/can train?' : 'Hur många dagar i veckan vill/kan du träna?'}
+                    {language === 'fa' ? 'چند روز در هفته می‌خواهید/می‌توانید تمرین کنید؟' : language === 'en' ? 'How many days a week do you want/can train?' : 'Hur många dagar i veckan vill/kan du träna?'}
                   </label>
                   <div style={{ display: 'flex', gap: '6px' }}>
                     {['1-2', '3', '4', '5', '6-7'].map(d => {
@@ -2148,7 +2163,7 @@ function Apply() {
                             cursor: 'pointer'
                           }}
                         >
-                          {d} {language === 'en' ? 'days' : 'dagar'}
+                          {d} {language === 'fa' ? 'روز' : language === 'en' ? 'days' : 'dagar'}
                         </button>
                       )
                     })}
@@ -2158,7 +2173,7 @@ function Apply() {
                 {/* Duration */}
                 <div style={{ marginBottom: '20px' }}>
                   <label style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                    {language === 'en' ? 'How much time do you have per workout session?' : 'Hur lång tid har du per träningspass?'}
+                    {language === 'fa' ? 'برای هر جلسه تمرین چقدر وقت دارید؟' : language === 'en' ? 'How much time do you have per workout session?' : 'Hur lång tid har du per träningspass?'}
                   </label>
                   <div style={{ display: 'flex', gap: '6px' }}>
                     {['30 min', '45 min', '60 min', '90+ min'].map(dur => {
@@ -2190,7 +2205,7 @@ function Apply() {
                 {/* Location */}
                 <div style={{ marginBottom: '20px' }}>
                   <label style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                    {language === 'en' ? 'Where do you train?' : 'Tränar du hemma, på gym, eller båda?'}
+                    {language === 'fa' ? 'کجا تمرین می‌کنید؟' : language === 'en' ? 'Where do you train?' : 'Tränar du hemma, på gym, eller båda?'}
                   </label>
                   <div style={{ display: 'flex', gap: '6px' }}>
                     {['Hemma', 'Gym', 'Båda'].map(loc => {
@@ -2212,7 +2227,7 @@ function Apply() {
                             cursor: 'pointer'
                           }}
                         >
-                          {loc}
+                          {optionLabel(loc, language)}
                         </button>
                       )
                     })}
@@ -2222,7 +2237,7 @@ function Apply() {
                 {/* Equipment */}
                 <div style={{ marginBottom: '20px' }}>
                   <label style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                    {language === 'en' ? 'What equipment do you have access to?' : 'Vilken utrustning har du tillgång till?'}
+                    {language === 'fa' ? 'به چه تجهیزاتی دسترسی دارید؟' : language === 'en' ? 'What equipment do you have access to?' : 'Vilken utrustning har du tillgång till?'}
                   </label>
                   <select
                     name="equipmentAvailable"
@@ -2230,17 +2245,17 @@ function Apply() {
                     onChange={handleChange}
                     style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-glass)', borderRadius: '4px', color: 'var(--text-white)' }}
                   >
-                    <option value="Fria vikter & maskiner">{language === 'en' ? 'Free weights & machines (Full Gym)' : 'Fria vikter & maskiner (Fullt gym)'}</option>
-                    <option value="Endast fria vikter">{language === 'en' ? 'Only free weights (Dumbbells/barbells)' : 'Endast fria vikter (Hantlar/skivstång)'}</option>
-                    <option value="Gummiband & kroppsvikt">{language === 'en' ? 'Resistance bands & bodyweight' : 'Gummiband & kroppsvikt'}</option>
-                    <option value="Ingen utrustning alls">{language === 'en' ? 'No equipment at all (Pure bodyweight)' : 'Ingen utrustning alls'}</option>
+                    <option value="Fria vikter & maskiner">{language === 'fa' ? 'وزنه آزاد و دستگاه (باشگاه کامل)' : language === 'en' ? 'Free weights & machines (Full Gym)' : 'Fria vikter & maskiner (Fullt gym)'}</option>
+                    <option value="Endast fria vikter">{language === 'fa' ? 'فقط وزنه آزاد (دمبل/هالتر)' : language === 'en' ? 'Only free weights (Dumbbells/barbells)' : 'Endast fria vikter (Hantlar/skivstång)'}</option>
+                    <option value="Gummiband & kroppsvikt">{language === 'fa' ? 'کش مقاومتی و وزن بدن' : language === 'en' ? 'Resistance bands & bodyweight' : 'Gummiband & kroppsvikt'}</option>
+                    <option value="Ingen utrustning alls">{language === 'fa' ? 'بدون هیچ تجهیزاتی (فقط وزن بدن)' : language === 'en' ? 'No equipment at all (Pure bodyweight)' : 'Ingen utrustning alls'}</option>
                   </select>
                 </div>
 
                 {/* Purpose */}
                 <div style={{ marginBottom: '20px' }}>
                   <label style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                    {language === 'en' ? 'Is this training for general health, a competition, or something else?' : 'Är det här för allmän hälsa, en tävling/event, eller något annat?'}
+                    {language === 'fa' ? 'این تمرین برای سلامت عمومی است، مسابقه یا هدف دیگری؟' : language === 'en' ? 'Is this training for general health, a competition, or something else?' : 'Är det här för allmän hälsa, en tävling/event, eller något annat?'}
                   </label>
                   <select
                     name="trainingReason"
@@ -2248,17 +2263,17 @@ function Apply() {
                     onChange={handleChange}
                     style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-glass)', borderRadius: '4px', color: 'var(--text-white)' }}
                   >
-                    <option value="Allmän hälsa">{language === 'en' ? 'General health & wellbeing' : 'Allmän hälsa & välbefinnande'}</option>
-                    <option value="Tävling/Event">{language === 'en' ? 'Competition / Event' : 'Tävling / Specifikt event'}</option>
-                    <option value="Rehabilitering">{language === 'en' ? 'Rehabilitation & mobility' : 'Rehabilitering & rörlighet'}</option>
-                    <option value="Annat">{language === 'en' ? 'Something else' : 'Något annat'}</option>
+                    <option value="Allmän hälsa">{language === 'fa' ? 'سلامت و تندرستی عمومی' : language === 'en' ? 'General health & wellbeing' : 'Allmän hälsa & välbefinnande'}</option>
+                    <option value="Tävling/Event">{language === 'fa' ? 'مسابقه / رویداد' : language === 'en' ? 'Competition / Event' : 'Tävling / Specifikt event'}</option>
+                    <option value="Rehabilitering">{language === 'fa' ? 'توان‌بخشی و تحرک' : language === 'en' ? 'Rehabilitation & mobility' : 'Rehabilitering & rörlighet'}</option>
+                    <option value="Annat">{language === 'fa' ? 'هدف دیگری' : language === 'en' ? 'Something else' : 'Något annat'}</option>
                   </select>
                 </div>
 
                 {/* Experience level */}
                 <div style={{ marginBottom: '20px' }}>
                   <label style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                    {language === 'en' ? 'How much workout experience do you have?' : 'Hur mycket träningserfarenhet har du?'}
+                    {language === 'fa' ? 'چقدر تجربه تمرین دارید؟' : language === 'en' ? 'How much workout experience do you have?' : 'Hur mycket träningserfarenhet har du?'}
                   </label>
                   <div style={{ display: 'flex', gap: '6px' }}>
                     {['Nybörjare', 'Medel', 'Avancerad'].map(exp => {
@@ -2280,7 +2295,7 @@ function Apply() {
                             cursor: 'pointer'
                           }}
                         >
-                          {exp}
+                          {optionLabel(exp, language)}
                         </button>
                       )
                     })}
@@ -2290,14 +2305,14 @@ function Apply() {
                 {/* Past experience */}
                 <div style={{ marginBottom: '20px' }}>
                   <label style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                    {language === 'en' ? 'Have you done strength/cardio training before? How long?' : 'Har du tränat styrketräning/kondition tidigare? Hur länge?'}
+                    {language === 'fa' ? 'آیا قبلاً تمرین قدرتی یا هوازی انجام داده‌اید؟ چه مدت؟' : language === 'en' ? 'Have you done strength/cardio training before? How long?' : 'Har du tränat styrketräning/kondition tidigare? Hur länge?'}
                   </label>
                   <input
                     type="text"
                     name="pastExperience"
                     value={formData.pastExperience}
                     onChange={handleChange}
-                    placeholder={language === 'en' ? 'e.g., Yes, 2 years of gym, or No, never.' : 't.ex., Ja, kört på gym till och från i 2 år.'}
+                    placeholder={language === 'fa' ? 'مثلاً: بله، ۲ سال باشگاه، یا خیر، هرگز.' : language === 'en' ? 'e.g., Yes, 2 years of gym, or No, never.' : 't.ex., Ja, kört på gym till och från i 2 år.'}
                     style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-glass)', borderRadius: '4px', color: 'var(--text-white)' }}
                   />
                 </div>
@@ -2305,7 +2320,7 @@ function Apply() {
                 {/* Detailed Injury, Pain & Movement limitation question */}
                 <div style={{ marginBottom: '20px', backgroundColor: 'rgba(239, 68, 68, 0.03)', border: '1px solid rgba(239, 68, 68, 0.12)', borderRadius: '6px', padding: '14px' }}>
                   <label style={{ display: 'block', fontSize: '0.92rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                    ⚠️ {language === 'en' ? 'Do you have any injuries, pain, or movement limitations I should know about?' : 'Har du några skador, smärtor eller rörelsebegränsningar jag bör känna till?'}
+                    ⚠️ {language === 'fa' ? 'آیا آسیب‌دیدگی، درد یا محدودیت حرکتی دارید که باید بدانم؟' : language === 'en' ? 'Do you have any injuries, pain, or movement limitations I should know about?' : 'Har du några skador, smärtor eller rörelsebegränsningar jag bör känna till?'}
                   </label>
                   
                   <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
@@ -2328,7 +2343,7 @@ function Apply() {
                             cursor: 'pointer'
                           }}
                         >
-                          {opt}
+                          {optionLabel(opt, language)}
                         </button>
                       )
                     })}
@@ -2339,7 +2354,7 @@ function Apply() {
                       name="injuryDetails"
                       value={formData.injuryDetails}
                       onChange={handleChange}
-                      placeholder={language === 'en' ? 'Describe your injuries, pain or limitations...' : 'Beskriv dina skador, smärtor eller rörlighetsbegränsningar här...'}
+                      placeholder={language === 'fa' ? 'آسیب‌دیدگی‌ها، دردها یا محدودیت‌های خود را شرح دهید...' : language === 'en' ? 'Describe your injuries, pain or limitations...' : 'Beskriv dina skador, smärtor eller rörlighetsbegränsningar här...'}
                       rows="3"
                       style={{ width: '100%', padding: '10px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-glass)', borderRadius: '4px', color: 'var(--text-white)', marginTop: '8px' }}
                       required
@@ -2352,14 +2367,14 @@ function Apply() {
               {/* Ideal Weight Time Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'When was the last time you were your ideal weight?' : 'När var du senast i din idealvikt?'}
+                  {language === 'fa' ? 'آخرین بار کی در وزن ایده‌آل خود بودید؟' : language === 'en' ? 'When was the last time you were your ideal weight?' : 'När var du senast i din idealvikt?'}
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                   {[
-                    { id: '1year', label: language === 'en' ? 'Less than a year ago' : 'Mindre än ett år sedan' },
-                    { id: '1-2years', label: language === 'en' ? '1-2 years ago' : '1-2 år sedan' },
-                    { id: '3years', label: language === 'en' ? 'More than 3 years ago' : 'Mer än 3 år sedan' },
-                    { id: 'never', label: language === 'en' ? 'Never' : 'Aldrig' }
+                    { id: '1year', label: language === 'fa' ? 'کمتر از یک سال پیش' : language === 'en' ? 'Less than a year ago' : 'Mindre än ett år sedan' },
+                    { id: '1-2years', label: language === 'fa' ? '۱ تا ۲ سال پیش' : language === 'en' ? '1-2 years ago' : '1-2 år sedan' },
+                    { id: '3years', label: language === 'fa' ? 'بیش از ۳ سال پیش' : language === 'en' ? 'More than 3 years ago' : 'Mer än 3 år sedan' },
+                    { id: 'never', label: language === 'fa' ? 'هرگز' : language === 'en' ? 'Never' : 'Aldrig' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2384,7 +2399,7 @@ function Apply() {
               {/* Weight Gained 3 Years Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'Have you gained weight in the last 3 years?' : 'Har du gått upp i vikt de senaste 3 åren?'}
+                  {language === 'fa' ? 'آیا در ۳ سال گذشته وزن اضافه کرده‌اید؟' : language === 'en' ? 'Have you gained weight in the last 3 years?' : 'Har du gått upp i vikt de senaste 3 åren?'}
                 </label>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   {['Ja', 'Nej'].map(opt => {
@@ -2406,7 +2421,7 @@ function Apply() {
                           fontWeight: '600'
                         }}
                       >
-                        {opt === 'Ja' ? (language === 'en' ? 'Yes' : 'Ja') : (language === 'en' ? 'No' : 'Nej')}
+                        {opt === 'Ja' ? (language === 'fa' ? 'بله' : language === 'en' ? 'Yes' : 'Ja') : (language === 'fa' ? 'خیر' : language === 'en' ? 'No' : 'Nej')}
                       </button>
                     )
                   })}
@@ -2416,18 +2431,18 @@ function Apply() {
               {/* Diets Tried Checklist */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'Have you tried any of these diets in the last 3 years?' : 'Har du provat någon av dessa dieter de senaste 3 åren?'}
+                  {language === 'fa' ? 'آیا در ۳ سال گذشته هیچ‌کدام از این رژیم‌ها را امتحان کرده‌اید؟' : language === 'en' ? 'Have you tried any of these diets in the last 3 years?' : 'Har du provat någon av dessa dieter de senaste 3 åren?'}
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                   {[
                     { id: 'keto', label: 'Keto diet' },
-                    { id: 'fasting', label: language === 'en' ? 'Intermittent fasting' : 'Periodisk fasta' },
-                    { id: 'vegetarian', label: language === 'en' ? 'Vegetarian diet' : 'Vegetarisk kost' },
-                    { id: 'vegan', label: language === 'en' ? 'Vegan diet' : 'Vegansk kost' },
+                    { id: 'fasting', label: language === 'fa' ? 'روزه‌داری متناوب' : language === 'en' ? 'Intermittent fasting' : 'Periodisk fasta' },
+                    { id: 'vegetarian', label: language === 'fa' ? 'رژیم گیاه‌خواری' : language === 'en' ? 'Vegetarian diet' : 'Vegetarisk kost' },
+                    { id: 'vegan', label: language === 'fa' ? 'رژیم وگان' : language === 'en' ? 'Vegan diet' : 'Vegansk kost' },
                     { id: 'lowcarb', label: 'Low-carb diet' },
-                    { id: 'mediterranean', label: language === 'en' ? 'Mediterranean diet' : 'Medelhavskost' },
-                    { id: 'glutenfree', label: language === 'en' ? 'Gluten-free diet' : 'Glutenfri kost' },
-                    { id: 'none', label: language === 'en' ? 'None of the above' : 'Inget av ovanstående' }
+                    { id: 'mediterranean', label: language === 'fa' ? 'رژیم مدیترانه‌ای' : language === 'en' ? 'Mediterranean diet' : 'Medelhavskost' },
+                    { id: 'glutenfree', label: language === 'fa' ? 'رژیم بدون گلوتن' : language === 'en' ? 'Gluten-free diet' : 'Glutenfri kost' },
+                    { id: 'none', label: language === 'fa' ? 'هیچ‌کدام' : language === 'en' ? 'None of the above' : 'Inget av ovanstående' }
                   ].map(item => {
                     const isSelected = formData.triedDiets.includes(item.id)
                     return (
@@ -2462,14 +2477,14 @@ function Apply() {
               {/* Meal Prep Time Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'How much time do you want to spend on meal prep?' : 'Hur mycket tid vill du lägga på matlagning?'}
+                  {language === 'fa' ? 'چقدر وقت برای آماده کردن غذا می‌گذارید؟' : language === 'en' ? 'How much time do you want to spend on meal prep?' : 'Hur mycket tid vill du lägga på matlagning?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: '30m', label: language === 'en' ? 'Up to 30 minutes' : 'Upp till 30 minuter' },
-                    { id: '1h', label: language === 'en' ? 'Up to 1 hour' : 'Upp till 1 timme' },
-                    { id: '1h+', label: language === 'en' ? 'More than 1 hour' : 'Mer än 1 timme' },
-                    { id: 'busy', label: language === 'en' ? "I'm too busy to cook" : 'Jag har för mycket att göra för att laga mat' }
+                    { id: '30m', label: language === 'fa' ? 'تا ۳۰ دقیقه' : language === 'en' ? 'Up to 30 minutes' : 'Upp till 30 minuter' },
+                    { id: '1h', label: language === 'fa' ? 'تا ۱ ساعت' : language === 'en' ? 'Up to 1 hour' : 'Upp till 1 timme' },
+                    { id: '1h+', label: language === 'fa' ? 'بیش از ۱ ساعت' : language === 'en' ? 'More than 1 hour' : 'Mer än 1 timme' },
+                    { id: 'busy', label: language === 'fa' ? "برای آشپزی خیلی سرم شلوغ است" : language === 'en' ? "I'm too busy to cook" : 'Jag har för mycket att göra för att laga mat' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2505,10 +2520,10 @@ function Apply() {
                 }}
               >
                 <h4 style={{ color: 'var(--text-white)', margin: '0 0 4px 0', fontSize: '1.05rem', fontWeight: 'bold' }}>
-                  {language === 'en' ? 'The last plan you\'ll ever need to lose weight' : 'Den sista planen du behöver för att gå ner i vikt'}
+                  {language === 'fa' ? 'آخرین برنامه‌ای که برای کاهش وزن نیاز دارید' : language === 'en' ? 'The last plan you\'ll ever need to lose weight' : 'Den sista planen du behöver för att gå ner i vikt'}
                 </h4>
                 <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: '1.4' }}>
-                  {language === 'en' 
+                  {language === 'fa' ? 'در همان هفته‌های اول وزن کم کنید و از نتایج ماندگار لذت ببرید.' : language === 'en' 
                     ? 'Lose weight within the first weeks and enjoy lasting results.' 
                     : 'Gå ner i vikt under de första veckorna och behåll resultaten livet ut.'}
                 </p>
@@ -2545,7 +2560,7 @@ function Apply() {
                   
                   {/* Overlay labels */}
                   <span style={{ position: 'absolute', top: '18px', left: '160px', fontSize: '0.62rem', background: '#222', padding: '2px 5px', borderRadius: '3px', color: 'var(--text-silver)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                    {language === 'en' ? 'Other programs' : 'Andra dieter'}
+                    {language === 'fa' ? 'برنامه‌های دیگر' : language === 'en' ? 'Other programs' : 'Andra dieter'}
                   </span>
                   <span style={{ position: 'absolute', bottom: '38px', left: '215px', fontSize: '0.62rem', background: '#10b981', padding: '2px 5px', borderRadius: '3px', color: '#000', fontWeight: 'bold' }}>
                     with Muscle & Focus
@@ -2559,14 +2574,14 @@ function Apply() {
               {/* Breakfast Time Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'When do you usually have breakfast?' : 'När brukar du äta frukost?'}
+                  {language === 'fa' ? 'معمولاً چه ساعتی صبحانه می‌خورید؟' : language === 'en' ? 'When do you usually have breakfast?' : 'När brukar du äta frukost?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: '6-8', label: language === 'en' ? 'Between 6 and 8 am' : 'Mellan 06:00 och 08:00' },
-                    { id: '8-10', label: language === 'en' ? 'Between 8 and 10 am' : 'Mellan 08:00 och 10:00' },
-                    { id: '10-12', label: language === 'en' ? 'Between 10 am and noon' : 'Mellan 10:00 och 12:00' },
-                    { id: 'skip', label: language === 'en' ? 'I usually skip breakfast' : 'Jag brukar hoppa över frukost' }
+                    { id: '6-8', label: language === 'fa' ? 'بین ساعت ۶ تا ۸ صبح' : language === 'en' ? 'Between 6 and 8 am' : 'Mellan 06:00 och 08:00' },
+                    { id: '8-10', label: language === 'fa' ? 'بین ساعت ۸ تا ۱۰ صبح' : language === 'en' ? 'Between 8 and 10 am' : 'Mellan 08:00 och 10:00' },
+                    { id: '10-12', label: language === 'fa' ? 'بین ساعت ۱۰ صبح تا ظهر' : language === 'en' ? 'Between 10 am and noon' : 'Mellan 10:00 och 12:00' },
+                    { id: 'skip', label: language === 'fa' ? 'معمولاً صبحانه نمی‌خورم' : language === 'en' ? 'I usually skip breakfast' : 'Jag brukar hoppa över frukost' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2592,14 +2607,14 @@ function Apply() {
               {/* Lunch Time Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'How about lunch?' : 'När brukar du äta lunch?'}
+                  {language === 'fa' ? 'ناهار چطور؟' : language === 'en' ? 'How about lunch?' : 'När brukar du äta lunch?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: '10-12', label: language === 'en' ? 'Between 10 am and noon' : 'Mellan 10:00 och 12:00' },
-                    { id: '12-2', label: language === 'en' ? 'Between noon and 2 pm' : 'Mellan 12:00 och 14:00' },
-                    { id: '2-4', label: language === 'en' ? 'Between 2 and 4 pm' : 'Mellan 14:00 och 16:00' },
-                    { id: 'skip', label: language === 'en' ? 'I usually skip lunch' : 'Jag brukar hoppa över lunch' }
+                    { id: '10-12', label: language === 'fa' ? 'بین ساعت ۱۰ صبح تا ظهر' : language === 'en' ? 'Between 10 am and noon' : 'Mellan 10:00 och 12:00' },
+                    { id: '12-2', label: language === 'fa' ? 'بین ظهر تا ساعت ۲ بعدازظهر' : language === 'en' ? 'Between noon and 2 pm' : 'Mellan 12:00 och 14:00' },
+                    { id: '2-4', label: language === 'fa' ? 'بین ساعت ۲ تا ۴ بعدازظهر' : language === 'en' ? 'Between 2 and 4 pm' : 'Mellan 14:00 och 16:00' },
+                    { id: 'skip', label: language === 'fa' ? 'معمولاً ناهار نمی‌خورم' : language === 'en' ? 'I usually skip lunch' : 'Jag brukar hoppa över lunch' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2625,14 +2640,14 @@ function Apply() {
               {/* Dinner Time Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'What time do you have dinner?' : 'Vilken tid brukar du äta middag?'}
+                  {language === 'fa' ? 'چه ساعتی شام می‌خورید؟' : language === 'en' ? 'What time do you have dinner?' : 'Vilken tid brukar du äta middag?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: '4-6', label: language === 'en' ? 'Between 4 and 6 pm' : 'Mellan 16:00 och 18:00' },
-                    { id: '6-8', label: language === 'en' ? 'Between 6 and 8 pm' : 'Mellan 18:00 och 20:00' },
-                    { id: '8-10', label: language === 'en' ? 'Between 8 and 10 pm' : 'Mellan 20:00 och 22:00' },
-                    { id: 'skip', label: language === 'en' ? 'I usually skip dinner' : 'Jag brukar hoppa över middag' }
+                    { id: '4-6', label: language === 'fa' ? 'بین ساعت ۴ تا ۶ عصر' : language === 'en' ? 'Between 4 and 6 pm' : 'Mellan 16:00 och 18:00' },
+                    { id: '6-8', label: language === 'fa' ? 'بین ساعت ۶ تا ۸ عصر' : language === 'en' ? 'Between 6 and 8 pm' : 'Mellan 18:00 och 20:00' },
+                    { id: '8-10', label: language === 'fa' ? 'بین ساعت ۸ تا ۱۰ شب' : language === 'en' ? 'Between 8 and 10 pm' : 'Mellan 20:00 och 22:00' },
+                    { id: 'skip', label: language === 'fa' ? 'معمولاً شام نمی‌خورم' : language === 'en' ? 'I usually skip dinner' : 'Jag brukar hoppa över middag' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2658,13 +2673,13 @@ function Apply() {
               {/* Meat Relationship Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? "What's your relationship with meat?" : 'Vad är din relation till kött?'}
+                  {language === 'fa' ? "رابطه شما با گوشت چگونه است؟" : language === 'en' ? "What's your relationship with meat?" : 'Vad är din relation till kött?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: 'love', label: language === 'en' ? 'I love it' : 'Jag älskar det' },
-                    { id: 'rarely', label: language === 'en' ? 'I rarely eat it' : 'Jag äter det sällan' },
-                    { id: 'never', label: language === 'en' ? "I don't eat it" : 'Jag äter det inte alls' }
+                    { id: 'love', label: language === 'fa' ? 'عاشقش هستم' : language === 'en' ? 'I love it' : 'Jag älskar det' },
+                    { id: 'rarely', label: language === 'fa' ? 'به‌ندرت می‌خورم' : language === 'en' ? 'I rarely eat it' : 'Jag äter det sällan' },
+                    { id: 'never', label: language === 'fa' ? "نمی‌خورم" : language === 'en' ? "I don't eat it" : 'Jag äter det inte alls' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2691,19 +2706,19 @@ function Apply() {
               {formData.meatRelation !== 'Jag äter det inte alls' && formData.meatRelation !== "I don't eat it" && (
                 <div className="fade-in">
                   <label style={{ display: 'block', fontSize: '1rem', color: 'var(--text-white)', marginBottom: '14px', fontWeight: 'bold', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '6px' }}>
-                    {language === 'en' ? 'Love it or Hate it: Protein Options' : 'Gillar eller ogillar du dessa proteinkällor?'}
+                    {language === 'fa' ? 'دوست دارم یا ندارم: منابع پروتئین' : language === 'en' ? 'Love it or Hate it: Protein Options' : 'Gillar eller ogillar du dessa proteinkällor?'}
                   </label>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '-8px', marginBottom: '16px' }}>
-                    {language === 'en' ? 'If you don\'t know, go for Neutral.' : 'Om du är osäker, välj Neutral.'}
+                    {language === 'fa' ? 'اگر مطمئن نیستید، «خنثی» را انتخاب کنید.' : language === 'en' ? 'If you don\'t know, go for Neutral.' : 'Om du är osäker, välj Neutral.'}
                   </p>
 
                   {[
-                    { id: 'porkRelation', label: language === 'en' ? 'Pork' : 'Fläskkött', emoji: '🥓' },
-                    { id: 'beefRelation', label: language === 'en' ? 'Beef' : 'Nötkött', emoji: '🥩' },
-                    { id: 'chickenRelation', label: language === 'en' ? 'Chicken' : 'Kyckling', emoji: '🍗' },
-                    { id: 'turkeyRelation', label: language === 'en' ? 'Turkey' : 'Kalkon', emoji: '🦃' },
-                    { id: 'lambRelation', label: language === 'en' ? 'Lamb' : 'Lammkött', emoji: '🍖' },
-                    { id: 'duckRelation', label: language === 'en' ? 'Duck' : 'Anka', emoji: '🦆' }
+                    { id: 'porkRelation', label: language === 'fa' ? 'گوشت خوک' : language === 'en' ? 'Pork' : 'Fläskkött', emoji: '🥓' },
+                    { id: 'beefRelation', label: language === 'fa' ? 'گوشت گاو' : language === 'en' ? 'Beef' : 'Nötkött', emoji: '🥩' },
+                    { id: 'chickenRelation', label: language === 'fa' ? 'مرغ' : language === 'en' ? 'Chicken' : 'Kyckling', emoji: '🍗' },
+                    { id: 'turkeyRelation', label: language === 'fa' ? 'بوقلمون' : language === 'en' ? 'Turkey' : 'Kalkon', emoji: '🦃' },
+                    { id: 'lambRelation', label: language === 'fa' ? 'گوشت بره' : language === 'en' ? 'Lamb' : 'Lammkött', emoji: '🍖' },
+                    { id: 'duckRelation', label: language === 'fa' ? 'اردک' : language === 'en' ? 'Duck' : 'Anka', emoji: '🦆' }
                   ].map(meat => (
                     <div 
                       key={meat.id} 
@@ -2726,9 +2741,9 @@ function Apply() {
 
                       <div style={{ display: 'flex', gap: '6px' }}>
                         {[
-                          { id: 'hate', label: language === 'en' ? 'Hate' : 'Ogillar', color: 'rgba(239, 68, 68, 0.15)', activeBorder: '2px solid #ef4444', activeColor: '#ef4444' },
-                          { id: 'neutral', label: language === 'en' ? 'Neutral' : 'Neutral', color: 'rgba(255, 255, 255, 0.05)', activeBorder: '2px solid var(--text-muted)', activeColor: 'var(--text-white)' },
-                          { id: 'love', label: language === 'en' ? 'Love' : 'Älskar', color: 'rgba(16, 185, 129, 0.15)', activeBorder: '2px solid #10b981', activeColor: '#10b981' }
+                          { id: 'hate', label: language === 'fa' ? 'دوست ندارم' : language === 'en' ? 'Hate' : 'Ogillar', color: 'rgba(239, 68, 68, 0.15)', activeBorder: '2px solid #ef4444', activeColor: '#ef4444' },
+                          { id: 'neutral', label: language === 'fa' ? 'خنثی' : language === 'en' ? 'Neutral' : 'Neutral', color: 'rgba(255, 255, 255, 0.05)', activeBorder: '2px solid var(--text-muted)', activeColor: 'var(--text-white)' },
+                          { id: 'love', label: language === 'fa' ? 'دوست دارم' : language === 'en' ? 'Love' : 'Älskar', color: 'rgba(16, 185, 129, 0.15)', activeBorder: '2px solid #10b981', activeColor: '#10b981' }
                         ].map(opt => {
                           const isSelected = formData[meat.id] === opt.label
                           return (
@@ -2771,10 +2786,10 @@ function Apply() {
                 }}
               >
                 <h4 style={{ color: 'var(--text-white)', margin: '0 0 4px 0', fontSize: '1.05rem', fontWeight: 'bold' }}>
-                  {language === 'en' ? 'The last plan you\'ll ever need to lose weight' : 'Den sista planen du behöver för att gå ner i vikt'}
+                  {language === 'fa' ? 'آخرین برنامه‌ای که برای کاهش وزن نیاز دارید' : language === 'en' ? 'The last plan you\'ll ever need to lose weight' : 'Den sista planen du behöver för att gå ner i vikt'}
                 </h4>
                 <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: '1.4' }}>
-                  {language === 'en' 
+                  {language === 'fa' ? 'در همان هفته‌های اول وزن کم کنید و از نتایج ماندگار لذت ببرید.' : language === 'en' 
                     ? 'Lose weight within the first weeks and enjoy lasting results.' 
                     : 'Gå ner i vikt under de första veckorna och behåll resultaten livet ut.'}
                 </p>
@@ -2811,7 +2826,7 @@ function Apply() {
                   
                   {/* Overlay labels */}
                   <span style={{ position: 'absolute', top: '18px', left: '160px', fontSize: '0.62rem', background: '#222', padding: '2px 5px', borderRadius: '3px', color: 'var(--text-silver)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                    {language === 'en' ? 'Other programs' : 'Andra dieter'}
+                    {language === 'fa' ? 'برنامه‌های دیگر' : language === 'en' ? 'Other programs' : 'Andra dieter'}
                   </span>
                   <span style={{ position: 'absolute', bottom: '38px', left: '215px', fontSize: '0.62rem', background: '#10b981', padding: '2px 5px', borderRadius: '3px', color: '#000', fontWeight: 'bold' }}>
                     with Muscle & Focus
@@ -2825,13 +2840,13 @@ function Apply() {
               {/* Eat Fish Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'Do you eat fish?' : 'Äter du fisk?'}
+                  {language === 'fa' ? 'آیا ماهی می‌خورید؟' : language === 'en' ? 'Do you eat fish?' : 'Äter du fisk?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: 'yes', label: language === 'en' ? 'Yes' : 'Ja' },
-                    { id: 'sometimes', label: language === 'en' ? 'Sometimes' : 'Ibland' },
-                    { id: 'no', label: language === 'en' ? 'No' : 'Nej' }
+                    { id: 'yes', label: language === 'fa' ? 'بله' : language === 'en' ? 'Yes' : 'Ja' },
+                    { id: 'sometimes', label: language === 'fa' ? 'گاهی' : language === 'en' ? 'Sometimes' : 'Ibland' },
+                    { id: 'no', label: language === 'fa' ? 'خیر' : language === 'en' ? 'No' : 'Nej' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2857,16 +2872,16 @@ function Apply() {
               {/* Main Reason to Get in Shape Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'What\'s the main reason why you want to get in shape?' : 'Vad är din huvudanledning att du vill komma i form?'}
+                  {language === 'fa' ? 'دلیل اصلی شما برای رسیدن به تناسب اندام چیست؟' : language === 'en' ? 'What\'s the main reason why you want to get in shape?' : 'Vad är din huvudanledning att du vill komma i form?'}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { id: 'confidence', label: language === 'en' ? 'Feel more confident in my body' : 'Känna mig mer självsäker i min kropp' },
-                    { id: 'attractive', label: language === 'en' ? 'Become more attractive' : 'Bli mer attraktiv' },
-                    { id: 'healthy', label: language === 'en' ? 'Feel healthier and more energetic' : 'Känna mig hälsosammare och piggare' },
-                    { id: 'mental', label: language === 'en' ? 'Improve my mental health' : 'Förbättra min mentala hälsa' },
-                    { id: 'clothes', label: language === 'en' ? 'Fit in my clothes better' : 'Sitta bättre i mina kläder' },
-                    { id: 'other', label: language === 'en' ? 'Other' : 'Annat' }
+                    { id: 'confidence', label: language === 'fa' ? 'اعتمادبه‌نفس بیشتر نسبت به بدنم' : language === 'en' ? 'Feel more confident in my body' : 'Känna mig mer självsäker i min kropp' },
+                    { id: 'attractive', label: language === 'fa' ? 'جذاب‌تر شدن' : language === 'en' ? 'Become more attractive' : 'Bli mer attraktiv' },
+                    { id: 'healthy', label: language === 'fa' ? 'احساس سلامتی و انرژی بیشتر' : language === 'en' ? 'Feel healthier and more energetic' : 'Känna mig hälsosammare och piggare' },
+                    { id: 'mental', label: language === 'fa' ? 'بهبود سلامت روان' : language === 'en' ? 'Improve my mental health' : 'Förbättra min mentala hälsa' },
+                    { id: 'clothes', label: language === 'fa' ? 'اندازه شدن لباس‌هایم' : language === 'en' ? 'Fit in my clothes better' : 'Sitta bättre i mina kläder' },
+                    { id: 'other', label: language === 'fa' ? 'سایر' : language === 'en' ? 'Other' : 'Annat' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2892,19 +2907,19 @@ function Apply() {
               {/* Special Occasion Question */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                  {language === 'en' ? 'Is there a special occasion you want to lose weight for?' : 'Finns det ett speciellt tillfälle du vill komma i form för?'}
+                  {language === 'fa' ? 'آیا مناسبت خاصی دارید که برای آن می‌خواهید وزن کم کنید؟' : language === 'en' ? 'Is there a special occasion you want to lose weight for?' : 'Finns det ett speciellt tillfälle du vill komma i form för?'}
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                   {[
-                    { id: 'vacation', label: language === 'en' ? 'Vacation' : 'Semester', emoji: '✈️' },
-                    { id: 'wedding', label: language === 'en' ? 'Wedding' : 'Bröllop', emoji: '💍' },
-                    { id: 'beach', label: language === 'en' ? 'Beach trip' : 'Strandresa', emoji: '🌴' },
-                    { id: 'anniversary', label: language === 'en' ? 'Anniversary' : 'Årsdag', emoji: '🫶' },
-                    { id: 'birthday', label: language === 'en' ? 'Birthday' : 'Födelsedag', emoji: '🎉' },
-                    { id: 'family', label: language === 'en' ? 'Family occasion' : 'Familjehögtid', emoji: '🏠' },
-                    { id: 'sport', label: language === 'en' ? 'Sporting event' : 'Sportevenemang', emoji: '🥇' },
-                    { id: 'other', label: language === 'en' ? 'Other' : 'Annat', emoji: '👆' },
-                    { id: 'no', label: language === 'en' ? 'No' : 'Nej', emoji: '🚫' }
+                    { id: 'vacation', label: language === 'fa' ? 'تعطیلات' : language === 'en' ? 'Vacation' : 'Semester', emoji: '✈️' },
+                    { id: 'wedding', label: language === 'fa' ? 'عروسی' : language === 'en' ? 'Wedding' : 'Bröllop', emoji: '💍' },
+                    { id: 'beach', label: language === 'fa' ? 'سفر ساحلی' : language === 'en' ? 'Beach trip' : 'Strandresa', emoji: '🌴' },
+                    { id: 'anniversary', label: language === 'fa' ? 'سالگرد' : language === 'en' ? 'Anniversary' : 'Årsdag', emoji: '🫶' },
+                    { id: 'birthday', label: language === 'fa' ? 'تولد' : language === 'en' ? 'Birthday' : 'Födelsedag', emoji: '🎉' },
+                    { id: 'family', label: language === 'fa' ? 'مراسم خانوادگی' : language === 'en' ? 'Family occasion' : 'Familjehögtid', emoji: '🏠' },
+                    { id: 'sport', label: language === 'fa' ? 'رویداد ورزشی' : language === 'en' ? 'Sporting event' : 'Sportevenemang', emoji: '🥇' },
+                    { id: 'other', label: language === 'fa' ? 'سایر' : language === 'en' ? 'Other' : 'Annat', emoji: '👆' },
+                    { id: 'no', label: language === 'fa' ? 'خیر' : language === 'en' ? 'No' : 'Nej', emoji: '🚫' }
                   ].map(item => (
                     <button
                       key={item.id}
@@ -2934,10 +2949,10 @@ function Apply() {
               {formData.specialOccasion && formData.specialOccasion !== 'Nej' && formData.specialOccasion !== 'No' && (
                 <div className="fade-in" style={{ marginBottom: '20px' }}>
                   <label style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: '600' }}>
-                    {language === 'en' ? 'When is your event?' : 'När är ditt evenemang?'}
+                    {language === 'fa' ? 'رویداد شما چه زمانی است؟' : language === 'en' ? 'When is your event?' : 'När är ditt evenemang?'}
                   </label>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '12px', lineHeight: '1.4' }}>
-                    {language === 'en' 
+                    {language === 'fa' ? 'برنامه شما را طوری تنظیم می‌کنیم که برای این مناسبت خاص در بهترین فرم و حال خود باشید!' : language === 'en' 
                       ? 'We\'ll tailor your plan to help you get in shape and feel your best for the special occasion!' 
                       : 'Vi anpassar din plan för att hjälpa dig komma i form och känna dig på topp inför det speciella tillfället!'}
                   </p>
@@ -2973,7 +2988,7 @@ function Apply() {
                       onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.05)' }}
                       onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
                     >
-                      {language === 'en' ? 'Skip this question' : 'Hoppa över denna fråga'}
+                      {language === 'fa' ? 'از این سؤال بگذر' : language === 'en' ? 'Skip this question' : 'Hoppa över denna fråga'}
                     </button>
                   </div>
                 </div>
@@ -3003,23 +3018,23 @@ function Apply() {
                     
                     // Formatter
                     const options = { month: 'short', day: 'numeric', year: 'numeric' }
-                    const formattedPredictDate = targetDateObj.toLocaleDateString(language === 'en' ? 'en-US' : 'sv-SE', options)
-                    const formattedToday = new Date().toLocaleDateString(language === 'en' ? 'en-US' : 'sv-SE', { month: 'short', day: 'numeric' })
+                    const formattedPredictDate = targetDateObj.toLocaleDateString(language === 'fa' ? 'fa-IR' : language === 'en' ? 'en-US' : 'sv-SE', options)
+                    const formattedToday = new Date().toLocaleDateString(language === 'fa' ? 'fa-IR' : language === 'en' ? 'en-US' : 'sv-SE', { month: 'short', day: 'numeric' })
                     
                     const occasionText = formData.specialOccasion && formData.specialOccasion !== 'Nej' && formData.specialOccasion !== 'No'
-                      ? ` ${language === 'en' ? 'before your' : 'innan din'} ${formData.specialOccasion.toLowerCase()}`
+                      ? ` ${language === 'fa' ? 'قبل از' : language === 'en' ? 'before your' : 'innan din'} ${formData.specialOccasion.toLowerCase()}`
                       : ''
 
                     return (
                       <>
                         <h4 style={{ color: 'var(--text-white)', fontSize: '1.15rem', fontWeight: 'bold', margin: '0 0 4px 0', textAlign: 'center', lineHeight: '1.4' }}>
-                          {language === 'en' ? 'We predict that you\'ll weigh ' : 'Vi förutspår att du kommer att väga '}
+                          {language === 'fa' ? 'پیش‌بینی می‌کنیم وزن شما به ' : language === 'en' ? 'We predict that you\'ll weigh ' : 'Vi förutspår att du kommer att väga '}
                           <span style={{ color: 'var(--accent-gold)' }}>{targetW} kg</span>
-                          {language === 'en' ? ' by ' : ' till '}
+                          {language === 'fa' ? ' برسد تا تاریخ ' : language === 'en' ? ' by ' : ' till '}
                           <span style={{ color: 'var(--accent-gold)' }}>{formattedPredictDate}!</span>
                         </h4>
                         <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textAlign: 'center', margin: '0 0 20px 0' }}>
-                          {language === 'en' ? 'achieving your goal' : 'når ditt mål'}{occasionText}
+                          {language === 'fa' ? 'رسیدن به هدف' : language === 'en' ? 'achieving your goal' : 'når ditt mål'}{occasionText}
                         </p>
 
                         {/* Line Chart prediction SVG */}
@@ -3087,7 +3102,7 @@ function Apply() {
                         >
                           <span>🙌</span>
                           <span>
-                            {language === 'en' 
+                            {language === 'fa' ? `خبر خوب! بر اساس کاربران مشابه، پیش‌بینی می‌کنیم قبل از ${formattedPredictDate} به وزن هدف ${targetW} کیلوگرم برسید.` : language === 'en' 
                               ? `Good news! Based on similar users, we predict that you'll achieve your goal weight of ${targetW} kg before ${formattedPredictDate}.` 
                               : `Goda nyheter! Baserat på liknande användare förutspår vi att du kommer att nå din målvikt på ${targetW} kg innan ${formattedPredictDate}.`}
                           </span>
@@ -3111,16 +3126,16 @@ function Apply() {
                 }}
               >
                 <h4 style={{ color: 'var(--text-white)', margin: '0 0 16px 0', fontSize: '1.05rem', fontWeight: 'bold' }}>
-                  {language === 'en' ? 'Based on your food preferences, we\'ve created' : 'Baserat på dina kostpreferenser har vi skapat'}
+                  {language === 'fa' ? 'بر اساس ترجیحات غذایی شما، ساخته‌ایم' : language === 'en' ? 'Based on your food preferences, we\'ve created' : 'Baserat på dina kostpreferenser har vi skapat'}
                 </h4>
                 <div style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--accent-gold)', margin: '10px 0', textShadow: '0 0 20px rgba(184, 149, 71, 0.3)' }}>
                   500+
                 </div>
                 <p style={{ fontSize: '0.9rem', color: 'var(--text-white)', fontWeight: 'bold', margin: '0 0 6px 0' }}>
-                  {language === 'en' ? 'Meal combinations' : 'Måltidskombinationer'}
+                  {language === 'fa' ? 'ترکیب غذایی' : language === 'en' ? 'Meal combinations' : 'Måltidskombinationer'}
                 </p>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-silver)', margin: 0, lineHeight: '1.4' }}>
-                  {language === 'en' 
+                  {language === 'fa' ? 'که کاملاً مناسب شماست و به شما کمک می‌کند به لذت‌بخش‌ترین شکل وزن کم کنید!' : language === 'en' 
                     ? 'that are the perfect fit for you and will help you lose weight in the most enjoyable way!' 
                     : 'som passar dig perfekt och kommer hjälpa dig att nå dina mål på det mest njutbara sättet!'}
                 </p>
@@ -3139,10 +3154,10 @@ function Apply() {
                 }}
               >
                 <h4 style={{ color: 'var(--text-white)', margin: '0 0 4px 0', fontSize: '1.05rem', fontWeight: 'bold' }}>
-                  {language === 'en' ? 'The last plan you\'ll ever need to lose weight' : 'Den sista planen du behöver för att gå ner i vikt'}
+                  {language === 'fa' ? 'آخرین برنامه‌ای که برای کاهش وزن نیاز دارید' : language === 'en' ? 'The last plan you\'ll ever need to lose weight' : 'Den sista planen du behöver för att gå ner i vikt'}
                 </h4>
                 <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: '1.4' }}>
-                  {language === 'en' 
+                  {language === 'fa' ? 'در همان هفته‌های اول وزن کم کنید و از نتایج ماندگار لذت ببرید.' : language === 'en' 
                     ? 'Lose weight within the first weeks and enjoy lasting results.' 
                     : 'Gå ner i vikt under de första veckorna och behåll resultaten livet ut.'}
                 </p>
@@ -3179,7 +3194,7 @@ function Apply() {
                   
                   {/* Overlay labels */}
                   <span style={{ position: 'absolute', top: '18px', left: '160px', fontSize: '0.62rem', background: '#222', padding: '2px 5px', borderRadius: '3px', color: 'var(--text-silver)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                    {language === 'en' ? 'Other programs' : 'Andra dieter'}
+                    {language === 'fa' ? 'برنامه‌های دیگر' : language === 'en' ? 'Other programs' : 'Andra dieter'}
                   </span>
                   <span style={{ position: 'absolute', bottom: '38px', left: '215px', fontSize: '0.62rem', background: '#10b981', padding: '2px 5px', borderRadius: '3px', color: '#000', fontWeight: 'bold' }}>
                     with Muscle & Focus
@@ -3193,10 +3208,10 @@ function Apply() {
               {/* Allmänna villkor Contract Text */}
               <div style={{ marginBottom: '24px' }}>
                 <label style={{ display: 'block', fontSize: '1rem', color: 'var(--text-white)', marginBottom: '8px', fontWeight: 'bold' }}>
-                  {language === 'en' ? 'General Terms and Conditions' : 'Allmänna villkor'}
+                  {language === 'fa' ? 'شرایط و ضوابط عمومی' : language === 'en' ? 'General Terms and Conditions' : 'Allmänna villkor'}
                 </label>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-silver)', marginBottom: '10px' }}>
-                  {language === 'en' 
+                  {language === 'fa' ? 'لطفاً قرارداد زیر را مطالعه کنید. برای فعال کردن دوره آزمایشی رایگان باید این شرایط را بپذیرید و به‌صورت دیجیتال امضا کنید.' : language === 'en' 
                     ? 'Please review the agreement below. You must accept these terms and sign digitally to activate your free trial.' 
                     : 'Vänligen läs igenom avtalet nedan. Du måste godkänna villkoren och signera digitalt för att aktivera din gratisperiod.'}
                 </p>
@@ -3213,65 +3228,30 @@ function Apply() {
                     fontSize: '0.8rem', 
                     color: 'var(--text-silver)', 
                     lineHeight: '1.5',
-                    textAlign: 'left',
+                    textAlign: 'start',
                     marginBottom: '15px'
                   }}
                 >
-                  <h4 style={{ color: 'var(--text-white)', marginTop: 0, fontSize: '0.9rem', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '4px' }}>
-                    ALLMÄNNA VILLKOR - GRATIS PROVPERIOD
-                  </h4>
-                  <p><strong>Gratis 2-veckors provperiod – Personlig träning</strong></p>
-                  
-                  <p><strong>1. Deltagande och ålder</strong></p>
-                  <ul>
-                    <li>Kunden måste vara fyllda minst 16 år för att delta i provperioden och i den personliga träningen.</li>
-                    <li>Är kunden under 18 år kan skriftligt godkännande från vårdnadshavare krävas innan träningen påbörjas.</li>
-                    <li>Genom att registrera sig för provperioden bekräftar kunden att ovanstående åldersvillkor är uppfyllt.</li>
-                  </ul>
-
-                  <p><strong>2. Vad ingår i provperioden</strong></p>
-                  <p>Under den kostnadsfria 2-veckorsperioden ingår:</p>
-                  <ul>
-                    <li>Ett personligt anpassat träningsprogram.</li>
-                    <li>Ett personligt kostschema.</li>
-                    <li>Tillgång till träningsprogrammet och kostschemat digitalt under hela testperioden.</li>
-                    <li>Löpande kontakt med din personliga tränare för frågor och stöttning.</li>
-                  </ul>
-                  <p>Exakt antal ingående pass, uppföljningstillfällen och kommunikationskanaler specificeras separat vid uppstart.</p>
-
-                  <p><strong>3. Vad händer efter provperioden</strong></p>
-                  <ul>
-                    <li>Provperioden på 2 veckor upphör automatiskt när perioden löper ut.</li>
-                    <li>Ingen automatisk övergång till betalabonnemang sker – kunden behöver aktivt teckna ett abonnemang om hen vill fortsätta.</li>
-                    <li>Ingen dold avgift eller extra kostnad tillkommer i samband med att provperioden avslutas.</li>
-                    <li>Kunden behöver inte säga upp något eller vidta någon åtgärd för att undvika debitering – utan aktivt val upphör samarbetet helt kostnadsfritt.</li>
-                  </ul>
-
-                  <p><strong>4. Hälsa, kost och specialbehov</strong></p>
-                  <ul>
-                    <li>Kunden intygar att hen är vid god hälsa och inte har skador eller medicinska tillstånd som gör träningen olämplig, samt informerar tränaren om eventuella hälsoproblem innan träningen påbörjas.</li>
-                    <li>Om kunden har allergi eller överkänslighet mot viss mat måste detta meddelas tränaren innan kostschemat upprättas.</li>
-                    <li>Om kunden inte äter kött erbjuds ett vegetariskt kostschema som anpassas efter kundens önskemål och behov.</li>
-                    <li>Det är kundens ansvar att informera tränaren om ändrade förutsättningar under provperiodens gång.</li>
-                  </ul>
-
-                  <p><strong>5. Ansvar och ansvarsfriskrivning</strong></p>
-                  <p>Träningsprogrammet och kostschemat är framtagna för att följas i sin helhet. Tränaren/företaget ansvarar inte för skador eller hälsoproblem som uppstår om kunden inte följer programmen eller tränar felaktigt. Träning sker på eget ansvar.</p>
-
-                  <p><strong>6. Immaterialrätt och konfidentialitet</strong></p>
-                  <ul>
-                    <li>Samtliga tränings- och kostprogram är upphovsrättsligt skyddade och tillhör tränaren/företaget.</li>
-                    <li>Programmen är endast avsedda för kundens personliga bruk och får inte spridas till tredje part.</li>
-                  </ul>
-
-                  <p><strong>7. Personuppgifter (GDPR)</strong></p>
-                  <p>Personuppgifter och hälsorelaterad information behandlas i enlighet med gällande dataskyddslagstiftning (GDPR) endast för kommunikation och anpassning av träningsprogrammen.</p>
-
-                  <p><strong>8. Ändringar av villkoren</strong></p>
-                  <p>Tränaren förbehåller sig rätten att uppdatera dessa villkor. Eventuella ändringar meddelas kunden i god tid.</p>
-
-                  <p><strong>9. Tillämplig lag</strong></p>
-                  <p>Dessa villkor regleras av svensk lag. Tvist löses i första hand genom dialog.</p>
+                  {(() => {
+                    const terms = FREE_TRIAL_TERMS[language] || FREE_TRIAL_TERMS.sv
+                    return (
+                      <>
+                        <h4 style={{ color: 'var(--text-white)', marginTop: 0, fontSize: '0.9rem', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '4px' }}>
+                          {terms.heading}
+                        </h4>
+                        <p><strong>{terms.subtitle}</strong></p>
+                        {terms.sections.map((sec) => (
+                          <React.Fragment key={sec.title}>
+                            <p><strong>{sec.title}</strong></p>
+                            {sec.intro && <p>{sec.intro}</p>}
+                            {sec.items && <ul>{sec.items.map((item) => <li key={item}>{item}</li>)}</ul>}
+                            {sec.text && <p>{sec.text}</p>}
+                            {sec.after && <p>{sec.after}</p>}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    )
+                  })()}
                 </div>
 
                 {/* Consent Checkbox */}
@@ -3284,7 +3264,7 @@ function Apply() {
                     style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--accent-gold)', marginTop: '2px' }}
                   />
                   <label htmlFor="agreementConfirmed" style={{ fontSize: '0.85rem', color: 'var(--text-white)', cursor: 'pointer', userSelect: 'none', lineHeight: '1.4' }}>
-                    {language === 'en' 
+                    {language === 'fa' ? 'بدین‌وسیله تأیید می‌کنم که حداقل ۱۶ سال سن دارم و شرایط و ضوابط عمومی را خوانده و به‌طور کامل می‌پذیرم.' : language === 'en' 
                       ? 'I hereby confirm that I am at least 16 years old, have read and fully accept the General Terms and Conditions.' 
                       : 'Jag bekräftar härmed att jag är minst 16 år gammal, har tagit del av och godkänner de allmänna villkoren.'}
                   </label>
@@ -3293,10 +3273,10 @@ function Apply() {
                 {/* Digital Signature Drawing Canvas Pad */}
                 <div style={{ marginBottom: '15px' }}>
                   <label style={{ display: 'block', fontSize: '0.88rem', color: 'var(--text-white)', marginBottom: '6px', fontWeight: '600' }}>
-                    {language === 'en' ? 'Digital Signature:' : 'Digital underskrift:'}
+                    {language === 'fa' ? 'امضای دیجیتال:' : language === 'en' ? 'Digital Signature:' : 'Digital underskrift:'}
                   </label>
                   <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '8px' }}>
-                    {language === 'en' ? 'Draw your signature inside the box below:' : 'Rita din namnteckning med muspekaren eller fingret i rutan nedan:'}
+                    {language === 'fa' ? 'امضای خود را داخل کادر زیر بکشید:' : language === 'en' ? 'Draw your signature inside the box below:' : 'Rita din namnteckning med muspekaren eller fingret i rutan nedan:'}
                   </p>
                   
                   <div style={{ position: 'relative', width: '100%', maxWidth: '400px', backgroundColor: 'rgba(0,0,0,0.4)', borderRadius: '6px', border: '1px dashed var(--border-glass)', padding: '5px' }}>
@@ -3322,7 +3302,7 @@ function Apply() {
                     
                     {formData.signature && (
                       <span style={{ position: 'absolute', bottom: '8px', left: '12px', fontSize: '0.62rem', backgroundColor: 'rgba(16, 185, 129, 0.15)', color: '#10b981', padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
-                        ✓ {language === 'en' ? 'Signed' : 'Signerad'}
+                        ✓ {language === 'fa' ? 'امضا شد' : language === 'en' ? 'Signed' : 'Signerad'}
                       </span>
                     )}
 
@@ -3342,7 +3322,7 @@ function Apply() {
                         cursor: 'pointer'
                       }}
                     >
-                      {language === 'en' ? 'Clear' : 'Rensa'}
+                      {language === 'fa' ? 'پاک کردن' : language === 'en' ? 'Clear' : 'Rensa'}
                     </button>
                   </div>
                 </div>
@@ -3352,7 +3332,7 @@ function Apply() {
               {/* Submit Buttons */}
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', gap: '10px' }}>
                 <button type="button" onClick={() => setFormStep(3)} style={{ background: 'none', border: 'none', color: 'var(--text-silver)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ArrowLeft size={16} /> {language === 'en' ? 'Back' : 'Bakåt'}
+                  <ArrowLeft size={16} /> {language === 'fa' ? 'پشت' : language === 'en' ? 'Back' : 'Bakåt'}
                 </button>
                 <button 
                   type="button" 
