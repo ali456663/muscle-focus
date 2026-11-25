@@ -1,5 +1,5 @@
 .footer {
-  background-color: #0b0e14;
+  background-color: #0A120E;
   border-top: 1px solid var(--border-glass);
   padding-top: 60px;
   color: var(--text-muted);
@@ -30,9 +30,13 @@
 }
 
 .footer-logo-img {
-  height: 44px;
-  width: auto;
+  height: 56px;
+  width: 56px;
   object-fit: contain;
+  background: #fff;
+  border-radius: 14px;
+  padding: 4px;
+  box-shadow: 0 0 0 1px rgba(200, 162, 78, 0.35);
 }
 
 .brand-tagline {
@@ -60,8 +64,8 @@
 }
 
 .social-links a:hover {
-  background: linear-gradient(135deg, var(--accent-neon) 0%, var(--accent-cyan) 100%);
-  color: #04080f;
+  background: var(--bronze);
+  color: #15110A;
   border-color: transparent;
   transform: translateY(-3px);
   box-shadow: var(--shadow-cyan);
@@ -118,9 +122,9 @@
 
 /* Footer Bottom Bar */
 .footer-bottom {
-  border-top: 1px solid rgba(0, 229, 255, 0.15);
+  border-top: 1px solid var(--fern-line);
   padding: 24px 0;
-  background: linear-gradient(135deg, #0a1629 0%, #0d1b2a 100%);
+  background: #08100C;
   color: var(--text-silver);
   font-size: 0.85rem;
   font-weight: 500;

@@ -160,24 +160,22 @@
 }
 
 .section-header .subtitle {
-  color: var(--accent-cyan);
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
+  color: var(--bronze);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .section-header h2 {
-  font-size: 2.5rem;
-  letter-spacing: -0.02em;
+  font-size: clamp(2.1rem, 4.2vw, 3.1rem);
 }
 
 /* About Section */
 .about-section {
   padding: 120px 0;
-  background-color: rgba(21, 20, 18, 0.65);
+  background-color: transparent;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -270,7 +268,7 @@
 /* Compare Section (PT vs Self) */
 .compare-section {
   padding: 120px 0;
-  background-color: rgba(21, 20, 18, 0.65);
+  background-color: transparent;
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
   backdrop-filter: blur(12px);
@@ -352,7 +350,7 @@
 /* Benefits Section */
 .benefits-section {
   padding: 120px 0;
-  background-color: rgba(35, 33, 29, 0.75);
+  background-color: transparent;
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
   backdrop-filter: blur(12px);
@@ -410,7 +408,7 @@
 /* Certifications Section */
 .cert-section {
   padding: 120px 0;
-  background-color: rgba(21, 20, 18, 0.65);
+  background-color: transparent;
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
   backdrop-filter: blur(12px);
@@ -470,7 +468,7 @@
 
 .cta-section {
   padding: 120px 0;
-  background-color: rgba(35, 33, 29, 0.75);
+  background-color: transparent;
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
   backdrop-filter: blur(12px);
@@ -729,7 +727,7 @@
 /* Samarbetspartners Section */
 .partners-section {
   padding: 120px 0;
-  background-color: rgba(21, 20, 18, 0.65);
+  background-color: transparent;
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
   backdrop-filter: blur(12px);
@@ -827,7 +825,7 @@
 }
 
 .why-choose-me-section {
-  background-color: rgba(35, 33, 29, 0.75);
+  background-color: transparent;
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
   backdrop-filter: blur(12px);
@@ -835,13 +833,13 @@
 }
 
 .why-strength-section {
-  background-color: rgba(21, 20, 18, 0.65);
+  background-color: transparent;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
 .ideal-client-section {
-  background-color: rgba(35, 33, 29, 0.75);
+  background-color: transparent;
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
   backdrop-filter: blur(12px);
@@ -849,13 +847,13 @@
 }
 
 .testimonials-section {
-  background-color: rgba(21, 20, 18, 0.65);
+  background-color: transparent;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
 .results-section {
-  background-color: rgba(35, 33, 29, 0.75);
+  background-color: transparent;
   border-top: 1px solid rgba(226, 222, 206, 0.06);
   border-bottom: 1px solid rgba(226, 222, 206, 0.06);
   backdrop-filter: blur(12px);
@@ -921,5 +919,207 @@
 
   .motivation-box {
     padding: 28px 24px !important;
+  }
+}
+
+
+/* ════════════════════════════════════════════════
+   Ny design (2026): hero, kampanjremsa, sektionsrytm
+   ════════════════════════════════════════════════ */
+
+/* Sektioner skiljs åt med en tunn linje i stället för olika bakgrundsfärger */
+.home-page > section + section {
+  border-top: 1px solid rgba(38, 54, 44, 0.7);
+}
+.home-page > section.trial-strip { border-top: none; }
+
+.hero {
+  padding: clamp(48px, 7vw, 96px) 0 clamp(40px, 5vw, 72px);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.hero-kicker {
+  color: var(--bronze);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+
+.hero-headline {
+  font-size: clamp(3rem, 7.4vw, 6.2rem);
+  max-width: 11ch;
+  margin-bottom: 24px;
+}
+
+.hero-lead {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-silver);
+  max-width: 58ch;
+  margin-bottom: 32px;
+}
+
+.hero .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.hero-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--fern-line);
+  padding-top: 20px;
+  gap: 16px;
+  max-width: 560px;
+}
+
+.hero-facts dt {
+  font-size: 0.85rem;
+  color: var(--sage);
+  margin-bottom: 4px;
+}
+
+.hero-facts dd {
+  font-family: var(--font-heading);
+  font-weight: 760;
+  font-stretch: 84%;
+  font-size: 1.15rem;
+  color: var(--chalk);
+}
+
+.hero-portrait {
+  position: relative;
+  margin: 0;
+  border-radius: 28px 28px 28px 120px;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  max-height: 640px;
+  box-shadow: 0 0 0 1px var(--fern-line), var(--shadow-dark);
+}
+
+[dir='rtl'] .hero-portrait {
+  border-radius: 28px 28px 120px 28px;
+}
+
+.hero-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  display: block;
+}
+
+.hero-portrait figcaption {
+  position: absolute;
+  inset-inline-start: 16px;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(13, 23, 18, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--fern-line);
+}
+
+.hero-portrait figcaption strong {
+  font-family: var(--font-heading);
+  font-stretch: 84%;
+  font-size: 1.1rem;
+  color: var(--chalk);
+}
+
+.hero-portrait figcaption span {
+  font-size: 0.85rem;
+  color: var(--sage);
+}
+
+/* Kampanjremsa */
+.trial-strip {
+  padding: 0 0 clamp(56px, 7vw, 96px);
+}
+
+.trial-card {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: center;
+  gap: clamp(20px, 4vw, 48px);
+  padding: 14px;
+  padding-inline-end: clamp(20px, 4vw, 48px);
+  border-radius: 24px;
+  background: linear-gradient(120deg, rgba(200, 162, 78, 0.16), rgba(20, 32, 25, 0.9) 55%);
+  border: 1px solid rgba(200, 162, 78, 0.35);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.trial-card:hover {
+  border-color: var(--bronze);
+  transform: translateY(-2px);
+}
+
+.trial-card-img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}
+
+.trial-card-body h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+  margin-bottom: 10px;
+}
+
+.trial-card-body p {
+  color: var(--text-silver);
+  margin-bottom: 14px;
+  max-width: 52ch;
+}
+
+.trial-card-body .trial-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: #E9CF8E;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-portrait {
+    max-height: 520px;
+    order: -1;
+    aspect-ratio: 4 / 3.4;
+  }
+  .hero-headline {
+    max-width: none;
+  }
+  .trial-card {
+    grid-template-columns: 1fr;
+    padding-inline-end: 14px;
+  }
+  .trial-card-body {
+    padding: 4px 8px 10px;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-facts {
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero .hero-actions a {
+    flex: 1 1 100%;
   }
 }

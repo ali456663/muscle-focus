@@ -24,21 +24,25 @@ function Navbar() {
   return (
     <nav className="navbar glass-panel">
       <div className="navbar-container container">
-        <Link to="/" className="navbar-logo" onClick={closeMenu}>
-          <img src="/logo.png" alt="Muscle & Focus Logo" className="logo-img" />
+        <Link to="/" className="navbar-logo" onClick={closeMenu} aria-label="Muscle & Focus">
+          <span className="logo-tile"><img src="/logo.png" alt="" className="logo-img" /></span>
+          <span className="logo-wordmark">Muscle <span aria-hidden="true">&amp;</span> Focus</span>
         </Link>
 
         {/* Desktop Menu */}
         <div className="navbar-links">
-          <Link to="/" className={`nav-link ${isActive('/')}`}>{t('home')}</Link>
+          <Link to="/paket" className={`nav-link ${isActive('/paket')}`}>{t('packages')}</Link>
           <Link to="/bmi" className={`nav-link ${isActive('/bmi')}`}>{t('bmiCalculator')}</Link>
-          
-          {/* Language Selector next to Hem */}
+          <Link to="/hitta-kompis" className={`nav-link ${isActive('/hitta-kompis')}`}>{t('hittaKompis')}</Link>
+          <Link to="/licenser" className={`nav-link ${isActive('/licenser')}`}>{t('licenses')}</Link>
+        </div>
+
+        <div className="navbar-actions">
           <div className="lang-selector-container">
-            <Globe size={16} className="lang-globe-icon" />
-            <select 
-              value={language} 
-              onChange={(e) => setLanguage(e.target.value)} 
+            <Globe size={15} className="lang-globe-icon" aria-hidden="true" />
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
               className="lang-select-dropdown"
               aria-label={language === 'fa' ? 'انتخاب زبان' : language === 'en' ? 'Select language' : 'Välj språk'}
             >
@@ -47,32 +51,24 @@ function Navbar() {
               <option value="fa">فارسی</option>
             </select>
           </div>
-          
-          <Link to="/paket" className={`nav-link ${isActive('/paket')}`}>{t('packages')}</Link>
-          <Link to="/hitta-kompis" className={`nav-link ${isActive('/hitta-kompis')}`}>{t('hittaKompis')}</Link>
-          <Link to="/licenser" className={`nav-link ${isActive('/licenser')}`}>{t('licenses')}</Link>
-          <Link to="/villkor" className={`nav-link ${isActive('/villkor')}`}>{t('termsLink')}</Link>
-          <Link to="/ansok" className={`nav-link btn-apply ${isActive('/ansok')}`}>{t('apply')}</Link>
-          
+
           {localStorage.getItem('client_token') ? (
             <>
-              <Link to="/profil" className={`nav-link nav-client-profile ${isActive('/profil')}`} style={{ color: 'var(--accent-gold)', fontWeight: 'bold' }}>
-                🏋️ Mitt Program
-              </Link>
+              <Link to="/profil" className={`nav-link ${isActive('/profil')}`}>{t('clientProfile')}</Link>
               <button onClick={() => {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('client_user');
                 localStorage.removeItem('client_name');
                 window.location.href = '/';
-              }} className="nav-link nav-client-logout" style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit', color: 'inherit', display: 'inline-flex', alignItems: 'center' }}>
+              }} className="nav-link nav-link-button">
                 {t('clientLogout')}
               </button>
             </>
           ) : (
-            <Link to="/login" className={`nav-link nav-client-login ${isActive('/login')}`}>{t('clientLogin')}</Link>
+            <Link to="/login" className={`nav-link ${isActive('/login')}`}>{t('clientLogin')}</Link>
           )}
 
-          <Link to="/admin" className={`nav-link nav-admin ${isActive('/admin')}`}>{t('admin')}</Link>
+          <Link to="/ansok" className={`btn-apply ${isActive('/ansok')}`}>{t('apply')}</Link>
         </div>
 
         {/* Mobile Hamburger Toggle */}
@@ -106,7 +102,7 @@ function Navbar() {
         
         {localStorage.getItem('client_token') ? (
           <>
-            <Link to="/profil" className={`mobile-link ${isActive('/profil')}`} onClick={closeMenu}>🏋️ Mitt Program</Link>
+            <Link to="/profil" className={`mobile-link ${isActive('/profil')}`} onClick={closeMenu}>{t('clientProfile')}</Link>
             <button onClick={() => {
               localStorage.removeItem('client_token');
               localStorage.removeItem('client_user');
@@ -121,7 +117,6 @@ function Navbar() {
           <Link to="/login" className={`mobile-link ${isActive('/login')}`} onClick={closeMenu}>{t('clientLogin')}</Link>
         )}
 
-        <Link to="/admin" className={`mobile-link ${isActive('/admin')}`} onClick={closeMenu}>{t('admin')}</Link>
       </div>
     </nav>
   )

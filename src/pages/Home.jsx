@@ -6,7 +6,6 @@ import { usePageTitle } from '../hooks/usePageTitle'
 import { useSchemaOrg } from '../hooks/useSchemaOrg'
 import IdealClient from './IdealClient'
 import WhyStrength from './WhyStrength'
-import { ContainerScroll, ContainerSticky, ContainerInset, HeroVideo, ContainerAnimated } from '../components/AnimatedVideoOnScroll'
 import './Home.css'
 
 function Home() {
@@ -17,180 +16,58 @@ function Home() {
   return (
     <div className={`home-page ${language === 'fa' ? 'rtl-align' : ''}`}>
       {/* Hero Section */}
-      <ContainerScroll className="hero-section">
-        <ContainerSticky className="hero-sticky-container">
-          <div className="hero-container container">
-            <ContainerAnimated className="hero-content">
-              {/* Dumbbell Banner with custom text overlay */}
-              <Link 
-                to="/ansok?paket=Gratis%20provperiod%20(14%20dagar)" 
-                className="dumbbell-banner-link fade-in"
-                style={{
-                  position: 'relative',
-                  display: 'block',
-                  width: '100%',
-                  maxWidth: '540px',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-                  marginBottom: '14px',
-                  cursor: 'pointer',
-                  background: '#060b13'
-                }}
-              >
-                {/* Custom Trainer Banner */}
-                <img 
-                  src="/banner_trainers.png" 
-                  alt="Personal Trainers" 
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    display: 'block',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.03)' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
-                />
-                
-                {/* Arbete pågår badge top right */}
-                <div 
-                  style={{
-                    position: 'absolute',
-                    top: '12px',
-                    right: '12px',
-                    backgroundColor: '#ffcc00',
-                    color: '#000000',
-                    padding: '4px 10px',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    fontWeight: '900',
-                    fontSize: '0.75rem',
-                    border: '2px solid #000000',
-                    zIndex: 2
-                  }}
-                >
-                  <img src="/arbete_pagar.png" alt={language === 'fa' ? 'در حال توسعه' : language === 'en' ? 'Work in progress' : 'Arbete pågår'} style={{ width: '20px', height: 'auto', display: 'block' }} />
-                  <span>{language === 'fa' ? 'در حال توسعه' : language === 'en' ? 'WORK IN PROGRESS' : 'ARBETE PÅGÅR'}</span>
-                </div>
-
-                {/* White Rounded Badge overlay positioned at the bottom */}
-                <div 
-                  style={{
-                    position: 'absolute',
-                    bottom: '16px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    backgroundColor: '#ffffff',
-                    padding: '8px 20px',
-                    borderRadius: '30px',
-                    border: '3px solid #d4af37',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.25)',
-                    whiteSpace: 'nowrap',
-                    pointerEvents: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px'
-                  }}
-                >
-                  <img src="/arbete_pagar.png" alt={language === 'fa' ? 'در حال توسعه' : language === 'en' ? 'Work in progress' : 'Arbete pågår'} style={{ width: '22px', height: 'auto', objectFit: 'contain' }} />
-                  <span 
-                    style={{
-                      fontFamily: 'var(--font-heading), Impact, sans-serif',
-                      fontSize: '0.85rem',
-                      fontWeight: '900',
-                      color: '#d4af37', // Gold text
-                      letterSpacing: '0.02em',
-                      textTransform: 'uppercase'
-                    }}
-                  >
-                    {language === 'fa' ? 'دوره آزمایشی رایگان ۲ هفته‌ای خود را همین امروز شروع کنید' : language === 'en' ? 'Start your 2-week free trial today' : 'Starta din 2-veckors gratis provperiod idag'}
-                  </span>
-                </div>
-              </Link>
-
-              {/* Arbete Pågår Alert Box under banner */}
-              <div 
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  backgroundColor: 'rgba(255, 204, 0, 0.12)',
-                  border: '1.5px solid #ffcc00',
-                  borderRadius: '10px',
-                  padding: '10px 16px',
-                  marginBottom: '28px',
-                  maxWidth: '540px',
-                  width: '100%',
-                  textAlign: 'left'
-                }}
-              >
-                <img src="/arbete_pagar.png" alt={language === 'fa' ? 'در حال توسعه' : language === 'en' ? 'Work in progress' : 'Arbete pågår'} style={{ width: '38px', height: 'auto', flexShrink: 0 }} />
-                <div>
-                  <strong style={{ color: '#ffcc00', fontSize: '0.82rem', display: 'block', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                    {language === 'fa' ? '⚠️ در حال توسعه — این سرویس در حال آماده‌سازی است' : language === 'en' ? '⚠️ Work in progress — service under development' : '⚠️ Arbete pågår — tjänsten utvecklas'}
-                  </strong>
-                  <span style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '0.78rem', lineHeight: 1.4, display: 'block' }}>
-                    {language === 'fa' ? 'سرویس «دوره آزمایشی رایگان ۲ هفته‌ای» در حال تکمیل است.' : language === 'en' ? 'The "Start your 2-week free trial today" service is being finalized right now.' : 'Tjänsten "Starta din 2-veckors gratis provperiod idag" färdigställs just nu.'}
-                  </span>
-                </div>
-              </div>
-              <h1 className="hero-title text-gradient-neon">
-                {t('heroWelcome')}<span>{t('heroTitle')}</span>
-              </h1>
-              <p className="hero-text">
-                {t('heroText')}
-              </p>
-              <div className="hero-actions">
-                <Link to="/paket" className="btn-primary">{t('btnPackages')}</Link>
-                <Link to="/ansok?paket=Gratis%20provperiod%20(14%20dagar)" className="btn-secondary">{t('btnConsultation')}</Link>
-              </div>
-            </ContainerAnimated>
-            <div className="hero-visual">
-              <div className="visual-glow"></div>
-              <div className="hero-video-wrapper">
-                <img 
-                  src="/winter_pt.png" 
-                  alt="Muscle & Focus PT" 
-                  className="hero-video"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    display: 'block'
-                  }}
-                />
-              </div>
-              <div className="visual-card glass-panel hero-floating-card">
-                <div className="visual-header" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '16px' }}>
-                  <Flame className="visual-icon" style={{ color: '#ffb700', filter: 'drop-shadow(0 0 8px rgba(255,183,0,0.5))' }} />
-                  <span style={{ fontWeight: '800', background: 'linear-gradient(90deg, #ffb700, #00f5ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '0.02em' }}>
-                    Muscle & Focus PT
-                  </span>
-                </div>
-                <div className="visual-body" style={{ paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <div className="stat-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>{language === 'fa' ? 'تجربه' : language === 'en' ? 'Experience' : 'Erfarenhet'}</span>
-                    <span className="stat-value" style={{ color: '#ffb700', fontWeight: '800', textShadow: '0 0 8px rgba(255, 183, 0, 0.4)' }}>{language === 'fa' ? 'بیش از ۸ سال' : language === 'en' ? '8+ years' : '8+ år'}</span>
-                  </div>
-                  <div className="stat-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>{language === 'fa' ? 'پشتیبانی' : language === 'en' ? 'Support' : 'Stöd'}</span>
-                    <span className="stat-value" style={{ color: '#00f5ff', fontWeight: '800', textShadow: '0 0 8px rgba(0, 245, 255, 0.4)' }}>{language === 'fa' ? 'چندزبانه' : language === 'en' ? 'Multilingual' : 'Flerspråkigt'}</span>
-                  </div>
-                  <div className="stat-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span className="stat-label" style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.9rem' }}>{language === 'fa' ? 'مربیگری' : language === 'en' ? 'Coaching' : 'Coaching'}</span>
-                    <span className="stat-value" style={{ color: '#00ff88', fontWeight: '800', textShadow: '0 0 8px rgba(0, 255, 136, 0.4)' }}>{language === 'fa' ? 'آنلاین و حضوری' : language === 'en' ? 'Online & on-site' : 'Online & på plats'}</span>
-                  </div>
-                </div>
-              </div>
+      {/* Hero: rubrik och handling först, coachen till höger */}
+      <section className="hero">
+        <div className="container hero-grid">
+          <div className="hero-copy">
+            <p className="hero-kicker">{t('heroWelcome').replace(/[\s–-]+$/, '')}</p>
+            <h1 className="hero-headline">{t('heroTitle')}</h1>
+            <p className="hero-lead">{t('heroText')}</p>
+            <div className="hero-actions">
+              <Link to="/ansok?paket=Gratis%20provperiod%20(14%20dagar)" className="btn-primary">{t('btnConsultation')}</Link>
+              <Link to="/paket" className="btn-secondary">{t('btnPackages')}</Link>
             </div>
+            <dl className="hero-facts">
+              <div>
+                <dt>{language === 'fa' ? 'تجربه' : language === 'en' ? 'Experience' : 'Erfarenhet'}</dt>
+                <dd>{language === 'fa' ? 'بیش از ۸ سال' : language === 'en' ? '8+ years' : '8+ år'}</dd>
+              </div>
+              <div>
+                <dt>{language === 'fa' ? 'مربیگری' : language === 'en' ? 'Coaching' : 'Coaching'}</dt>
+                <dd>{language === 'fa' ? 'آنلاین و حضوری' : language === 'en' ? 'Online & on-site' : 'Online & på plats'}</dd>
+              </div>
+              <div>
+                <dt>{language === 'fa' ? 'زبان‌ها' : language === 'en' ? 'Languages' : 'Språk'}</dt>
+                <dd>{language === 'fa' ? 'چندزبانه' : language === 'en' ? 'Multilingual' : 'Flerspråkig'}</dd>
+              </div>
+            </dl>
           </div>
-        </ContainerSticky>
-      </ContainerScroll>
+          <figure className="hero-portrait">
+            <img src="/winter_pt.png" alt={language === 'fa' ? 'علی وفا کنار حمام یخ – Muscle & Focus' : language === 'en' ? 'Ali Wafa at an ice bath – Muscle & Focus' : 'Ali Wafa vid isvaken – Muscle & Focus'} fetchpriority="high" />
+            <figcaption>
+              <strong>Ali Wafa</strong>
+              <span>{language === 'fa' ? 'مربی شخصی دارای مجوز' : language === 'en' ? 'Licensed personal trainer' : 'Licensierad personlig tränare'}</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* Kampanj: gratis provperiod (tjänsten färdigställs) */}
+      <section className="trial-strip">
+        <div className="container">
+          <Link to="/ansok?paket=Gratis%20provperiod%20(14%20dagar)" className="trial-card">
+            <img src="/banner_trainers.png" alt="" className="trial-card-img" loading="lazy" />
+            <div className="trial-card-body">
+              <h2>{language === 'fa' ? 'دوره آزمایشی رایگان ۲ هفته‌ای را شروع کنید' : language === 'en' ? 'Start your 2-week free trial' : 'Starta din 2-veckors gratis provperiod'}</h2>
+              <p>{language === 'fa' ? 'برنامه تمرینی و غذایی شخصی برای دو هفته – رایگان و بدون تعهد.' : language === 'en' ? 'A personal training program and nutrition plan for two weeks – free and with no commitment.' : 'Personligt träningsprogram och kostschema i två veckor – utan kostnad och utan bindning.'}</p>
+              <p className="trial-note">
+                <img src="/arbete_pagar.png" alt="" width="18" height="18" />
+                {language === 'fa' ? 'این سرویس در حال تکمیل است – اعلام علاقه کنید تا با شما تماس بگیریم.' : language === 'en' ? 'This service is being finalized – register your interest and we will contact you.' : 'Tjänsten färdigställs just nu – anmäl intresse så hör vi av oss.'}
+              </p>
+            </div>
+          </Link>
+        </div>
+      </section>
 
       {/* Motivation / Kom i rörelse Section */}
       <section className="motivation-section">
@@ -389,55 +266,6 @@ function Home() {
                 })}
               </ul>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="benefits-section">
-        <div className="container">
-          <div className="section-header">
-            <span className="subtitle">{t('benefitsSubtitle')}</span>
-            <h2>{t('benefitsTitle')}</h2>
-          </div>
-          <div className="benefits-grid">
-            <div className="benefit-card glass-panel">
-              <Activity className="benefit-icon" />
-              <h3>{t('benefitsFysiskTitle')}</h3>
-              <ul>
-                {t('benefitsFysiskFeatures').map((feat, idx) => {
-                  const parts = feat.split(':')
-                  return (
-                    <li key={idx}>
-                      <strong>{parts[0]}:</strong>
-                      <span>{parts.slice(1).join(':')}</span>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-            
-            <div className="benefit-card glass-panel">
-              <Heart className="benefit-icon" />
-              <h3>{t('benefitsMentalTitle')}</h3>
-              <ul>
-                {t('benefitsMentalFeatures').map((feat, idx) => {
-                  const parts = feat.split(':')
-                  return (
-                    <li key={idx}>
-                      <strong>{parts[0]}:</strong>
-                      <span>{parts.slice(1).join(':')}</span>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          </div>
-
-          <div className="benefits-action-row" style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
-            <Link to="/varfor-styrketrana" className="btn-secondary">
-              {language === 'fa' ? 'اطلاعات بیشتر درباره فواید تمرین' : language === 'en' ? 'Learn more about the benefits' : 'Läs mer om alla fördelar'}
-            </Link>
           </div>
         </div>
       </section>
