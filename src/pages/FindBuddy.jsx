@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
 import { usePageTitle } from '../hooks/usePageTitle'
-import { User, Calendar, MapPin, Dumbbell, MessageSquare, Search, Send, CheckCircle2, AlertCircle, Mail, Globe } from 'lucide-react'
+import { User, Calendar, MapPin, Dumbbell, MessageSquare, Search, Send, CheckCircle2, AlertCircle, Mail, Globe, ShieldAlert } from 'lucide-react'
 import { submitBuddy, fetchBuddies, isBackendOnline, syncStoredBuddies, clearOfflineData, getOfflineStats } from '../services/api'
 import './FindBuddy.css'
 

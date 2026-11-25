@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
 import SlowGif from '../components/SlowGif';
+import {
   EXERCISES,
   EQUIPMENT_MAPPING,
   DIFFICULTY_MAPPING,

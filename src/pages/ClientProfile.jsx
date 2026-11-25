@@ -599,8 +599,6 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           ...original,
           id: ex.id,
           name_en: ex.name_en,
-          name_es: original.name_es || ex.name_en,
-          name_fa: original.name_fa || ex.name_en,
           name_es: ex.name_es || original.name_es || ex.name_en,
           name_fa: original.name_fa || ex.name_en,
           name: ex.name || ex.name_en,
@@ -1583,7 +1581,6 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           equipment: ex.equipment || original.equipment || (ex.id.includes('lever') ? 'leverage machine' : 'dumbbell'),
           sets: ex.sets,
           reps: ex.reps,
-          rest: ex.rest || '40 sek',
           images: {
             classic: { start: ex.gifUrl, peak: ex.gifUrl },
             flat: { start: ex.gifUrl, peak: ex.gifUrl }

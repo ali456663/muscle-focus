@@ -1,26 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
-import Packages from './pages/Packages'
-import Apply from './pages/Apply'
-import AdminLogin from './pages/AdminLogin'
-import AdminDashboard from './pages/AdminDashboard'
-import ClientLogin from './pages/ClientLogin'
-import ClientRegister from './pages/ClientRegister'
-import ClientProfile from './pages/ClientProfile'
-import ResetPassword from './pages/ResetPassword'
-import Certificates from './pages/Certificates'
-import WhyStrength from './pages/WhyStrength'
-import IdealClient from './pages/IdealClient'
-import Terms from './pages/Terms'
-import BmiCalculator from './pages/BmiCalculator'
-import FindBuddy from './pages/FindBuddy'
-import Chatbot from './components/Chatbot'
-import PaymentSuccess from './pages/PaymentSuccess'
-import PaymentCancel from './pages/PaymentCancel'
 import NotFound from './pages/NotFound'
+import Chatbot from './components/Chatbot'
+const Packages = lazy(() => import('./pages/Packages'))
+const Apply = lazy(() => import('./pages/Apply'))
+const AdminLogin = lazy(() => import('./pages/AdminLogin'))
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'))
+const ClientLogin = lazy(() => import('./pages/ClientLogin'))
+const ClientRegister = lazy(() => import('./pages/ClientRegister'))
+const ClientProfile = lazy(() => import('./pages/ClientProfile'))
+const ResetPassword = lazy(() => import('./pages/ResetPassword'))
+const Certificates = lazy(() => import('./pages/Certificates'))
+const WhyStrength = lazy(() => import('./pages/WhyStrength'))
+const IdealClient = lazy(() => import('./pages/IdealClient'))
+const Terms = lazy(() => import('./pages/Terms'))
+const BmiCalculator = lazy(() => import('./pages/BmiCalculator'))
+const FindBuddy = lazy(() => import('./pages/FindBuddy'))
+const PaymentSuccess = lazy(() => import('./pages/PaymentSuccess'))
+const PaymentCancel = lazy(() => import('./pages/PaymentCancel'))
 
 // Helper component to scroll to top on path changes
 function ScrollToTop() {
@@ -39,6 +39,7 @@ function App() {
       <ScrollToTop />
       <Navbar />
       <main style={{ flex: 1 }}>
+        <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/bmi" element={<BmiCalculator />} />
@@ -59,6 +60,7 @@ function App() {
           <Route path="/payment/cancel" element={<PaymentCancel />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
       </main>
       <Footer />
       <Chatbot />
