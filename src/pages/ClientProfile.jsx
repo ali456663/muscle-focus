@@ -4412,41 +4412,34 @@ function ClientProfile() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                           <span style={{ fontSize: '1.2rem' }}>💡</span>
                           <strong style={{ fontSize: '0.85rem', color: '#1e3a8a', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
-                            Hantera klientens förväntningar (Kalorier & Muskelmassa)
+                            Vad händer i kroppen efter passet?
                           </strong>
                         </div>
-                        <p style={{ margin: '0 0 12px 0', fontSize: '0.82rem', color: '#1e40af', fontWeight: '500', lineHeight: 1.45 }}>
-                          Att hantera en klients förväntningar kring kaloriförbrukning och muskelmassa efter ett 60-minuters pass är en viktig del av coachingen. Det korta svaret är: Styrketräning handlar mer om att "bygga en motor" än att bara "bränna bränsle" just under passet.
+                        <p style={{ margin: '0 0 12px 0', fontSize: '0.85rem', color: '#1e40af', lineHeight: 1.5 }}>
+                          Styrketräning handlar mer om att bygga en starkare kropp över tid än om att bränna så många kalorier som möjligt under själva passet.
                         </p>
-                        
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.8rem', color: '#374151' }}>
-                          <div style={{ background: '#ffffff', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                            <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '6px' }}>1. Kaloriförbrukning (Det svåra måttet)</strong>
-                            <p style={{ margin: '0 0 6px 0' }}>Många klienter stirrar sig blinda på sin träningsklocka. Förklara följande:</p>
-                            <ul style={{ margin: 0, paddingLeft: '20px' }}>
-                              <li style={{ marginBottom: '4px' }}><strong>Uppskattning:</strong> Under 60 minuter styrketräning bränner man i genomsnitt mellan 200–400 kalorier, beroende på intensitet, vilotid och kroppsvikt. Det är mindre än vid t.ex. löpning.</li>
-                              <li style={{ marginBottom: '4px' }}><strong>EPOC (Efterbränning):</strong> Berätta för klienten att styrketräning har en "efterbränningseffekt". Kroppen kräver energi för att reparera musklerna i upp till 24–48 timmar efter passet. Så den totala kaloriförbrukningen är högre än vad klockan visar precis när passet är slut.</li>
-                              <li><strong>Hantering (Vad du säger till klienten):</strong> "Vi fokuserar inte på att bränna mer kalorier bara, utan att skicka och signalera till kroppen att behålla och bygga muskler."</li>
+                        <div style={{ display: 'grid', gap: '10px', fontSize: '0.82rem', color: '#1f2937', lineHeight: 1.55 }}>
+                          <div style={{ background: '#fff', borderRadius: '8px', padding: '12px 14px', border: '1px solid #dbeafe' }}>
+                            <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '6px' }}>🔥 Kalorier</strong>
+                            <ul style={{ margin: 0, paddingInlineStart: '18px' }}>
+                              <li style={{ marginBottom: '4px' }}>Ett styrkepass på 60 minuter förbränner ungefär 200–400 kalorier, beroende på intensitet, vila och kroppsvikt.</li>
+                              <li>Efter passet fortsätter kroppen att använda extra energi i upp till 24–48 timmar för att reparera musklerna. Den totala förbrukningen blir därför högre än vad klockan visar direkt efter passet.</li>
                             </ul>
                           </div>
-
-                          <div style={{ background: '#ffffff', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                            <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '6px' }}>2. Muskelmassa (Den långsiktiga investeringen)</strong>
-                            <p style={{ margin: '0 0 6px 0' }}>Klienten vill se resultat direkt, men muskeluppbyggnad (hypertrofi) är en kemisk process som sker efter passet.</p>
-                            <ul style={{ margin: 0, paddingLeft: '20px' }}>
-                              <li style={{ marginBottom: '4px' }}><strong>Passet är signalen:</strong> Förklara att under de 60 minuterna har de "brutit ner" musklerna och skapat mikroskador.</li>
-                              <li style={{ marginBottom: '4px' }}><strong>Tillväxten sker under vila:</strong> Muskelmassan bygger när klienten sover och äter protein. Man ser inte ökad muskelmassa efter ett pass, det man ser är "pump" (blod som strömmar till muskeln).</li>
-                              <li><strong>Hantering (Vad du säger till klienten):</strong> Fokusera på progressiv överbelastning. Säg: "Om du kan lyfta tyngre eller göra fler reps nästa vecka, då vet vi att du har byggt muskelmassa."</li>
+                          <div style={{ background: '#fff', borderRadius: '8px', padding: '12px 14px', border: '1px solid #dbeafe' }}>
+                            <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '6px' }}>💪 Muskler</strong>
+                            <ul style={{ margin: 0, paddingInlineStart: '18px' }}>
+                              <li style={{ marginBottom: '4px' }}>Passet är signalen till kroppen – musklerna växer när du vilar, sover och äter tillräckligt med protein.</li>
+                              <li style={{ marginBottom: '4px' }}>Känslan av "pump" direkt efter passet är blod i musklerna, inte ny muskelmassa. Resultatet kommer gradvis.</li>
+                              <li>Klarar du lite tyngre vikt eller fler reps nästa vecka är det ett tydligt tecken på att du blir starkare.</li>
                             </ul>
                           </div>
-
-                          <div style={{ background: '#ffffff', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                            <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '6px' }}>3. Hur du hanterar klientens frågor (Praktiska tips)</strong>
-                            <p style={{ margin: '0 0 6px 0' }}>Om klienten frågar: "Hur mycket brände jag och hur mycket muskler fick jag?", svara så här:</p>
-                            <ul style={{ margin: 0, paddingLeft: '20px' }}>
-                              <li style={{ marginBottom: '4px' }}><strong>Flytta fokus från kalorier till prestation:</strong> "Idag körde vi ett riktigt bra pass med fokus på triceps och överkropp. Istället för att titta på kalorierna, titta på att du orkade mer än förra gången. Det är det som bygger formen."</li>
-                              <li style={{ marginBottom: '4px' }}><strong>Prata om näring:</strong> "För att de här 60 minuterna ska förvandlas till muskelmassa behöver du nu få i dig protein och bra energi."</li>
-                              <li><strong>Rätt saker att mäta framsteg genom:</strong> Bilder (månadsvis), styrkeökningar i träningsdagboken, hur kläderna sitter, eventuellt måttband eller InBody-mätning (men inte efter varje pass).</li>
+                          <div style={{ background: '#fff', borderRadius: '8px', padding: '12px 14px', border: '1px solid #dbeafe' }}>
+                            <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '6px' }}>📈 Så ser du dina framsteg</strong>
+                            <ul style={{ margin: 0, paddingInlineStart: '18px' }}>
+                              <li style={{ marginBottom: '4px' }}>Skriv upp vikter och reps – ökad styrka är det bästa måttet.</li>
+                              <li style={{ marginBottom: '4px' }}>Ta bilder och mät midjan en gång i månaden, inte efter varje pass.</li>
+                              <li>Ät en måltid med protein inom ett par timmar efter passet för bästa återhämtning.</li>
                             </ul>
                           </div>
                         </div>
@@ -4908,7 +4901,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Lås inte knäna:</strong> Undvik att smälla fast knäna i helt rakt läge i toppen; håll en liten "mikroböj" för att behålla spänningen i musklerna och skydda leden.</li>
@@ -4952,7 +4945,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Håll emot i stretchen:</strong> Sänk hälarna långsamt så djupt du kan och stanna i bottenläget i 1–2 sekunder. Detta tar bort "studseffekten" från hälsenan och tvingar muskeln att göra jobbet.</li>
@@ -4997,7 +4990,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Pausa i botten:</strong> Stanna en sekund i det lägsta läget för att stretcha ut muskeln ordentligt och undvika att hälsenan "studsar" upp vikten.</li>
@@ -5041,7 +5034,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Mikroböj i knäna:</strong> Lås aldrig knäna helt "stenhårt". En liten böj skyddar leden mot det tunga trycket.</li>
@@ -5086,7 +5079,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Lätta vikter:</strong> Detta är en teknisk övning. Börja med mycket lätta hantlar för att skydda axelleden.</li>
@@ -5131,7 +5124,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>"Skopa upp":</strong> Tänk att du gör en skopande rörelse med händerna nerifrån och upp mot hakan eller ansiktet.</li>
@@ -5175,7 +5168,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>"Krama ett träd":</strong> Tänk att du ska krama en stor trädstam. Håll armarna lätt böjda hela tiden.</li>
@@ -5220,7 +5213,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>"Krama ett träd":</strong> Håll armarna i en fast position som om du kramar en stor trädstam. Rörelsen ska inte vara en press (böja/sträcka armarna).</li>
@@ -5266,7 +5259,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Sitt djupt i sätet:</strong> Tryck bak axlarna och håll bröstet högt under hela rörelsen.</li>
@@ -5312,7 +5305,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Kroppskontroll:</strong> Precis som i en vanlig armhävning ska kroppen vara spikrak från huvud till häl. Låt inte höften svanka eller peka uppåt.</li>
@@ -5358,7 +5351,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Dra bak axlarna:</strong> Innan du börjar, dra ihop skulderbladen och tryck ner dem. Håll kvar dem mot ryggstödet under hela setet för att skydda axlarna och låta bröstet göra jobbet.</li>
@@ -5404,7 +5397,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Positionering:</strong> Se till att bänken står precis mitt under stången. Stången ska sänkas mot den övre delen av bröstet, strax under nyckelbenen.</li>
@@ -5451,7 +5444,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Kroppen som en planka:</strong> Spänn sätet och magen. Höften får inte hänga ner mot golvet och rumpan ska inte peka upp i vädret.</li>
@@ -5498,7 +5491,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>"Krama ett träd":</strong> Håll armarna i en fast, lätt böjd position (som om du kramar ett stort träd).</li>
@@ -5543,7 +5536,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Håll ihop skulderbladen:</strong> Skapa en stabil bas mot bänken.</li>
@@ -5588,7 +5581,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Bänkvinkel:</strong> 30–45 grader är lagom. Mer än så och det blir nästan bara en axelövning.</li>
@@ -5634,7 +5627,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Sänk stången högt:</strong> Vid vanlig bänkpress sänks stången mot mitten av bröstet; här sänks den mot den övre delen av bröstet, nära nyckelbenen.</li>
@@ -5678,7 +5671,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>"Krama ett träd":</strong> Föreställ dig att du ska krama ett stort träd. Håll armarna lätt böjda men stela.</li>
@@ -5725,7 +5718,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Fem kontaktpunkter:</strong> Huvud, övre rygg och säte ska alltid vara i bänken, och båda fötterna ska vara stadigt i golvet ("foot drive").</li>
@@ -5760,7 +5753,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Fixerade armbågar:</strong> Håll armbågarna fixerade vid sidorna som om de vore fastlimmade. Det är bara underarmarna som ska röra sig för att garantera att det är triceps som gör jobbet!</li>
@@ -5806,7 +5799,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Lås handlederna:</strong> Var noga med att handlederna är raka och inte böjs bakåt av vikten.</li>
@@ -5854,7 +5847,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Håll överarmen stilla:</strong> Tänk att din överarm är fastlimmad mot sidan av din kropp. Det är bara underarmen som ska röra sig.</li>
@@ -5898,7 +5891,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Lås armbågarna:</strong> De ska vara som fastlimmade vid sidorna. Om de rör sig fram och tillbaka tappar du kontakten med triceps.</li>
@@ -5942,7 +5935,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Korsa kablarna:</strong> Ta tag i vänster kabel med höger hand och höger kabel med vänster hand för att få rätt dragvinkel.</li>
@@ -5988,7 +5981,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Lätt böjda armar:</strong> Håll inte armarna helt spikraka; en liten böj i armbågen skyddar leden.</li>
@@ -6034,7 +6027,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Höga armbågar:</strong> Dra bandet mot ansiktet eller övre delen av bröstet. Armbågarna ska peka rakt ut åt sidorna, inte neråt.</li>
@@ -6081,7 +6074,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Sitt djupt:</strong> Tryck ner sätet och ryggen ordentligt i dynan.</li>
@@ -6128,7 +6121,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Sänk axlarna:</strong> Undvik att dra upp axlarna mot öronen. Håll dem nere och "stolta" under hela pressen.</li>
@@ -6172,7 +6165,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Böj armbågarna:</strong> Starta med armbågarna böjda i 90 grader för att lyfta tyngre vikt med mindre hävarm.</li>
@@ -6218,7 +6211,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Sitt spikrakt:</strong> Undvik att luta dig åt sidan för att "hjälpa" vikten upp. Om du inte kan sitta rakt är vikten för tung.</li>
@@ -6269,7 +6262,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Startposition:</strong> Håll hantlarna framför axlarna med handflatorna vända mot dig.</li>
@@ -6313,7 +6306,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Sitt rakt:</strong> Tryck ryggen ordentligt mot sätet och håll bröstet högt.</li>
@@ -6367,7 +6360,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Mötas på mitten:</strong> Tänk att händer och fötter ska mötas precis ovanför mitten av kroppen.</li>
@@ -6434,7 +6427,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Pressa mot taket:</strong> Tänk att vikten ska röra sig spikrakt uppåt mot taket hela tiden, inte framåt mot knäna. Det gör övningen mycket jobbigare för magen.</li>
@@ -6489,7 +6482,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Dra inte i nacken:</strong> Händerna ska bara vila lätt bakom huvudet eller hållas över bröstet. Kraften ska komma från magen, inte armarna.</li>
@@ -6531,7 +6524,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Viktigt tips till klienten
+                    ✨ Viktigt tips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Pressa ner ländryggen:</strong> Pressa ner ländryggen i golvet under hela rörelsen. Om ryggen börjar svanka, stanna och vänd rörelsen uppåt igen för att undvika skador.</li>
@@ -6586,7 +6579,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Lyft axlarna:</strong> Nyckeln är att hålla skulderbladen en bit ovanför golvet under hela övningen. Det är då magen är aktiverad.</li>
@@ -6638,7 +6631,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Neutralt grepp:</strong> Håll hanteln som en hammare under hela rörelsen. Vrid inte på handleden.</li>
@@ -6694,7 +6687,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Ingen "hängbro":</strong> Spänn sätet och magen så höften inte sjunker.</li>
@@ -6798,7 +6791,7 @@ function ClientProfile() {
 
                 <div>
                   <strong style={{ textTransform: 'uppercase', color: '#00f2fe', display: 'block', marginBottom: '4px', letterSpacing: '0.05em', fontSize: '0.8rem' }}>
-                    ✨ Tekniktips till klienten
+                    ✨ Tekniktips
                   </strong>
                   <ul style={{ margin: 0, paddingLeft: '18px' }}>
                     <li><strong>Stå stadigt:</strong> Håll höftbredd och spänn sätet.</li>
