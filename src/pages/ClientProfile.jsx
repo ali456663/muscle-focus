@@ -89,6 +89,7 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
 
   const weeks = [[], []]
   let chestPool = null // bröstövningarna, återanvänds för vecka 1 dag 1
+  let backPool = null // ryggövningarna, återanvänds för vecka 1 dag 2
   const buildDay = (splitType, dayIdx) => {
     if (splitType === 'chest') {
       const chestExercises = [
@@ -700,8 +701,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
         primary_muscles: ['latissimus_dorsi'],
         secondary_muscles: ['biceps_brachii', 'teres_major', 'rhomboids', 'posterior_deltoid'],
         images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/pullup.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/pullup.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/pullup.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/pullup.gif' }
+          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/wide-grip-pull-up.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/wide-grip-pull-up.gif' },
+          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/wide-grip-pull-up.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/wide-grip-pull-up.gif' }
         },
         instructions_en: [
           'Häng från en stång med ett överhandsgrepp bredare än axelbredd.',
@@ -731,8 +732,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
         primary_muscles: ['latissimus_dorsi'],
         secondary_muscles: ['biceps_brachii', 'trapezius', 'rhomboids', 'erector_spinae'],
         images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/barbell-bent-over-row.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/barbell-bent-over-row.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/barbell-bent-over-row.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/barbell-bent-over-row.gif' }
+          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/barbell-reverse-grip-bent-over-row.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/barbell-reverse-grip-bent-over-row.gif' },
+          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/barbell-reverse-grip-bent-over-row.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/barbell-reverse-grip-bent-over-row.gif' }
         },
         instructions_en: [
           'Greppa skivstången med ett underhandsgrepp (handflatorna framåt/uppåt), axelbrett grepp.',
@@ -765,8 +766,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
         primary_muscles: ['latissimus_dorsi'],
         secondary_muscles: ['biceps_brachii', 'trapezius', 'rhomboids', 'posterior_deltoid'],
         images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/lat-pulldown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/lat-pulldown.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/lat-pulldown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/lat-pulldown.gif' }
+          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/cable-pulldown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/cable-pulldown.gif' },
+          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/cable-pulldown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/cable-pulldown.gif' }
         },
         instructions_en: [
           'Greppa stången med ett brett överhandsgrepp och sätt dig stadigt med benen under kuddarna.',
@@ -799,8 +800,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
         primary_muscles: ['latissimus_dorsi'],
         secondary_muscles: ['biceps_brachii', 'trapezius', 'rhomboids', 'pectoralis_major'],
         images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/underhand-pulldown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/underhand-pulldown.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/underhand-pulldown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/underhand-pulldown.gif' }
+          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/cable-underhand-pulldown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/cable-underhand-pulldown.gif' },
+          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/cable-underhand-pulldown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/cable-underhand-pulldown.gif' }
         },
         instructions_en: [
           'Greppa stången med ett axelbrett underhandsgrepp (handflatorna mot dig) och sätt dig till rätta.',
@@ -1003,8 +1004,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
         primary_muscles: ['rhomboids', 'trapezius'],
         secondary_muscles: ['latissimus_dorsi', 'posterior_deltoid', 'biceps_brachii', 'erector_spinae'],
         images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/seated-cable-row.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/seated-cable-row.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/seated-cable-row.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/seated-cable-row.gif' }
+          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/cable-seated-row.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/cable-seated-row.gif' },
+          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/cable-seated-row.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/cable-seated-row.gif' }
         },
         instructions_en: [
           'Sitt upprätt med fötterna som stöd. Undvik att gunga fram och tillbaka med överkroppen.',
@@ -1028,9 +1029,9 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
       };
 
       const remainingExercises = [
-        { id: 'lat-pulldown', name_en: 'Lat Pulldown', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/lat-pulldown.gif' },
-        { id: 'seated-cable-row', name_en: 'Seated Cable Row', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/seated-cable-row.gif' },
-        { id: 'dumbbell-row', name_en: 'One-Arm Dumbbell Row', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/back/one-arm-dumbbell-row.gif' }
+        { id: 'lat-pulldown', name_en: 'Lat Pulldown', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/lats/cable-pulldown.gif' },
+        { id: 'seated-cable-row', name_en: 'Seated Cable Row', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/cable-seated-row.gif' },
+        { id: 'dumbbell-row', name_en: 'One-Arm Dumbbell Row', sets: 3, reps: '8-10', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/upper-back/dumbbell-bent-over-row.gif' }
       ];
 
       const mappedRemaining = remainingExercises.map(ex => {
@@ -1059,6 +1060,7 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
       });
 
       const mapped = [wideGripPullUpEx, barbellReverseGripRowEx, cableReverseGripPulldownEx, straightBackSeatedRowEx, cableLateralPulldownVbarEx, leverBentOverRowVbarEx, leverAlternatingNarrowGripSeatedRowEx, cableNeutralGripLatPulldownEx, cableLowSeatedRowEx];
+      backPool = mapped;
 
       weeks[0].push({
         day: dayIdx + 1,
@@ -3103,6 +3105,137 @@ const tricepsPushdownEx = {
     weeks[0][0] = { day: 1, splitType: 'chest', durationMin: 60, exercises: day1Exercises }
   }
 
+  // ── Vecka 1, dag 2: Rygg – basövningar (flerledsövningar), ca 60 min ──
+  if (!backPool) {
+    buildDay('back', -1)
+    weeks[0].pop()
+    weeks[1].pop()
+  }
+  const gif = (path) => `https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/${path}`
+  const withGif = (path) => ({ gifUrl: gif(path), images: { classic: { start: gif(path), peak: gif(path) }, flat: { start: gif(path), peak: gif(path) } } })
+  const deadlift = {
+    id: 'glutes/barbell-deadlift',
+    name: 'Deadlift (Marklyft)',
+    name_en: 'Deadlift',
+    name_fa: 'ددلیفت',
+    equipment: 'barbell',
+    body_part: 'back',
+    primary_muscles: ['erector_spinae', 'gluteus_maximus', 'hamstrings'],
+    ...withGif('glutes/barbell-deadlift.gif'),
+    // Ingen egen Shorts-video ännu – länken öppnar en YouTube-sökning på tekniken
+    youtubeUrl: 'https://www.youtube.com/results?search_query=marklyft+teknik+deadlift+form',
+    instructions: [
+      'Ställ fötterna höftbrett med stången över mitten av foten, nära smalbenen.',
+      'Fäll i höften, böj knäna och greppa stången strax utanför benen. Ryggen rak, bröstet upp, blicken framåt-nedåt.',
+      'Spänn bålen (andas in och "pressa ut magen"), dra skulderbladen bakåt-nedåt och lyft genom att trycka golvet ifrån dig.',
+      'Håll stången nära kroppen hela vägen upp, sträck höft och knän samtidigt och stå rak i toppen – luta dig inte bakåt.',
+      'Sänk kontrollerat genom att först föra höften bakåt, sedan böja knäna när stången passerat dem.',
+    ],
+    tips: [
+      'Ryggen ska vara neutral hela tiden – rundar den sig är vikten för tung.',
+      'Tänk "tryck golvet ifrån dig" i stället för "lyft stången" – det ger bättre benkraft.',
+      'Stången ska nästan nudda benen hela vägen. Glider den framåt belastas ländryggen.',
+      'Behöver du mer vila på de tunga seten? Ta upp till 90 sekunder – tekniken går först.',
+    ],
+    note: 'Marklyft är basövningen framför andra för hela baksidan av kroppen. Den bygger styrka i ryggresare, säte, baksida lår och greppstyrka på samma gång. Börja med lätt vikt och perfekt teknik.',
+    musclesSv: [
+      ['Ryggresarna (Erector spinae)', 'Håller ryggen rak och stark genom hela lyftet.'],
+      ['Stora sätesmuskeln (Gluteus maximus)', 'Sträcker höften och står för en stor del av kraften.'],
+      ['Baksida lår (Hamstrings)', 'Arbetar tillsammans med sätet i höftsträckningen.'],
+      ['Kappmuskeln och latsen', 'Håller stången nära kroppen och skuldrorna stabila.'],
+      ['Underarmar', 'Greppstyrkan tränas hårt när du håller stången.'],
+    ],
+  }
+  const BACK_DAY_2 = [
+    { id: 'glutes/barbell-deadlift', sets: 4, reps: '6–8', rest: '50 sek', zone: 'Hela ryggen' },
+    {
+      id: 'back/wide-grip-pull-up', name: 'Wide-Grip Pull-Up (Breda chins)', sets: 3, reps: '6–10', rest: '50 sek', zone: 'Bredd (lats)',
+      ...withGif('lats/wide-grip-pull-up.gif'),
+      tips: [
+        'Klarar du inte 6 reps? Använd gummiband eller assisterad chinsmaskin.',
+        'Starta varje rep från döda häng med axlarna nedsänkta – inte uppdragna mot öronen.',
+        'Tänk "dra armbågarna ner mot fickorna" för att aktivera latsen.',
+        'Sänk dig långsamt, 2–3 sekunder ned.',
+      ],
+      musclesSv: [
+        ['Latissimus dorsi (breda ryggmuskeln)', 'Huvudmålet – ger ryggen bredd och V-form.'],
+        ['Stora rundmuskeln (Teres major)', 'Hjälper latsen att dra armarna ned.'],
+        ['Biceps', 'Böjer armbågarna i dragfasen.'],
+        ['Rhomboideus och bakre axeln', 'Stabiliserar skulderbladen.'],
+      ],
+    },
+    {
+      id: 'back/barbell-reverse-grip-row', name: 'Barbell Reverse Grip Row (Skivstångsrodd, underhandsgrepp)', sets: 4, reps: '8–10', rest: '50 sek', zone: 'Tjocklek (mitten)',
+      ...withGif('upper-back/barbell-reverse-grip-bent-over-row.gif'),
+      tips: [
+        'Fäll fram till ca 45 grader med rak rygg och lätt böjda knän.',
+        'Dra stången mot naveln – inte mot bröstet – med armbågarna nära kroppen.',
+        'Kläm ihop skulderbladen i toppen i 1 sekund.',
+        'Ingen gungning: om du måste kasta med kroppen är vikten för tung.',
+      ],
+      musclesSv: [
+        ['Latissimus dorsi', 'Arbetar hårt tack vare underhandsgreppet och armbågarna nära kroppen.'],
+        ['Rhomboideus och mellersta kappmuskeln', 'Drar ihop skulderbladen – ger tjocklek mitt i ryggen.'],
+        ['Biceps', 'Extra aktiv med underhandsgrepp.'],
+        ['Ryggresare', 'Håller överkroppen stilla i framåtfällt läge.'],
+      ],
+    },
+    {
+      id: 'back/lever-bent-over-row-vbar', name: 'T-Bar Row (T-stångsrodd med V-grepp)', sets: 3, reps: '8–10', rest: '45 sek', zone: 'Tjocklek (mitten)',
+      tips: [
+        'Bröstet upp och ryggen rak – titta snett framåt, inte upp i taket.',
+        'Dra handtaget mot nedre delen av bröstet/magen och håll armbågarna nära.',
+        'Låt skulderbladen glida fram i botten för full stretch, dra sedan ihop dem.',
+      ],
+      musclesSv: [
+        ['Mellersta ryggen (Rhomboideus, mellersta kappmuskeln)', 'Huvudmålet – bygger tjocklek.'],
+        ['Latissimus dorsi', 'Hjälper till i dragrörelsen.'],
+        ['Bakre axeln och biceps', 'Assisterar i dragfasen.'],
+      ],
+    },
+    {
+      id: 'back/cable-neutral-grip-lat-pulldown', name: 'Neutral Grip Lat Pulldown (Latsdrag, neutralt grepp)', sets: 3, reps: '10–12', rest: '40 sek', zone: 'Bredd (lats)',
+      tips: [
+        'Luta dig lätt bakåt (ca 10–15 grader) och håll bröstet upp.',
+        'Dra handtaget mot övre delen av bröstet med armbågarna rakt ned.',
+        'Låt armarna sträckas helt i toppen för en kontrollerad stretch i latsen.',
+      ],
+      musclesSv: [
+        ['Latissimus dorsi', 'Huvudmålet – neutralt grepp ger stark latsaktivering och är skonsamt för axlarna.'],
+        ['Stora rundmuskeln (Teres major)', 'Arbetar tillsammans med latsen.'],
+        ['Biceps och armbågsböjare', 'Böjer armbågarna.'],
+      ],
+    },
+    {
+      id: 'back/cable-low-seated-row', name: 'Seated Cable Row (Sittande kabelrodd)', sets: 3, reps: '10–12', rest: '40 sek', zone: 'Tjocklek (mitten)',
+      tips: [
+        'Sitt upprätt med lätt böjda knän – luta dig inte fram och tillbaka.',
+        'Dra handtaget mot magen och kläm ihop skulderbladen.',
+        'Kontrollera vikten tillbaka, 2 sekunder, utan att runda ryggen.',
+      ],
+      musclesSv: [
+        ['Mellersta ryggen (Rhomboideus, mellersta kappmuskeln)', 'Drar ihop skulderbladen.'],
+        ['Latissimus dorsi', 'Hjälper till när armbågarna dras bakåt.'],
+        ['Biceps och bakre axeln', 'Assisterar i dragfasen.'],
+      ],
+    },
+  ]
+  const day2Exercises = BACK_DAY_2
+    .map(cfg => {
+      const base = cfg.id === deadlift.id ? deadlift : backPool.find(ex => ex.id === cfg.id)
+      return base ? { ...base, ...cfg, week: 1, showTips: true } : null
+    })
+    .filter(Boolean)
+  if (day2Exercises.length && weeks[0].length > 1) {
+    weeks[0][1] = {
+      day: 2,
+      splitType: 'back',
+      durationMin: 60,
+      planText: 'Uppvärmning 8 min → marklyft → chins och rodd → latsdrag och kabelrodd → stretch 5 min',
+      exercises: day2Exercises,
+    }
+  }
+
   // ── Vecka 2, dag 1: Bröst – nya övningar, uppdelat på övre, mittre och nedre bröst (ca 60 min) ──
   const chestDip = {
     id: 'pectorals/chest-dip',
@@ -3985,8 +4118,8 @@ function ClientProfile() {
                                     {ex.zone && (
                                       <span style={{
                                         alignSelf: 'flex-start', fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '999px',
-                                        background: ex.zone === 'Övre bröst' ? '#fef3c7' : ex.zone === 'Nedre bröst' ? '#dbeafe' : ex.zone === 'Mitten' ? '#dcfce7' : '#f3f4f6',
-                                        color: ex.zone === 'Övre bröst' ? '#92400e' : ex.zone === 'Nedre bröst' ? '#1e40af' : ex.zone === 'Mitten' ? '#166534' : '#374151'
+                                        background: ['Övre bröst', 'Bredd (lats)'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)'].includes(ex.zone) ? '#dcfce7' : '#f3f4f6',
+                                        color: ['Övre bröst', 'Bredd (lats)'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)'].includes(ex.zone) ? '#166534' : '#374151'
                                       }}>
                                         {ex.zone}
                                       </span>
@@ -4443,7 +4576,7 @@ function ClientProfile() {
               </div>
             )}
             {/* Tekniktips */}
-            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isSled45LegPress && !selectedEx.isLeverSeatedCalfRaiseMachine && !selectedEx.isSmithCalfRaise && !selectedEx.isLeverSeatedCalfRaise && !selectedEx.isDbAroundWorld && !selectedEx.isCableLowFly && !selectedEx.isDbFly && !selectedEx.isCableMiddleFly && !selectedEx.isInclineLeverPress && !selectedEx.isElevatedPushUp && !selectedEx.isLeverChestPress && !selectedEx.isSmithInclineBenchPress && !selectedEx.isPushUp && !selectedEx.isCableStandingFly && !selectedEx.isDbBenchPress && !selectedEx.isDbInclineBenchPress && !selectedEx.isInclineBenchPress && !selectedEx.isLeverSeatedFly && !selectedEx.isBenchPress && !selectedEx.isStandardPushdown && !selectedEx.isReverseGripPushdown && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
+            {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.showTips && !selectedEx.isSled45LegPress && !selectedEx.isLeverSeatedCalfRaiseMachine && !selectedEx.isSmithCalfRaise && !selectedEx.isLeverSeatedCalfRaise && !selectedEx.isDbAroundWorld && !selectedEx.isCableLowFly && !selectedEx.isDbFly && !selectedEx.isCableMiddleFly && !selectedEx.isInclineLeverPress && !selectedEx.isElevatedPushUp && !selectedEx.isLeverChestPress && !selectedEx.isSmithInclineBenchPress && !selectedEx.isPushUp && !selectedEx.isCableStandingFly && !selectedEx.isDbBenchPress && !selectedEx.isDbInclineBenchPress && !selectedEx.isInclineBenchPress && !selectedEx.isLeverSeatedFly && !selectedEx.isBenchPress && !selectedEx.isStandardPushdown && !selectedEx.isReverseGripPushdown && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
                   💡 {language === 'fa' ? 'نکات تکنیکی:' : language === 'en' ? 'Technique tips:' : 'Tekniktips:'}
