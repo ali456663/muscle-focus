@@ -19,6 +19,32 @@ import {
 import BodyTransformation from '../components/BodyTransformation'
 import './ClientProfile.css'
 
+// ─── Muskelnamn på svenska (för muskelchippet i övningsfönstret) ─────────────
+const MUSCLE_SV = {
+  pectoralis_major: 'Stora bröstmuskeln',
+  pectoralis_minor: 'Lilla bröstmuskeln',
+  anterior_deltoid: 'Främre axeln',
+  lateral_deltoid: 'Sidoaxeln',
+  posterior_deltoid: 'Bakre axeln',
+  triceps_brachii: 'Triceps',
+  biceps_brachii: 'Biceps',
+  latissimus_dorsi: 'Latissimus (breda ryggmuskeln)',
+  trapezius: 'Kappmuskeln (trapezius)',
+  rhomboids: 'Rhomboideus',
+  teres_major: 'Stora rundmuskeln',
+  serratus_anterior: 'Sågmuskeln',
+  rectus_abdominis: 'Raka magmuskeln',
+  obliques: 'Sneda magmusklerna',
+  quadriceps: 'Framsida lår',
+  hamstrings: 'Baksida lår',
+  gluteus_maximus: 'Stora sätesmuskeln',
+  gastrocnemius: 'Vadmuskeln',
+  soleus: 'Djupa vadmuskeln',
+  erector_spinae: 'Ryggresare',
+  forearms: 'Underarmar',
+}
+const muscleNameSv = (m) => MUSCLE_SV[m] || String(m || '').replace(/_/g, ' ')
+
 // ─── Helpers for Program Builder ─────────────────────────────────────────────
 function shuffle(arr) {
   const a = [...arr]
@@ -3059,13 +3085,13 @@ const tricepsPushdownEx = {
     weeks[1].pop()
   }
   const CHEST_DAY_1 = [
-    { id: 'pectorals/barbell-bench-press', sets: 4, reps: '8–10', rest: '50 sek' },
-    { id: 'pectorals/dumbbell-incline-bench-press', sets: 3, reps: '10–12', rest: '45 sek' },
-    { id: 'pectorals/lever-chest-press', sets: 3, reps: '10–12', rest: '40 sek' },
-    { id: 'pectorals/cable-middle-fly', sets: 3, reps: '12–15', rest: '40 sek' },
-    { id: 'pectorals/dumbbell-fly', sets: 3, reps: '12', rest: '40 sek' },
-    { id: 'pectorals/cable-low-fly', sets: 3, reps: '12–15', rest: '30 sek' },
-    { id: 'pectorals/push-up', sets: 2, reps: 'Max (2 reps kvar)', rest: '30 sek' },
+    { id: 'pectorals/barbell-bench-press', sets: 4, reps: '8–10', rest: '50 sek', zone: 'Mitten' },
+    { id: 'pectorals/dumbbell-incline-bench-press', sets: 3, reps: '10–12', rest: '45 sek', zone: 'Övre bröst' },
+    { id: 'pectorals/lever-chest-press', sets: 3, reps: '10–12', rest: '40 sek', zone: 'Mitten' },
+    { id: 'pectorals/cable-middle-fly', sets: 3, reps: '12–15', rest: '40 sek', zone: 'Mitten' },
+    { id: 'pectorals/dumbbell-fly', sets: 3, reps: '12', rest: '40 sek', zone: 'Mitten' },
+    { id: 'pectorals/cable-low-fly', sets: 3, reps: '12–15', rest: '30 sek', zone: 'Övre bröst' },
+    { id: 'pectorals/push-up', sets: 2, reps: 'Max (2 reps kvar)', rest: '30 sek', zone: 'Hela bröstet' },
   ]
   const day1Exercises = CHEST_DAY_1
     .map(cfg => {
@@ -3075,6 +3101,67 @@ const tricepsPushdownEx = {
     .filter(Boolean)
   if (day1Exercises.length) {
     weeks[0][0] = { day: 1, splitType: 'chest', durationMin: 60, exercises: day1Exercises }
+  }
+
+  // ── Vecka 2, dag 1: Bröst – nya övningar, uppdelat på övre, mittre och nedre bröst (ca 60 min) ──
+  const chestDip = {
+    id: 'pectorals/chest-dip',
+    name: 'Chest Dip (Bröstdips)',
+    name_en: 'Chest Dip',
+    name_fa: 'دیپ سینه',
+    equipment: 'dip station',
+    body_part: 'chest',
+    primary_muscles: ['pectoralis_major'],
+    secondary_muscles: ['triceps_brachii', 'anterior_deltoid'],
+    gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/chest-dip.gif',
+    images: {
+      classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/chest-dip.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/chest-dip.gif' },
+      flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/chest-dip.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/chest-dip.gif' },
+    },
+    // Ingen egen Shorts-video ännu – länken öppnar en YouTube-sökning på tekniken
+    youtubeUrl: 'https://www.youtube.com/results?search_query=chest+dips+teknik+nedre+br%C3%B6st',
+    instructions: [
+      'Greppa dipsstängerna och lyft upp dig till raka armar med axlarna nedsänkta, bort från öronen.',
+      'Luta överkroppen cirka 20–30 grader framåt och böj lätt på knäna – lutningen flyttar fokus till nedre bröstet.',
+      'Sänk dig kontrollerat tills överarmarna är ungefär parallella med golvet och du känner en stretch i bröstet.',
+      'Pressa dig upp genom handflatorna till nästan raka armar, utan att låsa armbågarna.',
+    ],
+    tips_en: [
+      'Framåtlutning = bröst: står du helt upprätt tar triceps över. Behåll lutningen genom hela setet.',
+      'Armbågarna lätt utåt (ca 30–45 grader) – inte rakt bakåt som vid tricepsdips.',
+      'Gå inte djupare än att axlarna känns bekväma. Smärta framtill i axeln betyder att du går för djupt.',
+      'För tungt? Använd assisterad dipsmaskin eller ett gummiband under knäna.',
+    ],
+    note: 'Bröstdips är en av de bästa övningarna för den nedre delen av bröstmuskulaturen. Med framåtlutad överkropp blir det en tung flerledsövning som bygger både styrka och form i nedre bröstet.',
+    musclesSv: [
+      ['Nedre bröstmuskeln (Pectoralis major, nedre delen)', 'Huvudmålet när överkroppen lutar framåt.'],
+      ['Triceps', 'Sträcker armbågarna i pressfasen upp.'],
+      ['Främre axeln (Anterior deltoid)', 'Hjälper till och stabiliserar i bottenläget.'],
+    ],
+  }
+  const CHEST_WEEK2_DAY1 = [
+    { id: 'pectorals/barbell-incline-bench-press', sets: 4, reps: '8–10', rest: '50 sek', zone: 'Övre bröst' },
+    { id: 'pectorals/smith-incline-bench-press', sets: 3, reps: '10–12', rest: '45 sek', zone: 'Övre bröst' },
+    { id: 'pectorals/dumbbell-bench-press', sets: 3, reps: '10–12', rest: '45 sek', zone: 'Mitten' },
+    { id: 'pectorals/lever-seated-fly', sets: 3, reps: '12–15', rest: '40 sek', zone: 'Mitten' },
+    { id: 'pectorals/chest-dip', sets: 3, reps: '8–12', rest: '45 sek', zone: 'Nedre bröst' },
+    { id: 'pectorals/cable-standing-fly', sets: 3, reps: '12–15', rest: '30 sek', zone: 'Nedre bröst' },
+    { id: 'pectorals/incline-push-up', sets: 2, reps: 'Max (2 reps kvar)', rest: '30 sek', zone: 'Nedre bröst' },
+  ]
+  const week2Day1Exercises = CHEST_WEEK2_DAY1
+    .map(cfg => {
+      const base = cfg.id === chestDip.id ? chestDip : chestPool.find(ex => ex.id === cfg.id)
+      return base ? { ...base, ...cfg, week: 2, showTips: true } : null
+    })
+    .filter(Boolean)
+  if (week2Day1Exercises.length && weeks[1].length) {
+    weeks[1][0] = {
+      day: 1,
+      splitType: 'chest',
+      durationMin: 60,
+      planText: 'Uppvärmning 8 min → övre bröst → mitten → nedre bröst → stretch 5 min',
+      exercises: week2Day1Exercises,
+    }
   }
 
   return { week1: weeks[0], week2: weeks[1], split }
@@ -3804,7 +3891,7 @@ function ClientProfile() {
                       <div style={{ marginTop: '6px', fontSize: '0.82rem', color: '#374151', fontWeight: 600 }}>
                         ⏱ ca {currentDay.durationMin} min · {currentDay.exercises.length} övningar · {currentDay.exercises.reduce((n, ex) => n + (Number(ex.sets) || 0), 0)} set · vila 30–50 sek
                         <div style={{ fontWeight: 400, color: '#6b7280', marginTop: '2px' }}>
-                          Uppvärmning 8 min → huvudpass ca 45 min → stretch bröst & axlar 5 min
+                          {currentDay.planText || 'Uppvärmning 8 min → huvudpass ca 45 min → stretch bröst & axlar 5 min'}
                         </div>
                       </div>
                     )}
@@ -3893,7 +3980,18 @@ function ClientProfile() {
                               >
                                 <td style={{ padding: '12px 16px', fontWeight: 'bold', color: '#1f2937', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                   <span style={{ color: '#f97316' }}>🎬</span>
-                                  <span style={{ borderBottom: '1px dashed #f97316' }}>{ex.name || ex.name_en}</span>
+                                  <span style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                    <span style={{ borderBottom: '1px dashed #f97316', alignSelf: 'flex-start' }}>{ex.name || ex.name_en}</span>
+                                    {ex.zone && (
+                                      <span style={{
+                                        alignSelf: 'flex-start', fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '999px',
+                                        background: ex.zone === 'Övre bröst' ? '#fef3c7' : ex.zone === 'Nedre bröst' ? '#dbeafe' : ex.zone === 'Mitten' ? '#dcfce7' : '#f3f4f6',
+                                        color: ex.zone === 'Övre bröst' ? '#92400e' : ex.zone === 'Nedre bröst' ? '#1e40af' : ex.zone === 'Mitten' ? '#166534' : '#374151'
+                                      }}>
+                                        {ex.zone}
+                                      </span>
+                                    )}
+                                  </span>
                                 </td>
                                 <td style={{ padding: '12px 16px' }}>{ex.sets}</td>
                                 <td style={{ padding: '12px 16px' }}>{ex.reps}</td>
@@ -4282,7 +4380,7 @@ function ClientProfile() {
               )}
               {selectedEx.primary_muscles && (
                 <span style={{ background: 'rgba(184,149,71,0.12)', padding: '4px 10px', borderRadius: '6px', color: 'var(--accent-gold)' }}>
-                  Muskel: {Array.isArray(selectedEx.primary_muscles) ? selectedEx.primary_muscles.join(', ') : selectedEx.primary_muscles}
+                  Muskel: {(Array.isArray(selectedEx.primary_muscles) ? selectedEx.primary_muscles : [selectedEx.primary_muscles]).map(muscleNameSv).join(', ')}
                 </span>
               )}
             </div>
@@ -4302,7 +4400,7 @@ function ClientProfile() {
                     transition: 'all 0.2s'
                   }}
                 >
-                  <span style={{ fontSize: '1.2rem' }}>▶️</span> Se instruktionsvideo på YouTube Shorts
+                  <span style={{ fontSize: '1.2rem' }}>▶️</span> {selectedEx.youtubeUrl?.includes('results?search_query') ? 'Sök instruktionsvideo på YouTube' : 'Se instruktionsvideo på YouTube Shorts'}
                 </a>
               </div>
             )}
@@ -4328,6 +4426,18 @@ function ClientProfile() {
                 <ul style={{ margin: 0, paddingInlineStart: '18px', fontSize: '0.82rem', color: 'var(--text-silver)', lineHeight: 1.5 }}>
                   {(selectedEx.tips || selectedEx.tips_en).map((tip, i) => (
                     <li key={i} style={{ marginBottom: '4px' }}>{tip}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {selectedEx.musclesSv?.length > 0 && (
+              <div style={{ marginBottom: '20px', background: 'rgba(16,185,129,0.06)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(16,185,129,0.2)' }}>
+                <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#10b981', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
+                  💪 {language === 'fa' ? 'کدام عضلات تمرین می‌کنند؟' : language === 'en' ? 'Which muscles are trained?' : 'Vilka muskler tränas?'}
+                </strong>
+                <ul style={{ margin: 0, paddingInlineStart: '18px', fontSize: '0.82rem', color: 'var(--text-silver)', lineHeight: 1.5 }}>
+                  {selectedEx.musclesSv.map(([muscle, desc]) => (
+                    <li key={muscle} style={{ marginBottom: '4px' }}><strong style={{ color: 'var(--text-white)' }}>{muscle}:</strong> {desc}</li>
                   ))}
                 </ul>
               </div>
