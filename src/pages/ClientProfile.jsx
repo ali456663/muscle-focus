@@ -1684,8 +1684,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
         body_part: 'arms',
         primary_muscles: ['triceps'],
         images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/rope-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/rope-pushdown.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/rope-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/rope-pushdown.gif' }
+          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown-with-rope-attachment.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown-with-rope-attachment.gif' },
+          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown-with-rope-attachment.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown-with-rope-attachment.gif' }
         },
         instructions_en: [
           'Fäst ett rep i det övre fästet på en kabelmaskin.',
@@ -1762,8 +1762,8 @@ const tricepsPushdownEx = {
         body_part: 'arms',
         primary_muscles: ['triceps'],
         images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/reverse-grip-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/reverse-grip-pushdown.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/reverse-grip-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/reverse-grip-pushdown.gif' }
+          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-reverse-grip-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-reverse-grip-pushdown.gif' },
+          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-reverse-grip-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-reverse-grip-pushdown.gif' }
         },
         instructions_en: [
           'Stå vänd mot kabelmaskinen. Fäst en stång i det övre fästet.',
@@ -1826,8 +1826,8 @@ const tricepsPushdownEx = {
         body_part: 'arms',
         primary_muscles: ['triceps'],
         images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/triceps-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/triceps-pushdown.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/triceps-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/triceps-pushdown.gif' }
+          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown.gif' },
+          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-pushdown.gif' }
         },
         instructions_en: [
           'Stå vänd mot kabelmaskinen med fästet övre. Greppa stången axelbrett.',
@@ -1858,8 +1858,8 @@ const tricepsPushdownEx = {
         body_part: 'arms',
         primary_muscles: ['triceps'],
         images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/high-pulley-overhead-extension.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/high-pulley-overhead-extension.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/high-pulley-overhead-extension.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/high-pulley-overhead-extension.gif' }
+          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-rope-high-pulley-overhead-tricep-extension.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-rope-high-pulley-overhead-tricep-extension.gif' },
+          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-rope-high-pulley-overhead-tricep-extension.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-rope-high-pulley-overhead-tricep-extension.gif' }
         },
         instructions_en: [
           'Fäst ett rep i övre kabeln, stå vänd från kabelmaskinen.',
@@ -1890,8 +1890,8 @@ const tricepsPushdownEx = {
         body_part: 'arms',
         primary_muscles: ['triceps'],
         images: {
-          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-high-cross-extension.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-high-cross-extension.gif' },
-          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-high-cross-extension.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-high-cross-extension.gif' }
+          classic: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif' },
+          flat: { start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif', peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif' }
         },
         instructions_en: [
           'Stå mitt i en kabelmaskin med båda övre kablarna fixerade.',
@@ -2135,7 +2135,7 @@ const tricepsPushdownEx = {
           secondary_muscles: ['brachialis', 'brachioradialis'],
           sets: 3,
           reps: '10-12',
-          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/cable-hammer-curl.gif',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/cable-hammer-curl-with-rope.gif',
           isCableHammerCurl: true,
           instructions_en: [
             'Fäst ett rep i den nedre trissan på kabelmaskinen.',
@@ -2201,7 +2201,7 @@ const tricepsPushdownEx = {
           secondary_muscles: ['brachialis', 'brachioradialis'],
           sets: 3,
           reps: '10-12',
-          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/cable-one-arm-bicep-curl.gif',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/cable-one-arm-curl.gif',
           isCableOneArmBicepCurl: true,
           instructions_en: [
             'Stå intill kabelmaskinen med trissan fäst i det nedre läget och greppa ett enkelhandtag med ena handflatan uppåt.',
@@ -2233,7 +2233,7 @@ const tricepsPushdownEx = {
           secondary_muscles: ['brachialis', 'brachioradialis'],
           sets: 3,
           reps: '10-12',
-          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/preacher-curl.gif',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/barbell-preacher-curl.gif',
           isPreacherCurl: true,
           instructions_en: [
             'Sätt dig tillrätta vid preacher-bänken och vila överarmarna stadigt mot den lutande dynan.',
@@ -2329,7 +2329,7 @@ const tricepsPushdownEx = {
           secondary_muscles: ['brachialis', 'brachioradialis'],
           sets: 3,
           reps: '10-12',
-          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/dumbbell-one-arm-biceps-curl.gif',
+          gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/biceps/dumbbell-one-arm-standing-curl.gif',
           isDumbbellStandingOneArmCurl: true,
           instructions_en: [
             'Stå stadigt med fötterna i höftbredd och håll en hantel i den ena handen utmed sidan.',
@@ -2529,7 +2529,7 @@ const tricepsPushdownEx = {
           primary_muscles: ['rectus_abdominis'],
           secondary_muscles: ['transversus_abdominis', 'obliques', 'erector_spinae'],
           sets: 3,
-          reps: '30-60 sek', rest: '0 sek', note: 'Plankan tränar hela bålen (rectus abdominis, transversus & obliques) statiskt med rak ryggrad utan "hängbro".', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/abs/front-plank.gif',
+          reps: '30-60 sek', rest: '0 sek', note: 'Plankan tränar hela bålen (rectus abdominis, transversus & obliques) statiskt med rak ryggrad utan "hängbro".', gifUrl: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/abs/weighted-front-plank.gif',
           isFrontPlank: true,
           instructions_en: [
             'Placera underarmarna på golvet med armbågarna direkt under axlarna.',
@@ -2887,12 +2887,12 @@ const tricepsPushdownEx = {
       primary_muscles: ['triceps'],
       images: {
         classic: {
-          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-overhead-tricep-extension.gif',
-          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-overhead-tricep-extension.gif'
+          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-overhead-triceps-extension-rope-attachment.gif',
+          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-overhead-triceps-extension-rope-attachment.gif'
         },
         flat: {
-          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-overhead-tricep-extension.gif',
-          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-overhead-tricep-extension.gif'
+          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-overhead-triceps-extension-rope-attachment.gif',
+          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-overhead-triceps-extension-rope-attachment.gif'
         }
       },
       instructions_en: [
@@ -2925,12 +2925,12 @@ const tricepsPushdownEx = {
       primary_muscles: ['triceps'],
       images: {
         classic: {
-          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-standing-high-cross-triceps-extension.gif',
-          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-standing-high-cross-triceps-extension.gif'
+          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif',
+          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif'
         },
         flat: {
-          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-standing-high-cross-triceps-extension.gif',
-          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-standing-high-cross-triceps-extension.gif'
+          start: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif',
+          peak: 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/triceps/cable-one-arm-tricep-pushdown.gif'
         }
       },
       instructions_en: [
@@ -3135,7 +3135,7 @@ const tricepsPushdownEx = {
       'Ryggen ska vara neutral hela tiden – rundar den sig är vikten för tung.',
       'Tänk "tryck golvet ifrån dig" i stället för "lyft stången" – det ger bättre benkraft.',
       'Stången ska nästan nudda benen hela vägen. Glider den framåt belastas ländryggen.',
-      'Behöver du mer vila på de tunga seten? Ta upp till 90 sekunder – tekniken går först.',
+      'Vilan är 90 sekunder eftersom marklyft är passets tyngsta övning – tekniken går alltid först.',
     ],
     note: 'Marklyft är basövningen framför andra för hela baksidan av kroppen. Den bygger styrka i ryggresare, säte, baksida lår och greppstyrka på samma gång. Börja med lätt vikt och perfekt teknik.',
     musclesSv: [
@@ -3147,7 +3147,7 @@ const tricepsPushdownEx = {
     ],
   }
   const BACK_DAY_2 = [
-    { id: 'glutes/barbell-deadlift', sets: 4, reps: '6–8', rest: '50 sek', zone: 'Hela ryggen' },
+    { id: 'glutes/barbell-deadlift', sets: 4, reps: '6–8', rest: '90 sek', zone: 'Hela ryggen' },
     {
       id: 'back/wide-grip-pull-up', name: 'Wide-Grip Pull-Up (Breda chins)', sets: 3, reps: '6–10', rest: '50 sek', zone: 'Bredd (lats)',
       ...withGif('lats/wide-grip-pull-up.gif'),
@@ -3226,7 +3226,8 @@ const tricepsPushdownEx = {
       return base ? { ...base, ...cfg, week: 1, showTips: true } : null
     })
     .filter(Boolean)
-  if (day2Exercises.length && weeks[0].length > 1) {
+  // Bara för upplägg med 4+ dagar – med 1–3 dagar behålls dag 2 (Underkropp/Helkropp) så att benen tränas
+  if (day2Exercises.length && weeks[0].length > 1 && ['4', '5', '6-7'].includes(trainingDays)) {
     weeks[0][1] = {
       day: 2,
       splitType: 'back',
@@ -4022,7 +4023,7 @@ function ClientProfile() {
                     </span>
                     {currentDay.durationMin && (
                       <div style={{ marginTop: '6px', fontSize: '0.82rem', color: '#374151', fontWeight: 600 }}>
-                        ⏱ ca {currentDay.durationMin} min · {currentDay.exercises.length} övningar · {currentDay.exercises.reduce((n, ex) => n + (Number(ex.sets) || 0), 0)} set · vila 30–50 sek
+                        ⏱ ca {currentDay.durationMin} min · {currentDay.exercises.length} övningar · {currentDay.exercises.reduce((n, ex) => n + (Number(ex.sets) || 0), 0)} set · vila {(() => { const secs = currentDay.exercises.map(ex => parseInt(ex.rest, 10)).filter(Number.isFinite); return secs.length ? (Math.min(...secs) === Math.max(...secs) ? `${secs[0]}` : `${Math.min(...secs)}–${Math.max(...secs)}`) : '30–50' })()} sek
                         <div style={{ fontWeight: 400, color: '#6b7280', marginTop: '2px' }}>
                           {currentDay.planText || 'Uppvärmning 8 min → huvudpass ca 45 min → stretch bröst & axlar 5 min'}
                         </div>
