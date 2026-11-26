@@ -3241,6 +3241,13 @@ const tricepsPushdownEx = {
       exercises: day2Exercises,
     }
   }
+  // 5-dagarsupplägget hade "Pull" som dag 2 – vecka 2 får samma ryggdag som övriga upplägg
+  if (trainingDays === '5' && weeks[1].length > 1) {
+    buildDay('back', 1)
+    weeks[0].pop()
+    const backWeek2 = weeks[1].pop()
+    weeks[1][1] = { ...backWeek2, day: 2 }
+  }
 
   // ── Dag 3: Ben (gäller upplägg med 4+ dagar) ─────────────────────────────
   // Vecka 1 = basövningar för hela benen. Vecka 2 = helt andra övningar.
@@ -3571,6 +3578,97 @@ const tricepsPushdownEx = {
   if (['5', '6-7'].includes(trainingDays) && weeks[0].length > 4 && weeks[1].length > 4) {
     weeks[0][4] = { day: 5, splitType: 'biceps_abs', durationMin: 60, planText: 'Uppvärmning 8 min → biceps (tungt till lätt) → mage → stretch 5 min', exercises: DAY5_W1.map(ex => ({ ...ex, week: 1 })) }
     weeks[1][4] = { day: 5, splitType: 'biceps', durationMin: 60, planText: 'Uppvärmning 8 min → chins → korta och långa huvudet → brachialis och underarm → stretch 5 min', exercises: DAY5_W2.map(ex => ({ ...ex, week: 2 })) }
+  }
+
+  // ── Dag 6: Axlar (gäller upplägg med 6–7 dagar) ──────────────────────────
+  // Vecka 1 = basövningar för hela axeln. Vecka 2 = helt andra övningar.
+  const sh = (id, gifPath, name, name_en, primary, ytQuery, instructions, tips, note, musclesSv) => ({
+    id, name, name_en, equipment: id.includes('barbell') ? 'barbell' : id.includes('dumbbell') ? 'dumbbell' : id.includes('cable') ? 'cable' : 'lever / maskin',
+    body_part: 'shoulders', primary_muscles: primary, ...withGif(gifPath), youtubeUrl: yt(ytQuery),
+    instructions, tips, note, musclesSv, showTips: true,
+  })
+  const SH = {
+    military: sh('delts/barbell-standing-military-press', 'delts/barbell-standing-close-grip-military-press.gif', 'Standing Military Press (Stående militärpress)', 'Standing Military Press', ['anterior_deltoid', 'lateral_deltoid'], 'militärpress teknik stående',
+      ['Stå höftbrett med stången vid övre delen av bröstet, greppet strax bredare än axlarna.', 'Spänn säte och mage så att kroppen blir stabil.', 'Pressa stången rakt upp och för huvudet lätt bakåt så att stången passerar fritt.', 'Lås ut ovanför huvudet och sänk kontrollerat till bröstet.'],
+      ['Ingen svank – spänn säte och mage hela tiden.', 'Stången går i en rak linje, huvudet flyttar sig.', 'Tung basövning: vila hela 90 sekunder.'],
+      'Stående militärpress är basövningen för axlarna och bygger styrka i hela överkroppen och bålen.',
+      [['Främre axeln (Anterior deltoid)', 'Huvudmålet i pressen.'], ['Sidoaxeln (Lateral deltoid)', 'Hjälper till och ger axlarna bredd.'], ['Triceps och övre kappmuskeln', 'Sträcker armarna och stabiliserar.'], ['Bålen', 'Håller kroppen stabil.']]),
+    dbPress: sh('delts/dumbbell-seated-shoulder-press', 'delts/dumbbell-seated-shoulder-press.gif', 'Seated Dumbbell Press (Sittande hantelpress)', 'Seated Dumbbell Press', ['anterior_deltoid', 'lateral_deltoid'], 'sittande hantelpress axlar teknik',
+      ['Sitt på en bänk med upprätt ryggstöd och hantlarna i axelhöjd.', 'Handflatorna framåt och armbågarna lätt framför kroppen.', 'Pressa hantlarna upp tills armarna är nästan raka.', 'Sänk kontrollerat till axelhöjd.'],
+      ['Ryggen mot ryggstödet hela tiden.', 'Hantlarna nuddar inte varandra i toppen – behåll spänningen.', 'Armbågarna under handlederna.'],
+      'Sittande hantelpress låter varje arm arbeta självständigt och jämnar ut skillnader mellan sidorna.',
+      [['Främre och sidoaxeln', 'Huvudmålet.'], ['Triceps', 'Sträcker armarna.']]),
+    uprightRow: sh('delts/barbell-upright-row', 'delts/barbell-upright-row.gif', 'Barbell Upright Row (Stående rodd med skivstång)', 'Barbell Upright Row', ['lateral_deltoid', 'trapezius'], 'upright row teknik',
+      ['Stå med stången framför låren, greppet axelbrett eller något bredare.', 'Dra stången uppåt längs kroppen med armbågarna först.', 'Stanna när armbågarna är i axelhöjd.', 'Sänk kontrollerat.'],
+      ['Brett grepp är skonsammare för axlarna än smalt.', 'Armbågarna ska alltid vara högre än händerna.', 'Dra inte högre än axelhöjd.'],
+      'Stående rodd är en flerledsövning som bygger sidoaxlar och kappmuskel.',
+      [['Sidoaxeln', 'Lyfter armbågarna.'], ['Övre kappmuskeln (Trapezius)', 'Lyfter axlarna i slutet.'], ['Biceps och underarmar', 'Hjälper till.']]),
+    lateral: sh('delts/dumbbell-lateral-raise', 'delts/dumbbell-lateral-raise.gif', 'Dumbbell Lateral Raise (Sidolyft med hantlar)', 'Dumbbell Lateral Raise', ['lateral_deltoid'], 'sidolyft hantlar teknik',
+      ['Stå med en hantel i varje hand och lätt böjda armbågar.', 'Lyft armarna ut åt sidorna till axelhöjd.', 'Led med armbågarna, inte händerna.', 'Sänk långsamt.'],
+      ['Lätt vikt och kontroll ger bäst resultat.', 'Luta överkroppen lätt framåt.', 'Inga ryck – axlarna ska inte dras upp mot öronen.'],
+      'Sidolyft är den viktigaste isoleringsövningen för breda axlar.',
+      [['Sidoaxeln (Lateral deltoid)', 'Huvudmålet – ger axlarna bredd.'], ['Övre kappmuskeln', 'Stabiliserar.']]),
+    facePull: sh('delts/cable-face-pull', 'delts/cable-rear-delt-row-with-rope.gif', 'Face Pull (Kabelrodd mot ansiktet)', 'Face Pull', ['posterior_deltoid'], 'face pull teknik',
+      ['Fäst repet i ansiktshöjd och greppa ändarna med tummarna bakåt.', 'Ta ett steg bakåt så att kabeln är spänd.', 'Dra repet mot ansiktet och dra isär händerna så att armbågarna går ut och bakåt.', 'Kläm ihop skulderbladen och släpp kontrollerat.'],
+      ['Armbågarna högt – i höjd med axlarna.', 'Tänk "visa musklerna" i slutläget.', 'Lätt vikt, perfekt form.'],
+      'Face pulls stärker bakre axeln och rotatorkuffen och ger bättre hållning.',
+      [['Bakre axeln (Posterior deltoid)', 'Huvudmålet.'], ['Rotatorkuffen', 'Vrider armen utåt – skyddar axelleden.'], ['Mellersta kappmuskeln och rhomboideus', 'Drar ihop skulderbladen.']]),
+    rearRaise: sh('delts/dumbbell-rear-lateral-raise', 'delts/dumbbell-rear-lateral-raise.gif', 'Rear Delt Raise (Omvända flyes med hantlar)', 'Rear Delt Raise', ['posterior_deltoid'], 'omvända flyes hantlar teknik',
+      ['Fäll fram överkroppen med rak rygg och låt hantlarna hänga under bröstet.', 'Lyft armarna ut åt sidorna med lätt böjda armbågar.', 'Stanna i axelhöjd och kläm bakre axeln.', 'Sänk långsamt.'],
+      ['Lyft med armbågarna, inte händerna.', 'Lätt vikt räcker.', 'Ingen gungning med överkroppen.'],
+      'Omvända flyes isolerar bakre axeln, som ofta är svag hos de flesta.',
+      [['Bakre axeln', 'Huvudmålet.'], ['Rhomboideus och mellersta kappmuskeln', 'Hjälper till.']]),
+    seatedBarbell: sh('delts/barbell-seated-overhead-press', 'delts/barbell-seated-overhead-press.gif', 'Seated Barbell Press (Sittande skivstångspress)', 'Seated Barbell Press', ['anterior_deltoid', 'lateral_deltoid'], 'sittande axelpress skivstång teknik',
+      ['Sitt på en bänk med ryggstöd och stången framför kroppen i axelhöjd.', 'Greppa strax bredare än axlarna.', 'Pressa rakt upp tills armarna är nästan raka.', 'Sänk kontrollerat till övre bröstet.'],
+      ['Ryggstödet stabiliserar – låt bli att svanka.', 'Pressa i en rak linje.', 'Vila 90 sekunder mellan de tunga seten.'],
+      'Sittande skivstångspress låter dig fokusera helt på axlarna utan att benen hjälper till.',
+      [['Främre och sidoaxeln', 'Huvudmålet.'], ['Triceps', 'Sträcker armarna.']]),
+    arnold: sh('delts/dumbbell-arnold-press-v2', 'delts/dumbbell-arnold-press.gif', 'Arnold Press (Arnoldpress)', 'Arnold Press', ['anterior_deltoid', 'lateral_deltoid'], 'arnold press teknik',
+      ['Sitt med hantlarna framför ansiktet och handflatorna mot dig.', 'Pressa uppåt samtidigt som du vrider handflatorna framåt.', 'Avsluta med handflatorna framåt ovanför huvudet.', 'Vänd rörelsen på vägen ned.'],
+      ['Rotationen ska vara mjuk, inte ryckig.', 'Lättare vikt än vanlig hantelpress.', 'Full rörelsebana.'],
+      'Arnoldpress tränar alla delar av axelns framsida och sida i en och samma rörelse.',
+      [['Främre axeln', 'Arbetar hårt i botten.'], ['Sidoaxeln', 'Tar över när händerna vrids utåt.'], ['Triceps', 'Sträcker armarna.']]),
+    pushPress: sh('delts/dumbbell-push-press', 'delts/dumbbell-push-press.gif', 'Dumbbell Push Press (Push press med hantlar)', 'Dumbbell Push Press', ['anterior_deltoid'], 'push press hantlar teknik',
+      ['Stå med hantlarna i axelhöjd.', 'Gör en kort, snabb knäböjning.', 'Sträck benen explosivt och använd farten för att pressa hantlarna upp.', 'Sänk kontrollerat till axlarna.'],
+      ['Benen startar rörelsen – armarna avslutar.', 'Kort dipp, inte en hel knäböj.', 'Tyngre än vanlig press tack vare benen.'],
+      'Push press är en explosiv basövning som bygger kraft i axlarna och hela kroppen.',
+      [['Främre axeln', 'Avslutar pressen.'], ['Framsida lår och säte', 'Ger fart i början.'], ['Triceps och bål', 'Sträcker armarna och stabiliserar.']]),
+    cableLateral: sh('delts/cable-one-arm-lateral-raise', 'delts/cable-one-arm-lateral-raise.gif', 'One-Arm Cable Lateral Raise (Enarms kabelsidolyft)', 'One-Arm Cable Lateral Raise', ['lateral_deltoid'], 'cable lateral raise teknik',
+      ['Stå med sidan mot kabelmaskinen och handtaget fäst lågt.', 'Greppa med armen längst bort från maskinen.', 'Lyft armen ut åt sidan till axelhöjd.', 'Sänk långsamt mot motståndet.'],
+      ['Kabeln ger spänning även i botten.', 'Lätt böjd armbåge.', 'En arm i taget ger bättre fokus.'],
+      'Kabelsidolyft ger konstant spänning på sidoaxeln och är ett bra alternativ till hantlar.',
+      [['Sidoaxeln', 'Huvudmålet.']]),
+    cableFront: sh('delts/cable-front-raise', 'delts/cable-front-raise.gif', 'Cable Front Raise (Framåtlyft i kabel)', 'Cable Front Raise', ['anterior_deltoid'], 'cable front raise teknik',
+      ['Stå med ryggen mot kabelmaskinen och handtaget fäst lågt.', 'Lyft armen rakt framåt till axelhöjd.', 'Håll armen lätt böjd.', 'Sänk kontrollerat.'],
+      ['Ingen gungning med kroppen.', 'Stanna i axelhöjd.', 'Främre axeln får mycket arbete i press – därför få set här.'],
+      'Framåtlyft isolerar främre axeln.',
+      [['Främre axeln', 'Huvudmålet.']]),
+    reverseMachine: sh('delts/lever-seated-reverse-fly', 'delts/lever-seated-reverse-fly-parallel-grip.gif', 'Reverse Machine Fly (Omvända flyes i maskin)', 'Reverse Machine Fly', ['posterior_deltoid'], 'reverse pec deck teknik',
+      ['Sitt med bröstet mot dynan och greppa handtagen.', 'För armarna bakåt i en båge med lätt böjda armbågar.', 'Kläm ihop bakre axeln och skulderbladen.', 'Släpp tillbaka kontrollerat.'],
+      ['Lätt vikt, paus i slutläget.', 'Axlarna nere, bort från öronen.', 'Rörelsen kommer från axlarna, inte händerna.'],
+      'Omvända flyes i maskin ger stabil och kontrollerad träning för bakre axeln.',
+      [['Bakre axeln', 'Huvudmålet.'], ['Rhomboideus och mellersta kappmuskeln', 'Drar ihop skulderbladen.']]),
+  }
+  const DAY6_W1 = [
+    { ...SH.military, sets: 4, reps: '6–8', rest: '90 sek', zone: 'Basövning' },
+    { ...SH.dbPress, sets: 3, reps: '8–10', rest: '60 sek', zone: 'Basövning' },
+    { ...SH.uprightRow, sets: 3, reps: '10–12', rest: '45 sek', zone: 'Sidoaxel' },
+    { ...SH.lateral, sets: 3, reps: '12–15', rest: '40 sek', zone: 'Sidoaxel' },
+    { ...SH.facePull, sets: 3, reps: '12–15', rest: '40 sek', zone: 'Bakre axel' },
+    { ...SH.rearRaise, sets: 2, reps: '15', rest: '30 sek', zone: 'Bakre axel' },
+  ]
+  const DAY6_W2 = [
+    { ...SH.seatedBarbell, sets: 4, reps: '8–10', rest: '90 sek', zone: 'Basövning' },
+    // Arnoldpress har redan ett eget block med tips i övningsfönstret
+    { ...SH.arnold, sets: 3, reps: '10–12', rest: '60 sek', zone: 'Basövning', showTips: false, isArnoldPress: true },
+    { ...SH.pushPress, sets: 3, reps: '6–8', rest: '60 sek', zone: 'Basövning' },
+    { ...SH.cableLateral, sets: 3, reps: '12–15 / arm', rest: '40 sek', zone: 'Sidoaxel' },
+    { ...SH.cableFront, sets: 2, reps: '12', rest: '30 sek', zone: 'Främre axel' },
+    { ...SH.reverseMachine, sets: 3, reps: '12–15', rest: '40 sek', zone: 'Bakre axel' },
+  ]
+  if (trainingDays === '6-7' && weeks[0].length > 5 && weeks[1].length > 5) {
+    weeks[0][5] = { day: 6, splitType: 'shoulders', durationMin: 60, planText: 'Uppvärmning 8 min → tunga pressövningar → sidoaxel → bakre axel → stretch 5 min', exercises: DAY6_W1.map(ex => ({ ...ex, week: 1 })) }
+    weeks[1][5] = { day: 6, splitType: 'shoulders', durationMin: 60, planText: 'Uppvärmning 8 min → press och push press → sido- och främre axel → bakre axel → stretch 5 min', exercises: DAY6_W2.map(ex => ({ ...ex, week: 2 })) }
   }
 
   // ── Vecka 2, dag 1: Bröst – nya övningar, uppdelat på övre, mittre och nedre bröst (ca 60 min) ──
@@ -4463,8 +4561,8 @@ function ClientProfile() {
                                     {ex.zone && (
                                       <span style={{
                                         alignSelf: 'flex-start', fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '999px',
-                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm'].includes(ex.zone) ? '#dcfce7' : '#f3f4f6',
-                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm'].includes(ex.zone) ? '#166534' : '#374151'
+                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet', 'Främre axel'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage', 'Bakre axel'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm', 'Sidoaxel'].includes(ex.zone) ? '#dcfce7' : '#f3f4f6',
+                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet', 'Främre axel'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage', 'Bakre axel'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm', 'Sidoaxel'].includes(ex.zone) ? '#166534' : '#374151'
                                       }}>
                                         {ex.zone}
                                       </span>
