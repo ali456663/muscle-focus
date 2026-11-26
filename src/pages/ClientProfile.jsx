@@ -4582,7 +4582,7 @@ function ClientProfile() {
                   </div>
 
                   {/* Section 2b: EGNA EXTRAÖVNINGAR (efter 60 min) */}
-                  <CustomExtras storageKey={`mf_extra_${getExtrasUserKey()}_w${activeWeek}_d${currentDay.day}`} />
+                  <CustomExtras key={`mf_extra_${getExtrasUserKey()}_w${activeWeek}_d${currentDay.day}`} storageKey={`mf_extra_${getExtrasUserKey()}_w${activeWeek}_d${currentDay.day}`} />
 
                   {/* Section 3: KOMMENTAR */}
                   <div style={{

@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 /*
  * "Egna extraövningar" – kunden kan själv lägga till övningar att göra efter
  * det ordinarie 60-minuterspasset. Sparas i webbläsaren (localStorage) per
  * kund, vecka och dag. Synkas inte till servern.
+ * Föräldern sätter key={storageKey} så att komponenten startar om när dag/vecka byts.
  */
 
 const MAX_ITEMS = 10
@@ -29,13 +30,6 @@ export default function CustomExtras({ storageKey }) {
   const [items, setItems] = useState(() => load(storageKey))
   const [form, setForm] = useState(EMPTY)
   const [error, setError] = useState('')
-
-  // Ny dag/vecka → läs in den dagens lista
-  useEffect(() => {
-    setItems(load(storageKey))
-    setForm(EMPTY)
-    setError('')
-  }, [storageKey])
 
   const persist = (next) => {
     setItems(next)
