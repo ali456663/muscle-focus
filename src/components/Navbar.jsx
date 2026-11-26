@@ -68,7 +68,9 @@ function Navbar() {
             <Link to="/login" className={`nav-link ${isActive('/login')}`}>{t('clientLogin')}</Link>
           )}
 
-          <Link to="/ansok" className={`btn-apply ${isActive('/ansok')}`}>{t('apply')}</Link>
+          {!localStorage.getItem('client_token') && (
+            <Link to="/ansok" className={`btn-apply ${isActive('/ansok')}`}>{t('apply')}</Link>
+          )}
         </div>
 
         {/* Mobile Hamburger Toggle */}

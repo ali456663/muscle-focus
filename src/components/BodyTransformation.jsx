@@ -14,7 +14,7 @@ import './BodyTransformation.css'
 // ───────────────────────── Text ─────────────────────────
 const TEXT = {
   sv: {
-    title: 'Din kroppsresa',
+    title: 'Min drömkropp',
     intro: 'Så här ser vägen ut från din kropp i dag till målet du valt. De första 14 dagarna lägger grunden.',
     now: 'Nu',
     goal: 'Mål',
@@ -45,7 +45,7 @@ const TEXT = {
     },
   },
   en: {
-    title: 'Your body journey',
+    title: 'My dream body',
     intro: 'This is the path from your body today to the goal you chose. The first 14 days lay the foundation.',
     now: 'Now',
     goal: 'Goal',
@@ -76,7 +76,7 @@ const TEXT = {
     },
   },
   fa: {
-    title: 'مسیر بدن شما',
+    title: 'بدن رویایی من',
     intro: 'این مسیر از بدن امروز شما تا هدفی است که انتخاب کرده‌اید. ۱۴ روز اول پایه کار را می‌سازد.',
     now: 'اکنون',
     goal: 'هدف',

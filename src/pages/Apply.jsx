@@ -7,7 +7,6 @@ import { usePageTitle } from '../hooks/usePageTitle'
 import './Apply.css'
 import { getPasswordError, isPasswordValid } from '../utils/passwordPolicy'
 import { FREE_TRIAL_TERMS } from '../data/freeTrialTerms'
-import BodyTransformation from '../components/BodyTransformation'
 
 
 // Visningsetiketter för val vars värden lagras på svenska
@@ -2992,13 +2991,6 @@ function Apply() {
                       {language === 'fa' ? 'از این سؤال بگذر' : language === 'en' ? 'Skip this question' : 'Hoppa över denna fråga'}
                     </button>
                   </div>
-                </div>
-              )}
-
-              {/* Nu vs Mål – personlig kroppsjämförelse för gratis provperiod */}
-              {formData.height && formData.weight && (
-                <div style={{ margin: '8px 0 24px' }}>
-                  <BodyTransformation data={formData} compact />
                 </div>
               )}
 

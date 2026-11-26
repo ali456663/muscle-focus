@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { fetchClientProfile, fetchClientHistory } from '../services/api'
 import {
   User, Mail, Phone, Calendar, Dumbbell, AlertCircle, LogOut,
-  Send, CreditCard, ArrowRight, ArrowLeft, Star, Heart, Clock, UserCheck
+  Send, CreditCard, ArrowRight, ArrowLeft, Star, Heart, Clock, UserCheck, Sparkles
 } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
 import { usePageTitle } from '../hooks/usePageTitle'
@@ -3420,7 +3420,7 @@ function ClientProfile() {
   usePageTitle('client_profile')
 
   // Main navigation tab
-  const [mainTab, setMainTab] = useState('program') // 'program' | 'details'
+  const [mainTab, setMainTab] = useState('program') // 'program' | 'details' | 'dream'
 
   // Sub-states for Program & Meal Dashboard
   const [programData, setProgramData] = useState(null)
@@ -3523,6 +3523,7 @@ function ClientProfile() {
       {/* ── Tabs Selector at the very top of profile page ── */}
       <div style={{
         display: 'flex',
+        flexWrap: 'wrap',
         gap: '12px',
         marginBottom: '32px',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
@@ -3572,6 +3573,29 @@ function ClientProfile() {
         >
           <User size={16} />
           <span>{language === 'fa' ? 'مشخصات من' : language === 'en' ? 'My Details' : 'Mina uppgifter'}</span>
+        </button>
+
+        <button
+          onClick={() => setMainTab('dream')}
+          style={{
+            background: mainTab === 'dream'
+              ? 'linear-gradient(135deg, rgba(184,149,71,0.15), rgba(184,149,71,0.05))'
+              : 'rgba(255,255,255,0.02)',
+            border: mainTab === 'dream' ? '2px solid var(--accent-gold)' : '1px solid rgba(255,255,255,0.08)',
+            color: mainTab === 'dream' ? 'var(--text-white)' : 'var(--text-muted)',
+            padding: '12px 28px',
+            borderRadius: '10px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            fontSize: '0.95rem',
+            transition: 'all 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}
+        >
+          <Sparkles size={16} />
+          <span>{language === 'fa' ? 'بدن رویایی من' : language === 'en' ? 'My Dream Body' : 'Min drömkropp'}</span>
         </button>
       </div>
 
@@ -4020,9 +4044,14 @@ function ClientProfile() {
       )}
 
       {/* ══════════════════ TAB 2: MINA UPPGIFTER (PROFILE INFO & HISTORY) ══════════════════ */}
-      {mainTab === 'details' && profile && (
-        <div className="fade-in" style={{ display: 'grid', gap: '28px' }}>
+      {/* ══════════════════ TAB 3: MIN DRÖMKROPP ══════════════════ */}
+      {mainTab === 'dream' && profile && (
+        <div className="fade-in">
           <BodyTransformation data={programData} />
+        </div>
+      )}
+
+      {mainTab === 'details' && profile && (
         <div className="profile-grid fade-in">
           {/* Profile Card */}
           <div className="profile-info-card glass-panel">
@@ -4154,7 +4183,6 @@ function ClientProfile() {
               </div>
             )}
           </div>
-        </div>
         </div>
       )}
       {selectedEx && (
