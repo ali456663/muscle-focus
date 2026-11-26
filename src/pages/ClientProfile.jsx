@@ -16,6 +16,7 @@ import {
   DAY_NAMES_SV,
   SPLIT_EMOJIS,
 } from '../data/exercises'
+import BodyTransformation from '../components/BodyTransformation'
 import './ClientProfile.css'
 
 // ─── Helpers for Program Builder ─────────────────────────────────────────────
@@ -4020,6 +4021,8 @@ function ClientProfile() {
 
       {/* ══════════════════ TAB 2: MINA UPPGIFTER (PROFILE INFO & HISTORY) ══════════════════ */}
       {mainTab === 'details' && profile && (
+        <div className="fade-in" style={{ display: 'grid', gap: '28px' }}>
+          <BodyTransformation data={programData} />
         <div className="profile-grid fade-in">
           {/* Profile Card */}
           <div className="profile-info-card glass-panel">
@@ -4151,6 +4154,7 @@ function ClientProfile() {
               </div>
             )}
           </div>
+        </div>
         </div>
       )}
       {selectedEx && (
