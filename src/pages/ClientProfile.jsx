@@ -62,7 +62,8 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
   )
 
   const weeks = [[], []]
-  split.forEach((splitType, dayIdx) => {
+  let chestPool = null // bröstövningarna, återanvänds för vecka 1 dag 1
+  const buildDay = (splitType, dayIdx) => {
     if (splitType === 'chest') {
       const chestExercises = [
         {
@@ -639,6 +640,7 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           ]
         };
       });
+      chestPool = mapped;
 
       weeks[0].push({
         day: dayIdx + 1,
@@ -3046,7 +3048,35 @@ const tricepsPushdownEx = {
       splitType,
       exercises: week2Exs,
     })
-  })
+  }
+  split.forEach(buildDay)
+
+  // ── Vecka 1, dag 1: Bröst – ett komplett pass på ca 60 minuter (gäller alla upplägg) ──
+  // Uppvärmning ~8 min + 7 övningar / 21 set med 30–50 s vila + stretch ~5 min.
+  if (!chestPool) {
+    buildDay('chest', -1)
+    weeks[0].pop()
+    weeks[1].pop()
+  }
+  const CHEST_DAY_1 = [
+    { id: 'pectorals/barbell-bench-press', sets: 4, reps: '8–10', rest: '50 sek' },
+    { id: 'pectorals/dumbbell-incline-bench-press', sets: 3, reps: '10–12', rest: '45 sek' },
+    { id: 'pectorals/lever-chest-press', sets: 3, reps: '10–12', rest: '40 sek' },
+    { id: 'pectorals/cable-middle-fly', sets: 3, reps: '12–15', rest: '40 sek' },
+    { id: 'pectorals/dumbbell-fly', sets: 3, reps: '12', rest: '40 sek' },
+    { id: 'pectorals/cable-low-fly', sets: 3, reps: '12–15', rest: '30 sek' },
+    { id: 'pectorals/push-up', sets: 2, reps: 'Max (2 reps kvar)', rest: '30 sek' },
+  ]
+  const day1Exercises = CHEST_DAY_1
+    .map(cfg => {
+      const base = chestPool.find(ex => ex.id === cfg.id)
+      return base ? { ...base, ...cfg, week: 1, showTips: true } : null
+    })
+    .filter(Boolean)
+  if (day1Exercises.length) {
+    weeks[0][0] = { day: 1, splitType: 'chest', durationMin: 60, exercises: day1Exercises }
+  }
+
   return { week1: weeks[0], week2: weeks[1], split }
 }
 
@@ -3770,6 +3800,14 @@ function ClientProfile() {
                     <span style={{ fontSize: '0.85rem', color: '#6b7280', textTransform: 'uppercase', fontWeight: 'bold' }}>
                       {DAY_NAMES_SV[currentDay.splitType]} {SPLIT_EMOJIS[currentDay.splitType]}
                     </span>
+                    {currentDay.durationMin && (
+                      <div style={{ marginTop: '6px', fontSize: '0.82rem', color: '#374151', fontWeight: 600 }}>
+                        ⏱ ca {currentDay.durationMin} min · {currentDay.exercises.length} övningar · {currentDay.exercises.reduce((n, ex) => n + (Number(ex.sets) || 0), 0)} set · vila 30–50 sek
+                        <div style={{ fontWeight: 400, color: '#6b7280', marginTop: '2px' }}>
+                          Uppvärmning 8 min → huvudpass ca 45 min → stretch bröst & axlar 5 min
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Section 1: UPPVÄRMNING */}
@@ -4225,6 +4263,11 @@ function ClientProfile() {
                 style={{ height: '210px', objectFit: 'contain', filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.4))' }}
               />
             </div>
+            {selectedEx.gifUrl && (
+              <p style={{ margin: '-8px 0 14px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                ▶ {language === 'fa' ? 'ویدیوی نمایشی ۵ ثانیه‌ای – تکرار می‌شود' : language === 'en' ? '5-second demo – loops automatically' : '5 sekunders demo – spelas upp i loop'}
+              </p>
+            )}
 
             <h4 style={{ color: 'var(--text-white)', fontSize: '1.2rem', fontWeight: 'bold', margin: '0 0 8px 0' }}>
               {exField(selectedEx, 'name')}
@@ -4276,6 +4319,19 @@ function ClientProfile() {
               </ol>
             </div>
 
+            {/* Tekniktips för passet vecka 1 dag 1 (övningar med egna specialblock döljer annars tipsen) */}
+            {selectedEx.showTips && (selectedEx.tips || selectedEx.tips_en)?.length > 0 && (
+              <div style={{ marginBottom: '20px', background: 'rgba(56,189,248,0.06)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(56,189,248,0.2)' }}>
+                <strong style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: '#38bdf8', display: 'block', marginBottom: '8px', letterSpacing: '0.05em' }}>
+                  🎯 {language === 'fa' ? 'نکات تکنیکی:' : language === 'en' ? 'Technique tips:' : 'Tekniktips:'}
+                </strong>
+                <ul style={{ margin: 0, paddingInlineStart: '18px', fontSize: '0.82rem', color: 'var(--text-silver)', lineHeight: 1.5 }}>
+                  {(selectedEx.tips || selectedEx.tips_en).map((tip, i) => (
+                    <li key={i} style={{ marginBottom: '4px' }}>{tip}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {/* Tekniktips */}
             {(selectedEx.tips || selectedEx.tips_en) && !selectedEx.isSled45LegPress && !selectedEx.isLeverSeatedCalfRaiseMachine && !selectedEx.isSmithCalfRaise && !selectedEx.isLeverSeatedCalfRaise && !selectedEx.isDbAroundWorld && !selectedEx.isCableLowFly && !selectedEx.isDbFly && !selectedEx.isCableMiddleFly && !selectedEx.isInclineLeverPress && !selectedEx.isElevatedPushUp && !selectedEx.isLeverChestPress && !selectedEx.isSmithInclineBenchPress && !selectedEx.isPushUp && !selectedEx.isCableStandingFly && !selectedEx.isDbBenchPress && !selectedEx.isDbInclineBenchPress && !selectedEx.isInclineBenchPress && !selectedEx.isLeverSeatedFly && !selectedEx.isBenchPress && !selectedEx.isStandardPushdown && !selectedEx.isReverseGripPushdown && !selectedEx.isCableOneArmTricepPushdown && !selectedEx.isRopeTricepsPushdown && !selectedEx.isCableSeatedRearLateral && !selectedEx.isKettlebellLateralRaise && !selectedEx.isBandRearDeltRow && !selectedEx.isLeverMilitaryPress && !selectedEx.isDumbbellSeatedShoulderPress && !selectedEx.isPoliquinLateralRaise && !selectedEx.isOneArmShoulderPress && !selectedEx.isArnoldPress && !selectedEx.isSmithSeatedShoulderPress && !selectedEx.isJackknifeSitUp && !selectedEx.isOtisUp && !selectedEx.isAbdominalCrunch && !selectedEx.isLyingLegRaise && !selectedEx.isAlternateHeelTouchers && !selectedEx.isFrontPlank && (
               <div style={{ marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
