@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Globe } from 'lucide-react'
+import { Menu, X, Globe, LogOut } from 'lucide-react'
 import { useLanguage } from '../hooks/useLanguage'
 import './Navbar.css'
 
@@ -60,17 +60,15 @@ function Navbar() {
                 localStorage.removeItem('client_user');
                 localStorage.removeItem('client_name');
                 window.location.href = '/';
-              }} className="nav-link nav-link-button">
-                {t('clientLogout')}
+              }} className="nav-link nav-link-button nav-icon-button" aria-label={t('clientLogout')} title={t('clientLogout')}>
+                <LogOut size={17} aria-hidden="true" />
               </button>
             </>
           ) : (
             <Link to="/login" className={`nav-link ${isActive('/login')}`}>{t('clientLogin')}</Link>
           )}
 
-          {!localStorage.getItem('client_token') && (
-            <Link to="/ansok" className={`btn-apply ${isActive('/ansok')}`}>{t('apply')}</Link>
-          )}
+          <Link to="/ansok" className={`btn-apply ${isActive('/ansok')}`}>{t('apply')}</Link>
         </div>
 
         {/* Mobile Hamburger Toggle */}
