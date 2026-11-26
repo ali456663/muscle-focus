@@ -43,6 +43,8 @@ const MUSCLE_SV = {
   soleus: 'Djupa vadmuskeln',
   erector_spinae: 'Ryggresare',
   forearms: 'Underarmar',
+  brachialis: 'Brachialis',
+  brachioradialis: 'Brachioradialis (underarm)',
 }
 const muscleNameSv = (m) => MUSCLE_SV[m] || String(m || '').replace(/_/g, ' ')
 
@@ -3471,6 +3473,106 @@ const tricepsPushdownEx = {
     weeks[1][3] = { day: 4, splitType: 'triceps', durationMin: 60, planText: 'Uppvärmning 8 min → lutande och smal press → overhead → dips och kabel → stretch 5 min', exercises: TRI_W2.map(ex => ({ ...ex, week: 2 })) }
   }
 
+  // ── Dag 5: Biceps (gäller upplägg med 5 och 6–7 dagar) ───────────────────
+  // Vecka 1 = biceps + mage. Vecka 2 = hela biceps med helt andra övningar.
+  const arm = (id, gifPath, name, name_en, primary, ytQuery, instructions, tips, note, musclesSv) => ({
+    id, name, name_en, equipment: id.includes('barbell') || id.includes('ez') ? 'barbell' : id.includes('dumbbell') ? 'dumbbell' : id.includes('cable') ? 'cable' : 'kroppsvikt',
+    body_part: primary.includes('rectus_abdominis') ? 'waist' : 'upper arms', primary_muscles: primary, ...withGif(gifPath), youtubeUrl: yt(ytQuery),
+    instructions, tips, note, musclesSv, showTips: true,
+  })
+  const BICEPS_MUSCLES = [
+    ['Biceps – långa huvudet', 'Ytterkanten av överarmen; ger "toppen" på bicepsen.'],
+    ['Biceps – korta huvudet', 'Insidan av överarmen; ger bredd och tjocklek.'],
+  ]
+  const ARM = {
+    barbellCurl: arm('biceps/barbell-curl', 'biceps/barbell-curl.gif', 'Barbell Curl (Skivstångscurl)', 'Barbell Curl', ['biceps_brachii'], 'skivstångscurl teknik',
+      ['Stå upprätt med stången i underhandsgrepp, axelbrett.', 'Håll armbågarna intill sidorna.', 'Curla stången upp mot axlarna utan att svinga med kroppen.', 'Sänk kontrollerat tills armarna är nästan raka.'],
+      ['Armbågarna stilla – de ska inte glida framåt.', 'Ingen gungning med ryggen; minska vikten hellre.', 'Sänk på 2–3 sekunder.'],
+      'Skivstångscurl är basövningen för biceps och låter dig belasta tyngst.',
+      [...BICEPS_MUSCLES, ['Brachialis och underarmar', 'Hjälper till i armbågsböjningen.']]),
+    hammer: arm('biceps/dumbbell-hammer-curl', 'biceps/dumbbell-hammer-curl.gif', 'Hammer Curl (Hammercurl)', 'Hammer Curl', ['brachialis', 'biceps_brachii'], 'hammercurl teknik',
+      ['Stå med en hantel i varje hand och handflatorna mot varandra.', 'Curla hantlarna upp med bibehållet neutralt grepp.', 'Håll överarmarna stilla.', 'Sänk kontrollerat.'],
+      ['Tummarna pekar uppåt hela vägen.', 'Växla armar eller lyft båda samtidigt.', 'Ingen rotation i handleden.'],
+      'Hammercurl bygger brachialis och underarmar – det gör armen tjockare sett från sidan.',
+      [['Brachialis', 'Ligger under biceps och "trycker upp" den.'], ['Brachioradialis (underarm)', 'Arbetar hårt med neutralt grepp.'], ['Biceps', 'Hjälper till.']]),
+    cableCurl: arm('biceps/cable-curl', 'biceps/cable-curl.gif', 'Cable Curl (Kabelcurl)', 'Cable Curl', ['biceps_brachii'], 'kabelcurl teknik',
+      ['Stå framför kabelmaskinen med en rak stång fäst lågt.', 'Armbågarna intill sidorna.', 'Curla stången upp och kläm biceps i toppen.', 'Sänk långsamt mot motståndet.'],
+      ['Kabeln ger spänning hela vägen – utnyttja toppen.', 'Stå stilla, inget svingande.', 'Paus 1 sekund i toppen.'],
+      'Kabelcurl ger konstant spänning genom hela rörelsen.',
+      BICEPS_MUSCLES),
+    concentration: arm('biceps/dumbbell-concentration-curl', 'biceps/dumbbell-concentration-curl.gif', 'Concentration Curl (Koncentrationscurl)', 'Concentration Curl', ['biceps_brachii'], 'koncentrationscurl teknik',
+      ['Sitt på en bänk och vila armbågen mot insidan av låret.', 'Låt armen hänga rak med hanteln.', 'Curla hanteln upp mot axeln och kläm.', 'Sänk kontrollerat. Byt arm efter alla reps.'],
+      ['Överarmen ska vara helt stilla mot låret.', 'Vrid lillfingret lätt uppåt i toppen.', 'Lätt vikt, maximal kontraktion.'],
+      'Koncentrationscurl isolerar biceps helt och är ett bra avslut.',
+      BICEPS_MUSCLES),
+    hangingLegRaise: arm('abs/hanging-leg-raise', 'abs/hanging-leg-raise.gif', 'Hanging Leg Raise (Hängande benlyft)', 'Hanging Leg Raise', ['rectus_abdominis'], 'hängande benlyft teknik',
+      ['Häng i en stång med raka armar och axlarna aktiva.', 'Lyft benen framåt och uppåt genom att rulla upp bäckenet.', 'Undvik att svinga – rörelsen ska vara kontrollerad.', 'Sänk benen långsamt.'],
+      ['För tungt? Lyft böjda knän i stället.', 'Tänk "rulla bäckenet uppåt", inte bara lyfta benen.', 'Andas ut när benen lyfts.'],
+      'Hängande benlyft är en av de bästa övningarna för nedre delen av magen.',
+      [['Raka magmuskeln (Rectus abdominis)', 'Särskilt den nedre delen.'], ['Höftböjare', 'Lyfter benen.'], ['Underarmar och lats', 'Håller dig kvar på stången.']]),
+    cableCrunch: arm('abs/cable-kneeling-crunch', 'abs/cable-kneeling-crunch.gif', 'Cable Crunch (Kabelcrunch)', 'Cable Crunch', ['rectus_abdominis'], 'kabelcrunch teknik',
+      ['Stå på knä framför kabelmaskinen med repet fäst högt och händerna vid huvudet.', 'Höften stilla – rörelsen sker i magen.', 'Rulla ihop överkroppen mot knäna.', 'Rulla tillbaka upp kontrollerat.'],
+      ['Dra inte med armarna.', 'Andas ut och spänn magen hårt i botten.', 'Höften ska inte sjunka bakåt.'],
+      'Kabelcrunch låter dig belasta magmusklerna – de växer och blir synligare som andra muskler.',
+      [['Raka magmuskeln', 'Huvudmålet.'], ['Sneda magmusklerna', 'Stabiliserar.']]),
+    plank: arm('abs/front-plank', 'abs/weighted-front-plank.gif', 'Plank (Planka)', 'Plank', ['rectus_abdominis'], 'planka teknik',
+      ['Stöd på underarmarna med armbågarna under axlarna.', 'Kroppen rak från huvud till hälar.', 'Spänn mage och säte och andas lugnt.', 'Håll positionen i angiven tid.'],
+      ['Ingen svank – höften i linje med kroppen.', 'Trycket i armbågarna, axlarna bort från öronen.', 'Kroppsvikt räcker; demon visar en variant med vikt.'],
+      'Plankan stärker hela bålen och skyddar ryggen i alla tunga lyft.',
+      [['Raka och tvärgående magmuskeln', 'Håller kroppen rak.'], ['Sneda magmusklerna och säte', 'Stabiliserar.']]),
+    chinUp: arm('lats/chin-up', 'lats/chin-up.gif', 'Chin-up (Chins med underhandsgrepp)', 'Chin-up', ['biceps_brachii', 'latissimus_dorsi'], 'chin up teknik biceps',
+      ['Häng i stången med underhandsgrepp, axelbrett.', 'Dra dig upp tills hakan är över stången.', 'Håll bröstet upp och armbågarna nära kroppen.', 'Sänk dig kontrollerat till raka armar.'],
+      ['För tungt? Använd gummiband eller assisterad maskin.', 'Underhandsgreppet låter biceps arbeta maximalt.', '2–3 sekunder ned.'],
+      'Chins med underhandsgrepp är en tung basövning för biceps som samtidigt tränar ryggen.',
+      [...BICEPS_MUSCLES, ['Latissimus dorsi', 'Arbetar tillsammans med biceps.']]),
+    preacher: arm('biceps/barbell-preacher-curl', 'biceps/barbell-preacher-curl.gif', 'Preacher Curl (Scottcurl)', 'Preacher Curl', ['biceps_brachii'], 'preacher curl teknik',
+      ['Sitt i scottbänken med överarmarna mot dynan.', 'Greppa stången i underhandsgrepp.', 'Curla upp utan att lyfta armbågarna från dynan.', 'Sänk kontrollerat till nästan raka armar.'],
+      ['Sträck inte ut helt och släpp spänningen i botten.', 'Långsam nedfas – här är musklen som mest utsatt.', 'Armbågarna ligger kvar mot dynan.'],
+      'Preacher curl betonar det korta bicepshuvudet och tar bort möjligheten att fuska.',
+      [['Biceps – korta huvudet', 'Betonas när armarna är framför kroppen.'], ['Brachialis', 'Arbetar mycket i nedre delen av rörelsen.']]),
+    inclineCurl: arm('biceps/dumbbell-incline-curl', 'biceps/dumbbell-incline-curl.gif', 'Incline Dumbbell Curl (Lutande hantelcurl)', 'Incline Dumbbell Curl', ['biceps_brachii'], 'incline dumbbell curl teknik',
+      ['Ligg på en bänk lutad ca 45–60 grader med en hantel i varje hand.', 'Låt armarna hänga rakt ned bakom kroppen.', 'Curla upp utan att föra armbågarna framåt.', 'Sänk långsamt till full stretch.'],
+      ['Lättare vikt än vanlig curl – stretchen är krävande.', 'Huvudet och axlarna mot bänken.', 'Full rörelsebana ger bäst effekt.'],
+      'Lutande hantelcurl tränar det långa bicepshuvudet i stretchat läge.',
+      [['Biceps – långa huvudet', 'Betonas när armarna är bakom kroppen.'], ['Biceps – korta huvudet', 'Hjälper till.']]),
+    crossHammer: arm('biceps/dumbbell-cross-body-hammer-curl', 'biceps/dumbbell-cross-body-hammer-curl.gif', 'Cross-Body Hammer Curl (Korsande hammercurl)', 'Cross-Body Hammer Curl', ['brachialis'], 'cross body hammer curl',
+      ['Stå med hantlarna i neutralt grepp.', 'Curla en hantel i taget diagonalt över kroppen mot motsatt axel.', 'Håll överarmen nära kroppen.', 'Sänk kontrollerat och växla arm.'],
+      ['Tummen pekar uppåt hela tiden.', 'Ingen rotation i överkroppen.', 'Kläm i toppen.'],
+      'Korsande hammercurl träffar brachialis från en ny vinkel jämfört med vecka 1.',
+      [['Brachialis', 'Huvudmålet.'], ['Brachioradialis (underarm)', 'Arbetar med neutralt grepp.'], ['Biceps', 'Hjälper till.']]),
+    reverseCurl: arm('biceps/ez-barbell-reverse-grip-curl', 'biceps/ez-barbell-reverse-grip-curl.gif', 'Reverse EZ Curl (Omvänd EZ-curl)', 'Reverse EZ Curl', ['brachioradialis'], 'reverse curl ez bar',
+      ['Greppa EZ-stången med överhandsgrepp (handflatorna nedåt).', 'Armbågarna intill sidorna.', 'Curla stången upp med raka handleder.', 'Sänk kontrollerat.'],
+      ['Lättare vikt än vanlig curl.', 'Håll handlederna raka – böj dem inte bakåt.', 'Bra för greppstyrkan.'],
+      'Omvänd curl stärker underarmarna och brachialis och ger en mer komplett arm.',
+      [['Brachioradialis (underarm)', 'Huvudmålet med överhandsgrepp.'], ['Brachialis', 'Arbetar mycket.'], ['Biceps', 'Hjälper till.']]),
+    oneArmCable: arm('biceps/cable-one-arm-curl', 'biceps/cable-one-arm-curl.gif', 'One-Arm Cable Curl (Enarms kabelcurl)', 'One-Arm Cable Curl', ['biceps_brachii'], 'one arm cable curl',
+      ['Stå bredvid kabelmaskinen med ett handtag fäst lågt.', 'Curla handtaget upp med armbågen intill sidan.', 'Vrid lillfingret lätt uppåt i toppen.', 'Sänk långsamt.'],
+      ['En arm i taget ger bättre fokus.', 'Ingen rörelse i axeln.', 'Avsluta med 2 reps kvar i tanken.'],
+      'Enarms kabelcurl är ett bra avslut med konstant spänning för hela biceps.',
+      BICEPS_MUSCLES),
+  }
+  const DAY5_W1 = [
+    { ...ARM.barbellCurl, sets: 4, reps: '8–10', rest: '60 sek', zone: 'Biceps' },
+    { ...ARM.hammer, sets: 3, reps: '10–12', rest: '45 sek', zone: 'Biceps' },
+    { ...ARM.cableCurl, sets: 3, reps: '12', rest: '40 sek', zone: 'Biceps' },
+    { ...ARM.concentration, sets: 2, reps: '12 / arm', rest: '30 sek', zone: 'Biceps' },
+    { ...ARM.hangingLegRaise, sets: 3, reps: '10–12', rest: '45 sek', zone: 'Mage' },
+    { ...ARM.cableCrunch, sets: 3, reps: '12–15', rest: '40 sek', zone: 'Mage' },
+    { ...ARM.plank, sets: 3, reps: '30–45 sek', rest: '30 sek', zone: 'Mage' },
+  ]
+  const DAY5_W2 = [
+    { ...ARM.chinUp, sets: 3, reps: '6–10', rest: '60 sek', zone: 'Basövning' },
+    { ...ARM.preacher, sets: 4, reps: '8–10', rest: '60 sek', zone: 'Korta huvudet' },
+    { ...ARM.inclineCurl, sets: 3, reps: '10–12', rest: '45 sek', zone: 'Långa huvudet' },
+    { ...ARM.crossHammer, sets: 3, reps: '10–12', rest: '45 sek', zone: 'Brachialis' },
+    { ...ARM.reverseCurl, sets: 3, reps: '12', rest: '40 sek', zone: 'Underarm' },
+    { ...ARM.oneArmCable, sets: 2, reps: '12–15 / arm', rest: '30 sek', zone: 'Avslutning' },
+  ]
+  if (['5', '6-7'].includes(trainingDays) && weeks[0].length > 4 && weeks[1].length > 4) {
+    weeks[0][4] = { day: 5, splitType: 'biceps_abs', durationMin: 60, planText: 'Uppvärmning 8 min → biceps (tungt till lätt) → mage → stretch 5 min', exercises: DAY5_W1.map(ex => ({ ...ex, week: 1 })) }
+    weeks[1][4] = { day: 5, splitType: 'biceps', durationMin: 60, planText: 'Uppvärmning 8 min → chins → korta och långa huvudet → brachialis och underarm → stretch 5 min', exercises: DAY5_W2.map(ex => ({ ...ex, week: 2 })) }
+  }
+
   // ── Vecka 2, dag 1: Bröst – nya övningar, uppdelat på övre, mittre och nedre bröst (ca 60 min) ──
   const chestDip = {
     id: 'pectorals/chest-dip',
@@ -4361,8 +4463,8 @@ function ClientProfile() {
                                     {ex.zone && (
                                       <span style={{
                                         alignSelf: 'flex-start', fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '999px',
-                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering'].includes(ex.zone) ? '#dcfce7' : '#f3f4f6',
-                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering'].includes(ex.zone) ? '#166534' : '#374151'
+                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm'].includes(ex.zone) ? '#dcfce7' : '#f3f4f6',
+                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm'].includes(ex.zone) ? '#166534' : '#374151'
                                       }}>
                                         {ex.zone}
                                       </span>

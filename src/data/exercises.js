@@ -1786,6 +1786,7 @@ export const DAY_NAMES_SV = {
   triceps:   'Triceps',
   shoulders: 'Axlar',
   biceps_abs:'Biceps & Magen',
+  biceps:    'Biceps',
   rest:      'Vila',
 }
 
@@ -1802,5 +1803,6 @@ export const SPLIT_EMOJIS = {
   triceps:   '💪',
   shoulders: '🦾',
   biceps_abs:'⚡',
+  biceps:    '💪',
   rest:      '🛋️',
 }
