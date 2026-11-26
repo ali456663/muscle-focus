@@ -90,6 +90,7 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
   const weeks = [[], []]
   let chestPool = null // bröstövningarna, återanvänds för vecka 1 dag 1
   let backPool = null // ryggövningarna, återanvänds för vecka 1 dag 2
+  let legPool = null // benövningarna, återanvänds för dag 3
   const buildDay = (splitType, dayIdx) => {
     if (splitType === 'chest') {
       const chestExercises = [
@@ -1231,6 +1232,7 @@ function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user'
           note: 'Sled 45° Leg Press (Benpress 45 grader) är en av de kraftfullaste maskinövningarna för underkroppen. Den låter dig träna benen med mycket tung belastning samtidigt som ryggen är i en säker position.'
         }
       ];
+      legPool = legExercises;
 
       const mapped = legExercises.map(ex => {
         const original = EXERCISES.find(e => e.id === ex.id) || {};
@@ -3237,6 +3239,142 @@ const tricepsPushdownEx = {
     }
   }
 
+  // ── Dag 3: Ben (gäller upplägg med 4+ dagar) ─────────────────────────────
+  // Vecka 1 = basövningar för hela benen. Vecka 2 = helt andra övningar.
+  if (!legPool) {
+    buildDay('legs', -1)
+    weeks[0].pop()
+    weeks[1].pop()
+  }
+  const yt = (q) => `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
+  const leg = (id, gifPath, name, name_en, primary, ytQuery, instructions, tips, note, musclesSv) => ({
+    id, name, name_en, equipment: id.includes('barbell') ? 'barbell' : id.includes('dumbbell') ? 'dumbbell' : 'lever / maskin',
+    body_part: 'legs', primary_muscles: primary, ...withGif(gifPath), youtubeUrl: yt(ytQuery),
+    instructions, tips, note, musclesSv,
+  })
+  const LEG_LIBRARY = {
+    squat: leg('glutes/barbell-full-squat', 'glutes/barbell-full-squat.gif', 'Barbell Squat (Knäböj med skivstång)', 'Barbell Squat',
+      ['quadriceps', 'gluteus_maximus'], 'knäböj teknik skivstång',
+      ['Lägg stången på övre delen av kappmuskeln, inte på nacken. Fötterna axelbrett, tårna lätt utåt.',
+       'Andas in, spänn bålen och för höften bakåt och nedåt samtidigt som knäna går ut i tårnas riktning.',
+       'Gå ned tills låren är minst parallella med golvet med rak rygg och hela foten i golvet.',
+       'Tryck upp genom hela foten och sträck höft och knän samtidigt.'],
+      ['Knäna följer tårna – låt dem inte falla inåt.', 'Bröstet upp och blicken framåt hela vägen.', 'Hälarna ska aldrig lyfta från golvet.', 'Tungt? Vila gärna hela 90 sekunder mellan seten.'],
+      'Knäböj är kungen av benövningar. Den bygger styrka och muskler i framsida lår och säte och stärker hela bålen.',
+      [['Framsida lår (Quadriceps)', 'Sträcker knäna – huvudmålet.'], ['Stora sätesmuskeln', 'Sträcker höften i uppfasen.'], ['Inåtförare och baksida lår', 'Stabiliserar höft och knän.'], ['Bålen och ryggresare', 'Håller överkroppen stabil.']]),
+    rdl: leg('glutes/barbell-romanian-deadlift', 'glutes/barbell-romanian-deadlift.gif', 'Romanian Deadlift (Rumänska marklyft)', 'Romanian Deadlift',
+      ['hamstrings', 'gluteus_maximus'], 'rumänska marklyft teknik',
+      ['Stå höftbrett med stången i händerna framför låren och lätt böjda knän.',
+       'För höften bakåt och låt stången glida längs låren ned mot smalbenen med rak rygg.',
+       'Gå ned tills du känner en tydlig stretch i baksida lår (oftast strax under knäna).',
+       'Pressa höften framåt och res dig upp genom att spänna säte och baksida lår.'],
+      ['Det är en höftrörelse – knäna ska vara nästan stilla.', 'Stången nära benen hela tiden.', 'Rak rygg: gå inte djupare än rörligheten tillåter.'],
+      'Rumänska marklyft är den bästa basövningen för baksida lår och säte och kompletterar knäböjen perfekt.',
+      [['Baksida lår (Hamstrings)', 'Huvudmålet – arbetar i stretch.'], ['Stora sätesmuskeln', 'Sträcker höften.'], ['Ryggresare', 'Håller ryggen rak.']]),
+    lunge: leg('glutes/barbell-lunge', 'glutes/barbell-lunge.gif', 'Barbell Lunge (Utfallssteg med skivstång)', 'Barbell Lunge',
+      ['quadriceps', 'gluteus_maximus'], 'utfallssteg skivstång teknik',
+      ['Lägg stången på ryggen som vid knäböj och stå med fötterna höftbrett.',
+       'Ta ett långt kliv framåt och sänk bakre knät mot golvet.',
+       'Främre knät ska vara ungefär ovanför foten och smalbenet lodrätt.',
+       'Tryck ifrån med främre foten tillbaka till start och växla ben.'],
+      ['Håll överkroppen upprätt.', 'Ett längre kliv ger mer säte, ett kortare mer framsida lår.', 'Gör alla reps på ena benet om balansen sviktar.'],
+      'Utfallssteg tränar ett ben i taget, jämnar ut styrkeskillnader mellan benen och förbättrar balansen.',
+      [['Framsida lår', 'Arbetar hårt i främre benet.'], ['Stora sätesmuskeln', 'Sträcker höften när du trycker ifrån.'], ['Inåtförare och vader', 'Stabiliserar.']]),
+    hipThrust: leg('glutes/barbell-hip-thrust', 'glutes/barbell-glute-bridge-two-legs-on-bench-male.gif', 'Barbell Hip Thrust (Höftlyft med skivstång)', 'Barbell Hip Thrust',
+      ['gluteus_maximus'], 'hip thrust teknik skivstång',
+      ['Sitt med övre delen av ryggen mot en bänk och stången över höften (använd en skumrulle som skydd).',
+       'Fötterna höftbrett, så att smalbenen blir lodräta i toppläget.',
+       'Pressa höften rakt upp tills kroppen är rak från knän till axlar.',
+       'Kläm sätet i 1 sekund i toppen och sänk kontrollerat.'],
+      ['Haka mot bröstet – titta framåt, inte i taket.', 'Svanka inte i toppen; luta bäckenet lätt bakåt.', 'Tryck genom hälarna.'],
+      'Höftlyft är den effektivaste övningen för sätesmuskeln och ger styrka i höftsträckningen.',
+      [['Stora sätesmuskeln', 'Huvudmålet – maximalt arbete i toppläget.'], ['Baksida lår', 'Hjälper till i höftsträckningen.'], ['Bålen', 'Stabiliserar bäckenet.']]),
+    hackSquat: leg('glutes/sled-hack-squat', 'glutes/sled-hack-squat.gif', 'Hack Squat (Hackknäböj i maskin)', 'Hack Squat',
+      ['quadriceps'], 'hack squat teknik',
+      ['Ställ dig med ryggen mot dynan och axlarna under skydden, fötterna axelbrett mitt på plattan.',
+       'Lossa spärren och sänk dig kontrollerat tills låren är parallella med plattan.',
+       'Håll ryggen och huvudet mot dynan hela tiden.',
+       'Tryck upp genom hela foten utan att låsa knäna i toppen.'],
+      ['Lägre fotplacering = mer framsida lår.', 'Låt knäna gå framåt över tårna – maskinen stödjer ryggen.', 'Kontrollerad nedfas, 2–3 sekunder.'],
+      'Hackknäböj ger tung belastning på framsida lår med stöd för ryggen – ett bra alternativ till knäböj.',
+      [['Framsida lår (Quadriceps)', 'Huvudmålet.'], ['Stora sätesmuskeln', 'Hjälper till i botten.'], ['Inåtförare', 'Stabiliserar knäna.']]),
+    bulgarian: leg('quads/dumbbell-bulgarian-split-squat', 'quads/dumbbell-single-leg-split-squat.gif', 'Bulgarian Split Squat (Bulgarisk utfallsböj)', 'Bulgarian Split Squat',
+      ['quadriceps', 'gluteus_maximus'], 'bulgarian split squat teknik',
+      ['Stå framför en bänk med en hantel i varje hand och lägg bakre foten på bänken.',
+       'Sänk dig rakt ned tills främre låret är parallellt med golvet.',
+       'Håll överkroppen upprätt eller lätt framåtlutad.',
+       'Tryck upp genom främre hälen. Gör alla reps och byt sedan ben.'],
+      ['Främre foten så långt fram att knät hamnar ovanför foten i botten.', 'Lätt framåtlutning ger mer säte.', 'Börja med lätta hantlar – balansen är krävande.'],
+      'Bulgarisk utfallsböj är en av de tuffaste enbensövningarna och bygger både styrka och balans i framsida lår och säte.',
+      [['Framsida lår', 'Arbetar hårt i främre benet.'], ['Stora sätesmuskeln', 'Särskilt i botten av rörelsen.'], ['Bålen och höftens stabiliserare', 'Håller balansen.']]),
+    sumo: leg('glutes/barbell-sumo-deadlift', 'glutes/barbell-sumo-deadlift.gif', 'Sumo Deadlift (Sumomarklyft)', 'Sumo Deadlift',
+      ['gluteus_maximus', 'hamstrings'], 'sumo marklyft teknik',
+      ['Stå brett med tårna utåt och stången över mitten av foten.',
+       'Greppa stången innanför benen med raka armar, bröstet upp och rak rygg.',
+       'Tryck knäna utåt och lyft genom att trycka golvet ifrån dig.',
+       'Res dig helt upp och sänk kontrollerat på samma sätt.'],
+      ['Knäna i tårnas riktning hela vägen.', 'Höften närmare stången än vid vanlig marklyft – mer upprätt rygg.', 'Vila upp till 90 sekunder på tunga set.'],
+      'Sumomarklyft har bredare fotställning och tränar säte, baksida lår och inåtförare med mindre belastning på ländryggen.',
+      [['Stora sätesmuskeln', 'Huvudmålet.'], ['Inåtförare', 'Arbetar mycket tack vare den breda fotställningen.'], ['Baksida lår och ryggresare', 'Hjälper till och stabiliserar.']]),
+    legCurl: leg('hamstrings/lever-lying-leg-curl', 'hamstrings/lever-lying-leg-curl.gif', 'Lying Leg Curl (Liggande lårcurl)', 'Lying Leg Curl',
+      ['hamstrings'], 'liggande lårcurl teknik',
+      ['Ligg på mage med dynan strax ovanför hälarna och knäna precis utanför bänkkanten.',
+       'Håll i handtagen och pressa höften mot bänken.',
+       'Böj knäna och dra dynan mot sätet.',
+       'Sänk långsamt tills benen nästan är raka.'],
+      ['Höften ska inte lyfta från bänken.', 'Kläm i toppen i 1 sekund.', 'Långsam nedfas ger bäst effekt.'],
+      'Liggande lårcurl isolerar baksida lår och kompletterar höftövningarna.',
+      [['Baksida lår (Hamstrings)', 'Huvudmålet – böjer knäna.'], ['Vader', 'Hjälper till i böjningen.']]),
+    legExtension: leg('quads/lever-leg-extension', 'quads/lever-leg-extension.gif', 'Leg Extension (Benspark i maskin)', 'Leg Extension',
+      ['quadriceps'], 'leg extension teknik',
+      ['Sitt med ryggen mot dynan och knäna i linje med maskinens vridpunkt.',
+       'Dynan ligger mot nedre delen av smalbenen.',
+       'Sträck benen tills de är nästan raka och kläm i framsida lår.',
+       'Sänk kontrollerat utan att släppa vikterna.'],
+      ['Ingen ryckning – lyft med lårmusklerna.', 'Paus 1 sekund i toppen.', 'Välj en vikt du klarar 12–15 kontrollerade reps med.'],
+      'Benspark isolerar framsida lår och är ett bra avslut efter tyngre övningar.',
+      [['Framsida lår (Quadriceps)', 'Huvudmålet – sträcker knäna.']]),
+    stepUp: leg('glutes/dumbbell-step-up', 'glutes/dumbbell-step-up.gif', 'Dumbbell Step-up (Step-up med hantlar)', 'Dumbbell Step-up',
+      ['gluteus_maximus', 'quadriceps'], 'step up hantlar teknik',
+      ['Stå framför en bänk eller låda i knähöjd med en hantel i varje hand.',
+       'Sätt hela ena foten på lådan.',
+       'Kliv upp genom att trycka med främre benet – inte genom att skjuta ifrån med det bakre.',
+       'Sänk dig kontrollerat. Gör alla reps och byt ben.'],
+      ['Håll överkroppen upprätt.', 'Hela foten på lådan, tryck genom hälen.', 'Lägre låda om knät går för långt fram.'],
+      'Step-up är en funktionell enbensövning som stärker säte och framsida lår och förbättrar balansen.',
+      [['Stora sätesmuskeln', 'Sträcker höften när du kliver upp.'], ['Framsida lår', 'Sträcker knät.'], ['Vader och bål', 'Stabiliserar.']]),
+  }
+  const fromLegPool = (id, extra) => {
+    const base = legPool.find(ex => ex.id === id)
+    // showTips: false – dessa övningar har redan ett eget block med tekniktips
+    return base ? { ...base, ...extra, showTips: false } : null
+  }
+  const LEGS_W1 = [
+    { ...LEG_LIBRARY.squat, sets: 4, reps: '6–8', rest: '90 sek', zone: 'Framsida lår & säte' },
+    { ...LEG_LIBRARY.rdl, sets: 4, reps: '8–10', rest: '60 sek', zone: 'Baksida lår & säte' },
+    fromLegPool('glutes/sled-45-leg-press', { name: 'Leg Press 45° (Benpress)', sets: 3, reps: '10–12', rest: '60 sek', zone: 'Framsida lår & säte' }),
+    { ...LEG_LIBRARY.lunge, sets: 3, reps: '10 / ben', rest: '45 sek', zone: 'Hela benet' },
+    { ...LEG_LIBRARY.hipThrust, sets: 3, reps: '10–12', rest: '45 sek', zone: 'Baksida lår & säte' },
+    fromLegPool('calves/smith-standing-leg-calf-raise', { sets: 3, reps: '12–15', rest: '30 sek', zone: 'Vader' }),
+  ]
+  const LEGS_W2 = [
+    { ...LEG_LIBRARY.hackSquat, sets: 4, reps: '8–10', rest: '90 sek', zone: 'Framsida lår & säte' },
+    { ...LEG_LIBRARY.bulgarian, sets: 3, reps: '8–10 / ben', rest: '60 sek', zone: 'Hela benet' },
+    { ...LEG_LIBRARY.sumo, sets: 3, reps: '6–8', rest: '90 sek', zone: 'Baksida lår & säte' },
+    { ...LEG_LIBRARY.legCurl, sets: 3, reps: '10–12', rest: '45 sek', zone: 'Baksida lår & säte' },
+    { ...LEG_LIBRARY.legExtension, sets: 3, reps: '12–15', rest: '45 sek', zone: 'Framsida lår & säte' },
+    { ...LEG_LIBRARY.stepUp, sets: 3, reps: '10 / ben', rest: '45 sek', zone: 'Hela benet' },
+    fromLegPool('calves/lever-seated-calf-raise', { sets: 3, reps: '15', rest: '30 sek', zone: 'Vader' }),
+  ]
+  const legsDay = (list, week, planText) => ({
+    day: 3, splitType: 'legs_full', durationMin: 60, planText,
+    exercises: list.filter(Boolean).map(ex => ({ ...ex, week, showTips: ex.showTips ?? true })),
+  })
+  if (['4', '5', '6-7'].includes(trainingDays) && weeks[0].length > 2 && weeks[1].length > 2) {
+    weeks[0][2] = legsDay(LEGS_W1, 1, 'Uppvärmning 8 min → knäböj och rumänska marklyft → benpress och utfall → höftlyft och vader → stretch 5 min')
+    weeks[1][2] = legsDay(LEGS_W2, 2, 'Uppvärmning 8 min → hackknäböj och bulgarisk utfallsböj → sumomarklyft → maskinövningar och step-up → vader → stretch 5 min')
+  }
+
   // ── Vecka 2, dag 1: Bröst – nya övningar, uppdelat på övre, mittre och nedre bröst (ca 60 min) ──
   const chestDip = {
     id: 'pectorals/chest-dip',
@@ -4119,8 +4257,8 @@ function ClientProfile() {
                                     {ex.zone && (
                                       <span style={{
                                         alignSelf: 'flex-start', fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '999px',
-                                        background: ['Övre bröst', 'Bredd (lats)'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)'].includes(ex.zone) ? '#dcfce7' : '#f3f4f6',
-                                        color: ['Övre bröst', 'Bredd (lats)'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)'].includes(ex.zone) ? '#166534' : '#374151'
+                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet'].includes(ex.zone) ? '#dcfce7' : '#f3f4f6',
+                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet'].includes(ex.zone) ? '#166534' : '#374151'
                                       }}>
                                         {ex.zone}
                                       </span>
@@ -4148,7 +4286,7 @@ function ClientProfile() {
                       Kommentar / Coach tips:
                     </strong>
                     <p style={{ margin: 0, fontSize: '0.88rem', color: '#1f2937', lineHeight: 1.5 }}>
-                      {currentDay.splitType === 'lower' || currentDay.splitType === 'legs'
+                      {['lower', 'legs', 'legs_full'].includes(currentDay.splitType)
                         ? 'Det här är ett underkroppspass. Säkerställ god knäkontroll och att fötterna är stabilt placerade under alla pressrörelser. Håll ryggen rak i marklyft.'
                         : currentDay.splitType === 'upper'
                         ? 'Det här är ett överkroppspass. Fokusera på att pressa fram bröstet och dra ihop skulderbladen i alla rodd- och pressövningar.'
