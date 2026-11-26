@@ -17,6 +17,7 @@ import {
   SPLIT_EMOJIS,
 } from '../data/exercises'
 import BodyTransformation from '../components/BodyTransformation'
+import CustomExtras from '../components/CustomExtras'
 import './ClientProfile.css'
 
 // ─── Muskelnamn på svenska (för muskelchippet i övningsfönstret) ─────────────
@@ -3375,6 +3376,101 @@ const tricepsPushdownEx = {
     weeks[1][2] = legsDay(LEGS_W2, 2, 'Uppvärmning 8 min → hackknäböj och bulgarisk utfallsböj → sumomarklyft → maskinövningar och step-up → vader → stretch 5 min')
   }
 
+  // ── Dag 4: Triceps (gäller upplägg med 4+ dagar) ─────────────────────────
+  // Vecka 1 = basövningar (flerledsövningar först). Vecka 2 = helt andra övningar.
+  const tri = (id, gifPath, name, name_en, ytQuery, instructions, tips, note, musclesSv) => ({
+    id, name, name_en, equipment: id.includes('barbell') || id.includes('ez') ? 'barbell' : id.includes('dumbbell') ? 'dumbbell' : id.includes('cable') ? 'cable' : 'kroppsvikt / maskin',
+    body_part: 'upper arms', primary_muscles: ['triceps_brachii'], ...withGif(gifPath), youtubeUrl: yt(ytQuery),
+    instructions, tips, note, musclesSv, showTips: true,
+  })
+  const TRICEPS_MUSCLES = [
+    ['Triceps – långa huvudet', 'Löper över axelleden och tränas extra när armen är över huvudet eller i press.'],
+    ['Triceps – laterala och mediala huvudet', 'Ger armen bredd och arbetar i alla armbågssträckningar.'],
+  ]
+  const TRI = {
+    closeGrip: tri('triceps/barbell-close-grip-bench-press', 'triceps/barbell-close-grip-bench-press.gif', 'Close-Grip Bench Press (Smal bänkpress)', 'Close-Grip Bench Press', 'smal bänkpress triceps teknik',
+      ['Ligg på bänken och greppa stången med händerna ungefär axelbrett (inte smalare).', 'Dra ihop skulderbladen och sänk stången mot nedre delen av bröstet.', 'Håll armbågarna nära kroppen (ca 30–45 grader) hela vägen.', 'Pressa upp till raka armar och kläm triceps i toppen.'],
+      ['För smalt grepp belastar handlederna – axelbrett räcker.', 'Armbågarna nära kroppen flyttar arbetet till triceps.', 'Tung basövning: vila hela 90 sekunder.'],
+      'Smal bänkpress är den tyngsta basövningen för triceps och bygger både styrka och massa.',
+      [...TRICEPS_MUSCLES, ['Bröstet och främre axeln', 'Hjälper till i pressen.']]),
+    assistedDip: tri('triceps/assisted-triceps-dip', 'triceps/assisted-triceps-dip-kneeling.gif', 'Assisted Triceps Dip (Assisterade tricepsdips)', 'Assisted Triceps Dip', 'tricepsdips teknik',
+      ['Ställ in motvikt i dipsmaskinen och knäböj på plattan med händerna på handtagen.', 'Håll överkroppen upprätt och armbågarna pekande bakåt.', 'Sänk dig tills armbågarna är ca 90 grader böjda.', 'Pressa upp till raka armar.'],
+      ['Upprätt överkropp = mer triceps (framåtlutning = mer bröst).', 'Mindre motvikt när du blir starkare – målet är dips utan hjälp.', 'Gå inte djupare än axlarna tillåter.'],
+      'Tricepsdips är en klassisk basövning med kroppsvikt. Assistansen gör att alla kan träna rätt teknik.',
+      [...TRICEPS_MUSCLES, ['Främre axeln och nedre bröstet', 'Stabiliserar och hjälper till.']]),
+    skull: tri('triceps/barbell-lying-triceps-extension-skull-crusher', 'triceps/barbell-lying-triceps-extension-skull-crusher.gif', 'Skull Crusher (Liggande tricepspress)', 'Skull Crusher', 'skull crusher teknik',
+      ['Ligg på bänken med en EZ-stång eller skivstång på raka armar ovanför bröstet.', 'Böj bara i armbågarna och sänk stången mot pannan eller strax bakom huvudet.', 'Håll överarmarna stilla och lätt lutade bakåt.', 'Sträck armarna igen och kläm triceps.'],
+      ['Armbågarna pekar mot taket – låt dem inte glida isär.', 'Kontrollera vikten ned, 2–3 sekunder.', 'EZ-stång är skonsammare för handlederna.'],
+      'Skull crushers isolerar triceps under tung belastning och tränar särskilt det långa huvudet.',
+      TRICEPS_MUSCLES),
+    jm: tri('triceps/barbell-jm-bench-press', 'triceps/barbell-jm-bench-press.gif', 'JM Press', 'JM Press', 'jm press teknik triceps',
+      ['Ligg som vid smal bänkpress med axelbrett grepp.', 'Sänk stången genom att böja armbågarna framåt mot hakan/halsen – en blandning av press och skull crusher.', 'Underarmarna landar nästan mot överarmarna i botten.', 'Pressa tillbaka upp till raka armar.'],
+      ['Börja lätt – rörelsen tar tid att lära sig.', 'Armbågarna nära kroppen och pekande mot fötterna.', 'Stoppa några centimeter från halsen.'],
+      'JM press kombinerar smal bänkpress och skull crusher och låter dig belasta triceps tungt.',
+      TRICEPS_MUSCLES),
+    ropePushdown: tri('triceps/cable-pushdown-rope', 'triceps/cable-pushdown-with-rope-attachment.gif', 'Rope Triceps Pushdown (Tricepspress med rep)', 'Rope Triceps Pushdown', 'tricepspress rep kabel teknik',
+      ['Stå framför kabelmaskinen med repet fäst högt och armbågarna intill sidorna.', 'Pressa repet nedåt tills armarna är raka.', 'Dra isär repändarna i botten för maximal kontraktion.', 'Låt repet gå tillbaka upp kontrollerat till ca 90 grader i armbågen.'],
+      ['Överarmarna ska vara helt stilla.', 'Luta inte kroppen över vikten.', 'Dra isär repet i botten.'],
+      'Tricepspress med rep är en perfekt avslutande isoleringsövning med konstant spänning.',
+      TRICEPS_MUSCLES),
+    diamond: tri('triceps/diamond-push-up', 'triceps/diamond-push-up.gif', 'Diamond Push-up (Diamantarmhävningar)', 'Diamond Push-up', 'diamantarmhävningar teknik',
+      ['Placera händerna under bröstet så att tummar och pekfingrar bildar en diamant.', 'Kroppen rak från huvud till hälar och bålen spänd.', 'Sänk bröstet mot händerna med armbågarna nära kroppen.', 'Pressa upp till raka armar.'],
+      ['För tungt? Gör dem på knäna.', 'Sluta 2 reps före utmattning.', 'Armbågarna bakåt, inte ut åt sidorna.'],
+      'Diamantarmhävningar är en effektiv kroppsviktsavslutning som tömmer triceps.',
+      [...TRICEPS_MUSCLES, ['Bröstet och bålen', 'Hjälper till och stabiliserar.']]),
+    inclineClose: tri('triceps/barbell-incline-close-grip-bench-press', 'triceps/barbell-incline-close-grip-bench-press.gif', 'Incline Close-Grip Bench Press (Lutande smal bänkpress)', 'Incline Close-Grip Bench Press', 'incline close grip bench press',
+      ['Ställ bänken på ca 30 grader och greppa stången axelbrett.', 'Sänk stången mot övre delen av bröstet med armbågarna nära kroppen.', 'Håll skulderbladen ihopdragna.', 'Pressa upp och kläm triceps.'],
+      ['Lägre lutning (ca 30 grader) räcker.', 'Armbågarna nära kroppen.', 'Vila 90 sekunder mellan de tunga seten.'],
+      'Lutande smal bänkpress ger en ny vinkel jämfört med vecka 1 och belastar triceps och övre bröst.',
+      [...TRICEPS_MUSCLES, ['Övre bröstet och främre axeln', 'Hjälper till i pressen.']]),
+    dbClose: tri('triceps/dumbbell-close-grip-press', 'triceps/dumbbell-close-grip-press.gif', 'Dumbbell Close-Grip Press (Smal hantelpress)', 'Dumbbell Close-Grip Press', 'dumbbell close grip press triceps',
+      ['Ligg på bänken och håll hantlarna ihop med handflatorna mot varandra.', 'Sänk hantlarna mot bröstet med armbågarna nära kroppen.', 'Låt hantlarna vara i kontakt hela vägen.', 'Pressa upp och kläm triceps.'],
+      ['Tryck hantlarna mot varandra för mer spänning.', 'Armbågarna pekar mot fötterna.', 'Kontrollerad nedfas.'],
+      'Smal hantelpress är skonsam för axlarna och ger lång rörelsebana för triceps.',
+      [...TRICEPS_MUSCLES, ['Inre delen av bröstet', 'Arbetar när hantlarna pressas ihop.']]),
+    overhead: tri('triceps/barbell-seated-overhead-triceps-extension', 'triceps/barbell-seated-overhead-triceps-extension.gif', 'Seated Overhead Triceps Extension (Sittande overheadpress för triceps)', 'Seated Overhead Triceps Extension', 'overhead triceps extension teknik',
+      ['Sitt på en bänk med ryggstöd och håll stången (eller EZ-stång) ovanför huvudet.', 'Sänk stången bakom huvudet genom att böja armbågarna.', 'Håll överarmarna nära huvudet och pekande uppåt.', 'Sträck armarna och kläm triceps i toppen.'],
+      ['Spänn bålen så att du inte svankar.', 'Armbågarna ska inte glida ut åt sidorna.', 'Full stretch i botten ger bäst effekt på långa huvudet.'],
+      'Overheadpress för triceps tränar det långa huvudet i stretchat läge – det som ger mest armomfång.',
+      TRICEPS_MUSCLES),
+    benchDip: tri('triceps/bench-dip', 'triceps/bench-dip-knees-bent.gif', 'Bench Dip (Bänkdips)', 'Bench Dip', 'bänkdips teknik',
+      ['Sätt händerna på kanten av en bänk bakom dig, fingrarna framåt.', 'Fötterna i golvet med böjda knän (svårare med raka ben).', 'Sänk dig tills armbågarna är ca 90 grader.', 'Pressa upp till raka armar.'],
+      ['Håll ryggen nära bänken.', 'Gå inte djupare än 90 grader – skonar axlarna.', 'Raka ben gör övningen tyngre.'],
+      'Bänkdips är en enkel kroppsviktsövning för triceps som kan göras nästan var som helst.',
+      [...TRICEPS_MUSCLES, ['Främre axeln', 'Stabiliserar.']]),
+    reversePushdown: tri('triceps/cable-reverse-grip-pushdown', 'triceps/cable-reverse-grip-pushdown.gif', 'Reverse-Grip Pushdown (Tricepspress med omvänt grepp)', 'Reverse-Grip Pushdown', 'reverse grip triceps pushdown',
+      ['Greppa stången i kabelmaskinen med underhandsgrepp (handflatorna uppåt).', 'Armbågarna intill sidorna.', 'Pressa ned till raka armar.', 'Låt stången gå tillbaka kontrollerat.'],
+      ['Lättare vikt än vanlig tricepspress.', 'Håll handlederna raka.', 'Överarmarna stilla.'],
+      'Omvänt grepp ger en annan vinkel och betonar det mediala tricepshuvudet.',
+      TRICEPS_MUSCLES),
+    kickback: tri('triceps/dumbbell-kickback', 'triceps/dumbbell-kickback.gif', 'Dumbbell Kickback (Hantelkickback)', 'Dumbbell Kickback', 'dumbbell kickback teknik',
+      ['Luta överkroppen framåt med rak rygg och stöd med ena handen på en bänk.', 'Håll överarmen parallell med golvet intill kroppen.', 'Sträck armen bakåt tills den är rak.', 'Kläm triceps i 1 sekund och sänk kontrollerat.'],
+      ['Bara underarmen rör sig.', 'Lätt vikt och full kontraktion slår tung vikt.', 'Gör alla reps på en arm och byt.'],
+      'Hantelkickback isolerar triceps i fullt kontraherat läge och är ett bra avslut.',
+      TRICEPS_MUSCLES),
+  }
+  const TRI_W1 = [
+    { ...TRI.closeGrip, sets: 4, reps: '6–8', rest: '90 sek', zone: 'Basövning' },
+    { ...TRI.assistedDip, sets: 3, reps: '8–12', rest: '60 sek', zone: 'Basövning' },
+    { ...TRI.skull, sets: 3, reps: '8–10', rest: '60 sek', zone: 'Långa huvudet' },
+    { ...TRI.jm, sets: 3, reps: '8–10', rest: '60 sek', zone: 'Basövning' },
+    // Tricepspress med rep har redan ett eget specialblock med tips i övningsfönstret
+    { ...TRI.ropePushdown, sets: 3, reps: '12–15', rest: '40 sek', zone: 'Isolering', showTips: false, isRopeTricepsPushdown: true },
+    { ...TRI.diamond, sets: 2, reps: 'Max (2 reps kvar)', rest: '30 sek', zone: 'Avslutning' },
+  ]
+  const TRI_W2 = [
+    { ...TRI.inclineClose, sets: 4, reps: '8–10', rest: '90 sek', zone: 'Basövning' },
+    { ...TRI.dbClose, sets: 3, reps: '10–12', rest: '60 sek', zone: 'Basövning' },
+    { ...TRI.overhead, sets: 3, reps: '10–12', rest: '60 sek', zone: 'Långa huvudet' },
+    { ...TRI.benchDip, sets: 3, reps: '12–15', rest: '45 sek', zone: 'Basövning' },
+    { ...TRI.reversePushdown, sets: 3, reps: '12–15', rest: '40 sek', zone: 'Isolering' },
+    { ...TRI.kickback, sets: 3, reps: '12–15 / arm', rest: '30 sek', zone: 'Avslutning' },
+  ]
+  if (['4', '5', '6-7'].includes(trainingDays) && weeks[0].length > 3 && weeks[1].length > 3) {
+    weeks[0][3] = { day: 4, splitType: 'triceps', durationMin: 60, planText: 'Uppvärmning 8 min → tunga pressövningar → skull crushers → isolering → stretch 5 min', exercises: TRI_W1.map(ex => ({ ...ex, week: 1 })) }
+    weeks[1][3] = { day: 4, splitType: 'triceps', durationMin: 60, planText: 'Uppvärmning 8 min → lutande och smal press → overhead → dips och kabel → stretch 5 min', exercises: TRI_W2.map(ex => ({ ...ex, week: 2 })) }
+  }
+
   // ── Vecka 2, dag 1: Bröst – nya övningar, uppdelat på övre, mittre och nedre bröst (ca 60 min) ──
   const chestDip = {
     id: 'pectorals/chest-dip',
@@ -3798,6 +3894,14 @@ function ClientProfile() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const { t, language } = useLanguage()
+
+  // Kort, icke-läsbar nyckel per kund för egna extraövningar i localStorage (e-posten sparas inte i klartext)
+  const getExtrasUserKey = () => {
+    const str = profile?.email || 'gast'
+    let h = 0
+    for (let i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0
+    return (h >>> 0).toString(36)
+  }
 
   // Välj övningstext på besökarens språk när översättning finns, annars svenska/engelska
   const exField = (ex, field) => {
@@ -4257,8 +4361,8 @@ function ClientProfile() {
                                     {ex.zone && (
                                       <span style={{
                                         alignSelf: 'flex-start', fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '999px',
-                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet'].includes(ex.zone) ? '#dcfce7' : '#f3f4f6',
-                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet'].includes(ex.zone) ? '#166534' : '#374151'
+                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering'].includes(ex.zone) ? '#dcfce7' : '#f3f4f6',
+                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering'].includes(ex.zone) ? '#166534' : '#374151'
                                       }}>
                                         {ex.zone}
                                       </span>
@@ -4276,6 +4380,9 @@ function ClientProfile() {
                       </table>
                     </div>
                   </div>
+
+                  {/* Section 2b: EGNA EXTRAÖVNINGAR (efter 60 min) */}
+                  <CustomExtras storageKey={`mf_extra_${getExtrasUserKey()}_w${activeWeek}_d${currentDay.day}`} />
 
                   {/* Section 3: KOMMENTAR */}
                   <div style={{
