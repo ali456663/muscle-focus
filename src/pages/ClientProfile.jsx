@@ -67,7 +67,7 @@ function restSeconds(rest) {
   return /min/i.test(String(rest)) ? Math.round(v * 60) : v
 }
 
-function buildProgram({ trainingDays, equipment, experienceLevel, trainingDuration = '60 min', email = 'user' }) {
+function buildProgram({ trainingDays, equipment, experienceLevel, trainingDuration = '60 min', email = 'user', weight, height }) {
   const seedString = email || 'user';
   let h = 1779033703 ^ seedString.length;
   for (let i = 0; i < seedString.length; i++) {
@@ -4025,6 +4025,75 @@ const tricepsPushdownEx = {
     })
   }
 
+  // ── Uppvärmning före varje pass ──────────────────────────────────────────
+  // 1) Allmän uppvärmning: roddmaskin/crosstrainer 5–8 min. Vid övervikt (BMI ≥ 25):
+  //    10–15 min kondition i högre tempo – cykel, löpband eller hopprep – för mer energiförbrukning.
+  // 2) Ramp-up: 2 lättare set av dagens första basövning innan arbetsseten.
+  const kg = parseFloat(String(weight ?? '').replace(',', '.'))
+  const cm = parseFloat(String(height ?? '').replace(',', '.'))
+  const bmiVal = kg > 0 && cm > 0 ? kg / (cm / 100) ** 2 : null
+  const overweight = bmiVal !== null && bmiVal >= 25
+  const warmMin = overweight ? (shortMin === 30 ? '10 min' : '10–15 min') : '5–8 min'
+  const WARMUP = overweight
+    ? {
+        ...mk('cardio/warmup-cardio-choice', 'cardio/stationary-bike-run-v-3.gif', 'Cykel, löpband eller hopprep (välj en)', 'Uppvärmning: cykel, löpband eller hopprep', ['quadriceps', 'calves'], 'uppvärmning cykel löpband hopprep gym',
+          [
+            'Välj ETT alternativ: 🚴 motionscykel, 🏃 löpband eller 🪢 hopprep på golvet i gymmet.',
+            'Börja lugnt i 2 minuter och öka sedan till högt tempo.',
+            'Cykel: högt tempo med lätt till medelmotstånd. Löpband: rask gång i lutning eller lätt jogg.',
+            'Hopprep: 30–60 sekunder hopp, 30 sekunder vila – upprepa.',
+            'Totalt 10–15 minuter, inte mer – du ska ha energi kvar till styrkepasset.',
+          ],
+          [
+            'Högt tempo = du blir varm och andfådd men kan fortfarande säga korta meningar.',
+            'Ont i knän eller fötter? Välj cykeln – den är skonsammast för lederna.',
+            'Drick vatten före och efter uppvärmningen.',
+          ],
+          'Din uppvärmning är lite längre och i högre tempo. Det förbränner extra energi, höjer pulsen och gör musklerna och lederna redo för passet.',
+          [['Hjärta och lungor', 'Pulsen höjs gradvis så att kroppen är redo för tung träning.'], ['Ben och säte', 'Arbetar mest på cykel, löpband och hopprep.'], ['Hela kroppen', 'Blodflödet ökar och lederna blir smidigare.']]),
+        sets: 1, reps: warmMin, rest: '–', zone: 'Uppvärmning', isWarmup: true,
+      }
+    : {
+        ...mk('cardio/warmup-rowing', 'cardio/walk-elliptical-cross-trainer.gif', 'Roddmaskin / lätt kondition', 'Uppvärmning: roddmaskin / lätt kondition', ['lats', 'quadriceps'], 'roddmaskin teknik nybörjare',
+          [
+            'Sätt fötterna i remmarna och greppa handtaget med raka armar.',
+            'Tryck först ifrån med benen, luta sedan överkroppen lätt bakåt och dra handtaget mot nedre bröstet.',
+            'Gå tillbaka i omvänd ordning: armar fram, luta framåt, böj benen.',
+            'Ro i moderat tempo i 5–8 minuter.',
+            'Ingen roddmaskin ledig? Ta crosstrainern (som i demon) eller cykeln i stället.',
+          ],
+          [
+            'Kraften kommer från benen (ca 60 %), inte från armarna.',
+            'Håll ryggen rak – runda inte ländryggen.',
+            'Moderat tempo: du ska bli varm, inte trött.',
+          ],
+          'Uppvärmningen värmer upp hela kroppen och smörjer lederna så att du kan träna tyngre och säkrare.',
+          [['Hela kroppen', 'Roddmaskinen använder ben, rygg och armar samtidigt.'], ['Hjärta och lungor', 'Pulsen höjs lugnt inför passet.'], ['Leder', 'Ledvätskan värms upp och rörligheten ökar.']]),
+        sets: 1, reps: warmMin, rest: '–', zone: 'Uppvärmning', isWarmup: true,
+      }
+  ;[0, 1].forEach(w => {
+    weeks[w].forEach((day, i) => {
+      if (!day || day.splitType === 'rest' || !Array.isArray(day.exercises) || !day.exercises.length) return
+      const first = day.exercises[0]
+      const ramp = {
+        ...first,
+        name: `${first.name} (Ramp-up)`,
+        name_en: `${first.name_en || first.name} (Ramp-up)`,
+        sets: 2,
+        reps: '5–8',
+        rest: '1–2 min',
+        zone: 'Uppvärmning',
+        isWarmup: true,
+        note: 'Specifik uppvärmning inför passets tyngsta baslyft. Set 1: ca 40–50 % av arbetsvikten × 8 reps. Set 2: ca 60–70 % × 5 reps. Öka vikten gradvis – det ska kännas lätt, inte tröttande.',
+      }
+      weeks[w][i] = {
+        ...day,
+        planText: (day.planText || 'Uppvärmning 8 min → huvudpass ca 45 min → stretch 5 min').replace(/Uppvärmning [\d–-]+ min/, `Uppvärmning ${warmMin}`),
+        warmup: [{ ...WARMUP, week: w + 1 }, ramp],
+      }
+    })
+  })
+
   return { week1: weeks[0], week2: weeks[1], split }
 }
 
@@ -4455,7 +4524,9 @@ function ClientProfile() {
             equipment: data.equipmentAvailable || 'Fria vikter & maskiner',
             experienceLevel: data.experienceLevel || 'Nybörjare',
             trainingDuration: data.trainingDuration || '60 min',
-            email: profileData?.email || 'user'
+            email: profileData?.email || 'user',
+            weight: data.weight,
+            height: data.height,
           });
           setProgram(p);
 
@@ -4764,7 +4835,7 @@ function ClientProfile() {
                     </span>
                     {currentDay.durationMin && (
                       <div style={{ marginTop: '6px', fontSize: '0.82rem', color: '#374151', fontWeight: 600 }}>
-                        ⏱ ca {currentDay.durationMin} min · {currentDay.exercises.length} övningar · {currentDay.exercises.reduce((n, ex) => n + (Number(ex.sets) || 0), 0)} set · vila {(() => { const secs = currentDay.exercises.map(ex => restSeconds(ex.rest)).filter(n => Number.isFinite(n) && n > 2); return secs.length ? (Math.min(...secs) === Math.max(...secs) ? `${secs[0]}` : `${Math.min(...secs)}–${Math.max(...secs)}`) : '30–50' })()} sek
+                        ⏱ ca {currentDay.durationMin} min · {currentDay.exercises.filter(ex => !ex.isWarmup).length} övningar · {currentDay.exercises.filter(ex => !ex.isWarmup).reduce((n, ex) => n + (Number(ex.sets) || 0), 0)} set · vila {(() => { const secs = currentDay.exercises.filter(ex => !ex.isWarmup).map(ex => restSeconds(ex.rest)).filter(n => Number.isFinite(n) && n > 2); return secs.length ? (Math.min(...secs) === Math.max(...secs) ? `${secs[0]}` : `${Math.min(...secs)}–${Math.max(...secs)}`) : '30–50' })()} sek
                         <div style={{ fontWeight: 400, color: '#6b7280', marginTop: '2px' }}>
                           {currentDay.planText || 'Uppvärmning 8 min → huvudpass ca 45 min → stretch bröst & axlar 5 min'}
                         </div>
@@ -4778,7 +4849,7 @@ function ClientProfile() {
                   {/* Section 1: UPPVÄRMNING */}
                   <div style={{ marginBottom: '35px' }}>
                     <h3 style={{ fontSize: '1.25rem', fontWeight: '900', textTransform: 'uppercase', borderLeft: '4px solid #f97316', paddingLeft: '10px', color: '#111827', marginBottom: '14px' }}>
-                      Uppvärmning
+                      Uppvärmning <span style={{ fontSize: '0.72rem', color: '#6b7280', textTransform: 'none', fontWeight: 'normal', marginLeft: '8px' }}>(Klicka på en rad för video och instruktioner)</span>
                     </h3>
                     <div style={{ overflowX: 'auto' }}>
                       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', textAlign: 'left' }}>
@@ -4792,22 +4863,29 @@ function ClientProfile() {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
-                            <td style={{ padding: '12px 16px', fontWeight: 'bold', color: '#1f2937' }}>Roddmaskin / Lätt kondition</td>
-                            <td style={{ padding: '12px 16px' }}>1</td>
-                            <td style={{ padding: '12px 16px' }}>5-8 min</td>
-                            <td style={{ padding: '12px 16px' }}>-</td>
-                            <td style={{ padding: '12px 16px', color: '#4b5563' }}>Värm upp hela kroppen och smörj lederna. Moderat tempo.</td>
-                          </tr>
-                          {currentDay.exercises.length > 0 && (
-                            <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
-                              <td style={{ padding: '12px 16px', fontWeight: 'bold', color: '#1f2937' }}>{currentDay.exercises[0].name_en} (Ramp-up)</td>
-                              <td style={{ padding: '12px 16px' }}>2</td>
-                              <td style={{ padding: '12px 16px' }}>5-8 reps</td>
-                              <td style={{ padding: '12px 16px' }}>1-2 min</td>
-                              <td style={{ padding: '12px 16px', color: '#4b5563' }}>Specifik uppvärmning inför passets tyngsta baslyft. Gradvis tyngre vikter.</td>
+                          {(currentDay.warmup || []).map((ex, idx) => (
+                            <tr
+                              key={'warm' + idx}
+                              onClick={() => setSelectedEx({
+                                ...ex,
+                                name: ex.name_en || ex.name,
+                                gifUrl: ex.images?.classic?.start || ex.gifUrl,
+                                instructions: ex.instructions || ['Utför kontrollerat.'],
+                                youtubeUrl: ex.youtubeUrl || ''
+                              })}
+                              style={{ borderBottom: '1px solid #e5e7eb', cursor: 'pointer' }}
+                              className="pt-table-row warmup-row"
+                            >
+                              <td style={{ padding: '12px 16px', fontWeight: 'bold', color: '#1f2937' }}>
+                                <span style={{ color: '#f97316', marginRight: '8px' }}>🎬</span>
+                                <span style={{ borderBottom: '1px dashed #f97316' }}>{ex.name}</span>
+                              </td>
+                              <td style={{ padding: '12px 16px' }}>{ex.sets}</td>
+                              <td style={{ padding: '12px 16px' }}>{ex.reps}</td>
+                              <td style={{ padding: '12px 16px' }}>{ex.rest}</td>
+                              <td style={{ padding: '12px 16px', color: '#4b5563' }}>{ex.note}</td>
                             </tr>
-                          )}
+                          ))}
                         </tbody>
                       </table>
                     </div>
@@ -4863,8 +4941,8 @@ function ClientProfile() {
                                     {ex.zone && (
                                       <span style={{
                                         alignSelf: 'flex-start', fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '999px',
-                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet', 'Främre axel'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage', 'Bakre axel'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm', 'Sidoaxel'].includes(ex.zone) ? '#dcfce7' : ex.zone === 'Extra (90 min)' ? '#ede9fe' : ex.zone === 'Kondition' ? '#fee2e2' : '#f3f4f6',
-                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet', 'Främre axel'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage', 'Bakre axel'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm', 'Sidoaxel'].includes(ex.zone) ? '#166534' : ex.zone === 'Extra (90 min)' ? '#5b21b6' : ex.zone === 'Kondition' ? '#991b1b' : '#374151'
+                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet', 'Främre axel'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage', 'Bakre axel'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm', 'Sidoaxel'].includes(ex.zone) ? '#dcfce7' : ex.zone === 'Extra (90 min)' ? '#ede9fe' : ex.zone === 'Uppvärmning' ? '#ffedd5' : ex.zone === 'Kondition' ? '#fee2e2' : '#f3f4f6',
+                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet', 'Främre axel'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage', 'Bakre axel'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm', 'Sidoaxel'].includes(ex.zone) ? '#166534' : ex.zone === 'Extra (90 min)' ? '#5b21b6' : ex.zone === 'Uppvärmning' ? '#9a3412' : ex.zone === 'Kondition' ? '#991b1b' : '#374151'
                                       }}>
                                         {ex.zone}
                                       </span>
