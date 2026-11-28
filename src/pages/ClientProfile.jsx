@@ -19,6 +19,7 @@ import {
 import BodyTransformation from '../components/BodyTransformation'
 import CustomExtras from '../components/CustomExtras'
 import RestDayCard from '../components/RestDayCard'
+import { computeNutrition } from '../utils/nutrition'
 import './ClientProfile.css'
 
 // ─── Muskelnamn på svenska (för muskelchippet i övningsfönstret) ─────────────
@@ -57,6 +58,13 @@ function shuffle(arr) {
     [a[i], a[j]] = [a[j], a[i]]
   }
   return a
+}
+
+// Vila som sekunder: "45 sek" → 45, "1.5 min" → 90
+function restSeconds(rest) {
+  const v = parseFloat(String(rest || '').replace(',', '.'))
+  if (!Number.isFinite(v)) return NaN
+  return /min/i.test(String(rest)) ? Math.round(v * 60) : v
 }
 
 function buildProgram({ trainingDays, equipment, experienceLevel, trainingDuration = '60 min', email = 'user' }) {
@@ -3910,6 +3918,36 @@ const tricepsPushdownEx = {
     weeks[1][1] = { day: 2, splitType: 'back', durationMin: 60, planText: 'Uppvärmning 8 min → pendlayrodd → latsdrag och hantelrodd → maskin och kabel → stretch 5 min', exercises: W2_BACK.map(ex => ({ ...ex, week: 2 })) }
   }
 
+  // ── 1–3 dagar i veckan: helkroppspass ────────────────────────────────────
+  // Med få träningsdagar ger helkropp bäst resultat: varje muskel tränas 2–3 gånger i veckan.
+  // Ordning: tunga basövningar först, isolering sist. Max 3 set per övning. Vecka 2 = andra övningar.
+  if (['1-2', '3'].includes(trainingDays)) {
+    const fb = (ex) => ex && ({ ...ex, sets: Math.min(Number(ex.sets) || 3, 3) })
+    const FB = {
+      1: {
+        A: [fb(LEGS_W1[0]), fb(day1Exercises[0]), fb(day2Exercises[1]), fb(DAY6_W1[1]), fb(LEGS_W1[1]), fb(DAY5_W1[0]), fb(TRI_W1[4])],
+        B: [fb(day2Exercises[0]), fb(day1Exercises[1]), fb(day2Exercises[2]), fb(LEGS_W1[2]), fb(DAY6_W1[3]), fb(DAY5_W1[1]), fb(DAY5_W1[4])],
+        C: [fb(DAY6_W1[0]), fb(LEGS_W1[3]), fb(day2Exercises[4]), fb(day1Exercises[2]), fb(LEGS_W1[4]), fb(TRI_W1[2]), fb(DAY6_W1[4])],
+      },
+      2: {
+        A: [fb(LEGS_W2[0]), fb(week2Day1Exercises[0]), fb(NEW.pendlay), fb(DAY6_W2[1]), fb(LEGS_W2[2]), fb(DAY5_W2[2]), fb(TRI_W2[2])],
+        B: [fb(LEGS_W2[1]), fb(week2Day1Exercises[2]), fb(DAY5_W2[0]), fb(LEGS_W2[3]), fb(DAY6_W2[3]), fb(TRI_W2[3]), fb(DAY5_W2[3])],
+        C: [fb(DAY6_W2[0]), fb(LEGS_W2[5]), fb(NEW.dbRow), fb(week2Day1Exercises[4]), fb(LEGS_W2[4]), fb(DAY6_W2[5]), fb(TRI_W2[5])],
+      },
+    }
+    const PLAN = 'Uppvärmning 8 min → tunga basövningar för ben, bröst och rygg → axlar → armar → stretch 5 min'
+    const letters = trainingDays === '3' ? ['A', 'B', 'C'] : ['A', 'B']
+    ;[0, 1].forEach(w => {
+      weeks[w] = letters.map((L, i) => ({
+        day: i + 1,
+        splitType: 'full_body',
+        durationMin: 60,
+        planText: PLAN,
+        exercises: FB[w + 1][L].filter(Boolean).map(ex => ({ ...ex, week: w + 1 })),
+      }))
+    })
+  }
+
   // ── 90 minuter: 2 extra övningar för dagens muskelgrupp + 10 min kondition ──
   // Extraövningarna skiljer sig mellan vecka 1 och vecka 2 för varje dag.
   const is90 = String(trainingDuration).startsWith('90')
@@ -3960,6 +3998,32 @@ const tricepsPushdownEx = {
     })
   }
 
+  // ── Kortare pass: 30 och 45 min ──────────────────────────────────────────
+  // Övningarna ligger redan i ordningen tungt → lätt, så de första (basövningarna) behålls.
+  // Max 3 set per övning och vilan 30–50 sek gör att passet ryms i tiden.
+  const shortMin = String(trainingDuration).startsWith('30') ? 30 : String(trainingDuration).startsWith('45') ? 45 : null
+  if (shortMin) {
+    const keep = shortMin === 30 ? 4 : 6
+    const restCap = shortMin === 30 ? 60 : 75
+    const plan = shortMin === 30
+      ? 'Uppvärmning 5 min → de 4 viktigaste övningarna ca 20 min → stretch 3–5 min'
+      : 'Uppvärmning 6 min → basövningar först, sedan isolering ca 33 min → stretch 5 min'
+    ;[0, 1].forEach(w => {
+      weeks[w].forEach((day, i) => {
+        if (!day || day.splitType === 'rest' || !Array.isArray(day.exercises) || !day.exercises.length) return
+        weeks[w][i] = {
+          ...day,
+          durationMin: shortMin,
+          planText: plan,
+          exercises: day.exercises.slice(0, keep).map(ex => ({
+            ...ex,
+            sets: Math.min(Number(ex.sets) || 3, 3),
+            rest: restSeconds(ex.rest) > restCap ? `${restCap} sek` : ex.rest,
+          })),
+        }
+      })
+    })
+  }
 
   return { week1: weeks[0], week2: weeks[1], split }
 }
@@ -4380,6 +4444,11 @@ function ClientProfile() {
         }
 
         if (data) {
+          // Räkna om kalorier och makron med den uppdaterade formeln när underlaget finns
+          if (data.activityLevel) {
+            const fresh = computeNutrition({ ...data, age: parseInt(data.age, 10) || 25, gender: data.gender || 'Kvinna' });
+            if (fresh) data = { ...data, calories: { ...(data.calories || {}), ...fresh } };
+          }
           setProgramData(data);
           const p = buildProgram({
             trainingDays: data.trainingDays || '6-7',
@@ -4695,7 +4764,7 @@ function ClientProfile() {
                     </span>
                     {currentDay.durationMin && (
                       <div style={{ marginTop: '6px', fontSize: '0.82rem', color: '#374151', fontWeight: 600 }}>
-                        ⏱ ca {currentDay.durationMin} min · {currentDay.exercises.length} övningar · {currentDay.exercises.reduce((n, ex) => n + (Number(ex.sets) || 0), 0)} set · vila {(() => { const secs = currentDay.exercises.map(ex => parseInt(ex.rest, 10)).filter(Number.isFinite); return secs.length ? (Math.min(...secs) === Math.max(...secs) ? `${secs[0]}` : `${Math.min(...secs)}–${Math.max(...secs)}`) : '30–50' })()} sek
+                        ⏱ ca {currentDay.durationMin} min · {currentDay.exercises.length} övningar · {currentDay.exercises.reduce((n, ex) => n + (Number(ex.sets) || 0), 0)} set · vila {(() => { const secs = currentDay.exercises.map(ex => restSeconds(ex.rest)).filter(n => Number.isFinite(n) && n > 2); return secs.length ? (Math.min(...secs) === Math.max(...secs) ? `${secs[0]}` : `${Math.min(...secs)}–${Math.max(...secs)}`) : '30–50' })()} sek
                         <div style={{ fontWeight: 400, color: '#6b7280', marginTop: '2px' }}>
                           {currentDay.planText || 'Uppvärmning 8 min → huvudpass ca 45 min → stretch bröst & axlar 5 min'}
                         </div>
@@ -4815,7 +4884,7 @@ function ClientProfile() {
                   </div>
 
                   {/* Section 2b: EGNA EXTRAÖVNINGAR (efter 60 min) */}
-                  <CustomExtras key={`mf_extra_${getExtrasUserKey()}_w${activeWeek}_d${currentDay.day}`} storageKey={`mf_extra_${getExtrasUserKey()}_w${activeWeek}_d${currentDay.day}`} />
+                  <CustomExtras durationMin={currentDay.durationMin} key={`mf_extra_${getExtrasUserKey()}_w${activeWeek}_d${currentDay.day}`} storageKey={`mf_extra_${getExtrasUserKey()}_w${activeWeek}_d${currentDay.day}`} />
 
                   {/* Section 3: KOMMENTAR */}
                   <div style={{

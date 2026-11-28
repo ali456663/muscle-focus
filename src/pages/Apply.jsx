@@ -7,6 +7,7 @@ import { usePageTitle } from '../hooks/usePageTitle'
 import './Apply.css'
 import { getPasswordError, isPasswordValid } from '../utils/passwordPolicy'
 import { FREE_TRIAL_TERMS } from '../data/freeTrialTerms'
+import { computeNutrition, weeksToGoal } from '../utils/nutrition'
 
 
 // Visningsetiketter för val vars värden lagras på svenska
@@ -734,66 +735,27 @@ function Apply() {
   }
 
   const calculateCaloriesAndMacros = () => {
-    const weight = parseFloat(formData.weight)
-    const height = parseFloat(formData.height)
-    const age = parseInt(formData.age, 10) || 25
-    const gender = formData.gender || 'Kvinna'
+    // Gemensam beräkning (src/utils/nutrition.js) – samma siffror i ansökan, profil och "Min drömkropp"
+    const n = computeNutrition({
+      weight: formData.weight,
+      height: formData.height,
+      age: parseInt(formData.age, 10) || 25,
+      gender: formData.gender || 'Kvinna',
+      activityLevel: formData.activityLevel,
+      weightGoal: formData.weightGoal,
+    })
+    if (!n) return null
 
-    if (!weight || !height || !age) return null
-
-    // Mifflin-St Jeor Formula
-    let bmr = 0
-    if (gender === 'Man') {
-      bmr = 10 * weight + 6.25 * height - 5 * age + 5
-    } else {
-      bmr = 10 * weight + 6.25 * height - 5 * age - 161
-    }
-
-    // Activity Factor (PAL)
-    let factor = 1.2
-    if (formData.activityLevel === 'Stillasittande') factor = 1.2
-    else if (formData.activityLevel === 'Lätt aktiv') factor = 1.375
-    else if (formData.activityLevel === 'Måttligt aktiv') factor = 1.55
-    else if (formData.activityLevel === 'Mycket aktiv') factor = 1.725
-    else if (formData.activityLevel === 'Extremt aktiv') factor = 1.9
-
-    const tdee = Math.round(bmr * factor)
-
-    // Goal adjustments (Deficit / Surplus / Balance)
-    let goalAdjustment = 0
+    const adj = n.goalAdjustment
+    const abs = Math.abs(adj)
     let goalLabel = language === 'fa' ? 'حفظ وزن (۰ کیلوکالری)' : language === 'en' ? 'Maintenance (0 kcal)' : 'Balans (0 kcal)'
-    if (formData.weightGoal === 'Viktnedgång') {
-      goalAdjustment = -500
-      goalLabel = language === 'fa' ? 'کسری کالری (۵۰۰- کیلوکالری)' : language === 'en' ? 'Deficit (-500 kcal)' : 'Underskott (-500 kcal)'
-    } else if (formData.weightGoal === 'Viktuppgång') {
-      goalAdjustment = 300
-      goalLabel = language === 'fa' ? 'مازاد کالری (۳۰۰+ کیلوکالری)' : language === 'en' ? 'Surplus (+300 kcal)' : 'Överskott (+300 kcal)'
+    if (adj < 0) {
+      goalLabel = language === 'fa' ? `کسری کالری (-${abs} کیلوکالری)` : language === 'en' ? `Deficit (-${abs} kcal)` : `Underskott (-${abs} kcal)`
+    } else if (adj > 0) {
+      goalLabel = language === 'fa' ? `مازاد کالری (+${abs} کیلوکالری)` : language === 'en' ? `Surplus (+${abs} kcal)` : `Överskott (+${abs} kcal)`
     }
 
-    const targetCalories = Math.max(1000, tdee + goalAdjustment)
-
-    // Macros:
-    // 1. Protein: 1.8g per kg kroppsvikt
-    // 2. Fett: 0.9g per kg kroppsvikt
-    // 3. Kolhydrater: Resterande kalorier
-    const protein = Math.round(1.8 * weight)
-    const fat = Math.round(0.9 * weight)
-    const proteinKcal = protein * 4
-    const fatKcal = fat * 9
-    const carbsKcal = Math.max(0, targetCalories - (proteinKcal + fatKcal))
-    const carbs = Math.round(carbsKcal / 4)
-
-    return {
-      bmr: Math.round(bmr),
-      factor,
-      tdee,
-      goalAdjustment,
-      goalLabel,
-      targetCalories,
-      protein,
-      fat,
-      carbs
-    }
+    return { ...n, goalLabel }
   }
 
   const bmi = calculateBmi()
@@ -1446,6 +1408,9 @@ function Apply() {
                     <option value="Mycket aktiv">{language === 'fa' ? 'بسیار فعال (PAL 1.725 - ۶ تا ۷ بار در هفته)' : language === 'en' ? 'Very Active (PAL 1.725 - 6-7x/week)' : 'Mycket aktiv (PAL 1,725 - Träning 6–7 ggr/v)'}</option>
                     <option value="Extremt aktiv">{language === 'fa' ? 'فوق‌العاده فعال (PAL 1.9 - کار بدنی)' : language === 'en' ? 'Extremely Active (PAL 1.9 - Physical job)' : 'Extremt aktiv (PAL 1,9 - Hårt jobb + träning)'}</option>
                   </select>
+                  <small style={{ display: 'block', marginTop: '4px', fontSize: '0.68rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                    {language === 'fa' ? 'هم کار روزانه و هم ورزش را حساب کنید. مطمئن نیستید؟ سطح پایین‌تر را انتخاب کنید.' : language === 'en' ? 'Count both your job and your training. Unsure? Pick the lower level.' : 'Räkna in både jobb och träning. Osäker? Välj den lägre nivån.'}
+                  </small>
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label htmlFor="weightGoal" style={{ fontSize: '0.78rem' }}>{language === 'fa' ? 'هدف کالری' : language === 'en' ? 'Caloric Goal' : 'Mål för kaloriberäkning'}</label>
@@ -1456,8 +1421,8 @@ function Apply() {
                     onChange={handleChange}
                     style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-glass)', padding: '10px', height: '42px', color: 'var(--text-white)' }}
                   >
-                    <option value="Viktnedgång">{language === 'fa' ? 'کاهش وزن (کسری ۵۰۰- کیلوکالری)' : language === 'en' ? 'Weight Loss (Deficit -500 kcal)' : 'Viktnedgång (Underskott -500 kcal)'}</option>
-                    <option value="Viktuppgång">{language === 'fa' ? 'افزایش عضله (مازاد ۳۰۰+ کیلوکالری)' : language === 'en' ? 'Muscle Gain (Surplus +300 kcal)' : 'Viktuppgång / Muskelbygge (Överskott +300 kcal)'}</option>
+                    <option value="Viktnedgång">{language === 'fa' ? 'کاهش وزن (کسری حدود ۲۰٪)' : language === 'en' ? 'Weight Loss (approx. 20% deficit)' : 'Viktnedgång (Underskott ca 20 %)'}</option>
+                    <option value="Viktuppgång">{language === 'fa' ? 'افزایش عضله (مازاد حدود ۱۰٪)' : language === 'en' ? 'Muscle Gain (approx. 10% surplus)' : 'Viktuppgång / Muskelbygge (Överskott ca 10 %)'}</option>
                     <option value="Bibehålla">{language === 'fa' ? 'حفظ وزن (تعادل ۰ کیلوکالری)' : language === 'en' ? 'Maintenance (Balance 0 kcal)' : 'Bibehålla vikten (Balans 0 kcal)'}</option>
                   </select>
                 </div>
@@ -1609,6 +1574,18 @@ function Apply() {
                               <span>🔥 {language === 'fa' ? 'کالری هدف روزانه:' : language === 'en' ? 'Daily Target Calories:' : 'Ditt dagliga kalorimål:'}</span>
                               <span style={{ fontSize: '1rem', color: 'var(--text-white)' }}>{metrics.targetCalories} kcal</span>
                             </div>
+                            <p style={{ margin: '-6px 0 14px', fontSize: '0.74rem', color: 'var(--text-silver)', lineHeight: 1.5 }}>
+                              {metrics.goalLabel} · TDEE {metrics.tdee} kcal
+                              {metrics.weeklyChangeKg !== 0 && (
+                                <> · {language === 'fa' ? 'حدود' : language === 'en' ? 'approx.' : 'ca'} {metrics.weeklyChangeKg > 0 ? '+' : '−'}{Math.abs(metrics.weeklyChangeKg).toLocaleString(language === 'en' ? 'en-US' : 'sv-SE')} kg/{language === 'fa' ? 'هفته' : language === 'en' ? 'week' : 'vecka'}</>
+                              )}
+                              <br />
+                              {language === 'fa'
+                                ? `پروتئین ${metrics.proteinPerKg} گرم به ازای هر کیلو (وزن مرجع ${metrics.refWeight} کیلو)`
+                                : language === 'en'
+                                  ? `Protein ${metrics.proteinPerKg} g per kg (reference weight ${metrics.refWeight} kg)`
+                                  : `Protein ${String(metrics.proteinPerKg).replace('.', ',')} g per kg (referensvikt ${metrics.refWeight} kg)`}
+                            </p>
 
                             {/* Macro Breakdown Rows */}
                             <h5 style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -2201,6 +2178,42 @@ function Apply() {
                     })}
                   </div>
                 </div>
+
+                {/* Kontroll: stämmer aktivitetsnivån med träningsmängden? Fel nivå är vanligaste orsaken till fel kalorimål. */}
+                {(() => {
+                  const LEVELS = ['Stillasittande', 'Lätt aktiv', 'Måttligt aktiv', 'Mycket aktiv', 'Extremt aktiv']
+                  const daysNum = { '1-2': 1.5, '3': 3, '4': 4, '5': 5, '6-7': 6.5 }[formData.trainingDays] || 3
+                  const weeklyMin = daysNum * (parseInt(formData.trainingDuration, 10) || 60)
+                  const suggested = weeklyMin <= 150 ? 1 : weeklyMin <= 300 ? 2 : 3
+                  const chosen = LEVELS.indexOf(formData.activityLevel)
+                  if (chosen < 0) return null
+                  const tooHigh = chosen >= 3 && chosen > suggested
+                  const tooLow = chosen < suggested - 1
+                  if (!tooHigh && !tooLow) return null
+                  const target = LEVELS[suggested]
+                  const now = calculateCaloriesAndMacros()
+                  const alt = computeNutrition({ ...formData, age: parseInt(formData.age, 10) || 25, gender: formData.gender || 'Kvinna', activityLevel: target })
+                  const hours = (Math.round(weeklyMin / 6) / 10).toLocaleString(language === 'en' ? 'en-US' : 'sv-SE')
+                  const msg = language === 'fa'
+                    ? `شما سطح فعالیت «${formData.activityLevel}» را انتخاب کرده‌اید اما حدود ${hours} ساعت در هفته تمرین می‌کنید. ${tooHigh ? 'اگر شغل فیزیکی ندارید، کالری هدف ممکن است خیلی بالا باشد.' : 'تمرین شما انرژی بیشتری مصرف می‌کند، کالری هدف ممکن است خیلی پایین باشد.'}`
+                    : language === 'en'
+                      ? `You chose "${formData.activityLevel}" but train about ${hours} hours a week. ${tooHigh ? 'Unless you have a physical job, your calorie target may be too high.' : 'Your training burns more energy, so your calorie target may be too low.'}`
+                      : `Du har valt aktivitetsnivå "${formData.activityLevel}" men tränar ca ${hours} timmar i veckan. ${tooHigh ? 'Om du inte har ett fysiskt jobb kan kalorimålet bli för högt.' : 'Träningen gör av med mer energi, så kalorimålet kan bli för lågt.'}`
+                  return (
+                    <div role="status" style={{ marginBottom: '20px', padding: '12px 14px', borderRadius: '6px', border: '1px solid rgba(245, 158, 11, 0.35)', background: 'rgba(245, 158, 11, 0.08)', fontSize: '0.8rem', color: 'var(--text-silver)', lineHeight: 1.5 }}>
+                      <strong style={{ color: '#f59e0b' }}>⚠️ {language === 'fa' ? 'بررسی کالری' : language === 'en' ? 'Calorie check' : 'Kontroll av kalorimålet'}</strong>
+                      <p style={{ margin: '4px 0 8px' }}>{msg}</p>
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, activityLevel: target }))}
+                        style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid var(--accent-gold)', background: 'rgba(184, 149, 71, 0.15)', color: 'var(--text-white)', fontWeight: 'bold', fontSize: '0.78rem', cursor: 'pointer' }}
+                      >
+                        {language === 'fa' ? `تغییر به «${target}»` : language === 'en' ? `Change to "${target}"` : `Ändra till "${target}"`}
+                        {now && alt ? ` (${now.targetCalories} → ${alt.targetCalories} kcal)` : ''}
+                      </button>
+                    </div>
+                  )
+                })()}
 
                 {/* Location */}
                 <div style={{ marginBottom: '20px' }}>
@@ -3009,10 +3022,9 @@ function Apply() {
                   {(() => {
                     const currentW = parseFloat(formData.weight)
                     const targetW = parseFloat(formData.targetWeight)
-                    const weightDiff = currentW - targetW
                     
-                    // Predict date: assume a healthy, sustainable loss of 0.75 kg per week
-                    const weeksNeeded = Math.max(Math.ceil(weightDiff / 0.75), 1)
+                    // Prognos utifrån kundens faktiska kalorimål (underskott/överskott → kg per vecka)
+                    const weeksNeeded = weeksToGoal(currentW, targetW, calculateCaloriesAndMacros()) || 1
                     const targetDateObj = new Date()
                     targetDateObj.setDate(targetDateObj.getDate() + (weeksNeeded * 7))
                     

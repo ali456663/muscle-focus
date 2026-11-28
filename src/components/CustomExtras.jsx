@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 /*
  * "Egna extraövningar" – kunden kan själv lägga till övningar att göra efter
- * det ordinarie 60-minuterspasset. Sparas i webbläsaren (localStorage) per
+ * det ordinarie passet. Sparas i webbläsaren (localStorage) per
  * kund, vecka och dag. Synkas inte till servern.
  * Föräldern sätter key={storageKey} så att komponenten startar om när dag/vecka byts.
  */
@@ -26,7 +26,7 @@ const input = {
   fontSize: '0.85rem', color: '#111827', background: '#fff', boxSizing: 'border-box',
 }
 
-export default function CustomExtras({ storageKey }) {
+export default function CustomExtras({ storageKey, durationMin }) {
   const [items, setItems] = useState(() => load(storageKey))
   const [form, setForm] = useState(EMPTY)
   const [error, setError] = useState('')
@@ -65,7 +65,7 @@ export default function CustomExtras({ storageKey }) {
         Extra – dina egna övningar
       </h3>
       <p style={{ margin: '0 0 14px', fontSize: '0.85rem', color: '#4b5563' }}>
-        Vill du träna mer efter de 60 minuterna? Lägg till egna övningar här. De sparas för den här dagen på den här enheten.
+        Vill du träna mer efter de {durationMin || 60} minuterna? Lägg till egna övningar här. De sparas för den här dagen på den här enheten.
       </p>
 
       {items.length > 0 && (

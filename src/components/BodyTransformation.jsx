@@ -1,5 +1,6 @@
 import { useId } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
+import { computeNutrition, weeksToGoal } from '../utils/nutrition'
 import './BodyTransformation.css'
 
 /*
@@ -345,7 +346,11 @@ export default function BodyTransformation({ data, compact = false }) {
   const nowType = currentTypeFrom(data, bmiNow)
   const goalType = desiredTypeFrom(data)
   const diff = target - weight
-  const weeks = Math.abs(diff) < 0.5 ? null : Math.max(2, Math.ceil(Math.abs(diff) / (diff < 0 ? 0.75 : 0.35)))
+  // Tidsprognos utifrån kundens kalorimål (samma beräkning som i ansökan och profilen)
+  const nutrition = data.calories?.weeklyChangeKg !== undefined
+    ? data.calories
+    : computeNutrition({ ...data, age: parseInt(data.age, 10) || 25, gender: data.gender || 'Kvinna' })
+  const weeks = weeksToGoal(weight, target, nutrition)
   const benefits = tx.benefits[goalType]
 
   const stat = (labelKey, value) => (
