@@ -18,6 +18,7 @@ import {
 } from '../data/exercises'
 import BodyTransformation from '../components/BodyTransformation'
 import CustomExtras from '../components/CustomExtras'
+import RestDayCard from '../components/RestDayCard'
 import './ClientProfile.css'
 
 // ─── Muskelnamn på svenska (för muskelchippet i övningsfönstret) ─────────────
@@ -58,7 +59,7 @@ function shuffle(arr) {
   return a
 }
 
-function buildProgram({ trainingDays, equipment, experienceLevel, email = 'user' }) {
+function buildProgram({ trainingDays, equipment, experienceLevel, trainingDuration = '60 min', email = 'user' }) {
   const seedString = email || 'user';
   let h = 1779033703 ^ seedString.length;
   for (let i = 0; i < seedString.length; i++) {
@@ -3103,7 +3104,8 @@ const tricepsPushdownEx = {
   const day1Exercises = CHEST_DAY_1
     .map(cfg => {
       const base = chestPool.find(ex => ex.id === cfg.id)
-      return base ? { ...base, ...cfg, week: 1, showTips: true } : null
+      // Bröstövningarna har redan egna block med tekniktips i övningsfönstret
+      return base ? { ...base, ...cfg, week: 1, showTips: false } : null
     })
     .filter(Boolean)
   if (day1Exercises.length) {
@@ -3719,7 +3721,8 @@ const tricepsPushdownEx = {
   const week2Day1Exercises = CHEST_WEEK2_DAY1
     .map(cfg => {
       const base = cfg.id === chestDip.id ? chestDip : chestPool.find(ex => ex.id === cfg.id)
-      return base ? { ...base, ...cfg, week: 2, showTips: true } : null
+      // Bara bröstdips saknar eget tipsblock – övriga bröstövningar har det redan
+      return base ? { ...base, ...cfg, week: 2, showTips: cfg.id === chestDip.id } : null
     })
     .filter(Boolean)
   if (week2Day1Exercises.length && weeks[1].length) {
@@ -3731,6 +3734,232 @@ const tricepsPushdownEx = {
       exercises: week2Day1Exercises,
     }
   }
+
+  // ── Generell övningsbyggare för vecka 2 dag 2 och 90-minuterstilläggen ──
+  const mk = (id, gifPath, name, name_en, primary, ytQuery, instructions, tips, note, musclesSv) => ({
+    id, name, name_en,
+    equipment: /barbell|ez/.test(id) ? 'barbell' : id.includes('dumbbell') ? 'dumbbell' : id.includes('cable') ? 'cable' : id.startsWith('cardio') ? 'kondition' : 'maskin / kroppsvikt',
+    primary_muscles: primary, ...withGif(gifPath), youtubeUrl: yt(ytQuery),
+    instructions, tips, note, musclesSv, showTips: true,
+  })
+  const BACK_TIPS = {
+    'back/cable-reverse-grip-pulldown': {
+      tips: ['Underhandsgrepp, axelbrett.', 'Dra stången mot övre bröstet med armbågarna nära kroppen.', 'Full sträckning i toppen.'],
+      musclesSv: [['Latissimus dorsi', 'Huvudmålet – nedre delen arbetar extra med underhandsgrepp.'], ['Biceps', 'Mycket aktiv med underhandsgrepp.']],
+    },
+    'back/lever-alternating-narrow-grip-seated-row': {
+      tips: ['Bröstet mot dynan hela tiden.', 'Dra en arm i taget och kläm skulderbladet bakåt.', 'Kontrollerad väg tillbaka.'],
+      musclesSv: [['Mellersta ryggen (Rhomboideus, mellersta kappmuskeln)', 'Drar ihop skulderbladen.'], ['Latissimus dorsi', 'Hjälper till i dragrörelsen.']],
+    },
+    'back/cable-lateral-pulldown-vbar': {
+      tips: ['Luta dig lätt bakåt med bröstet upp.', 'Dra V-handtaget mot övre bröstet.', 'Låt latsen sträckas i toppen.'],
+      musclesSv: [['Latissimus dorsi', 'Huvudmålet.'], ['Stora rundmuskeln och biceps', 'Hjälper till.']],
+    },
+    'back/straight-back-seated-row': {
+      tips: ['Sitt helt upprätt – ingen gungning.', 'Dra mot magen och kläm skulderbladen i 1 sekund.', 'Släpp kontrollerat.'],
+      musclesSv: [['Mellersta ryggen', 'Huvudmålet – tjocklek.'], ['Bakre axeln och biceps', 'Assisterar.']],
+    },
+  }
+  const fromBack = (id, extra) => {
+    const base = backPool.find(ex => ex.id === id)
+    return base ? { ...base, ...(BACK_TIPS[id] || {}), ...extra, showTips: true } : null
+  }
+  const NEW = {
+    pendlay: mk('upper-back/barbell-pendlay-row', 'upper-back/barbell-pendlay-row.gif', 'Pendlay Row (Pendlayrodd)', 'Pendlay Row', ['latissimus_dorsi', 'rhomboids'], 'pendlay row teknik',
+      ['Fäll fram tills överkroppen är nästan parallell med golvet, stången på golvet.', 'Dra stången explosivt mot nedre bröstet med rak rygg.', 'Sänk stången tillbaka till golvet och nollställ inför varje rep.'],
+      ['Ryggen rak och stilla – bara armarna och skulderbladen rör sig.', 'Varje rep startar från golvet.', 'Tung basövning: vila 90 sekunder.'],
+      'Pendlayrodd är en tung och explosiv basövning för hela ryggen.',
+      [['Latissimus dorsi', 'Drar armarna bakåt.'], ['Mellersta ryggen', 'Drar ihop skulderbladen.'], ['Ryggresare', 'Håller överkroppen stilla.']]),
+    dbRow: mk('upper-back/dumbbell-bent-over-row', 'upper-back/dumbbell-bent-over-row.gif', 'Dumbbell Bent-over Row (Framåtböjd hantelrodd)', 'Dumbbell Bent-over Row', ['latissimus_dorsi'], 'hantelrodd framåtböjd teknik',
+      ['Fäll fram med rak rygg och en hantel i varje hand.', 'Dra hantlarna mot höfterna med armbågarna nära kroppen.', 'Sänk kontrollerat till raka armar.'],
+      ['Tänk "armbågarna mot fickorna".', 'Ingen gungning med överkroppen.', 'Kläm i toppen.'],
+      'Framåtböjd hantelrodd ger lång rörelsebana och jämnar ut sidoskillnader.',
+      [['Latissimus dorsi', 'Huvudmålet.'], ['Mellersta ryggen och bakre axeln', 'Hjälper till.']]),
+    shrug: mk('traps/barbell-shrug', 'traps/barbell-shrug.gif', 'Barbell Shrug (Axelryckningar med skivstång)', 'Barbell Shrug', ['trapezius'], 'shrugs skivstång teknik',
+      ['Stå med stången framför låren och raka armar.', 'Lyft axlarna rakt upp mot öronen.', 'Håll 1 sekund och sänk långsamt.'],
+      ['Rulla inte axlarna – rakt upp och ned.', 'Armarna raka hela tiden.'],
+      'Axelryckningar bygger övre kappmuskeln och ger en kraftfullare nacke och axelparti.',
+      [['Övre kappmuskeln (Trapezius)', 'Huvudmålet.']]),
+    hyper: mk('spine/hyperextension', 'spine/hyperextension.gif', 'Back Extension (Ryggresningar)', 'Back Extension', ['erector_spinae'], 'ryggresningar teknik',
+      ['Ställ in bänken så att höften ligger precis ovanför dynan.', 'Sänk överkroppen med rak rygg.', 'Res dig upp tills kroppen är rak – inte längre.'],
+      ['Svanka inte i toppen.', 'Håll en viktskiva mot bröstet när det blir lätt.'],
+      'Ryggresningar stärker ländryggen och skyddar ryggen i tunga lyft.',
+      [['Ryggresare', 'Huvudmålet.'], ['Säte och baksida lår', 'Hjälper till.']]),
+    straightArm: mk('lats/cable-straight-arm-pulldown', 'lats/cable-straight-arm-pulldown.gif', 'Straight-Arm Pulldown (Raka armar i kabel)', 'Straight-Arm Pulldown', ['latissimus_dorsi'], 'straight arm pulldown teknik',
+      ['Stå framför kabelmaskinen med stången fäst högt och nästan raka armar.', 'Pressa stången ned i en båge mot låren.', 'Låt den gå tillbaka kontrollerat.'],
+      ['Armarna nästan raka hela vägen.', 'Känn latsen arbeta – inte triceps.'],
+      'Raka armar i kabel isolerar latsen utan att biceps hjälper till.',
+      [['Latissimus dorsi', 'Huvudmålet.'], ['Stora rundmuskeln', 'Hjälper till.']]),
+    dbShrug: mk('traps/dumbbell-shrug', 'traps/dumbbell-shrug.gif', 'Dumbbell Shrug (Axelryckningar med hantlar)', 'Dumbbell Shrug', ['trapezius'], 'dumbbell shrug teknik',
+      ['Stå med en hantel i varje hand vid sidorna.', 'Lyft axlarna rakt upp.', 'Håll 1 sekund och sänk långsamt.'],
+      ['Ingen rullning av axlarna.', 'Tyngre vikt, kort rörelse.'],
+      'Hantelryckningar tränar kappmuskeln med fri armposition.',
+      [['Övre kappmuskeln', 'Huvudmålet.']]),
+    dbDecline: mk('pectorals/dumbbell-decline-bench-press', 'pectorals/dumbbell-decline-bench-press.gif', 'Decline Dumbbell Press (Nedåtlutande hantelpress)', 'Decline Dumbbell Press', ['pectoralis_major'], 'decline dumbbell press teknik',
+      ['Ligg på en nedåtlutad bänk med fötterna fixerade.', 'Pressa hantlarna upp över nedre bröstet.', 'Sänk kontrollerat till bröstets sidor.'],
+      ['Ta hjälp att komma upp i position med hantlarna.', 'Armbågarna ca 45 grader från kroppen.'],
+      'Nedåtlutande press betonar nedre delen av bröstet.',
+      [['Nedre bröstmuskeln', 'Huvudmålet.'], ['Triceps', 'Sträcker armarna.']]),
+    upperCross: mk('pectorals/cable-upper-chest-crossovers', 'pectorals/cable-upper-chest-crossovers.gif', 'Low-to-High Cable Crossover (Kabelcrossover nerifrån)', 'Low-to-High Cable Crossover', ['pectoralis_major'], 'low to high cable crossover',
+      ['Fäst handtagen lågt och stå i mitten av maskinen.', 'Dra handtagen uppåt och inåt till ansiktshöjd.', 'Kläm övre bröstet och släpp kontrollerat.'],
+      ['Lätt böjda armbågar som är fixerade.', 'Rörelsen går snett uppåt.'],
+      'Kabelcrossover nerifrån formar övre delen av bröstet.',
+      [['Övre bröstmuskeln', 'Huvudmålet.'], ['Främre axeln', 'Hjälper till.']]),
+    seatedCurl: mk('hamstrings/lever-seated-leg-curl', 'hamstrings/lever-seated-leg-curl.gif', 'Seated Leg Curl (Sittande lårcurl)', 'Seated Leg Curl', ['hamstrings'], 'sittande lårcurl teknik',
+      ['Sitt med dynan bakom hälarna och lårdynan fast över knäna.', 'Böj knäna och dra dynan under stolen.', 'Släpp tillbaka kontrollerat.'],
+      ['Luta överkroppen lätt framåt för mer stretch.', 'Paus 1 sekund i botten.'],
+      'Sittande lårcurl tränar baksida lår i stretchat läge.',
+      [['Baksida lår', 'Huvudmålet.']]),
+    walkingLunge: mk('glutes/walking-lunge', 'glutes/walking-lunge.gif', 'Walking Lunge (Gående utfall)', 'Walking Lunge', ['quadriceps', 'gluteus_maximus'], 'walking lunge teknik',
+      ['Ta ett långt kliv framåt och sänk bakre knät mot golvet.', 'Tryck ifrån och kliv direkt fram med andra benet.', 'Fortsätt framåt i angivet antal steg.'],
+      ['Håll överkroppen upprätt.', 'Hantlar i händerna när det blir lätt.'],
+      'Gående utfall bygger ben och säte och ger samtidigt puls.',
+      [['Framsida lår och säte', 'Huvudmålet.'], ['Vader och bål', 'Stabiliserar.']]),
+    dbRdl: mk('glutes/dumbbell-romanian-deadlift', 'glutes/dumbbell-romanian-deadlift.gif', 'Dumbbell Romanian Deadlift (Rumänska marklyft med hantlar)', 'Dumbbell Romanian Deadlift', ['hamstrings'], 'dumbbell romanian deadlift teknik',
+      ['Stå med hantlarna framför låren och lätt böjda knän.', 'För höften bakåt och låt hantlarna glida längs benen.', 'Res dig upp genom att pressa höften framåt.'],
+      ['Rak rygg hela vägen.', 'Känn stretchen i baksida lår.'],
+      'Rumänska marklyft med hantlar tränar baksida lår och säte med fri rörelse.',
+      [['Baksida lår', 'Huvudmålet.'], ['Säte och ryggresare', 'Hjälper till.']]),
+    goblet: mk('quads/dumbbell-goblet-squat', 'quads/dumbbell-goblet-squat.gif', 'Goblet Squat (Gobletknäböj)', 'Goblet Squat', ['quadriceps'], 'goblet squat teknik',
+      ['Håll en hantel lodrätt mot bröstet.', 'Sätt dig ned mellan hälarna med rak rygg.', 'Tryck upp genom hela foten.'],
+      ['Armbågarna mellan knäna i botten.', 'Bröstet upp hela vägen.'],
+      'Gobletknäböj är en skonsam knäböj som förbättrar tekniken och rörligheten.',
+      [['Framsida lår', 'Huvudmålet.'], ['Säte och bål', 'Hjälper till.']]),
+    ohRope: mk('triceps/cable-overhead-triceps-extension-rope', 'triceps/cable-overhead-triceps-extension-rope-attachment.gif', 'Overhead Rope Extension (Tricepsförlängning över huvudet med rep)', 'Overhead Rope Extension', ['triceps_brachii'], 'overhead cable triceps extension rope',
+      ['Stå med ryggen mot kabelmaskinen och repet bakom huvudet.', 'Sträck armarna framåt-uppåt.', 'Böj tillbaka kontrollerat till full stretch.'],
+      ['Armbågarna pekar framåt och är stilla.', 'Spänn bålen.'],
+      'Tricepsförlängning över huvudet tränar det långa tricepshuvudet i stretch.',
+      [['Triceps – långa huvudet', 'Huvudmålet.']]),
+    cableKick: mk('triceps/cable-kickback', 'triceps/cable-kickback.gif', 'Cable Kickback (Kabelkickback)', 'Cable Kickback', ['triceps_brachii'], 'cable kickback triceps',
+      ['Fäll fram med ett handtag fäst lågt.', 'Håll överarmen intill kroppen och sträck armen bakåt.', 'Kläm och släpp kontrollerat.'],
+      ['Bara underarmen rör sig.', 'Lätt vikt.'],
+      'Kabelkickback ger spänning i fullt kontraherat läge.',
+      [['Triceps', 'Huvudmålet.']]),
+    dbLying: mk('triceps/dumbbell-lying-triceps-extension', 'triceps/dumbbell-lying-triceps-extension.gif', 'Dumbbell Lying Extension (Liggande tricepspress med hantlar)', 'Dumbbell Lying Triceps Extension', ['triceps_brachii'], 'dumbbell lying triceps extension',
+      ['Ligg på bänken med hantlarna på raka armar.', 'Böj armbågarna och sänk hantlarna bredvid huvudet.', 'Sträck armarna igen.'],
+      ['Överarmarna stilla.', 'Handflatorna mot varandra skonar armbågarna.'],
+      'Liggande tricepspress med hantlar låter varje arm arbeta för sig.',
+      [['Triceps', 'Huvudmålet.']]),
+    closePush: mk('triceps/close-grip-push-up', 'triceps/close-grip-push-up.gif', 'Close-Grip Push-up (Smala armhävningar)', 'Close-Grip Push-up', ['triceps_brachii'], 'close grip push up',
+      ['Händerna axelbrett eller smalare under bröstet.', 'Sänk kroppen med armbågarna nära sidorna.', 'Pressa upp.'],
+      ['Kroppen rak.', 'På knäna om det är för tungt.'],
+      'Smala armhävningar är en effektiv avslutning för triceps.',
+      [['Triceps', 'Huvudmålet.'], ['Bröst och bål', 'Hjälper till.']]),
+    zottman: mk('biceps/dumbbell-zottman-curl', 'biceps/dumbbell-zottman-curl.gif', 'Zottman Curl (Zottmancurl)', 'Zottman Curl', ['biceps_brachii', 'brachioradialis'], 'zottman curl teknik',
+      ['Curla upp med underhandsgrepp.', 'Vrid handflatorna nedåt i toppen.', 'Sänk långsamt med överhandsgrepp.'],
+      ['Långsam nedfas – det är där underarmen tränas.'],
+      'Zottmancurl tränar både biceps och underarmar i samma rörelse.',
+      [['Biceps', 'Arbetar på vägen upp.'], ['Underarmar', 'Arbetar på vägen ned.']]),
+    ropeHammer: mk('biceps/cable-hammer-curl-rope', 'biceps/cable-hammer-curl-with-rope.gif', 'Rope Hammer Curl (Hammercurl i kabel med rep)', 'Rope Hammer Curl', ['brachialis'], 'cable rope hammer curl',
+      ['Greppa repet i kabelmaskinen med neutralt grepp.', 'Curla upp med armbågarna intill sidorna.', 'Sänk kontrollerat.'],
+      ['Tummarna uppåt.', 'Konstant spänning hela vägen.'],
+      'Hammercurl i kabel ger jämn belastning på brachialis.',
+      [['Brachialis och underarm', 'Huvudmålet.']]),
+    dbCurl: mk('biceps/dumbbell-biceps-curl', 'biceps/dumbbell-biceps-curl.gif', 'Dumbbell Curl (Hantelcurl)', 'Dumbbell Curl', ['biceps_brachii'], 'hantelcurl teknik',
+      ['Stå med hantlarna vid sidorna, handflatorna framåt.', 'Curla upp utan att svinga.', 'Sänk långsamt.'],
+      ['Armbågarna stilla.', 'Full rörelse.'],
+      'Hantelcurl är en klassisk övning för hela biceps.',
+      [['Biceps', 'Huvudmålet.']]),
+    deadBug: mk('abs/dead-bug', 'abs/dead-bug.gif', 'Dead Bug', 'Dead Bug', ['rectus_abdominis'], 'dead bug övning teknik',
+      ['Ligg på rygg med armarna mot taket och knäna i 90 grader.', 'Sänk motsatt arm och ben långsamt mot golvet.', 'Byt sida utan att ländryggen lyfter.'],
+      ['Pressa ländryggen mot golvet hela tiden.', 'Långsamt och kontrollerat.'],
+      'Dead bug stärker de djupa bålmusklerna och är skonsam för ryggen.',
+      [['Djupa och raka magmusklerna', 'Håller bålen stabil.']]),
+    seatedLateral: mk('delts/dumbbell-seated-lateral-raise', 'delts/dumbbell-seated-lateral-raise.gif', 'Seated Lateral Raise (Sittande sidolyft)', 'Seated Lateral Raise', ['lateral_deltoid'], 'seated lateral raise',
+      ['Sitt på en bänk med hantlarna vid sidorna.', 'Lyft armarna till axelhöjd.', 'Sänk långsamt.'],
+      ['Sittande tar bort fusk med kroppen.', 'Lätt vikt.'],
+      'Sittande sidolyft isolerar sidoaxeln strikt.',
+      [['Sidoaxeln', 'Huvudmålet.']]),
+    rearRow: mk('delts/cable-rear-delt-row-stirrups', 'delts/cable-rear-delt-row-stirrups.gif', 'Cable Rear Delt Row (Kabelrodd för bakre axel)', 'Cable Rear Delt Row', ['posterior_deltoid'], 'cable rear delt row',
+      ['Stå framför kabelmaskinen med handtagen i axelhöjd.', 'Dra handtagen bakåt med armbågarna högt och ut åt sidorna.', 'Släpp kontrollerat.'],
+      ['Armbågarna i axelhöjd.', 'Kläm bakre axeln.'],
+      'Kabelrodd med höga armbågar isolerar bakre axeln.',
+      [['Bakre axeln', 'Huvudmålet.'], ['Mellersta ryggen', 'Hjälper till.']]),
+    frontRaise: mk('delts/barbell-front-raise', 'delts/barbell-front-raise.gif', 'Barbell Front Raise (Framåtlyft med skivstång)', 'Barbell Front Raise', ['anterior_deltoid'], 'barbell front raise',
+      ['Stå med stången framför låren.', 'Lyft rakt fram till axelhöjd.', 'Sänk kontrollerat.'],
+      ['Ingen gungning.', 'Stanna i axelhöjd.'],
+      'Framåtlyft med skivstång tränar främre axeln.',
+      [['Främre axeln', 'Huvudmålet.']]),
+    inclineLateral: mk('delts/dumbbell-incline-one-arm-lateral-raise', 'delts/dumbbell-incline-one-arm-lateral-raise.gif', 'Incline One-Arm Lateral Raise (Lutande enarms sidolyft)', 'Incline One-Arm Lateral Raise', ['lateral_deltoid'], 'incline one arm lateral raise',
+      ['Ligg på sidan mot en lutad bänk.', 'Lyft hanteln ut och upp till ovanför axeln.', 'Sänk långsamt.'],
+      ['Lätt vikt, lång rörelsebana.'],
+      'Lutande enarms sidolyft ger spänning även i botten av rörelsen.',
+      [['Sidoaxeln', 'Huvudmålet.']]),
+    inclineWalk: mk('cardio/incline-treadmill-walk', 'cardio/walking-on-incline-treadmill.gif', 'Incline Treadmill Walk (Lutande gång på löpband)', 'Incline Treadmill Walk', ['quadriceps'], 'incline treadmill walk',
+      ['Ställ löpbandet på 8–12 % lutning.', 'Gå i ett tempo där du kan prata men blir varm.', 'Släpp inte taget med händerna bara om du måste.'],
+      ['Puls ca 60–70 % av max.', 'Skonsamt för lederna efter ett tungt pass.'],
+      'Lugn konditionsträning efter styrkepasset förbättrar hjärta, kondition och återhämtning.',
+      [['Hjärta och lungor', 'Konditionsträning.'], ['Säte och vader', 'Arbetar i lutningen.']]),
+    bike: mk('cardio/bike-intervals', 'cardio/stationary-bike-run-v-3.gif', 'Bike Intervals (Cykelintervaller)', 'Bike Intervals', ['quadriceps'], 'cykel intervaller',
+      ['Värm upp 2 minuter lugnt.', 'Kör 30 sekunder hårt och 60 sekunder lugnt.', 'Upprepa 5 gånger och avsluta lugnt.'],
+      ['"Hårt" = du kan inte prata.', 'Efter benpasset: kör lugnt hela tiden i stället.'],
+      'Korta intervaller ger mycket kondition på kort tid.',
+      [['Hjärta och lungor', 'Konditionsträning.'], ['Framsida lår', 'Arbetar i trampet.']]),
+  }
+
+  // ── Vecka 2, dag 2: Rygg – egna övningar (ingen övning från vecka 1) ──
+  if (['4', '5', '6-7'].includes(trainingDays) && weeks[1].length > 1) {
+    const W2_BACK = [
+      { ...NEW.pendlay, sets: 4, reps: '6–8', rest: '90 sek', zone: 'Tjocklek (mitten)' },
+      fromBack('back/cable-reverse-grip-pulldown', { name: 'Reverse-Grip Pulldown (Latsdrag, underhandsgrepp)', sets: 3, reps: '8–10', rest: '60 sek', zone: 'Bredd (lats)' }),
+      { ...NEW.dbRow, sets: 3, reps: '10–12', rest: '60 sek', zone: 'Tjocklek (mitten)' },
+      fromBack('back/lever-alternating-narrow-grip-seated-row', { name: 'Alternating Seated Row (Sittande rodd i maskin, en arm i taget)', sets: 3, reps: '10–12', rest: '45 sek', zone: 'Tjocklek (mitten)' }),
+      fromBack('back/cable-lateral-pulldown-vbar', { name: 'V-Bar Pulldown (Latsdrag med V-handtag)', sets: 3, reps: '10–12', rest: '40 sek', zone: 'Bredd (lats)' }),
+      fromBack('back/straight-back-seated-row', { name: 'Straight-Back Seated Row (Sittande rodd, rak rygg)', sets: 3, reps: '12', rest: '40 sek', zone: 'Tjocklek (mitten)' }),
+    ].filter(Boolean)
+    weeks[1][1] = { day: 2, splitType: 'back', durationMin: 60, planText: 'Uppvärmning 8 min → pendlayrodd → latsdrag och hantelrodd → maskin och kabel → stretch 5 min', exercises: W2_BACK.map(ex => ({ ...ex, week: 2 })) }
+  }
+
+  // ── 90 minuter: 2 extra övningar för dagens muskelgrupp + 10 min kondition ──
+  // Extraövningarna skiljer sig mellan vecka 1 och vecka 2 för varje dag.
+  const is90 = String(trainingDuration).startsWith('90')
+  if (is90) {
+    const pick = (id) => chestPool.find(ex => ex.id === id)
+    const EXTRA_90 = {
+      1: [
+        [{ ...pick('pectorals/lever-decline-chest-press'), sets: 3, reps: '10–12', rest: '45 sek', showTips: false }, { ...pick('pectorals/dumbbell-around-pullover'), sets: 3, reps: '12', rest: '40 sek', showTips: false }],
+        [{ ...NEW.dbDecline, sets: 3, reps: '10–12', rest: '45 sek' }, { ...NEW.upperCross, sets: 3, reps: '12–15', rest: '40 sek' }],
+      ],
+      2: [
+        [{ ...NEW.shrug, sets: 3, reps: '12', rest: '45 sek' }, { ...NEW.hyper, sets: 3, reps: '12–15', rest: '40 sek' }],
+        [{ ...NEW.straightArm, sets: 3, reps: '12–15', rest: '40 sek' }, { ...NEW.dbShrug, sets: 3, reps: '12–15', rest: '40 sek' }],
+      ],
+      3: [
+        [{ ...NEW.seatedCurl, sets: 3, reps: '10–12', rest: '45 sek' }, { ...NEW.walkingLunge, sets: 3, reps: '20 steg', rest: '45 sek' }],
+        [{ ...NEW.dbRdl, sets: 3, reps: '10–12', rest: '45 sek' }, { ...NEW.goblet, sets: 3, reps: '12', rest: '45 sek' }],
+      ],
+      4: [
+        [{ ...NEW.ohRope, sets: 3, reps: '12', rest: '40 sek' }, { ...NEW.cableKick, sets: 3, reps: '12–15 / arm', rest: '30 sek' }],
+        [{ ...NEW.dbLying, sets: 3, reps: '10–12', rest: '40 sek' }, { ...NEW.closePush, sets: 2, reps: 'Max (2 reps kvar)', rest: '30 sek' }],
+      ],
+      5: [
+        [{ ...NEW.zottman, sets: 3, reps: '10–12', rest: '40 sek' }, { ...NEW.ropeHammer, sets: 3, reps: '12', rest: '40 sek' }],
+        [{ ...NEW.dbCurl, sets: 3, reps: '10–12', rest: '40 sek' }, { ...NEW.deadBug, sets: 3, reps: '10 / sida', rest: '30 sek' }],
+      ],
+      6: [
+        [{ ...NEW.seatedLateral, sets: 3, reps: '12–15', rest: '40 sek' }, { ...NEW.rearRow, sets: 3, reps: '12–15', rest: '40 sek' }],
+        [{ ...NEW.frontRaise, sets: 2, reps: '12', rest: '40 sek' }, { ...NEW.inclineLateral, sets: 3, reps: '12–15 / arm', rest: '30 sek' }],
+      ],
+    }
+    const CARDIO = [
+      { ...NEW.inclineWalk, sets: 1, reps: '10 min', rest: '–', zone: 'Kondition' },
+      { ...NEW.bike, sets: 1, reps: '10 min', rest: '–', zone: 'Kondition' },
+    ]
+    ;[0, 1].forEach(w => {
+      weeks[w].forEach((day, i) => {
+        const extras = EXTRA_90[day.day]
+        if (!extras || !day.durationMin || day.splitType === 'rest') return
+        const add = extras[w].filter(ex => ex && ex.id).map(ex => ({ ...ex, zone: ex.zone || 'Extra (90 min)', week: w + 1 }))
+        weeks[w][i] = {
+          ...day,
+          durationMin: 90,
+          planText: 'Uppvärmning 10 min → ordinarie pass ca 45 min → 2 extra övningar ca 15 min → kondition 10 min → stretch 10 min',
+          exercises: [...day.exercises, ...add, { ...CARDIO[w], week: w + 1 }],
+        }
+      })
+    })
+  }
+
 
   return { week1: weeks[0], week2: weeks[1], split }
 }
@@ -4156,6 +4385,7 @@ function ClientProfile() {
             trainingDays: data.trainingDays || '6-7',
             equipment: data.equipmentAvailable || 'Fria vikter & maskiner',
             experienceLevel: data.experienceLevel || 'Nybörjare',
+            trainingDuration: data.trainingDuration || '60 min',
             email: profileData?.email || 'user'
           });
           setProgram(p);
@@ -4473,6 +4703,9 @@ function ClientProfile() {
                     )}
                   </div>
 
+                  {currentDay.splitType === 'rest' ? (
+                    <RestDayCard weightKg={programData?.weight} />
+                  ) : (<>
                   {/* Section 1: UPPVÄRMNING */}
                   <div style={{ marginBottom: '35px' }}>
                     <h3 style={{ fontSize: '1.25rem', fontWeight: '900', textTransform: 'uppercase', borderLeft: '4px solid #f97316', paddingLeft: '10px', color: '#111827', marginBottom: '14px' }}>
@@ -4561,8 +4794,8 @@ function ClientProfile() {
                                     {ex.zone && (
                                       <span style={{
                                         alignSelf: 'flex-start', fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '999px',
-                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet', 'Främre axel'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage', 'Bakre axel'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm', 'Sidoaxel'].includes(ex.zone) ? '#dcfce7' : '#f3f4f6',
-                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet', 'Främre axel'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage', 'Bakre axel'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm', 'Sidoaxel'].includes(ex.zone) ? '#166534' : '#374151'
+                                        background: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet', 'Främre axel'].includes(ex.zone) ? '#fef3c7' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage', 'Bakre axel'].includes(ex.zone) ? '#dbeafe' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm', 'Sidoaxel'].includes(ex.zone) ? '#dcfce7' : ex.zone === 'Extra (90 min)' ? '#ede9fe' : ex.zone === 'Kondition' ? '#fee2e2' : '#f3f4f6',
+                                        color: ['Övre bröst', 'Bredd (lats)', 'Framsida lår & säte', 'Basövning', 'Biceps', 'Korta huvudet', 'Främre axel'].includes(ex.zone) ? '#92400e' : ['Nedre bröst', 'Hela ryggen', 'Baksida lår & säte', 'Långa huvudet', 'Mage', 'Bakre axel'].includes(ex.zone) ? '#1e40af' : ['Mitten', 'Tjocklek (mitten)', 'Hela benet', 'Isolering', 'Brachialis', 'Underarm', 'Sidoaxel'].includes(ex.zone) ? '#166534' : ex.zone === 'Extra (90 min)' ? '#5b21b6' : ex.zone === 'Kondition' ? '#991b1b' : '#374151'
                                       }}>
                                         {ex.zone}
                                       </span>
@@ -4646,6 +4879,8 @@ function ClientProfile() {
                       </div>
                     )}
                   </div>
+
+                  </>)}
 
                   {/* Footer Info */}
                   <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
